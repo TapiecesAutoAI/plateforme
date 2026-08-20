@@ -12,6 +12,11 @@ import {
   getFilteredEngineOptions,
   getEngineDetails,
 } from "../../lib/showroom/vehicleAssist";
+
+import {
+  vehicleDataProvider,
+  type VehicleEngineOption,
+} from "../../lib/vehicle/VehicleDataProvider";
 import {
   seedShowroomDemoData,
 } from "../../lib/showroom/demoDataSeeder";
@@ -333,6 +338,36 @@ export default function ShowroomPage() {
     useState("");
 
   const [
+    vehicleBrandOptions,
+    setVehicleBrandOptions,
+  ] =
+    useState<string[]>([]);
+
+  const [
+    vehicleModelOptions,
+    setVehicleModelOptions,
+  ] =
+    useState<string[]>([]);
+
+  const [
+    vehicleYearOptions,
+    setVehicleYearOptions,
+  ] =
+    useState<number[]>([]);
+
+  const [
+    vehicleFuelOptions,
+    setVehicleFuelOptions,
+  ] =
+    useState<string[]>([]);
+
+  const [
+    vehicleEngineOptions,
+    setVehicleEngineOptions,
+  ] =
+    useState<VehicleEngineOption[]>([]);
+
+  const [
     editingVehicleId,
     setEditingVehicleId,
   ] =
@@ -453,6 +488,154 @@ export default function ShowroomPage() {
 
     },
     [],
+  );
+
+  /*
+   * LOAD_VEHICLE_BRANDS
+   */
+  useEffect(
+    () => {
+
+      void vehicleDataProvider
+        .getBrands()
+        .then(
+          setVehicleBrandOptions,
+        );
+
+    },
+    [],
+  );
+
+
+  useEffect(
+    () => {
+
+      if (!brand) {
+
+        setVehicleModelOptions(
+          [],
+        );
+
+        return;
+      }
+
+      void vehicleDataProvider
+        .getModels(
+          brand,
+        )
+        .then(
+          setVehicleModelOptions,
+        );
+
+    },
+    [
+      brand,
+    ],
+  );
+
+
+  useEffect(
+    () => {
+
+      if (
+        !brand ||
+        !model
+      ) {
+
+        setVehicleYearOptions(
+          [],
+        );
+
+        return;
+      }
+
+      void vehicleDataProvider
+        .getYears(
+          brand,
+          model,
+        )
+        .then(
+          setVehicleYearOptions,
+        );
+
+    },
+    [
+      brand,
+      model,
+    ],
+  );
+
+
+  useEffect(
+    () => {
+
+      if (
+        !brand ||
+        !model ||
+        !year
+      ) {
+
+        setVehicleFuelOptions(
+          [],
+        );
+
+        return;
+      }
+
+      void vehicleDataProvider
+        .getFuels(
+          brand,
+          model,
+          year,
+        )
+        .then(
+          setVehicleFuelOptions,
+        );
+
+    },
+    [
+      brand,
+      model,
+      year,
+    ],
+  );
+
+
+  useEffect(
+    () => {
+
+      if (
+        !brand ||
+        !model ||
+        !year ||
+        !fuel
+      ) {
+
+        setVehicleEngineOptions(
+          [],
+        );
+
+        return;
+      }
+
+      void vehicleDataProvider
+        .getEngines(
+          brand,
+          model,
+          year,
+          fuel,
+        )
+        .then(
+          setVehicleEngineOptions,
+        );
+
+    },
+    [
+      brand,
+      model,
+      year,
+      fuel,
+    ],
   );
 
   function resetError() {
@@ -2975,7 +3158,7 @@ export default function ShowroomPage() {
 
   <datalist id="vehicle-brand-options">
 
-    {getBrandOptions().map(
+    {vehicleBrandOptions.map(
       option => (
         <option
           key={option}
@@ -3036,9 +3219,7 @@ export default function ShowroomPage() {
 
   <datalist id="vehicle-model-options">
 
-    {getModelOptions(
-      brand,
-    ).map(
+    {vehicleModelOptions.map(
       option => (
         <option
           key={option}
@@ -3099,10 +3280,7 @@ export default function ShowroomPage() {
 
   <datalist id="vehicle-year-options">
 
-    {getYearOptions(
-      brand,
-      model,
-    ).map(
+    {vehicleYearOptions.map(
       option => (
         <option
           key={option}
@@ -3157,11 +3335,7 @@ export default function ShowroomPage() {
       }
     </option>
 
-    {getFuelOptions(
-      brand,
-      model,
-      year,
-    ).map(
+    {vehicleFuelOptions.map(
       option => (
 
         <option
@@ -3201,14 +3375,16 @@ export default function ShowroomPage() {
           nextEngine,
         );
 
-        const details =
-          getEngineDetails(
+        void vehicleDataProvider
+          .getEngineDetails(
             brand,
             model,
             nextEngine,
-          );
+          )
+          .then(
+            details => {
 
-        if (details) {
+              if (details) {
 
           setFuel(
             details.fuel,
@@ -3226,16 +3402,19 @@ export default function ShowroomPage() {
             ),
           );
 
-        } else {
+              } else {
 
-          setPowerHp(
-            "",
-          );
+                setPowerHp(
+                  "",
+                );
 
-          setPowerKw(
-            "",
+                setPowerKw(
+                  "",
+                );
+              }
+
+            },
           );
-        }
       }
     }
     placeholder={
@@ -3248,12 +3427,7 @@ export default function ShowroomPage() {
 
   <datalist id="vehicle-engine-options">
 
-    {getFilteredEngineOptions(
-      brand,
-      model,
-      year,
-      fuel,
-    ).map(
+    {vehicleEngineOptions.map(
       option => (
         <option
           key={option.label}

@@ -1,8 +1,17 @@
-﻿export type VehicleAssistEngine = {
+export type VehicleAssistEngine = {
   label: string;
   fuel: string;
   hp: number;
   kw: number;
+
+  /*
+   * Période propre à cette motorisation.
+   *
+   * Facultatif pour rester compatible
+   * avec les anciennes données MVP.
+   */
+  fromYear?: number;
+  toYear?: number;
 };
 
 export type VehicleAssistModel = {
@@ -692,6 +701,42 @@ export function getEngineOptions(
 }
 
 
+function engineMatchesYear(
+  engine:
+    VehicleAssistEngine,
+  model:
+    VehicleAssistModel,
+  year:
+    string,
+): boolean {
+
+  const parsedYear =
+    Number(
+      year,
+    );
+
+  if (
+    !Number.isFinite(
+      parsedYear,
+    )
+  ) {
+    return true;
+  }
+
+  const minYear =
+    engine.fromYear ??
+    model.fromYear;
+
+  const maxYear =
+    engine.toYear ??
+    model.toYear;
+
+  return (
+    parsedYear >= minYear &&
+    parsedYear <= maxYear
+  );
+}
+
 export function getFuelOptions(
   brand:
     string,
@@ -711,35 +756,33 @@ export function getFuelOptions(
     return [];
   }
 
-  const parsedYear =
-    Number(
-      year,
+  const engines =
+    record.engines.filter(
+      engine =>
+        engineMatchesYear(
+          engine,
+          record,
+          year,
+        ),
     );
-
-  if (
-    Number.isFinite(
-      parsedYear,
-    )
-  ) {
-
-    if (
-      parsedYear <
-        record.fromYear ||
-      parsedYear >
-        record.toYear
-    ) {
-      return [];
-    }
-  }
 
   return [
     ...new Set(
-      record.engines.map(
+      engines.map(
         engine =>
           engine.fuel,
       ),
     ),
-  ].sort();
+  ].sort(
+    (
+      a,
+      b,
+    ) =>
+      a.localeCompare(
+        b,
+        "fr",
+      ),
+  );
 }
 
 
@@ -764,27 +807,6 @@ export function getFilteredEngineOptions(
     return [];
   }
 
-  const parsedYear =
-    Number(
-      year,
-    );
-
-  if (
-    Number.isFinite(
-      parsedYear,
-    )
-  ) {
-
-    if (
-      parsedYear <
-        record.fromYear ||
-      parsedYear >
-        record.toYear
-    ) {
-      return [];
-    }
-  }
-
   const normalizedFuel =
     normalize(
       fuel,
@@ -792,6 +814,16 @@ export function getFilteredEngineOptions(
 
   return record.engines.filter(
     engine => {
+
+      if (
+        !engineMatchesYear(
+          engine,
+          record,
+          year,
+        )
+      ) {
+        return false;
+      }
 
       if (!fuel) {
         return true;
