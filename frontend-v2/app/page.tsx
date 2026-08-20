@@ -1,9 +1,5 @@
-﻿import {
-  redirect,
-} from "next/navigation";
+import { redirect } from "next/navigation";
 
-export default function Home() {
-  redirect(
-    "/diagnostic-v2",
-  );
+export default function HomePage() {
+  redirect("/showroom");
 }
