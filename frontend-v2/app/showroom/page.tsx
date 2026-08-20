@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 
 
@@ -3118,6 +3118,69 @@ export default function ShowroomPage() {
                       <div>
 
   <label className="mb-2 block text-sm font-bold text-slate-700">
+    Carburant
+    <span className="ml-2 font-normal text-slate-400">
+      facultatif
+    </span>
+  </label>
+
+  <select
+    value={fuel}
+    onChange={
+      event => {
+
+        setFuel(
+          event.target.value,
+        );
+
+        setEngine(
+          "",
+        );
+
+        setPowerHp(
+          "",
+        );
+
+        setPowerKw(
+          "",
+        );
+      }
+    }
+    className="w-full rounded-xl border border-slate-300 px-5 py-4"
+  >
+
+    <option value="">
+      {
+        year
+          ? "Choisissez le carburant"
+          : "Choisissez d'abord l'année"
+      }
+    </option>
+
+    {getFuelOptions(
+      brand,
+      model,
+      year,
+    ).map(
+      option => (
+
+        <option
+          key={option}
+          value={option}
+        >
+          {option}
+        </option>
+
+      ),
+    )}
+
+  </select>
+
+</div>
+
+<div>
+
+  <label className="mb-2 block text-sm font-bold text-slate-700">
     Motorisation
     <span className="ml-2 font-normal text-slate-400">
       facultatif
@@ -3202,69 +3265,6 @@ export default function ShowroomPage() {
     )}
 
   </datalist>
-
-</div>
-
-                      <div>
-
-  <label className="mb-2 block text-sm font-bold text-slate-700">
-    Carburant
-    <span className="ml-2 font-normal text-slate-400">
-      facultatif
-    </span>
-  </label>
-
-  <select
-    value={fuel}
-    onChange={
-      event => {
-
-        setFuel(
-          event.target.value,
-        );
-
-        setEngine(
-          "",
-        );
-
-        setPowerHp(
-          "",
-        );
-
-        setPowerKw(
-          "",
-        );
-      }
-    }
-    className="w-full rounded-xl border border-slate-300 px-5 py-4"
-  >
-
-    <option value="">
-      {
-        year
-          ? "Choisissez le carburant"
-          : "Choisissez d'abord l'année"
-      }
-    </option>
-
-    {getFuelOptions(
-      brand,
-      model,
-      year,
-    ).map(
-      option => (
-
-        <option
-          key={option}
-          value={option}
-        >
-          {option}
-        </option>
-
-      ),
-    )}
-
-  </select>
 
 </div>
 
