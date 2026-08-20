@@ -1,0 +1,46 @@
+﻿[
+  {
+    "id": "problem-weak-battery",
+    "label": "Batterie faible ou déchargée",
+    "possibleParts": ["Batterie"],
+    "recommendedChecks": [
+      "Mesure de la tension de batterie",
+      "Test de capacité",
+      "Essai avec câbles ou booster"
+    ]
+  },
+  {
+    "id": "problem-battery-connection",
+    "label": "Connexion de batterie ou masse défectueuse",
+    "possibleParts": [
+      "Cosse de batterie",
+      "Câble positif",
+      "Câble de masse"
+    ],
+    "recommendedChecks": [
+      "Contrôle des bornes",
+      "Contrôle des chutes de tension"
+    ]
+  },
+  {
+    "id": "problem-starter",
+    "label": "Démarreur défectueux",
+    "possibleParts": ["Démarreur"],
+    "recommendedChecks": [
+      "Contrôle de l’alimentation du démarreur",
+      "Contrôle du courant absorbé"
+    ]
+  },
+  {
+    "id": "problem-starter-drive",
+    "label": "Lanceur ou pignon de démarreur défectueux",
+    "possibleParts": [
+      "Lanceur de démarreur",
+      "Démarreur complet"
+    ],
+    "recommendedChecks": [
+      "Contrôle du lanceur",
+      "Contrôle de la couronne moteur"
+    ]
+  }
+]

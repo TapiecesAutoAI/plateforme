@@ -1,0 +1,255 @@
+﻿[
+  {
+    "id": "problem-brake-fluid-leak",
+    "label": "Fuite de liquide de frein",
+    "possibleParts": [
+      "Flexible de frein",
+      "Conduite rigide",
+      "Étrier",
+      "Cylindre de roue",
+      "Maître-cylindre"
+    ],
+    "recommendedChecks": [
+      "Inspecter les conduites et flexibles",
+      "Contrôler les étriers et cylindres de roue",
+      "Contrôler le maître-cylindre",
+      "Mettre le circuit sous pression"
+    ]
+  },
+  {
+    "id": "problem-air-in-brake-system",
+    "label": "Air dans le circuit de freinage",
+    "possibleParts": [
+      "Circuit hydraulique",
+      "Liquide de frein"
+    ],
+    "recommendedChecks": [
+      "Effectuer une purge complète",
+      "Contrôler l'étanchéité du circuit",
+      "Contrôler la qualité du liquide"
+    ]
+  },
+  {
+    "id": "problem-master-cylinder",
+    "label": "Maître-cylindre défectueux",
+    "possibleParts": [
+      "Maître-cylindre"
+    ],
+    "recommendedChecks": [
+      "Maintenir une pression constante sur la pédale",
+      "Contrôler une fuite interne",
+      "Contrôler une fuite externe"
+    ]
+  },
+  {
+    "id": "problem-brake-servo",
+    "label": "Servofrein défectueux",
+    "possibleParts": [
+      "Servofrein"
+    ],
+    "recommendedChecks": [
+      "Effectuer le test de pédale au démarrage",
+      "Contrôler l'étanchéité du servofrein",
+      "Contrôler le circuit de dépression"
+    ]
+  },
+  {
+    "id": "problem-vacuum-circuit",
+    "label": "Circuit de dépression du servofrein défectueux",
+    "possibleParts": [
+      "Durite de dépression",
+      "Clapet anti-retour",
+      "Pompe à vide"
+    ],
+    "recommendedChecks": [
+      "Contrôler la durite",
+      "Contrôler le clapet anti-retour",
+      "Mesurer la dépression",
+      "Contrôler la pompe à vide"
+    ]
+  },
+  {
+    "id": "problem-worn-brake-pads",
+    "label": "Plaquettes de frein usées",
+    "possibleParts": [
+      "Plaquettes de frein"
+    ],
+    "recommendedChecks": [
+      "Mesurer l'épaisseur des plaquettes",
+      "Contrôler l'usure intérieure et extérieure",
+      "Contrôler le témoin d'usure"
+    ]
+  },
+  {
+    "id": "problem-brake-discs",
+    "label": "Disques de frein usés, voilés ou surchauffés",
+    "possibleParts": [
+      "Disques de frein"
+    ],
+    "recommendedChecks": [
+      "Mesurer l'épaisseur des disques",
+      "Mesurer le voile",
+      "Contrôler les traces de surchauffe",
+      "Contrôler l'état de surface"
+    ]
+  },
+  {
+    "id": "problem-sticking-caliper",
+    "label": "Étrier ou coulisseau de frein grippé",
+    "possibleParts": [
+      "Étrier de frein",
+      "Piston d'étrier",
+      "Coulisseau"
+    ],
+    "recommendedChecks": [
+      "Contrôler la mobilité du piston",
+      "Contrôler les coulisseaux",
+      "Comparer la température des roues",
+      "Contrôler l'usure des plaquettes"
+    ]
+  },
+  {
+    "id": "problem-brake-hose",
+    "label": "Flexible de frein défectueux ou obstrué",
+    "possibleParts": [
+      "Flexible de frein"
+    ],
+    "recommendedChecks": [
+      "Inspecter le flexible",
+      "Contrôler le retour de pression",
+      "Comparer le freinage gauche et droit"
+    ]
+  },
+  {
+    "id": "problem-rear-brakes",
+    "label": "Freins arrière usés ou mal réglés",
+    "possibleParts": [
+      "Mâchoires de frein",
+      "Tambour",
+      "Plaquettes arrière",
+      "Disques arrière",
+      "Mécanisme de rattrapage"
+    ],
+    "recommendedChecks": [
+      "Contrôler l'usure des freins arrière",
+      "Contrôler le réglage des tambours",
+      "Contrôler le mécanisme de rattrapage"
+    ]
+  },
+  {
+    "id": "problem-brake-pad-mounting",
+    "label": "Montage des plaquettes incorrect",
+    "possibleParts": [
+      "Plaquettes",
+      "Agrafes",
+      "Ressorts anti-bruit"
+    ],
+    "recommendedChecks": [
+      "Contrôler le montage",
+      "Contrôler les agrafes",
+      "Contrôler le jeu des plaquettes"
+    ]
+  },
+  {
+    "id": "problem-wheel-hub-runout",
+    "label": "Moyeu voilé ou surface de contact irrégulière",
+    "possibleParts": [
+      "Moyeu de roue",
+      "Roulement de roue"
+    ],
+    "recommendedChecks": [
+      "Mesurer le voile du moyeu",
+      "Nettoyer la surface de contact",
+      "Contrôler le roulement"
+    ]
+  },
+  {
+    "id": "problem-abs-wheel-sensor",
+    "label": "Capteur ABS ou cible de roue défectueux",
+    "possibleParts": [
+      "Capteur ABS",
+      "Couronne magnétique",
+      "Roulement avec cible",
+      "Faisceau de capteur"
+    ],
+    "recommendedChecks": [
+      "Lire les vitesses de roue",
+      "Contrôler le capteur",
+      "Contrôler la cible",
+      "Contrôler le faisceau"
+    ]
+  },
+  {
+    "id": "problem-abs-hydraulic-unit",
+    "label": "Bloc hydraulique ABS défectueux",
+    "possibleParts": [
+      "Bloc hydraulique ABS",
+      "Calculateur ABS"
+    ],
+    "recommendedChecks": [
+      "Lire les codes défaut",
+      "Effectuer les tests d'actionneurs",
+      "Contrôler les alimentations"
+    ]
+  },
+  {
+    "id": "problem-abs-power-supply",
+    "label": "Alimentation du système ABS défectueuse",
+    "possibleParts": [
+      "Fusible ABS",
+      "Relais ABS",
+      "Faisceau ABS",
+      "Point de masse"
+    ],
+    "recommendedChecks": [
+      "Contrôler les fusibles",
+      "Contrôler les alimentations",
+      "Contrôler les masses",
+      "Contrôler le réseau de communication"
+    ]
+  },
+  {
+    "id": "problem-parking-brake-cable",
+    "label": "Câble de frein de stationnement défectueux",
+    "possibleParts": [
+      "Câble de frein de stationnement",
+      "Mécanisme de réglage"
+    ],
+    "recommendedChecks": [
+      "Contrôler la tension du câble",
+      "Contrôler le grippage",
+      "Contrôler le réglage"
+    ]
+  },
+  {
+    "id": "problem-electric-parking-brake",
+    "label": "Frein de stationnement électrique défectueux",
+    "possibleParts": [
+      "Moteur d'étrier",
+      "Calculateur de frein de stationnement",
+      "Bouton de commande",
+      "Faisceau"
+    ],
+    "recommendedChecks": [
+      "Lire les codes défaut",
+      "Effectuer les tests d'actionneurs",
+      "Contrôler les moteurs d'étriers",
+      "Contrôler le bouton de commande"
+    ]
+  },
+  {
+    "id": "problem-non-brake-pull",
+    "label": "Déviation liée aux pneus, à la géométrie ou à la suspension",
+    "possibleParts": [
+      "Pneu",
+      "Élément de suspension",
+      "Élément de direction"
+    ],
+    "recommendedChecks": [
+      "Contrôler la pression des pneus",
+      "Contrôler l'usure des pneus",
+      "Contrôler la géométrie",
+      "Contrôler la suspension"
+    ]
+  }
+]

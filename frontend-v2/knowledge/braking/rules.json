@@ -1,0 +1,401 @@
+﻿[
+    {
+        "id":  "fluid-low-support-leak",
+        "evidenceId":  "observation-brake-fluid-low",
+        "hypothesisId":  "problem-brake-fluid-leak",
+        "effect":  "support",
+        "weight":  0.88
+    },
+    {
+        "id":  "wheel-leak-support-leak",
+        "evidenceId":  "observation-brake-leak-wheel",
+        "hypothesisId":  "problem-brake-fluid-leak",
+        "effect":  "support",
+        "weight":  1.0
+    },
+    {
+        "id":  "line-leak-support-leak",
+        "evidenceId":  "observation-brake-leak-line",
+        "hypothesisId":  "problem-brake-fluid-leak",
+        "effect":  "support",
+        "weight":  1.0
+    },
+    {
+        "id":  "master-leak-support-leak",
+        "evidenceId":  "observation-brake-leak-master-cylinder",
+        "hypothesisId":  "problem-brake-fluid-leak",
+        "effect":  "support",
+        "weight":  1.0
+    },
+    {
+        "id":  "no-visible-leak-contradict-leak",
+        "evidenceId":  "observation-brake-no-visible-leak",
+        "hypothesisId":  "problem-brake-fluid-leak",
+        "effect":  "contradict",
+        "weight":  0.68
+    },
+    {
+        "id":  "soft-pedal-support-air",
+        "evidenceId":  "symptom-braking-soft-pedal",
+        "hypothesisId":  "problem-air-in-brake-system",
+        "effect":  "support",
+        "weight":  0.82
+    },
+    {
+        "id":  "contaminated-fluid-support-air",
+        "evidenceId":  "observation-brake-fluid-contaminated",
+        "hypothesisId":  "problem-air-in-brake-system",
+        "effect":  "support",
+        "weight":  0.72
+    },
+    {
+        "id":  "bleeding-success-support-air",
+        "evidenceId":  "observation-brake-bleeding-success",
+        "hypothesisId":  "problem-air-in-brake-system",
+        "effect":  "support",
+        "weight":  0.96
+    },
+    {
+        "id":  "bleeding-failed-contradict-air",
+        "evidenceId":  "observation-brake-bleeding-failed",
+        "hypothesisId":  "problem-air-in-brake-system",
+        "effect":  "contradict",
+        "weight":  0.72
+    },
+    {
+        "id":  "pedal-sinks-support-master-cylinder",
+        "evidenceId":  "observation-brake-pedal-sinks",
+        "hypothesisId":  "problem-master-cylinder",
+        "effect":  "support",
+        "weight":  0.94
+    },
+    {
+        "id":  "master-bypass-support-master-cylinder",
+        "evidenceId":  "observation-master-cylinder-bypass",
+        "hypothesisId":  "problem-master-cylinder",
+        "effect":  "support",
+        "weight":  0.99
+    },
+    {
+        "id":  "master-holds-contradict-master-cylinder",
+        "evidenceId":  "observation-master-cylinder-holds-pressure",
+        "hypothesisId":  "problem-master-cylinder",
+        "effect":  "contradict",
+        "weight":  0.9
+    },
+    {
+        "id":  "hard-pedal-support-servo",
+        "evidenceId":  "symptom-braking-hard-pedal",
+        "hypothesisId":  "problem-brake-servo",
+        "effect":  "support",
+        "weight":  0.84
+    },
+    {
+        "id":  "servo-not-working-support-servo",
+        "evidenceId":  "observation-brake-servo-not-working",
+        "hypothesisId":  "problem-brake-servo",
+        "effect":  "support",
+        "weight":  0.98
+    },
+    {
+        "id":  "servo-working-contradict-servo",
+        "evidenceId":  "observation-brake-servo-working",
+        "hypothesisId":  "problem-brake-servo",
+        "effect":  "contradict",
+        "weight":  0.94
+    },
+    {
+        "id":  "vacuum-circuit-bad-support-vacuum",
+        "evidenceId":  "observation-brake-vacuum-circuit-bad",
+        "hypothesisId":  "problem-vacuum-circuit",
+        "effect":  "support",
+        "weight":  0.98
+    },
+    {
+        "id":  "vacuum-low-support-vacuum",
+        "evidenceId":  "measurement-brake-vacuum-low",
+        "hypothesisId":  "problem-vacuum-circuit",
+        "effect":  "support",
+        "weight":  0.98
+    },
+    {
+        "id":  "vacuum-normal-contradict-vacuum",
+        "evidenceId":  "measurement-brake-vacuum-normal",
+        "hypothesisId":  "problem-vacuum-circuit",
+        "effect":  "contradict",
+        "weight":  0.92
+    },
+    {
+        "id":  "vacuum-pump-bad-support-vacuum",
+        "evidenceId":  "observation-brake-vacuum-pump-bad",
+        "hypothesisId":  "problem-vacuum-circuit",
+        "effect":  "support",
+        "weight":  0.99
+    },
+    {
+        "id":  "pads-worn-support-pads",
+        "evidenceId":  "observation-brake-pads-worn",
+        "hypothesisId":  "problem-worn-brake-pads",
+        "effect":  "support",
+        "weight":  1.0
+    },
+    {
+        "id":  "pad-warning-support-pads",
+        "evidenceId":  "observation-brake-pad-wear-warning",
+        "hypothesisId":  "problem-worn-brake-pads",
+        "effect":  "support",
+        "weight":  0.98
+    },
+    {
+        "id":  "pads-good-contradict-pads",
+        "evidenceId":  "observation-brake-pads-good",
+        "hypothesisId":  "problem-worn-brake-pads",
+        "effect":  "contradict",
+        "weight":  0.94
+    },
+    {
+        "id":  "discs-worn-support-discs",
+        "evidenceId":  "observation-brake-discs-worn",
+        "hypothesisId":  "problem-brake-discs",
+        "effect":  "support",
+        "weight":  0.98
+    },
+    {
+        "id":  "discs-overheated-support-discs",
+        "evidenceId":  "observation-brake-discs-overheated",
+        "hypothesisId":  "problem-brake-discs",
+        "effect":  "support",
+        "weight":  0.94
+    },
+    {
+        "id":  "discs-warped-support-discs",
+        "evidenceId":  "observation-brake-discs-warped",
+        "hypothesisId":  "problem-brake-discs",
+        "effect":  "support",
+        "weight":  0.99
+    },
+    {
+        "id":  "disc-runout-support-discs",
+        "evidenceId":  "measurement-brake-front-disc-runout-high",
+        "hypothesisId":  "problem-brake-discs",
+        "effect":  "support",
+        "weight":  1.0
+    },
+    {
+        "id":  "disc-runout-normal-contradict-discs",
+        "evidenceId":  "measurement-brake-front-disc-runout-normal",
+        "hypothesisId":  "problem-brake-discs",
+        "effect":  "contradict",
+        "weight":  0.9
+    },
+    {
+        "id":  "caliper-sticking-support-caliper",
+        "evidenceId":  "observation-brake-caliper-sticking",
+        "hypothesisId":  "problem-sticking-caliper",
+        "effect":  "support",
+        "weight":  0.99
+    },
+    {
+        "id":  "pads-uneven-support-caliper",
+        "evidenceId":  "observation-brake-pads-uneven",
+        "hypothesisId":  "problem-sticking-caliper",
+        "effect":  "support",
+        "weight":  0.88
+    },
+    {
+        "id":  "wheel-temp-uneven-support-caliper",
+        "evidenceId":  "observation-brake-wheel-temperature-uneven",
+        "hypothesisId":  "problem-sticking-caliper",
+        "effect":  "support",
+        "weight":  0.96
+    },
+    {
+        "id":  "hose-bad-support-hose",
+        "evidenceId":  "observation-brake-hose-bad",
+        "hypothesisId":  "problem-brake-hose",
+        "effect":  "support",
+        "weight":  0.99
+    },
+    {
+        "id":  "caliper-hose-good-contradict-caliper",
+        "evidenceId":  "observation-brake-caliper-hose-good",
+        "hypothesisId":  "problem-sticking-caliper",
+        "effect":  "contradict",
+        "weight":  0.84
+    },
+    {
+        "id":  "rear-drums-bad-support-rear",
+        "evidenceId":  "observation-rear-drum-brakes-bad",
+        "hypothesisId":  "problem-rear-brakes",
+        "effect":  "support",
+        "weight":  0.98
+    },
+    {
+        "id":  "rear-good-contradict-rear",
+        "evidenceId":  "observation-rear-brakes-good",
+        "hypothesisId":  "problem-rear-brakes",
+        "effect":  "contradict",
+        "weight":  0.9
+    },
+    {
+        "id":  "pad-mounting-bad-support-mounting",
+        "evidenceId":  "observation-brake-pad-mounting-bad",
+        "hypothesisId":  "problem-brake-pad-mounting",
+        "effect":  "support",
+        "weight":  0.99
+    },
+    {
+        "id":  "pad-mounting-good-contradict-mounting",
+        "evidenceId":  "observation-brake-pad-mounting-good",
+        "hypothesisId":  "problem-brake-pad-mounting",
+        "effect":  "contradict",
+        "weight":  0.9
+    },
+    {
+        "id":  "hub-runout-support-hub",
+        "evidenceId":  "measurement-brake-hub-runout-high",
+        "hypothesisId":  "problem-wheel-hub-runout",
+        "effect":  "support",
+        "weight":  0.99
+    },
+    {
+        "id":  "hub-runout-normal-contradict-hub",
+        "evidenceId":  "measurement-brake-hub-runout-normal",
+        "hypothesisId":  "problem-wheel-hub-runout",
+        "effect":  "contradict",
+        "weight":  0.92
+    },
+    {
+        "id":  "abs-wheel-code-support-sensor",
+        "evidenceId":  "observation-abs-code-wheel-sensor",
+        "hypothesisId":  "problem-abs-wheel-sensor",
+        "effect":  "support",
+        "weight":  0.92
+    },
+    {
+        "id":  "abs-wheel-bad-support-sensor",
+        "evidenceId":  "observation-abs-wheel-sensor-bad",
+        "hypothesisId":  "problem-abs-wheel-sensor",
+        "effect":  "support",
+        "weight":  0.99
+    },
+    {
+        "id":  "abs-wheel-good-contradict-sensor",
+        "evidenceId":  "observation-abs-wheel-sensor-good",
+        "hypothesisId":  "problem-abs-wheel-sensor",
+        "effect":  "contradict",
+        "weight":  0.9
+    },
+    {
+        "id":  "abs-unit-code-support-unit",
+        "evidenceId":  "observation-abs-code-hydraulic-unit",
+        "hypothesisId":  "problem-abs-hydraulic-unit",
+        "effect":  "support",
+        "weight":  0.94
+    },
+    {
+        "id":  "abs-unit-bad-support-unit",
+        "evidenceId":  "observation-abs-hydraulic-unit-bad",
+        "hypothesisId":  "problem-abs-hydraulic-unit",
+        "effect":  "support",
+        "weight":  1.0
+    },
+    {
+        "id":  "abs-unit-good-contradict-unit",
+        "evidenceId":  "observation-abs-hydraulic-unit-good",
+        "hypothesisId":  "problem-abs-hydraulic-unit",
+        "effect":  "contradict",
+        "weight":  0.92
+    },
+    {
+        "id":  "abs-communication-support-power",
+        "evidenceId":  "observation-abs-code-communication",
+        "hypothesisId":  "problem-abs-power-supply",
+        "effect":  "support",
+        "weight":  0.84
+    },
+    {
+        "id":  "abs-power-bad-support-power",
+        "evidenceId":  "observation-abs-power-bad",
+        "hypothesisId":  "problem-abs-power-supply",
+        "effect":  "support",
+        "weight":  0.99
+    },
+    {
+        "id":  "abs-power-good-contradict-power",
+        "evidenceId":  "observation-abs-power-good",
+        "hypothesisId":  "problem-abs-power-supply",
+        "effect":  "contradict",
+        "weight":  0.92
+    },
+    {
+        "id":  "parking-cable-bad-support-cable",
+        "evidenceId":  "observation-parking-brake-cable-bad",
+        "hypothesisId":  "problem-parking-brake-cable",
+        "effect":  "support",
+        "weight":  0.99
+    },
+    {
+        "id":  "parking-cable-good-contradict-cable",
+        "evidenceId":  "observation-parking-brake-cable-good",
+        "hypothesisId":  "problem-parking-brake-cable",
+        "effect":  "contradict",
+        "weight":  0.9
+    },
+    {
+        "id":  "electric-parking-motor-code-support",
+        "evidenceId":  "observation-electric-parking-motor-code",
+        "hypothesisId":  "problem-electric-parking-brake",
+        "effect":  "support",
+        "weight":  0.92
+    },
+    {
+        "id":  "electric-parking-switch-code-support",
+        "evidenceId":  "observation-electric-parking-switch-code",
+        "hypothesisId":  "problem-electric-parking-brake",
+        "effect":  "support",
+        "weight":  0.9
+    },
+    {
+        "id":  "electric-parking-motor-bad-support",
+        "evidenceId":  "observation-electric-parking-motor-bad",
+        "hypothesisId":  "problem-electric-parking-brake",
+        "effect":  "support",
+        "weight":  1.0
+    },
+    {
+        "id":  "electric-parking-motor-good-contradict",
+        "evidenceId":  "observation-electric-parking-motor-good",
+        "hypothesisId":  "problem-electric-parking-brake",
+        "effect":  "contradict",
+        "weight":  0.9
+    },
+    {
+        "id":  "non-brake-cause-support-pull",
+        "evidenceId":  "observation-brake-pull-non-brake-cause",
+        "hypothesisId":  "problem-non-brake-pull",
+        "effect":  "support",
+        "weight":  0.98
+    },
+    {
+        "id":  "chassis-good-contradict-non-brake-pull",
+        "evidenceId":  "observation-brake-pull-chassis-good",
+        "hypothesisId":  "problem-non-brake-pull",
+        "effect":  "contradict",
+        "weight":  0.9
+    },
+    {
+        "id":  "rear-pads-worn-support-pads",
+        "evidenceId":  "observation-rear-brake-pads-worn",
+        "hypothesisId":  "problem-worn-brake-pads",
+        "effect":  "support",
+        "weight":  1
+    },
+    {
+        "id":  "rear-discs-worn-support-discs",
+        "evidenceId":  "observation-rear-brake-discs-worn",
+        "hypothesisId":  "problem-brake-discs",
+        "effect":  "support",
+        "weight":  0.98
+    }
+]

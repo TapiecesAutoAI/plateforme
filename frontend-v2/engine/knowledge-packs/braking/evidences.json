@@ -1,0 +1,432 @@
+﻿[
+    {
+        "id":  "measurement-brake-front-disc-runout-high",
+        "label":  "brake front disc runout high",
+        "defaultConfidence":  0.98
+    },
+    {
+        "id":  "measurement-brake-front-disc-runout-normal",
+        "label":  "brake front disc runout normal",
+        "defaultConfidence":  0.98
+    },
+    {
+        "id":  "measurement-brake-hub-runout-high",
+        "label":  "brake hub runout high",
+        "defaultConfidence":  0.98
+    },
+    {
+        "id":  "measurement-brake-hub-runout-normal",
+        "label":  "brake hub runout normal",
+        "defaultConfidence":  0.98
+    },
+    {
+        "id":  "measurement-brake-vacuum-low",
+        "label":  "brake vacuum low",
+        "defaultConfidence":  0.98
+    },
+    {
+        "id":  "measurement-brake-vacuum-normal",
+        "label":  "brake vacuum normal",
+        "defaultConfidence":  0.98
+    },
+    {
+        "id":  "observation-abs-code-communication",
+        "label":  "abs code communication",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-abs-code-hydraulic-unit",
+        "label":  "abs code hydraulic unit",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-abs-code-wheel-sensor",
+        "label":  "abs code wheel sensor",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-abs-hydraulic-unit-bad",
+        "label":  "abs hydraulic unit bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-abs-hydraulic-unit-good",
+        "label":  "abs hydraulic unit good",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-abs-no-codes",
+        "label":  "abs no codes",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-abs-power-bad",
+        "label":  "abs power bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-abs-power-good",
+        "label":  "abs power good",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-abs-warning-light",
+        "label":  "abs warning light",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-abs-wheel-sensor-bad",
+        "label":  "abs wheel sensor bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-abs-wheel-sensor-good",
+        "label":  "abs wheel sensor good",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-brake-bleeding-failed",
+        "label":  "brake bleeding failed",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-brake-bleeding-success",
+        "label":  "brake bleeding success",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-brake-caliper-hose-good",
+        "label":  "brake caliper hose good",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-brake-caliper-sticking",
+        "label":  "brake caliper sticking",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-brake-discs-good",
+        "label":  "brake discs good",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-brake-discs-overheated",
+        "label":  "brake discs overheated",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-brake-discs-warped",
+        "label":  "brake discs warped",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-brake-discs-worn",
+        "label":  "brake discs worn",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-brake-fluid-contaminated",
+        "label":  "brake fluid contaminated",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-brake-fluid-good",
+        "label":  "brake fluid good",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-brake-fluid-low",
+        "label":  "brake fluid low",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-brake-fluid-normal",
+        "label":  "brake fluid normal",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-brake-hose-bad",
+        "label":  "brake hose bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-brake-leak-line",
+        "label":  "brake leak line",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-brake-leak-master-cylinder",
+        "label":  "brake leak master cylinder",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-brake-leak-wheel",
+        "label":  "brake leak wheel",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-brake-noise-click",
+        "label":  "brake noise click",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-brake-noise-grinding",
+        "label":  "brake noise grinding",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-brake-noise-scraping",
+        "label":  "brake noise scraping",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-brake-noise-squeal",
+        "label":  "brake noise squeal",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-brake-no-visible-leak",
+        "label":  "brake no visible leak",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-brake-pad-mounting-bad",
+        "label":  "brake pad mounting bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-brake-pad-mounting-good",
+        "label":  "brake pad mounting good",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-brake-pads-good",
+        "label":  "brake pads good",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-brake-pads-uneven",
+        "label":  "brake pads uneven",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-brake-pads-worn",
+        "label":  "brake pads worn",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-brake-pad-wear-warning",
+        "label":  "brake pad wear warning",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-brake-pedal-normal",
+        "label":  "brake pedal normal",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-brake-pedal-sinks",
+        "label":  "brake pedal sinks",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-brake-pull-chassis-good",
+        "label":  "brake pull chassis good",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-brake-pull-non-brake-cause",
+        "label":  "brake pull non brake cause",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-brake-pulls-left",
+        "label":  "brake pulls left",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-brake-pulls-right",
+        "label":  "brake pulls right",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-brake-pull-variable",
+        "label":  "brake pull variable",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-brake-red-warning-light",
+        "label":  "brake red warning light",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-brake-servo-not-working",
+        "label":  "brake servo not working",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-brake-servo-working",
+        "label":  "brake servo working",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-brake-vacuum-circuit-bad",
+        "label":  "brake vacuum circuit bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-brake-vacuum-circuit-good",
+        "label":  "brake vacuum circuit good",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-brake-vacuum-pump-bad",
+        "label":  "brake vacuum pump bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-brake-vacuum-pump-good",
+        "label":  "brake vacuum pump good",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-brake-vibration-pedal",
+        "label":  "brake vibration pedal",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-brake-vibration-steering",
+        "label":  "brake vibration steering",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-brake-vibration-vehicle",
+        "label":  "brake vibration vehicle",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-brake-wheel-temperature-even",
+        "label":  "brake wheel temperature even",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-brake-wheel-temperature-uneven",
+        "label":  "brake wheel temperature uneven",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-electric-parking-motor-bad",
+        "label":  "electric parking motor bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-electric-parking-motor-code",
+        "label":  "electric parking motor code",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-electric-parking-motor-good",
+        "label":  "electric parking motor good",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-electric-parking-no-code",
+        "label":  "electric parking no code",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-electric-parking-switch-code",
+        "label":  "electric parking switch code",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-esp-warning-light",
+        "label":  "esp warning light",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-master-cylinder-bypass",
+        "label":  "master cylinder bypass",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-master-cylinder-holds-pressure",
+        "label":  "master cylinder holds pressure",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-parking-brake-cable-bad",
+        "label":  "parking brake cable bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-parking-brake-cable-good",
+        "label":  "parking brake cable good",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-parking-brake-electric",
+        "label":  "parking brake electric",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-parking-brake-mechanical",
+        "label":  "parking brake mechanical",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-rear-brakes-good",
+        "label":  "rear brakes good",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-rear-disc-brakes-bad",
+        "label":  "rear disc brakes bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-rear-drum-brakes-bad",
+        "label":  "rear drum brakes bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "symptom-braking-hard-pedal",
+        "label":  "braking hard pedal",
+        "defaultConfidence":  0.9
+    },
+    {
+        "id":  "symptom-braking-noise",
+        "label":  "braking noise",
+        "defaultConfidence":  0.9
+    },
+    {
+        "id":  "symptom-braking-pulls-side",
+        "label":  "braking pulls side",
+        "defaultConfidence":  0.9
+    },
+    {
+        "id":  "symptom-braking-soft-pedal",
+        "label":  "braking soft pedal",
+        "defaultConfidence":  0.9
+    },
+    {
+        "id":  "symptom-braking-vibration",
+        "label":  "braking vibration",
+        "defaultConfidence":  0.9
+    },
+    {
+        "id":  "symptom-braking-warning-light",
+        "label":  "braking warning light",
+        "defaultConfidence":  0.9
+    },
+    {
+        "id":  "symptom-braking-weak",
+        "label":  "braking weak",
+        "defaultConfidence":  0.9
+    },
+    {
+        "id":  "symptom-parking-brake-problem",
+        "label":  "parking brake problem",
+        "defaultConfidence":  0.9
+    }
+]

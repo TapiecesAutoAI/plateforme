@@ -1,0 +1,1382 @@
+[
+  {
+    "id": "braking-main-symptom",
+    "workflowId": "braking",
+    "type": "ask-question",
+    "text": "Quel est le principal problème de freinage observé ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 1,
+    "options": [
+      {
+        "id": "weak-braking",
+        "label": "Le freinage manque d'efficacité",
+        "value": "Le freinage semble insuffisant.",
+        "addsEvidence": [
+          "symptom-braking-weak"
+        ],
+        "nextActionId": "braking-pedal-feel"
+      },
+      {
+        "id": "soft-pedal",
+        "label": "La pédale est molle ou spongieuse",
+        "value": "La pédale de frein est molle ou spongieuse.",
+        "addsEvidence": [
+          "symptom-braking-soft-pedal"
+        ],
+        "nextActionId": "braking-fluid-level"
+      },
+      {
+        "id": "hard-pedal",
+        "label": "La pédale est très dure",
+        "value": "La pédale de frein est anormalement dure.",
+        "addsEvidence": [
+          "symptom-braking-hard-pedal"
+        ],
+        "nextActionId": "braking-servo-test"
+      },
+      {
+        "id": "pulling",
+        "label": "Le véhicule tire d'un côté",
+        "value": "Le véhicule tire d'un côté pendant le freinage.",
+        "addsEvidence": [
+          "symptom-braking-pulls-side"
+        ],
+        "nextActionId": "braking-pull-direction"
+      },
+      {
+        "id": "noise",
+        "label": "Un bruit apparaît au freinage",
+        "value": "Un bruit anormal apparaît pendant le freinage.",
+        "addsEvidence": [
+          "symptom-braking-noise"
+        ],
+        "nextActionId": "braking-noise-type"
+      },
+      {
+        "id": "vibration",
+        "label": "La pédale ou le volant vibre",
+        "value": "Des vibrations apparaissent pendant le freinage.",
+        "addsEvidence": [
+          "symptom-braking-vibration"
+        ],
+        "nextActionId": "braking-vibration-location"
+      },
+      {
+        "id": "warning-light",
+        "label": "Un voyant de frein ou ABS est allumé",
+        "value": "Un voyant lié au freinage est allumé.",
+        "addsEvidence": [
+          "symptom-braking-warning-light"
+        ],
+        "nextActionId": "braking-warning-type"
+      },
+      {
+        "id": "parking-brake",
+        "label": "Le frein de stationnement fonctionne mal",
+        "value": "Le frein de stationnement présente une anomalie.",
+        "addsEvidence": [
+          "symptom-parking-brake-problem"
+        ],
+        "nextActionId": "braking-parking-type"
+      }
+    ]
+  },
+  {
+    "id": "braking-pedal-feel",
+    "workflowId": "braking",
+    "type": "ask-question",
+    "text": "Comment se comporte la pédale de frein ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 2,
+    "options": [
+      {
+        "id": "soft",
+        "label": "Molle ou spongieuse",
+        "value": "La pédale est molle ou spongieuse.",
+        "addsEvidence": [
+          "symptom-braking-soft-pedal"
+        ],
+        "nextActionId": "braking-fluid-level"
+      },
+      {
+        "id": "hard",
+        "label": "Très dure",
+        "value": "La pédale est très dure.",
+        "addsEvidence": [
+          "symptom-braking-hard-pedal"
+        ],
+        "nextActionId": "braking-servo-test"
+      },
+      {
+        "id": "sinks",
+        "label": "Elle descend progressivement",
+        "value": "La pédale descend progressivement sous une pression constante.",
+        "addsEvidence": [
+          "observation-brake-pedal-sinks"
+        ],
+        "nextActionId": "braking-master-cylinder-check"
+      },
+      {
+        "id": "normal",
+        "label": "La pédale semble normale",
+        "value": "La pédale semble normale malgré le manque d'efficacité.",
+        "addsEvidence": [
+          "observation-brake-pedal-normal"
+        ],
+        "nextActionId": "braking-pad-thickness"
+      }
+    ]
+  },
+  {
+    "id": "braking-fluid-level",
+    "workflowId": "braking",
+    "type": "request-observation",
+    "text": "Le niveau de liquide de frein est-il correct ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 3,
+    "options": [
+      {
+        "id": "low",
+        "label": "Le niveau est bas",
+        "value": "Le niveau de liquide de frein est trop bas.",
+        "addsEvidence": [
+          "observation-brake-fluid-low"
+        ],
+        "nextActionId": "braking-visible-leak"
+      },
+      {
+        "id": "normal",
+        "label": "Le niveau est correct",
+        "value": "Le niveau de liquide de frein est correct.",
+        "addsEvidence": [
+          "observation-brake-fluid-normal"
+        ],
+        "nextActionId": "braking-fluid-condition"
+      },
+      {
+        "id": "unknown",
+        "label": "Je ne sais pas",
+        "value": "Le niveau de liquide de frein n'est pas connu.",
+        "nextActionId": "braking-visible-leak"
+      }
+    ]
+  },
+  {
+    "id": "braking-visible-leak",
+    "workflowId": "braking",
+    "type": "request-observation",
+    "text": "Une fuite de liquide est-elle visible près des roues, des flexibles ou du maître-cylindre ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 4,
+    "options": [
+      {
+        "id": "yes-wheel",
+        "label": "Oui, près d'une roue",
+        "value": "Une fuite est visible près d'une roue.",
+        "addsEvidence": [
+          "observation-brake-leak-wheel"
+        ],
+        "nextActionId": "braking-conclude"
+      },
+      {
+        "id": "yes-line",
+        "label": "Oui, sur une conduite ou un flexible",
+        "value": "Une fuite est visible sur une conduite ou un flexible.",
+        "addsEvidence": [
+          "observation-brake-leak-line"
+        ],
+        "nextActionId": "braking-conclude"
+      },
+      {
+        "id": "yes-master",
+        "label": "Oui, près du maître-cylindre",
+        "value": "Une fuite est visible près du maître-cylindre.",
+        "addsEvidence": [
+          "observation-brake-leak-master-cylinder"
+        ],
+        "nextActionId": "braking-conclude"
+      },
+      {
+        "id": "no",
+        "label": "Non",
+        "value": "Aucune fuite visible n'est détectée.",
+        "addsEvidence": [
+          "observation-brake-no-visible-leak"
+        ],
+        "nextActionId": "braking-fluid-condition"
+      }
+    ]
+  },
+  {
+    "id": "braking-fluid-condition",
+    "workflowId": "braking",
+    "type": "request-observation",
+    "text": "Le liquide de frein est-il ancien, sombre ou chargé en humidité ?",
+    "audiences": [
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 5,
+    "options": [
+      {
+        "id": "bad",
+        "label": "Oui",
+        "value": "Le liquide de frein semble ancien ou contaminé.",
+        "addsEvidence": [
+          "observation-brake-fluid-contaminated"
+        ],
+        "nextActionId": "braking-bleeding-result"
+      },
+      {
+        "id": "good",
+        "label": "Non",
+        "value": "Le liquide de frein semble correct.",
+        "addsEvidence": [
+          "observation-brake-fluid-good"
+        ],
+        "nextActionId": "braking-bleeding-result"
+      },
+      {
+        "id": "unknown",
+        "label": "Je ne sais pas",
+        "value": "L'état du liquide de frein n'est pas connu.",
+        "nextActionId": "braking-bleeding-result"
+      }
+    ]
+  },
+  {
+    "id": "braking-bleeding-result",
+    "workflowId": "braking",
+    "type": "request-observation",
+    "text": "Après une purge correcte du circuit, la pédale redevient-elle ferme ?",
+    "audiences": [
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 6,
+    "options": [
+      {
+        "id": "yes",
+        "label": "Oui",
+        "value": "La pédale redevient ferme après purge.",
+        "addsEvidence": [
+          "observation-brake-bleeding-success"
+        ],
+        "nextActionId": "braking-conclude"
+      },
+      {
+        "id": "no",
+        "label": "Non",
+        "value": "La pédale reste molle après purge.",
+        "addsEvidence": [
+          "observation-brake-bleeding-failed"
+        ],
+        "nextActionId": "braking-master-cylinder-check"
+      },
+      {
+        "id": "not-done",
+        "label": "La purge n'a pas été effectuée",
+        "value": "Le circuit n'a pas été purgé.",
+        "nextActionId": "braking-master-cylinder-check"
+      }
+    ]
+  },
+  {
+    "id": "braking-master-cylinder-check",
+    "workflowId": "braking",
+    "type": "request-observation",
+    "text": "La pédale descend-elle lentement lorsqu'une pression constante est maintenue moteur arrêté ?",
+    "audiences": [
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 7,
+    "options": [
+      {
+        "id": "yes",
+        "label": "Oui",
+        "value": "La pédale descend sous une pression constante.",
+        "addsEvidence": [
+          "observation-master-cylinder-bypass"
+        ],
+        "nextActionId": "braking-conclude"
+      },
+      {
+        "id": "no",
+        "label": "Non",
+        "value": "La pédale reste stable.",
+        "addsEvidence": [
+          "observation-master-cylinder-holds-pressure"
+        ],
+        "nextActionId": "braking-caliper-hose-check"
+      }
+    ]
+  },
+  {
+    "id": "braking-servo-test",
+    "workflowId": "braking",
+    "type": "request-observation",
+    "text": "Moteur arrêté, après plusieurs pressions sur la pédale, celle-ci descend-elle légèrement lorsque le moteur démarre ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 8,
+    "options": [
+      {
+        "id": "yes",
+        "label": "Oui",
+        "value": "L'assistance de freinage semble fonctionner.",
+        "addsEvidence": [
+          "observation-brake-servo-working"
+        ],
+        "nextActionId": "braking-pad-thickness"
+      },
+      {
+        "id": "no",
+        "label": "Non",
+        "value": "L'assistance de freinage ne semble pas fonctionner.",
+        "addsEvidence": [
+          "observation-brake-servo-not-working"
+        ],
+        "nextActionId": "braking-vacuum-check"
+      }
+    ]
+  },
+  {
+    "id": "braking-vacuum-check",
+    "workflowId": "braking",
+    "type": "request-observation",
+    "text": "La durite de dépression et le clapet anti-retour du servofrein sont-ils corrects ?",
+    "audiences": [
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 9,
+    "options": [
+      {
+        "id": "bad",
+        "label": "Non",
+        "value": "La durite ou le clapet du servofrein est défectueux.",
+        "addsEvidence": [
+          "observation-brake-vacuum-circuit-bad"
+        ],
+        "nextActionId": "braking-conclude"
+      },
+      {
+        "id": "good",
+        "label": "Oui",
+        "value": "Le circuit de dépression semble correct.",
+        "addsEvidence": [
+          "observation-brake-vacuum-circuit-good"
+        ],
+        "nextActionId": "braking-vacuum-value"
+      },
+      {
+        "id": "unknown",
+        "label": "Je ne sais pas",
+        "value": "Le circuit de dépression n'a pas été contrôlé.",
+        "nextActionId": "braking-vacuum-value"
+      }
+    ]
+  },
+  {
+    "id": "braking-vacuum-value",
+    "workflowId": "braking",
+    "type": "ask-question",
+    "text": "La dépression disponible au servofrein est-elle suffisante ?",
+    "audiences": [
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "advanced",
+    "priority": 10,
+    "options": [
+      {
+        "id": "low",
+        "label": "Non, elle est insuffisante",
+        "value": "La dépression au servofrein est insuffisante.",
+        "addsEvidence": [
+          "measurement-brake-vacuum-low"
+        ],
+        "nextActionId": "braking-vacuum-pump-check"
+      },
+      {
+        "id": "normal",
+        "label": "Oui",
+        "value": "La dépression au servofrein est suffisante.",
+        "addsEvidence": [
+          "measurement-brake-vacuum-normal"
+        ],
+        "nextActionId": "braking-conclude"
+      },
+      {
+        "id": "not-tested",
+        "label": "Non mesurée",
+        "value": "La dépression n'a pas été mesurée.",
+        "nextActionId": "braking-conclude"
+      }
+    ]
+  },
+  {
+    "id": "braking-vacuum-pump-check",
+    "workflowId": "braking",
+    "type": "request-observation",
+    "text": "La pompe à vide fonctionne-t-elle correctement ?",
+    "audiences": [
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "advanced",
+    "priority": 11,
+    "options": [
+      {
+        "id": "bad",
+        "label": "Non",
+        "value": "La pompe à vide est défectueuse.",
+        "addsEvidence": [
+          "observation-brake-vacuum-pump-bad"
+        ],
+        "nextActionId": "braking-conclude"
+      },
+      {
+        "id": "good",
+        "label": "Oui",
+        "value": "La pompe à vide fonctionne correctement.",
+        "addsEvidence": [
+          "observation-brake-vacuum-pump-good"
+        ],
+        "nextActionId": "braking-conclude"
+      }
+    ]
+  },
+  {
+    "id": "braking-pad-thickness",
+    "workflowId": "braking",
+    "type": "request-observation",
+    "text": "L'épaisseur des plaquettes est-elle suffisante et régulière ?",
+    "audiences": [
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 12,
+    "options": [
+      {
+        "id": "worn",
+        "label": "Non, elles sont usées",
+        "value": "Les plaquettes sont fortement usées.",
+        "addsEvidence": [
+          "observation-brake-pads-worn"
+        ],
+        "nextActionId": "braking-disc-condition"
+      },
+      {
+        "id": "uneven",
+        "label": "L'usure est irrégulière",
+        "value": "Les plaquettes présentent une usure irrégulière.",
+        "addsEvidence": [
+          "observation-brake-pads-uneven"
+        ],
+        "nextActionId": "braking-caliper-hose-check"
+      },
+      {
+        "id": "good",
+        "label": "Oui",
+        "value": "Les plaquettes sont en bon état.",
+        "addsEvidence": [
+          "observation-brake-pads-good"
+        ],
+        "nextActionId": "braking-disc-condition"
+      }
+    ]
+  },
+  {
+    "id": "braking-disc-condition",
+    "workflowId": "braking",
+    "type": "request-observation",
+    "text": "Les disques présentent-ils des rainures, une coloration bleue, une usure ou un voile ?",
+    "audiences": [
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 13,
+    "options": [
+      {
+        "id": "worn",
+        "label": "Oui, ils sont usés ou rainurés",
+        "value": "Les disques sont usés ou rainurés.",
+        "addsEvidence": [
+          "observation-brake-discs-worn"
+        ],
+        "nextActionId": "braking-conclude"
+      },
+      {
+        "id": "overheated",
+        "label": "Ils sont bleuis ou surchauffés",
+        "value": "Les disques présentent des traces de surchauffe.",
+        "addsEvidence": [
+          "observation-brake-discs-overheated"
+        ],
+        "nextActionId": "braking-caliper-hose-check"
+      },
+      {
+        "id": "warped",
+        "label": "Ils semblent voilés",
+        "value": "Les disques semblent voilés.",
+        "addsEvidence": [
+          "observation-brake-discs-warped"
+        ],
+        "nextActionId": "braking-conclude"
+      },
+      {
+        "id": "good",
+        "label": "Ils semblent corrects",
+        "value": "Les disques semblent en bon état.",
+        "addsEvidence": [
+          "observation-brake-discs-good"
+        ],
+        "nextActionId": "braking-caliper-hose-check"
+      }
+    ]
+  },
+  {
+    "id": "braking-caliper-hose-check",
+    "workflowId": "braking",
+    "type": "request-observation",
+    "text": "Un étrier, un coulisseau ou un flexible semble-t-il grippé ou endommagé ?",
+    "audiences": [
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 14,
+    "options": [
+      {
+        "id": "caliper",
+        "label": "Un étrier ou coulisseau est grippé",
+        "value": "Un étrier ou un coulisseau est grippé.",
+        "addsEvidence": [
+          "observation-brake-caliper-sticking"
+        ],
+        "nextActionId": "braking-conclude"
+      },
+      {
+        "id": "hose",
+        "label": "Un flexible est abîmé ou bouché",
+        "value": "Un flexible de frein est endommagé ou obstrué.",
+        "addsEvidence": [
+          "observation-brake-hose-bad"
+        ],
+        "nextActionId": "braking-conclude"
+      },
+      {
+        "id": "good",
+        "label": "Tout semble correct",
+        "value": "Les étriers, coulisseaux et flexibles semblent corrects.",
+        "addsEvidence": [
+          "observation-brake-caliper-hose-good"
+        ],
+        "nextActionId": "braking-rear-brakes-check"
+      }
+    ]
+  },
+  {
+    "id": "braking-rear-brakes-check",
+    "workflowId": "braking",
+    "type": "request-observation",
+    "text": "Les freins arrière sont-ils correctement réglés et en bon état ?",
+    "audiences": [
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 15,
+    "options": [
+      {
+        "id": "drums-bad",
+        "label": "Tambours ou mâchoires usés ou mal réglés",
+        "value": "Les freins arrière à tambour présentent une anomalie.",
+        "addsEvidence": [
+          "observation-rear-drum-brakes-bad"
+        ],
+        "nextActionId": "braking-conclude"
+      },
+      {
+        "id": "discs-bad",
+        "label": "Disques ou plaquettes arrière usés",
+        "value": "Les freins arrière à disque sont usés.",
+        "addsEvidence": [
+          "observation-rear-disc-brakes-bad"
+        ],
+        "nextActionId": "braking-conclude"
+      },
+      {
+        "id": "good",
+        "label": "Ils semblent corrects",
+        "value": "Les freins arrière semblent corrects.",
+        "addsEvidence": [
+          "observation-rear-brakes-good"
+        ],
+        "nextActionId": "braking-conclude"
+      }
+    ]
+  },
+  {
+    "id": "braking-pull-direction",
+    "workflowId": "braking",
+    "type": "ask-question",
+    "text": "De quel côté le véhicule tire-t-il pendant le freinage ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 16,
+    "options": [
+      {
+        "id": "left",
+        "label": "Vers la gauche",
+        "value": "Le véhicule tire vers la gauche.",
+        "addsEvidence": [
+          "observation-brake-pulls-left"
+        ],
+        "nextActionId": "braking-left-right-temperature"
+      },
+      {
+        "id": "right",
+        "label": "Vers la droite",
+        "value": "Le véhicule tire vers la droite.",
+        "addsEvidence": [
+          "observation-brake-pulls-right"
+        ],
+        "nextActionId": "braking-left-right-temperature"
+      },
+      {
+        "id": "variable",
+        "label": "Le côté varie",
+        "value": "Le véhicule tire de manière irrégulière.",
+        "addsEvidence": [
+          "observation-brake-pull-variable"
+        ],
+        "nextActionId": "braking-tyre-suspension-check"
+      }
+    ],
+    "requiredEvidence": [
+      "symptom-braking-pulls-side"
+    ]
+  },
+  {
+    "id": "braking-left-right-temperature",
+    "workflowId": "braking",
+    "type": "request-observation",
+    "text": "Après un court trajet avec quelques freinages, remarquez-vous une odeur de chaud ou une chaleur nettement plus forte près d'une roue ? Ne touchez pas le disque, l'étrier ou la jante.",
+    "audiences": [
+      
+      "particulier","bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 17,
+    "options": [
+      {
+        "id": "yes",
+        "label": "Oui",
+        "value": "Une roue est nettement plus chaude.",
+        "addsEvidence": [
+          "observation-brake-wheel-temperature-uneven"
+        ],
+        "nextActionId": "braking-caliper-hose-check"
+      },
+      {
+        "id": "no",
+        "label": "Non",
+        "value": "La température des roues est similaire.",
+        "addsEvidence": [
+          "observation-brake-wheel-temperature-even"
+        ],
+        "nextActionId": "braking-tyre-suspension-check"
+      }
+    ]
+  },
+  {
+    "id": "braking-tyre-suspension-check",
+    "workflowId": "braking",
+    "type": "request-observation",
+    "text": "Les pneus, la pression, la géométrie et la suspension sont-ils corrects ?",
+    "audiences": [
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 18,
+    "options": [
+      {
+        "id": "bad",
+        "label": "Non",
+        "value": "Une anomalie de pneu, géométrie ou suspension est présente.",
+        "addsEvidence": [
+          "observation-brake-pull-non-brake-cause"
+        ],
+        "nextActionId": "braking-conclude"
+      },
+      {
+        "id": "good",
+        "label": "Oui",
+        "value": "Les pneus, la géométrie et la suspension semblent corrects.",
+        "addsEvidence": [
+          "observation-brake-pull-chassis-good"
+        ],
+        "nextActionId": "braking-caliper-hose-check"
+      }
+    ]
+  },
+  {
+    "id": "braking-noise-type",
+    "workflowId": "braking",
+    "type": "ask-question",
+    "text": "Quel bruit entendez-vous pendant le freinage ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 19,
+    "options": [
+      {
+        "id": "squeal",
+        "label": "Sifflement aigu",
+        "value": "Un sifflement aigu est entendu.",
+        "addsEvidence": [
+          "observation-brake-noise-squeal"
+        ],
+        "nextActionId": "braking-pad-thickness"
+      },
+      {
+        "id": "grinding",
+        "label": "Grincement métallique",
+        "value": "Un grincement métallique est entendu.",
+        "addsEvidence": [
+          "observation-brake-noise-grinding"
+        ],
+        "nextActionId": "braking-pad-thickness"
+      },
+      {
+        "id": "click",
+        "label": "Claquement",
+        "value": "Un claquement est entendu au freinage.",
+        "addsEvidence": [
+          "observation-brake-noise-click"
+        ],
+        "nextActionId": "braking-pad-mounting-check"
+      },
+      {
+        "id": "scraping",
+        "label": "Frottement continu",
+        "value": "Un frottement continu est entendu.",
+        "addsEvidence": [
+          "observation-brake-noise-scraping"
+        ],
+        "nextActionId": "braking-caliper-hose-check"
+      }
+    ],
+    "requiredEvidence": [
+      "symptom-braking-noise"
+    ]
+  },
+  {
+    "id": "braking-pad-mounting-check",
+    "workflowId": "braking",
+    "type": "request-observation",
+    "text": "Les plaquettes, agrafes et ressorts anti-bruit sont-ils correctement montés ?",
+    "audiences": [
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 20,
+    "options": [
+      {
+        "id": "bad",
+        "label": "Non",
+        "value": "Le montage des plaquettes ou accessoires est incorrect.",
+        "addsEvidence": [
+          "observation-brake-pad-mounting-bad"
+        ],
+        "nextActionId": "braking-conclude"
+      },
+      {
+        "id": "good",
+        "label": "Oui",
+        "value": "Le montage des plaquettes semble correct.",
+        "addsEvidence": [
+          "observation-brake-pad-mounting-good"
+        ],
+        "nextActionId": "braking-disc-condition"
+      }
+    ]
+  },
+  {
+    "id": "braking-vibration-location",
+    "workflowId": "braking",
+    "type": "ask-question",
+    "text": "Où ressentez-vous principalement les vibrations ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 21,
+    "options": [
+      {
+        "id": "steering-wheel",
+        "label": "Dans le volant",
+        "value": "Les vibrations sont ressenties dans le volant.",
+        "addsEvidence": [
+          "observation-brake-vibration-steering"
+        ],
+        "nextActionId": "braking-front-disc-runout"
+      },
+      {
+        "id": "pedal",
+        "label": "Dans la pédale",
+        "value": "Les vibrations sont ressenties dans la pédale.",
+        "addsEvidence": [
+          "observation-brake-vibration-pedal"
+        ],
+        "nextActionId": "braking-disc-condition"
+      },
+      {
+        "id": "vehicle",
+        "label": "Dans tout le véhicule",
+        "value": "Les vibrations sont ressenties dans tout le véhicule.",
+        "addsEvidence": [
+          "observation-brake-vibration-vehicle"
+        ],
+        "nextActionId": "braking-rear-brakes-check"
+      }
+    ],
+    "requiredEvidence": [
+      "symptom-braking-vibration"
+    ]
+  },
+  {
+    "id": "braking-front-disc-runout",
+    "workflowId": "braking",
+    "type": "request-observation",
+    "text": "Le voile des disques avant a-t-il été mesuré ?",
+    "audiences": [
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "advanced",
+    "priority": 22,
+    "options": [
+      {
+        "id": "high",
+        "label": "Oui, il dépasse la tolérance",
+        "value": "Le voile des disques avant dépasse la tolérance.",
+        "addsEvidence": [
+          "measurement-brake-front-disc-runout-high"
+        ],
+        "nextActionId": "braking-conclude"
+      },
+      {
+        "id": "normal",
+        "label": "Oui, il est normal",
+        "value": "Le voile des disques avant est conforme.",
+        "addsEvidence": [
+          "measurement-brake-front-disc-runout-normal"
+        ],
+        "nextActionId": "braking-hub-runout-check"
+      },
+      {
+        "id": "not-tested",
+        "label": "Non mesuré",
+        "value": "Le voile des disques n'a pas été mesuré.",
+        "nextActionId": "braking-disc-condition"
+      }
+    ]
+  },
+  {
+    "id": "braking-hub-runout-check",
+    "workflowId": "braking",
+    "type": "request-observation",
+    "text": "Le moyeu présente-t-il un voile ou une surface de contact irrégulière ?",
+    "audiences": [
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "advanced",
+    "priority": 23,
+    "options": [
+      {
+        "id": "bad",
+        "label": "Oui",
+        "value": "Le moyeu présente une anomalie.",
+        "addsEvidence": [
+          "measurement-brake-hub-runout-high"
+        ],
+        "nextActionId": "braking-conclude"
+      },
+      {
+        "id": "good",
+        "label": "Non",
+        "value": "Le moyeu semble correct.",
+        "addsEvidence": [
+          "measurement-brake-hub-runout-normal"
+        ],
+        "nextActionId": "braking-conclude"
+      }
+    ]
+  },
+  {
+    "id": "braking-warning-type",
+    "workflowId": "braking",
+    "type": "ask-question",
+    "text": "Quel voyant est allumé ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 24,
+    "options": [
+      {
+        "id": "abs",
+        "label": "ABS",
+        "value": "Le voyant ABS est allumé.",
+        "addsEvidence": [
+          "observation-abs-warning-light"
+        ],
+        "nextActionId": "braking-abs-codes"
+      },
+      {
+        "id": "brake-red",
+        "label": "Voyant rouge de frein",
+        "value": "Le voyant rouge de frein est allumé.",
+        "addsEvidence": [
+          "observation-brake-red-warning-light"
+        ],
+        "nextActionId": "braking-fluid-level"
+      },
+      {
+        "id": "esp",
+        "label": "ESP ou antipatinage",
+        "value": "Le voyant ESP ou antipatinage est allumé.",
+        "addsEvidence": [
+          "observation-esp-warning-light"
+        ],
+        "nextActionId": "braking-abs-codes"
+      },
+      {
+        "id": "wear",
+        "label": "Usure des plaquettes",
+        "value": "Le voyant d'usure des plaquettes est allumé.",
+        "addsEvidence": [
+          "observation-brake-pad-wear-warning"
+        ],
+        "nextActionId": "braking-pad-thickness"
+      }
+    ],
+    "requiredEvidence": [
+      "symptom-braking-warning-light"
+    ]
+  },
+  {
+    "id": "braking-abs-codes",
+    "workflowId": "braking",
+    "type": "ask-question",
+    "text": "Des codes défaut ABS ou ESP ont-ils été lus ?",
+    "audiences": [
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 25,
+    "options": [
+      {
+        "id": "wheel-sensor",
+        "label": "Défaut de capteur de roue",
+        "value": "Un code concerne un capteur de vitesse de roue.",
+        "addsEvidence": [
+          "observation-abs-code-wheel-sensor"
+        ],
+        "nextActionId": "braking-wheel-speed-sensor-check"
+      },
+      {
+        "id": "hydraulic-unit",
+        "label": "Défaut du bloc hydraulique",
+        "value": "Un code concerne le bloc hydraulique ABS.",
+        "addsEvidence": [
+          "observation-abs-code-hydraulic-unit"
+        ],
+        "nextActionId": "braking-abs-unit-check"
+      },
+      {
+        "id": "communication",
+        "label": "Défaut de communication",
+        "value": "Un code concerne la communication du système ABS.",
+        "addsEvidence": [
+          "observation-abs-code-communication"
+        ],
+        "nextActionId": "braking-abs-power-check"
+      },
+      {
+        "id": "none",
+        "label": "Aucun code",
+        "value": "Aucun code défaut ABS n'est présent.",
+        "addsEvidence": [
+          "observation-abs-no-codes"
+        ],
+        "nextActionId": "braking-conclude"
+      },
+      {
+        "id": "not-tested",
+        "label": "Lecture non effectuée",
+        "value": "Les codes ABS n'ont pas été lus.",
+        "nextActionId": "braking-conclude"
+      }
+    ]
+  },
+  {
+    "id": "braking-wheel-speed-sensor-check",
+    "workflowId": "braking",
+    "type": "request-observation",
+    "text": "Le capteur de vitesse de roue, sa cible et son faisceau sont-ils corrects ?",
+    "audiences": [
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 26,
+    "options": [
+      {
+        "id": "bad",
+        "label": "Non",
+        "value": "Le capteur de roue, sa cible ou son faisceau est défectueux.",
+        "addsEvidence": [
+          "observation-abs-wheel-sensor-bad"
+        ],
+        "nextActionId": "braking-conclude"
+      },
+      {
+        "id": "good",
+        "label": "Oui",
+        "value": "Le capteur de roue et son circuit semblent corrects.",
+        "addsEvidence": [
+          "observation-abs-wheel-sensor-good"
+        ],
+        "nextActionId": "braking-abs-unit-check"
+      }
+    ]
+  },
+  {
+    "id": "braking-abs-power-check",
+    "workflowId": "braking",
+    "type": "request-observation",
+    "text": "Les fusibles, alimentations et masses du calculateur ABS sont-ils corrects ?",
+    "audiences": [
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "advanced",
+    "priority": 27,
+    "options": [
+      {
+        "id": "bad",
+        "label": "Non",
+        "value": "Une alimentation ou masse du calculateur ABS est défectueuse.",
+        "addsEvidence": [
+          "observation-abs-power-bad"
+        ],
+        "nextActionId": "braking-conclude"
+      },
+      {
+        "id": "good",
+        "label": "Oui",
+        "value": "Les alimentations et masses du calculateur ABS sont correctes.",
+        "addsEvidence": [
+          "observation-abs-power-good"
+        ],
+        "nextActionId": "braking-abs-unit-check"
+      }
+    ]
+  },
+  {
+    "id": "braking-abs-unit-check",
+    "workflowId": "braking",
+    "type": "request-observation",
+    "text": "Le bloc hydraulique ABS répond-il aux tests d'actionneurs ?",
+    "audiences": [
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "advanced",
+    "priority": 28,
+    "options": [
+      {
+        "id": "bad",
+        "label": "Non",
+        "value": "Le bloc hydraulique ABS ne répond pas correctement.",
+        "addsEvidence": [
+          "observation-abs-hydraulic-unit-bad"
+        ],
+        "nextActionId": "braking-conclude"
+      },
+      {
+        "id": "good",
+        "label": "Oui",
+        "value": "Le bloc hydraulique ABS répond correctement.",
+        "addsEvidence": [
+          "observation-abs-hydraulic-unit-good"
+        ],
+        "nextActionId": "braking-conclude"
+      }
+    ]
+  },
+  {
+    "id": "braking-parking-type",
+    "workflowId": "braking",
+    "type": "ask-question",
+    "text": "Le frein de stationnement est-il mécanique ou électrique ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 29,
+    "options": [
+      {
+        "id": "mechanical",
+        "label": "Mécanique à câble",
+        "value": "Le frein de stationnement utilise un câble.",
+        "addsEvidence": [
+          "observation-parking-brake-mechanical"
+        ],
+        "nextActionId": "braking-parking-cable-check"
+      },
+      {
+        "id": "electric",
+        "label": "Électrique",
+        "value": "Le frein de stationnement est électrique.",
+        "addsEvidence": [
+          "observation-parking-brake-electric"
+        ],
+        "nextActionId": "braking-electric-parking-codes"
+      }
+    ],
+    "requiredEvidence": [
+      "symptom-parking-brake-problem"
+    ]
+  },
+  {
+    "id": "braking-parking-cable-check",
+    "workflowId": "braking",
+    "type": "request-observation",
+    "text": "Le câble de frein de stationnement est-il détendu, grippé ou cassé ?",
+    "audiences": [
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 30,
+    "options": [
+      {
+        "id": "bad",
+        "label": "Oui",
+        "value": "Le câble de frein de stationnement est défectueux.",
+        "addsEvidence": [
+          "observation-parking-brake-cable-bad"
+        ],
+        "nextActionId": "braking-conclude"
+      },
+      {
+        "id": "good",
+        "label": "Non",
+        "value": "Le câble semble correct.",
+        "addsEvidence": [
+          "observation-parking-brake-cable-good"
+        ],
+        "nextActionId": "braking-rear-brakes-check"
+      }
+    ]
+  },
+  {
+    "id": "braking-electric-parking-codes",
+    "workflowId": "braking",
+    "type": "ask-question",
+    "text": "Des codes défaut du frein de stationnement électrique sont-ils présents ?",
+    "audiences": [
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 31,
+    "options": [
+      {
+        "id": "motor",
+        "label": "Défaut de moteur d'étrier",
+        "value": "Un code concerne le moteur d'un étrier arrière.",
+        "addsEvidence": [
+          "observation-electric-parking-motor-code"
+        ],
+        "nextActionId": "braking-electric-parking-motor-check"
+      },
+      {
+        "id": "switch",
+        "label": "Défaut de commande ou bouton",
+        "value": "Un code concerne le bouton ou la commande.",
+        "addsEvidence": [
+          "observation-electric-parking-switch-code"
+        ],
+        "nextActionId": "braking-conclude"
+      },
+      {
+        "id": "none",
+        "label": "Aucun code",
+        "value": "Aucun code défaut n'est présent.",
+        "addsEvidence": [
+          "observation-electric-parking-no-code"
+        ],
+        "nextActionId": "braking-electric-parking-motor-check"
+      },
+      {
+        "id": "not-tested",
+        "label": "Lecture non effectuée",
+        "value": "Les codes n'ont pas été lus.",
+        "nextActionId": "braking-electric-parking-motor-check"
+      }
+    ]
+  },
+  {
+    "id": "braking-electric-parking-motor-check",
+    "workflowId": "braking",
+    "type": "request-observation",
+    "text": "Les moteurs d'étriers arrière fonctionnent-ils lors du test d'actionneurs ?",
+    "audiences": [
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "advanced",
+    "priority": 32,
+    "options": [
+      {
+        "id": "bad",
+        "label": "Non",
+        "value": "Un moteur de frein de stationnement électrique est défectueux.",
+        "addsEvidence": [
+          "observation-electric-parking-motor-bad"
+        ],
+        "nextActionId": "braking-conclude"
+      },
+      {
+        "id": "good",
+        "label": "Oui",
+        "value": "Les moteurs fonctionnent correctement.",
+        "addsEvidence": [
+          "observation-electric-parking-motor-good"
+        ],
+        "nextActionId": "braking-conclude"
+      }
+    ]
+  },
+  {
+    "id": "braking-conclude",
+    "workflowId": "braking",
+    "type": "complete-diagnosis",
+    "text": "Calcul du diagnostic de freinage.",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 100,
+    "diagnosisId": "braking-diagnosis"
+  }
+]

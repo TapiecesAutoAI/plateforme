@@ -1,0 +1,6 @@
+﻿{
+  "id": "braking",
+  "title": "Diagnostic du système de freinage",
+  "entryActionId": "braking-main-symptom",
+  "locked": true
+}

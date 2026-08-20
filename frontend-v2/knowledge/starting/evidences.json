@@ -1,0 +1,152 @@
+﻿[
+    {
+        "id":  "symptom-no-start",
+        "label":  "Le véhicule ne démarre pas",
+        "defaultConfidence":  0.85
+    },
+    {
+        "id":  "symptom-no-crank",
+        "label":  "Le moteur ne tourne pas pendant la tentative de démarrage",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "symptom-slow-cranking",
+        "label":  "Le moteur tourne lentement pendant la tentative de démarrage",
+        "defaultConfidence":  0.94
+    },
+    {
+        "id":  "symptom-engine-cranks",
+        "label":  "Le moteur tourne normalement mais ne démarre pas",
+        "defaultConfidence":  0.96
+    },
+    {
+        "id":  "symptom-single-click",
+        "label":  "Un seul clic est entendu pendant la tentative de démarrage",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "symptom-rapid-clicking",
+        "label":  "Plusieurs clics rapides sont entendus pendant la tentative de démarrage",
+        "defaultConfidence":  0.96
+    },
+    {
+        "id":  "symptom-starter-spins-free",
+        "label":  "Le démarreur tourne rapidement sans entraîner le moteur",
+        "defaultConfidence":  0.99
+    },
+    {
+        "id":  "observation-starter-spins-without-engine",
+        "label":  "Le moteur électrique du démarreur tourne sans entraîner le moteur thermique",
+        "defaultConfidence":  0.98
+    },
+    {
+        "id":  "observation-lights-dim",
+        "label":  "Les voyants ou les phares faiblissent pendant le démarrage",
+        "defaultConfidence":  0.86
+    },
+    {
+        "id":  "observation-lights-dim-strongly",
+        "label":  "Les voyants ou les phares faiblissent fortement pendant le démarrage",
+        "defaultConfidence":  0.95
+    },
+    {
+        "id":  "observation-lights-dim-slightly",
+        "label":  "Les voyants ou les phares faiblissent légèrement pendant le démarrage",
+        "defaultConfidence":  0.84
+    },
+    {
+        "id":  "observation-lights-stay-normal",
+        "label":  "Les voyants ou les phares restent normalement allumés pendant le démarrage",
+        "defaultConfidence":  0.88
+    },
+    {
+        "id":  "observation-jump-start-success",
+        "label":  "Le véhicule démarre avec des câbles ou un booster",
+        "defaultConfidence":  0.97
+    },
+    {
+        "id":  "observation-jump-start-fails",
+        "label":  "Le véhicule ne démarre pas avec des câbles ou un booster correctement branché",
+        "defaultConfidence":  0.9
+    },
+    {
+        "id":  "observation-battery-terminals-bad",
+        "label":  "Les bornes de batterie sont oxydées, desserrées ou sales",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-battery-terminals-good",
+        "label":  "Les bornes de batterie sont propres et correctement serrées",
+        "defaultConfidence":  0.82
+    },
+    {
+        "id":  "observation-booster-single-click",
+        "label":  "Avec le booster, un seul clic est entendu",
+        "defaultConfidence":  0.94
+    },
+    {
+        "id":  "observation-booster-rapid-clicking",
+        "label":  "Avec le booster, plusieurs clics rapides sont toujours entendus",
+        "defaultConfidence":  0.9
+    },
+    {
+        "id":  "observation-booster-no-change",
+        "label":  "Le booster ne modifie pas le comportement du système de démarrage",
+        "defaultConfidence":  0.86
+    },
+    {
+        "id":  "observation-battery-under-two-years",
+        "label":  "La batterie a moins de deux ans",
+        "defaultConfidence":  0.78
+    },
+    {
+        "id":  "observation-battery-two-to-four-years",
+        "label":  "La batterie a entre deux et quatre ans",
+        "defaultConfidence":  0.82
+    },
+    {
+        "id":  "observation-battery-over-four-years",
+        "label":  "La batterie a plus de quatre ans",
+        "defaultConfidence":  0.92
+    },
+    {
+        "label":  "Le moteur donne des signes qu\u0027il veut démarrer",
+        "id":  "observation-engine-attempts-to-start",
+        "reliability":  0.85
+    },
+    {
+        "label":  "Le moteur ne donne aucun signe qu\u0027il veut démarrer",
+        "id":  "observation-engine-no-attempt",
+        "reliability":  0.85
+    },
+    {
+        "label":  "Voyant antivol actif",
+        "id":  "observation-immobilizer-warning",
+        "reliability":  0.9
+    },
+    {
+        "label":  "Aucun voyant antivol anormal",
+        "id":  "observation-immobilizer-normal",
+        "reliability":  0.9
+    },
+    {
+        "label":  "Voyant moteur ou message d\u0027erreur présent",
+        "id":  "observation-engine-warning",
+        "reliability":  0.8
+    },
+    {
+        "label":  "Aucun voyant moteur ni message d\u0027erreur",
+        "id":  "observation-engine-warning-absent",
+        "reliability":  0.8
+    },
+    {
+        "label":  "Un bourdonnement d\u0027amorçage de la pompe à carburant est entendu à la mise du contact",
+        "id":  "observation-fuel-pump-prime-present",
+        "reliability":  0.9
+    },
+    {
+        "label":  "Aucun bourdonnement d\u0027amorçage de la pompe à carburant n\u0027est entendu à la mise du contact",
+        "id":  "observation-fuel-pump-prime-absent",
+        "reliability":  0.92
+    }
+]

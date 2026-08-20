@@ -1,0 +1,37 @@
+﻿{
+    "id":  "brake-hose",
+    "label":  "Flexible de frein",
+    "category":  "Freinage",
+    "icon":  "🛑",
+    "status":  "awaiting-images",
+    "imageType":  "generic-transparent",
+    "preferredFormat":  "webp",
+    "preferredDimensions":  {
+                                "width":  1024,
+                                "height":  1024
+                            },
+    "views":  [
+                  "Vue complète",
+                  "Raccord 1",
+                  "Raccord 2"
+              ],
+    "files":  [
+                  {
+                      "name":  "generic-01.webp",
+                      "role":  "primary",
+                      "view":  "Vue complète"
+                  },
+                  {
+                      "name":  "generic-02.webp",
+                      "role":  "secondary",
+                      "view":  "Raccord 1"
+                  },
+                  {
+                      "name":  "generic-03.webp",
+                      "role":  "detail",
+                      "view":  "Raccord 2"
+                  }
+              ],
+    "exactVehicleImageAfterIdentification":  true,
+    "replacementInstructionsAfterPurchase":  true
+}

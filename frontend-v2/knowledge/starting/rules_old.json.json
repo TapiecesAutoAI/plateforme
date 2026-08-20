@@ -1,0 +1,142 @@
+﻿[
+    {
+        "id":  "rapid-clicks-support-weak-battery",
+        "evidenceId":  "symptom-rapid-clicking",
+        "hypothesisId":  "problem-weak-battery",
+        "effect":  "support",
+        "weight":  0.96
+    },
+    {
+        "id":  "slow-cranking-support-weak-battery",
+        "evidenceId":  "symptom-slow-cranking",
+        "hypothesisId":  "problem-weak-battery",
+        "effect":  "support",
+        "weight":  0.88
+    },
+    {
+        "id":  "single-click-support-starter",
+        "evidenceId":  "symptom-single-click",
+        "hypothesisId":  "problem-starter",
+        "effect":  "support",
+        "weight":  0.84
+    },
+    {
+        "id":  "spins-free-support-starter-drive",
+        "evidenceId":  "symptom-starter-spins-free",
+        "hypothesisId":  "problem-starter-drive",
+        "effect":  "support",
+        "weight":  0.78
+    },
+    {
+        "id":  "spins-free-reject-weak-battery",
+        "evidenceId":  "symptom-starter-spins-free",
+        "hypothesisId":  "problem-weak-battery",
+        "effect":  "contradict",
+        "weight":  0.98
+    },
+    {
+        "id":  "starter-spins-confirm-drive",
+        "evidenceId":  "observation-starter-spins-without-engine",
+        "hypothesisId":  "problem-starter-drive",
+        "effect":  "support",
+        "weight":  0.97
+    },
+    {
+        "id":  "lights-dim-support-weak-battery",
+        "evidenceId":  "observation-lights-dim",
+        "hypothesisId":  "problem-weak-battery",
+        "effect":  "support",
+        "weight":  0.72
+    },
+    {
+        "id":  "jump-success-support-weak-battery",
+        "evidenceId":  "observation-jump-start-success",
+        "hypothesisId":  "problem-weak-battery",
+        "effect":  "support",
+        "weight":  0.98
+    },
+    {
+        "id":  "jump-fails-contradict-weak-battery",
+        "evidenceId":  "observation-jump-start-fails",
+        "hypothesisId":  "problem-weak-battery",
+        "effect":  "contradict",
+        "weight":  0.72
+    },
+    {
+        "id":  "jump-fails-support-starter",
+        "evidenceId":  "observation-jump-start-fails",
+        "hypothesisId":  "problem-starter",
+        "effect":  "support",
+        "weight":  0.78
+    },
+    {
+        "id":  "bad-terminals-support-battery-connection",
+        "evidenceId":  "observation-battery-terminals-bad",
+        "hypothesisId":  "problem-battery-connection",
+        "effect":  "support",
+        "weight":  0.96
+    },
+    {
+        "id":  "bad-terminals-contradict-starter",
+        "evidenceId":  "observation-battery-terminals-bad",
+        "hypothesisId":  "problem-starter",
+        "effect":  "contradict",
+        "weight":  0.55
+    },
+    {
+        "id":  "good-terminals-contradict-battery-connection",
+        "evidenceId":  "observation-battery-terminals-good",
+        "hypothesisId":  "problem-battery-connection",
+        "effect":  "contradict",
+        "weight":  0.68
+    },
+    {
+        "id":  "good-terminals-support-starter-after-failed-booster",
+        "evidenceId":  "observation-battery-terminals-good",
+        "hypothesisId":  "problem-starter",
+        "effect":  "support",
+        "weight":  0.62
+    },
+    {
+        "id":  "booster-single-click-support-starter",
+        "evidenceId":  "observation-booster-single-click",
+        "hypothesisId":  "problem-starter",
+        "effect":  "support",
+        "weight":  0.94
+    },
+    {
+        "id":  "booster-single-click-contradict-battery",
+        "evidenceId":  "observation-booster-single-click",
+        "hypothesisId":  "problem-weak-battery",
+        "effect":  "contradict",
+        "weight":  0.72
+    },
+    {
+        "id":  "booster-rapid-clicks-support-connection",
+        "evidenceId":  "observation-booster-rapid-clicking",
+        "hypothesisId":  "problem-battery-connection",
+        "effect":  "support",
+        "weight":  0.76
+    },
+    {
+        "id":  "booster-rapid-clicks-support-battery",
+        "evidenceId":  "observation-booster-rapid-clicking",
+        "hypothesisId":  "problem-weak-battery",
+        "effect":  "support",
+        "weight":  0.48
+    },
+    {
+        "id":  "booster-no-change-support-starter",
+        "evidenceId":  "observation-booster-no-change",
+        "hypothesisId":  "problem-starter",
+        "effect":  "support",
+        "weight":  0.84
+    },
+    {
+        "id":  "booster-no-change-contradict-battery",
+        "evidenceId":  "observation-booster-no-change",
+        "hypothesisId":  "problem-weak-battery",
+        "effect":  "contradict",
+        "weight":  0.62
+    }
+]

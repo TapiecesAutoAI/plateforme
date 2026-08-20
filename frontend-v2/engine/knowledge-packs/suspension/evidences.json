@@ -1,0 +1,412 @@
+﻿[
+    {
+        "id":  "measurement-suspension-alignment-bad",
+        "label":  "suspension alignment bad",
+        "defaultConfidence":  0.98
+    },
+    {
+        "id":  "measurement-suspension-alignment-good",
+        "label":  "suspension alignment good",
+        "defaultConfidence":  0.98
+    },
+    {
+        "id":  "measurement-suspension-wheel-balance-bad",
+        "label":  "suspension wheel balance bad",
+        "defaultConfidence":  0.98
+    },
+    {
+        "id":  "observation-suspension-alignment-component-bad",
+        "label":  "suspension alignment component bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-alignment-components-good",
+        "label":  "suspension alignment components good",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-ball-joint-bad",
+        "label":  "suspension ball joint bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-ball-joint-good",
+        "label":  "suspension ball joint good",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-body-roll-normal",
+        "label":  "suspension body roll normal",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-bounce-test-failed",
+        "label":  "suspension bounce test failed",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-bounce-test-good",
+        "label":  "suspension bounce test good",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-brake-dive-normal",
+        "label":  "suspension brake dive normal",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-control-arm-bushing-bad",
+        "label":  "suspension control arm bushing bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-control-arm-bushing-good",
+        "label":  "suspension control arm bushing good",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-damping-good",
+        "label":  "suspension damping good",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-excessive-body-roll",
+        "label":  "suspension excessive body roll",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-excessive-brake-dive",
+        "label":  "suspension excessive brake dive",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-front-height-difference",
+        "label":  "suspension front height difference",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-front-spring-broken",
+        "label":  "suspension front spring broken",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-front-spring-misplaced",
+        "label":  "suspension front spring misplaced",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-front-spring-sagging",
+        "label":  "suspension front spring sagging",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-front-springs-good",
+        "label":  "suspension front springs good",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-inner-tie-rod-bad",
+        "label":  "suspension inner tie rod bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-instability-acceleration",
+        "label":  "suspension instability acceleration",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-instability-braking",
+        "label":  "suspension instability braking",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-instability-cornering",
+        "label":  "suspension instability cornering",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-instability-high-speed",
+        "label":  "suspension instability high speed",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-load-normal",
+        "label":  "suspension load normal",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-load-uneven",
+        "label":  "suspension load uneven",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-noise-clunk",
+        "label":  "suspension noise clunk",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-noise-front-left",
+        "label":  "suspension noise front left",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-noise-front-right",
+        "label":  "suspension noise front right",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-noise-knock",
+        "label":  "suspension noise knock",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-noise-rattle",
+        "label":  "suspension noise rattle",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-noise-rear-left",
+        "label":  "suspension noise rear left",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-noise-rear-right",
+        "label":  "suspension noise rear right",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-noise-squeak",
+        "label":  "suspension noise squeak",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-outer-tie-rod-bad",
+        "label":  "suspension outer tie rod bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-poor-damping",
+        "label":  "suspension poor damping",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-rear-bushing-bad",
+        "label":  "suspension rear bushing bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-rear-height-difference",
+        "label":  "suspension rear height difference",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-rear-link-bad",
+        "label":  "suspension rear link bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-rear-links-good",
+        "label":  "suspension rear links good",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-rear-spring-broken",
+        "label":  "suspension rear spring broken",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-rear-spring-sagging",
+        "label":  "suspension rear spring sagging",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-rear-springs-good",
+        "label":  "suspension rear springs good",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-ride-height-normal",
+        "label":  "suspension ride height normal",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-rim-bent",
+        "label":  "suspension rim bent",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-shock-damaged",
+        "label":  "suspension shock damaged",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-shock-leaking",
+        "label":  "suspension shock leaking",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-shock-mount-bad",
+        "label":  "suspension shock mount bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-shock-mount-good",
+        "label":  "suspension shock mount good",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-shock-visual-good",
+        "label":  "suspension shock visual good",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-side-height-difference",
+        "label":  "suspension side height difference",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-stabilizer-bushing-bad",
+        "label":  "suspension stabilizer bushing bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-stabilizer-link-bad",
+        "label":  "suspension stabilizer link bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-stabilizer-system-good",
+        "label":  "suspension stabilizer system good",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-steering-joints-good",
+        "label":  "suspension steering joints good",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-strut-bearing-bad",
+        "label":  "suspension strut bearing bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-tyre-cupping",
+        "label":  "suspension tyre cupping",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-tyre-deformed",
+        "label":  "suspension tyre deformed",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-tyre-pressure-bad",
+        "label":  "suspension tyre pressure bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-tyre-pressure-good",
+        "label":  "suspension tyre pressure good",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-tyre-wear-inside",
+        "label":  "suspension tyre wear inside",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-tyre-wear-irregular",
+        "label":  "suspension tyre wear irregular",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-tyre-wear-outside",
+        "label":  "suspension tyre wear outside",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-vibration-braking",
+        "label":  "suspension vibration braking",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-vibration-bumps",
+        "label":  "suspension vibration bumps",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-vibration-high-speed",
+        "label":  "suspension vibration high speed",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-vibration-low-speed",
+        "label":  "suspension vibration low speed",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-wheel-balance-good",
+        "label":  "suspension wheel balance good",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-wheel-bearing-bad",
+        "label":  "suspension wheel bearing bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-wheel-bearing-good",
+        "label":  "suspension wheel bearing good",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-wheel-play-all-directions",
+        "label":  "suspension wheel play all directions",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-wheel-play-horizontal",
+        "label":  "suspension wheel play horizontal",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-wheel-play-none",
+        "label":  "suspension wheel play none",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-suspension-wheel-play-vertical",
+        "label":  "suspension wheel play vertical",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "symptom-suspension-bouncing",
+        "label":  "suspension bouncing",
+        "defaultConfidence":  0.9
+    },
+    {
+        "id":  "symptom-suspension-instability",
+        "label":  "suspension instability",
+        "defaultConfidence":  0.9
+    },
+    {
+        "id":  "symptom-suspension-leaning",
+        "label":  "suspension leaning",
+        "defaultConfidence":  0.9
+    },
+    {
+        "id":  "symptom-suspension-noise",
+        "label":  "suspension noise",
+        "defaultConfidence":  0.9
+    },
+    {
+        "id":  "symptom-suspension-tyre-wear",
+        "label":  "suspension tyre wear",
+        "defaultConfidence":  0.9
+    },
+    {
+        "id":  "symptom-suspension-vibration",
+        "label":  "suspension vibration",
+        "defaultConfidence":  0.9
+    }
+]

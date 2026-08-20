@@ -1,0 +1,402 @@
+[
+  {
+    "id": "measurement-alternator-command-invalid",
+    "label": "alternator command invalid",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-alternator-command-missing",
+    "label": "alternator command missing",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-alternator-command-normal",
+    "label": "alternator command normal",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-alternator-output-low",
+    "label": "alternator output low",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-alternator-output-normal",
+    "label": "alternator output normal",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-alternator-ripple-0-3-to-0-5",
+    "label": "alternator ripple 0 3 to 0 5",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-alternator-ripple-above-0-5",
+    "label": "alternator ripple above 0 5",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-alternator-ripple-below-0-3",
+    "label": "alternator ripple below 0 3",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-charge-command-coherent",
+    "label": "charge command coherent",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-charge-command-not-coherent",
+    "label": "charge command not coherent",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-charging-load-12-5-to-13-2",
+    "label": "charging load 12 5 to 13 2",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-charging-load-above-14-8",
+    "label": "charging load above 14 8",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-charging-load-below-12-5",
+    "label": "charging load below 12 5",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-charging-load-normal",
+    "label": "charging load normal",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-charging-no-rise-with-rpm",
+    "label": "charging no rise with rpm",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-charging-overvoltage-with-rpm",
+    "label": "charging overvoltage with rpm",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-charging-rises-with-rpm",
+    "label": "charging rises with rpm",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-charging-voltage-12-5-to-13-2",
+    "label": "charging voltage 12 5 to 13 2",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-charging-voltage-13-2-to-13-8",
+    "label": "charging voltage 13 2 to 13 8",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-charging-voltage-13-8-to-14-8",
+    "label": "charging voltage 13 8 to 14 8",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-charging-voltage-above-14-8",
+    "label": "charging voltage above 14 8",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-charging-voltage-below-12-5",
+    "label": "charging voltage below 12 5",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-ground-voltage-drop-high",
+    "label": "ground voltage drop high",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-ground-voltage-drop-normal",
+    "label": "ground voltage drop normal",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-positive-voltage-drop-high",
+    "label": "positive voltage drop high",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-positive-voltage-drop-normal",
+    "label": "positive voltage drop normal",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "observation-accessory-belt-damaged",
+    "label": "accessory belt damaged",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-accessory-belt-loose",
+    "label": "accessory belt loose",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-accessory-belt-missing",
+    "label": "accessory belt missing",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-accessory-belt-normal",
+    "label": "accessory belt normal",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-alternator-bearing-bad",
+    "label": "alternator bearing bad",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-alternator-bearing-good",
+    "label": "alternator bearing good",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-alternator-connection-bad",
+    "label": "alternator connection bad",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-alternator-connection-correction-failed",
+    "label": "alternator connection correction failed",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-alternator-connection-correction-success",
+    "label": "alternator connection correction success",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-alternator-connection-good",
+    "label": "alternator connection good",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-alternator-control-circuit-bad",
+    "label": "alternator control circuit bad",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-alternator-control-circuit-good",
+    "label": "alternator control circuit good",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-alternator-freewheel-pulley-bad",
+    "label": "alternator freewheel pulley bad",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-alternator-freewheel-pulley-good",
+    "label": "alternator freewheel pulley good",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-alternator-replacement-compatible",
+    "label": "alternator replacement compatible",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-alternator-replacement-incompatible",
+    "label": "alternator replacement incompatible",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-battery-light-engine-off-only",
+    "label": "battery light engine off only",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-battery-light-engine-running",
+    "label": "battery light engine running",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-battery-light-intermittent",
+    "label": "battery light intermittent",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-battery-overcharge-damage",
+    "label": "battery overcharge damage",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-battery-overcharge-no-visible-damage",
+    "label": "battery overcharge no visible damage",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-battery-registration-done",
+    "label": "battery registration done",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-battery-registration-missing",
+    "label": "battery registration missing",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-battery-sensor-bad",
+    "label": "battery sensor bad",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-battery-sensor-good",
+    "label": "battery sensor good",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-battery-tested-good",
+    "label": "battery tested good",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-battery-tested-weak",
+    "label": "battery tested weak",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-belt-tensioner-bad",
+    "label": "belt tensioner bad",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-belt-tensioner-good",
+    "label": "belt tensioner good",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-charging-diagnostic-codes-absent",
+    "label": "charging diagnostic codes absent",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-charging-diagnostic-codes-present",
+    "label": "charging diagnostic codes present",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-charging-ground-bad",
+    "label": "charging ground bad",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-charging-ground-good",
+    "label": "charging ground good",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-charging-noise-grinding",
+    "label": "charging noise grinding",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-charging-noise-rattle",
+    "label": "charging noise rattle",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-charging-noise-squeal",
+    "label": "charging noise squeal",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-charging-problem-after-alternator-replacement",
+    "label": "charging problem after alternator replacement",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-charging-problem-after-battery-replacement",
+    "label": "charging problem after battery replacement",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-charging-problem-after-electrical-work",
+    "label": "charging problem after electrical work",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-code-alternator-communication",
+    "label": "code alternator communication",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-code-battery-sensor",
+    "label": "code battery sensor",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-code-generator-output",
+    "label": "code generator output",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-electrical-load-idle-unstable",
+    "label": "electrical load idle unstable",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-electrical-load-lights-dim",
+    "label": "electrical load lights dim",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-electrical-load-normal",
+    "label": "electrical load normal",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-overvoltage-effects-absent",
+    "label": "overvoltage effects absent",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-overvoltage-effects-present",
+    "label": "overvoltage effects present",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-positive-circuit-bad",
+    "label": "positive circuit bad",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-positive-circuit-good",
+    "label": "positive circuit good",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "symptom-charging-battery-discharges",
+    "label": "charging battery discharges",
+    "defaultConfidence": 0.9
+  },
+  {
+    "id": "symptom-charging-battery-light",
+    "label": "charging battery light",
+    "defaultConfidence": 0.9
+  },
+  {
+    "id": "symptom-charging-electrical-weakness",
+    "label": "charging electrical weakness",
+    "defaultConfidence": 0.9
+  },
+  {
+    "id": "symptom-charging-noise",
+    "label": "charging noise",
+    "defaultConfidence": 0.9
+  },
+  {
+    "id": "symptom-charging-overvoltage",
+    "label": "charging overvoltage",
+    "defaultConfidence": 0.9
+  }
+]

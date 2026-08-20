@@ -1,0 +1,119 @@
+[
+  {
+    "id": "problem-alternator-failure",
+    "label": "Alternateur défectueux",
+    "possibleParts": [
+      "Alternateur"
+    ],
+    "recommendedChecks": [
+      "Mesurer la tension de charge",
+      "Mesurer le courant de sortie",
+      "Contrôler les diodes"
+    ]
+  },
+  {
+    "id": "problem-voltage-regulator",
+    "label": "Régulateur de tension défectueux",
+    "possibleParts": [
+      "Régulateur de tension"
+    ],
+    "recommendedChecks": [
+      "Contrôler la régulation",
+      "Comparer la tension de charge"
+    ]
+  },
+  {
+    "id": "problem-accessory-belt",
+    "label": "Courroie d'accessoires défectueuse",
+    "possibleParts": [
+      "Courroie",
+      "Galet tendeur"
+    ],
+    "recommendedChecks": [
+      "Contrôler la tension",
+      "Contrôler le patinage"
+    ]
+  },
+  {
+    "id": "problem-alternator-connections",
+    "label": "Connexions d'alternateur défectueuses",
+    "possibleParts": [
+      "Connecteur alternateur",
+      "Câble B+"
+    ],
+    "recommendedChecks": [
+      "Contrôler les connexions",
+      "Mesurer les chutes de tension"
+    ]
+  },
+  {
+    "id": "problem-ground-circuit",
+    "label": "Circuit de masse défectueux",
+    "possibleParts": [
+      "Tresse de masse",
+      "Point de masse"
+    ],
+    "recommendedChecks": [
+      "Contrôler les masses",
+      "Mesurer la chute de tension"
+    ]
+  },
+  {
+    "id": "problem-positive-cable",
+    "label": "Circuit positif de charge défectueux",
+    "possibleParts": [
+      "Câble positif",
+      "Fusible principal"
+    ],
+    "recommendedChecks": [
+      "Mesurer la chute de tension",
+      "Contrôler le fusible"
+    ]
+  },
+  {
+    "id": "problem-alternator-command",
+    "label": "Commande d'alternateur défectueuse",
+    "possibleParts": [
+      "Calculateur",
+      "Faisceau LIN/BSS"
+    ],
+    "recommendedChecks": [
+      "Contrôler le signal de commande",
+      "Contrôler le faisceau"
+    ]
+  },
+  {
+    "id": "problem-battery-sensor",
+    "label": "Capteur de batterie défectueux",
+    "possibleParts": [
+      "Capteur IBS"
+    ],
+    "recommendedChecks": [
+      "Contrôler le capteur",
+      "Lire les codes défaut"
+    ]
+  },
+  {
+    "id": "problem-freewheel-pulley",
+    "label": "Poulie roue libre d'alternateur défectueuse",
+    "possibleParts": [
+      "Poulie roue libre"
+    ],
+    "recommendedChecks": [
+      "Contrôler la poulie",
+      "Contrôler les roulements"
+    ]
+  },
+  {
+    "id": "problem-overcharge",
+    "label": "Surcharge du circuit de charge",
+    "possibleParts": [
+      "Régulateur",
+      "Alternateur"
+    ],
+    "recommendedChecks": [
+      "Mesurer la tension",
+      "Contrôler la régulation"
+    ]
+  }
+]

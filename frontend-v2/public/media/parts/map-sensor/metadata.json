@@ -1,0 +1,37 @@
+﻿{
+    "id":  "map-sensor",
+    "label":  "Capteur de pression d’admission",
+    "category":  "Capteurs",
+    "icon":  "📡",
+    "status":  "awaiting-images",
+    "imageType":  "generic-transparent",
+    "preferredFormat":  "webp",
+    "preferredDimensions":  {
+                                "width":  1024,
+                                "height":  1024
+                            },
+    "views":  [
+                  "Vue 3/4",
+                  "Élément sensible",
+                  "Connecteur"
+              ],
+    "files":  [
+                  {
+                      "name":  "generic-01.webp",
+                      "role":  "primary",
+                      "view":  "Vue 3/4"
+                  },
+                  {
+                      "name":  "generic-02.webp",
+                      "role":  "secondary",
+                      "view":  "Élément sensible"
+                  },
+                  {
+                      "name":  "generic-03.webp",
+                      "role":  "detail",
+                      "view":  "Connecteur"
+                  }
+              ],
+    "exactVehicleImageAfterIdentification":  true,
+    "replacementInstructionsAfterPurchase":  true
+}

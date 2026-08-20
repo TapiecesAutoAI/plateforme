@@ -1,0 +1,37 @@
+﻿{
+    "id":  "ignition-coil",
+    "label":  "Bobine d’allumage",
+    "category":  "Allumage",
+    "icon":  "⚡",
+    "status":  "awaiting-images",
+    "imageType":  "generic-transparent",
+    "preferredFormat":  "webp",
+    "preferredDimensions":  {
+                                "width":  1024,
+                                "height":  1024
+                            },
+    "views":  [
+                  "Vue 3/4",
+                  "Connecteur",
+                  "Embout bougie"
+              ],
+    "files":  [
+                  {
+                      "name":  "generic-01.webp",
+                      "role":  "primary",
+                      "view":  "Vue 3/4"
+                  },
+                  {
+                      "name":  "generic-02.webp",
+                      "role":  "secondary",
+                      "view":  "Connecteur"
+                  },
+                  {
+                      "name":  "generic-03.webp",
+                      "role":  "detail",
+                      "view":  "Embout bougie"
+                  }
+              ],
+    "exactVehicleImageAfterIdentification":  true,
+    "replacementInstructionsAfterPurchase":  true
+}

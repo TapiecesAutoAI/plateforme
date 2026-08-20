@@ -1,0 +1,37 @@
+﻿{
+    "id":  "radiator",
+    "label":  "Radiateur moteur",
+    "category":  "Refroidissement",
+    "icon":  "🌡️",
+    "status":  "awaiting-images",
+    "imageType":  "generic-transparent",
+    "preferredFormat":  "webp",
+    "preferredDimensions":  {
+                                "width":  1024,
+                                "height":  1024
+                            },
+    "views":  [
+                  "Vue complète",
+                  "Entrées et sorties",
+                  "Faisceau"
+              ],
+    "files":  [
+                  {
+                      "name":  "generic-01.webp",
+                      "role":  "primary",
+                      "view":  "Vue complète"
+                  },
+                  {
+                      "name":  "generic-02.webp",
+                      "role":  "secondary",
+                      "view":  "Entrées et sorties"
+                  },
+                  {
+                      "name":  "generic-03.webp",
+                      "role":  "detail",
+                      "view":  "Faisceau"
+                  }
+              ],
+    "exactVehicleImageAfterIdentification":  true,
+    "replacementInstructionsAfterPurchase":  true
+}

@@ -1,0 +1,37 @@
+﻿{
+    "id":  "gearbox-mount",
+    "label":  "Support de boîte",
+    "category":  "Transmission",
+    "icon":  "⚙️",
+    "status":  "awaiting-images",
+    "imageType":  "generic-transparent",
+    "preferredFormat":  "webp",
+    "preferredDimensions":  {
+                                "width":  1024,
+                                "height":  1024
+                            },
+    "views":  [
+                  "Vue 3/4",
+                  "Silentbloc",
+                  "Fixations"
+              ],
+    "files":  [
+                  {
+                      "name":  "generic-01.webp",
+                      "role":  "primary",
+                      "view":  "Vue 3/4"
+                  },
+                  {
+                      "name":  "generic-02.webp",
+                      "role":  "secondary",
+                      "view":  "Silentbloc"
+                  },
+                  {
+                      "name":  "generic-03.webp",
+                      "role":  "detail",
+                      "view":  "Fixations"
+                  }
+              ],
+    "exactVehicleImageAfterIdentification":  true,
+    "replacementInstructionsAfterPurchase":  true
+}

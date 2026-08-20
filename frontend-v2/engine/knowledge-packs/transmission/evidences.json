@@ -1,0 +1,637 @@
+﻿[
+    {
+        "id":  "measurement-automatic-line-pressure-high",
+        "label":  "automatic line pressure high",
+        "defaultConfidence":  0.98
+    },
+    {
+        "id":  "measurement-automatic-line-pressure-low",
+        "label":  "automatic line pressure low",
+        "defaultConfidence":  0.98
+    },
+    {
+        "id":  "measurement-automatic-line-pressure-normal",
+        "label":  "automatic line pressure normal",
+        "defaultConfidence":  0.98
+    },
+    {
+        "id":  "measurement-cvt-pressure-low",
+        "label":  "cvt pressure low",
+        "defaultConfidence":  0.98
+    },
+    {
+        "id":  "measurement-cvt-pressure-normal",
+        "label":  "cvt pressure normal",
+        "defaultConfidence":  0.98
+    },
+    {
+        "id":  "measurement-dct-clutch-adaptation-bad",
+        "label":  "dct clutch adaptation bad",
+        "defaultConfidence":  0.98
+    },
+    {
+        "id":  "measurement-dct-clutch-adaptation-good",
+        "label":  "dct clutch adaptation good",
+        "defaultConfidence":  0.98
+    },
+    {
+        "id":  "observation-automatic-delayed-engagement",
+        "label":  "automatic delayed engagement",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-automatic-filter-blocked",
+        "label":  "automatic filter blocked",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-automatic-fluid-burnt",
+        "label":  "automatic fluid burnt",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-automatic-fluid-contaminated",
+        "label":  "automatic fluid contaminated",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-automatic-fluid-good",
+        "label":  "automatic fluid good",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-automatic-fluid-low",
+        "label":  "automatic fluid low",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-automatic-harsh-shifts",
+        "label":  "automatic harsh shifts",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-automatic-hydraulic-system-good",
+        "label":  "automatic hydraulic system good",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-automatic-limp-mode",
+        "label":  "automatic limp mode",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-automatic-no-drive",
+        "label":  "automatic no drive",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-automatic-pan-friction-debris",
+        "label":  "automatic pan friction debris",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-automatic-pan-metal-debris",
+        "label":  "automatic pan metal debris",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-automatic-pan-normal",
+        "label":  "automatic pan normal",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-automatic-pump-bad",
+        "label":  "automatic pump bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-automatic-slipping",
+        "label":  "automatic slipping",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-automatic-solenoid-bad",
+        "label":  "automatic solenoid bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-automatic-solenoid-good",
+        "label":  "automatic solenoid good",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-automatic-valve-body-bad",
+        "label":  "automatic valve body bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-clutch-contaminated",
+        "label":  "clutch contaminated",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-clutch-disengagement-improves",
+        "label":  "clutch disengagement improves",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-clutch-disengagement-no-improvement",
+        "label":  "clutch disengagement no improvement",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-clutch-fluid-low",
+        "label":  "clutch fluid low",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-clutch-hydraulic-bad",
+        "label":  "clutch hydraulic bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-clutch-hydraulic-good",
+        "label":  "clutch hydraulic good",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-clutch-hydraulic-leak",
+        "label":  "clutch hydraulic leak",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-clutch-mechanism-bad",
+        "label":  "clutch mechanism bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-clutch-mechanism-good",
+        "label":  "clutch mechanism good",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-clutch-not-contaminated",
+        "label":  "clutch not contaminated",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-clutch-no-visible-leak",
+        "label":  "clutch no visible leak",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-clutch-release-bearing-bad",
+        "label":  "clutch release bearing bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-clutch-slip-confirmed",
+        "label":  "clutch slip confirmed",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-clutch-slip-not-confirmed",
+        "label":  "clutch slip not confirmed",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-cvt-belt-chain-bad",
+        "label":  "cvt belt chain bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-cvt-filter-blocked",
+        "label":  "cvt filter blocked",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-cvt-fluid-bad",
+        "label":  "cvt fluid bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-cvt-fluid-good",
+        "label":  "cvt fluid good",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-cvt-fluid-low",
+        "label":  "cvt fluid low",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-cvt-fluid-wrong",
+        "label":  "cvt fluid wrong",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-cvt-hydraulic-system-good",
+        "label":  "cvt hydraulic system good",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-cvt-judder",
+        "label":  "cvt judder",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-cvt-mechanical-system-good",
+        "label":  "cvt mechanical system good",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-cvt-no-drive",
+        "label":  "cvt no drive",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-cvt-noise",
+        "label":  "cvt noise",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-cvt-pulley-bad",
+        "label":  "cvt pulley bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-cvt-pump-bad",
+        "label":  "cvt pump bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-cvt-slipping",
+        "label":  "cvt slipping",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-cvt-valve-body-bad",
+        "label":  "cvt valve body bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-dct-actuator-bad",
+        "label":  "dct actuator bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-dct-fluid-bad",
+        "label":  "dct fluid bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-dct-fluid-good",
+        "label":  "dct fluid good",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-dct-fluid-low",
+        "label":  "dct fluid low",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-dct-gear-not-engaging",
+        "label":  "dct gear not engaging",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-dct-harsh-shifts",
+        "label":  "dct harsh shifts",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-dct-launch-judder",
+        "label":  "dct launch judder",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-dct-mechatronic-bad",
+        "label":  "dct mechatronic bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-dct-mechatronic-good",
+        "label":  "dct mechatronic good",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-dct-overheating",
+        "label":  "dct overheating",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-dct-position-sensor-bad",
+        "label":  "dct position sensor bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-differential-bearing-bad",
+        "label":  "differential bearing bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-differential-gear-bad",
+        "label":  "differential gear bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-differential-good",
+        "label":  "differential good",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-input-bearing-noise",
+        "label":  "input bearing noise",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-input-bearing-not-confirmed",
+        "label":  "input bearing not confirmed",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-manual-clutch-slipping",
+        "label":  "manual clutch slipping",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-manual-gear-grinding",
+        "label":  "manual gear grinding",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-manual-gear-internal-bad",
+        "label":  "manual gear internal bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-manual-gear-jumps",
+        "label":  "manual gear jumps",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-manual-gears-hard",
+        "label":  "manual gears hard",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-manual-internal-good",
+        "label":  "manual internal good",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-manual-multiple-gears-problem",
+        "label":  "manual multiple gears problem",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-manual-noise-acceleration",
+        "label":  "manual noise acceleration",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-manual-noise-deceleration",
+        "label":  "manual noise deceleration",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-manual-noise-neutral",
+        "label":  "manual noise neutral",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-manual-noise-specific-gear",
+        "label":  "manual noise specific gear",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-manual-selector-internal-bad",
+        "label":  "manual selector internal bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-manual-single-gear-problem",
+        "label":  "manual single gear problem",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-manual-synchronizer-bad",
+        "label":  "manual synchronizer bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-manual-transmission-fluid-bad",
+        "label":  "manual transmission fluid bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-manual-transmission-fluid-good",
+        "label":  "manual transmission fluid good",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-manual-transmission-fluid-low",
+        "label":  "manual transmission fluid low",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-manual-transmission-noise",
+        "label":  "manual transmission noise",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-shift-linkage-bad",
+        "label":  "shift linkage bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-shift-linkage-good",
+        "label":  "shift linkage good",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-torque-converter-good",
+        "label":  "torque converter good",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-torque-converter-lockup-bad",
+        "label":  "torque converter lockup bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-torque-converter-shudder",
+        "label":  "torque converter shudder",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-torque-converter-slip",
+        "label":  "torque converter slip",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-transmission-automatic",
+        "label":  "transmission automatic",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-transmission-code-communication",
+        "label":  "transmission code communication",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-transmission-code-ratio-slip",
+        "label":  "transmission code ratio slip",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-transmission-code-sensor",
+        "label":  "transmission code sensor",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-transmission-code-solenoid",
+        "label":  "transmission code solenoid",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-transmission-code-temperature",
+        "label":  "transmission code temperature",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-transmission-control-unit-communication-bad",
+        "label":  "transmission control unit communication bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-transmission-control-unit-good",
+        "label":  "transmission control unit good",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-transmission-control-unit-power-bad",
+        "label":  "transmission control unit power bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-transmission-cooler-blocked",
+        "label":  "transmission cooler blocked",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-transmission-cooler-line-leak",
+        "label":  "transmission cooler line leak",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-transmission-cooling-good",
+        "label":  "transmission cooling good",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-transmission-cvt",
+        "label":  "transmission cvt",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-transmission-dct",
+        "label":  "transmission dct",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-transmission-input-speed-sensor-bad",
+        "label":  "transmission input speed sensor bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-transmission-leak-source-unknown",
+        "label":  "transmission leak source unknown",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-transmission-manual",
+        "label":  "transmission manual",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-transmission-no-codes",
+        "label":  "transmission no codes",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-transmission-output-speed-sensor-bad",
+        "label":  "transmission output speed sensor bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-transmission-pan-leak",
+        "label":  "transmission pan leak",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-transmission-position-sensor-bad",
+        "label":  "transmission position sensor bad",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-transmission-seal-leak",
+        "label":  "transmission seal leak",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-transmission-sensors-good",
+        "label":  "transmission sensors good",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "symptom-transmission-fluid-leak",
+        "label":  "transmission fluid leak",
+        "defaultConfidence":  0.9
+    },
+    {
+        "id":  "symptom-transmission-gear-selection",
+        "label":  "transmission gear selection",
+        "defaultConfidence":  0.9
+    },
+    {
+        "id":  "symptom-transmission-jerking",
+        "label":  "transmission jerking",
+        "defaultConfidence":  0.9
+    },
+    {
+        "id":  "symptom-transmission-noise",
+        "label":  "transmission noise",
+        "defaultConfidence":  0.9
+    },
+    {
+        "id":  "symptom-transmission-slipping",
+        "label":  "transmission slipping",
+        "defaultConfidence":  0.9
+    },
+    {
+        "id":  "symptom-transmission-vibration",
+        "label":  "transmission vibration",
+        "defaultConfidence":  0.9
+    },
+    {
+        "id":  "symptom-transmission-warning",
+        "label":  "transmission warning",
+        "defaultConfidence":  0.9
+    },
+    {
+        "id":  "observation-clutch-hydraulic-unknown",
+        "label":  "clutch hydraulic unknown",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-transmission-code-present",
+        "label":  "transmission code present",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-transmission-code-not-tested",
+        "label":  "transmission code not tested",
+        "defaultConfidence":  0.92
+    }
+]

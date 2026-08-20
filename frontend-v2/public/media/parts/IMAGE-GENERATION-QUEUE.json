@@ -1,0 +1,272 @@
+﻿[
+    {
+        "priority":  1,
+        "familyId":  "starter",
+        "familyLabel":  "Démarreur",
+        "fileName":  "generic-01.webp",
+        "destination":  ".\\public\\media\\parts\\starter\\generic-01.webp",
+        "view":  "Vue 3/4 avant",
+        "prompt":  "Photo catalogue photoréaliste d’un(e) Démarreur, Vue 3/4 avant, pièce automobile seule, détourée, fond transparent, sans marque, sans logo, sans texte, éclairage studio homogène, ombre légère, format carré 1024 x 1024."
+    },
+    {
+        "priority":  2,
+        "familyId":  "starter",
+        "familyLabel":  "Démarreur",
+        "fileName":  "generic-02.webp",
+        "destination":  ".\\public\\media\\parts\\starter\\generic-02.webp",
+        "view":  "Vue arrière",
+        "prompt":  "Photo catalogue photoréaliste d’un(e) Démarreur, Vue arrière, pièce automobile seule, détourée, fond transparent, sans marque, sans logo, sans texte, éclairage studio homogène, ombre légère, format carré 1024 x 1024."
+    },
+    {
+        "priority":  3,
+        "familyId":  "starter",
+        "familyLabel":  "Démarreur",
+        "fileName":  "generic-03.webp",
+        "destination":  ".\\public\\media\\parts\\starter\\generic-03.webp",
+        "view":  "Pignon et solénoïde",
+        "prompt":  "Photo catalogue photoréaliste d’un(e) Démarreur, Pignon et solénoïde, pièce automobile seule, détourée, fond transparent, sans marque, sans logo, sans texte, éclairage studio homogène, ombre légère, format carré 1024 x 1024."
+    },
+    {
+        "priority":  4,
+        "familyId":  "alternator",
+        "familyLabel":  "Alternateur",
+        "fileName":  "generic-01.webp",
+        "destination":  ".\\public\\media\\parts\\alternator\\generic-01.webp",
+        "view":  "Vue 3/4 avant",
+        "prompt":  "Photo catalogue photoréaliste d’un(e) Alternateur, Vue 3/4 avant, pièce automobile seule, détourée, fond transparent, sans marque, sans logo, sans texte, éclairage studio homogène, ombre légère, format carré 1024 x 1024."
+    },
+    {
+        "priority":  5,
+        "familyId":  "alternator",
+        "familyLabel":  "Alternateur",
+        "fileName":  "generic-02.webp",
+        "destination":  ".\\public\\media\\parts\\alternator\\generic-02.webp",
+        "view":  "Vue arrière",
+        "prompt":  "Photo catalogue photoréaliste d’un(e) Alternateur, Vue arrière, pièce automobile seule, détourée, fond transparent, sans marque, sans logo, sans texte, éclairage studio homogène, ombre légère, format carré 1024 x 1024."
+    },
+    {
+        "priority":  6,
+        "familyId":  "alternator",
+        "familyLabel":  "Alternateur",
+        "fileName":  "generic-03.webp",
+        "destination":  ".\\public\\media\\parts\\alternator\\generic-03.webp",
+        "view":  "Poulie et connecteurs",
+        "prompt":  "Photo catalogue photoréaliste d’un(e) Alternateur, Poulie et connecteurs, pièce automobile seule, détourée, fond transparent, sans marque, sans logo, sans texte, éclairage studio homogène, ombre légère, format carré 1024 x 1024."
+    },
+    {
+        "priority":  7,
+        "familyId":  "brake-disc",
+        "familyLabel":  "Disque de frein",
+        "fileName":  "generic-01.webp",
+        "destination":  ".\\public\\media\\parts\\brake-disc\\generic-01.webp",
+        "view":  "Vue 3/4",
+        "prompt":  "Photo catalogue photoréaliste d’un(e) Disque de frein, Vue 3/4, pièce automobile seule, détourée, fond transparent, sans marque, sans logo, sans texte, éclairage studio homogène, ombre légère, format carré 1024 x 1024."
+    },
+    {
+        "priority":  8,
+        "familyId":  "brake-disc",
+        "familyLabel":  "Disque de frein",
+        "fileName":  "generic-02.webp",
+        "destination":  ".\\public\\media\\parts\\brake-disc\\generic-02.webp",
+        "view":  "Vue de face",
+        "prompt":  "Photo catalogue photoréaliste d’un(e) Disque de frein, Vue de face, pièce automobile seule, détourée, fond transparent, sans marque, sans logo, sans texte, éclairage studio homogène, ombre légère, format carré 1024 x 1024."
+    },
+    {
+        "priority":  9,
+        "familyId":  "brake-disc",
+        "familyLabel":  "Disque de frein",
+        "fileName":  "generic-03.webp",
+        "destination":  ".\\public\\media\\parts\\brake-disc\\generic-03.webp",
+        "view":  "Ventilation et moyeu",
+        "prompt":  "Photo catalogue photoréaliste d’un(e) Disque de frein, Ventilation et moyeu, pièce automobile seule, détourée, fond transparent, sans marque, sans logo, sans texte, éclairage studio homogène, ombre légère, format carré 1024 x 1024."
+    },
+    {
+        "priority":  10,
+        "familyId":  "brake-pad",
+        "familyLabel":  "Plaquettes de frein",
+        "fileName":  "generic-01.webp",
+        "destination":  ".\\public\\media\\parts\\brake-pad\\generic-01.webp",
+        "view":  "Jeu complet",
+        "prompt":  "Photo catalogue photoréaliste d’un(e) Plaquettes de frein, Jeu complet, pièce automobile seule, détourée, fond transparent, sans marque, sans logo, sans texte, éclairage studio homogène, ombre légère, format carré 1024 x 1024."
+    },
+    {
+        "priority":  11,
+        "familyId":  "brake-pad",
+        "familyLabel":  "Plaquettes de frein",
+        "fileName":  "generic-02.webp",
+        "destination":  ".\\public\\media\\parts\\brake-pad\\generic-02.webp",
+        "view":  "Vue de profil",
+        "prompt":  "Photo catalogue photoréaliste d’un(e) Plaquettes de frein, Vue de profil, pièce automobile seule, détourée, fond transparent, sans marque, sans logo, sans texte, éclairage studio homogène, ombre légère, format carré 1024 x 1024."
+    },
+    {
+        "priority":  12,
+        "familyId":  "brake-pad",
+        "familyLabel":  "Plaquettes de frein",
+        "fileName":  "generic-03.webp",
+        "destination":  ".\\public\\media\\parts\\brake-pad\\generic-03.webp",
+        "view":  "Surface de friction",
+        "prompt":  "Photo catalogue photoréaliste d’un(e) Plaquettes de frein, Surface de friction, pièce automobile seule, détourée, fond transparent, sans marque, sans logo, sans texte, éclairage studio homogène, ombre légère, format carré 1024 x 1024."
+    },
+    {
+        "priority":  13,
+        "familyId":  "shock-absorber",
+        "familyLabel":  "Amortisseur",
+        "fileName":  "generic-01.webp",
+        "destination":  ".\\public\\media\\parts\\shock-absorber\\generic-01.webp",
+        "view":  "Vue complète",
+        "prompt":  "Photo catalogue photoréaliste d’un(e) Amortisseur, Vue complète, pièce automobile seule, détourée, fond transparent, sans marque, sans logo, sans texte, éclairage studio homogène, ombre légère, format carré 1024 x 1024."
+    },
+    {
+        "priority":  14,
+        "familyId":  "shock-absorber",
+        "familyLabel":  "Amortisseur",
+        "fileName":  "generic-02.webp",
+        "destination":  ".\\public\\media\\parts\\shock-absorber\\generic-02.webp",
+        "view":  "Fixation supérieure",
+        "prompt":  "Photo catalogue photoréaliste d’un(e) Amortisseur, Fixation supérieure, pièce automobile seule, détourée, fond transparent, sans marque, sans logo, sans texte, éclairage studio homogène, ombre légère, format carré 1024 x 1024."
+    },
+    {
+        "priority":  15,
+        "familyId":  "shock-absorber",
+        "familyLabel":  "Amortisseur",
+        "fileName":  "generic-03.webp",
+        "destination":  ".\\public\\media\\parts\\shock-absorber\\generic-03.webp",
+        "view":  "Fixation inférieure",
+        "prompt":  "Photo catalogue photoréaliste d’un(e) Amortisseur, Fixation inférieure, pièce automobile seule, détourée, fond transparent, sans marque, sans logo, sans texte, éclairage studio homogène, ombre légère, format carré 1024 x 1024."
+    },
+    {
+        "priority":  16,
+        "familyId":  "control-arm",
+        "familyLabel":  "Triangle de suspension",
+        "fileName":  "generic-01.webp",
+        "destination":  ".\\public\\media\\parts\\control-arm\\generic-01.webp",
+        "view":  "Vue 3/4",
+        "prompt":  "Photo catalogue photoréaliste d’un(e) Triangle de suspension, Vue 3/4, pièce automobile seule, détourée, fond transparent, sans marque, sans logo, sans texte, éclairage studio homogène, ombre légère, format carré 1024 x 1024."
+    },
+    {
+        "priority":  17,
+        "familyId":  "control-arm",
+        "familyLabel":  "Triangle de suspension",
+        "fileName":  "generic-02.webp",
+        "destination":  ".\\public\\media\\parts\\control-arm\\generic-02.webp",
+        "view":  "Rotule",
+        "prompt":  "Photo catalogue photoréaliste d’un(e) Triangle de suspension, Rotule, pièce automobile seule, détourée, fond transparent, sans marque, sans logo, sans texte, éclairage studio homogène, ombre légère, format carré 1024 x 1024."
+    },
+    {
+        "priority":  18,
+        "familyId":  "control-arm",
+        "familyLabel":  "Triangle de suspension",
+        "fileName":  "generic-03.webp",
+        "destination":  ".\\public\\media\\parts\\control-arm\\generic-03.webp",
+        "view":  "Silentblocs",
+        "prompt":  "Photo catalogue photoréaliste d’un(e) Triangle de suspension, Silentblocs, pièce automobile seule, détourée, fond transparent, sans marque, sans logo, sans texte, éclairage studio homogène, ombre légère, format carré 1024 x 1024."
+    },
+    {
+        "priority":  19,
+        "familyId":  "wheel-bearing",
+        "familyLabel":  "Roulement de roue",
+        "fileName":  "generic-01.webp",
+        "destination":  ".\\public\\media\\parts\\wheel-bearing\\generic-01.webp",
+        "view":  "Vue 3/4",
+        "prompt":  "Photo catalogue photoréaliste d’un(e) Roulement de roue, Vue 3/4, pièce automobile seule, détourée, fond transparent, sans marque, sans logo, sans texte, éclairage studio homogène, ombre légère, format carré 1024 x 1024."
+    },
+    {
+        "priority":  20,
+        "familyId":  "wheel-bearing",
+        "familyLabel":  "Roulement de roue",
+        "fileName":  "generic-02.webp",
+        "destination":  ".\\public\\media\\parts\\wheel-bearing\\generic-02.webp",
+        "view":  "Vue de face",
+        "prompt":  "Photo catalogue photoréaliste d’un(e) Roulement de roue, Vue de face, pièce automobile seule, détourée, fond transparent, sans marque, sans logo, sans texte, éclairage studio homogène, ombre légère, format carré 1024 x 1024."
+    },
+    {
+        "priority":  21,
+        "familyId":  "wheel-bearing",
+        "familyLabel":  "Roulement de roue",
+        "fileName":  "generic-03.webp",
+        "destination":  ".\\public\\media\\parts\\wheel-bearing\\generic-03.webp",
+        "view":  "Fixations et capteur",
+        "prompt":  "Photo catalogue photoréaliste d’un(e) Roulement de roue, Fixations et capteur, pièce automobile seule, détourée, fond transparent, sans marque, sans logo, sans texte, éclairage studio homogène, ombre légère, format carré 1024 x 1024."
+    },
+    {
+        "priority":  22,
+        "familyId":  "oil-filter",
+        "familyLabel":  "Filtre à huile",
+        "fileName":  "generic-01.webp",
+        "destination":  ".\\public\\media\\parts\\oil-filter\\generic-01.webp",
+        "view":  "Vue 3/4",
+        "prompt":  "Photo catalogue photoréaliste d’un(e) Filtre à huile, Vue 3/4, pièce automobile seule, détourée, fond transparent, sans marque, sans logo, sans texte, éclairage studio homogène, ombre légère, format carré 1024 x 1024."
+    },
+    {
+        "priority":  23,
+        "familyId":  "oil-filter",
+        "familyLabel":  "Filtre à huile",
+        "fileName":  "generic-02.webp",
+        "destination":  ".\\public\\media\\parts\\oil-filter\\generic-02.webp",
+        "view":  "Filetage",
+        "prompt":  "Photo catalogue photoréaliste d’un(e) Filtre à huile, Filetage, pièce automobile seule, détourée, fond transparent, sans marque, sans logo, sans texte, éclairage studio homogène, ombre légère, format carré 1024 x 1024."
+    },
+    {
+        "priority":  24,
+        "familyId":  "oil-filter",
+        "familyLabel":  "Filtre à huile",
+        "fileName":  "generic-03.webp",
+        "destination":  ".\\public\\media\\parts\\oil-filter\\generic-03.webp",
+        "view":  "Joint",
+        "prompt":  "Photo catalogue photoréaliste d’un(e) Filtre à huile, Joint, pièce automobile seule, détourée, fond transparent, sans marque, sans logo, sans texte, éclairage studio homogène, ombre légère, format carré 1024 x 1024."
+    },
+    {
+        "priority":  25,
+        "familyId":  "air-filter",
+        "familyLabel":  "Filtre à air",
+        "fileName":  "generic-01.webp",
+        "destination":  ".\\public\\media\\parts\\air-filter\\generic-01.webp",
+        "view":  "Vue complète",
+        "prompt":  "Photo catalogue photoréaliste d’un(e) Filtre à air, Vue complète, pièce automobile seule, détourée, fond transparent, sans marque, sans logo, sans texte, éclairage studio homogène, ombre légère, format carré 1024 x 1024."
+    },
+    {
+        "priority":  26,
+        "familyId":  "air-filter",
+        "familyLabel":  "Filtre à air",
+        "fileName":  "generic-02.webp",
+        "destination":  ".\\public\\media\\parts\\air-filter\\generic-02.webp",
+        "view":  "Plis filtrants",
+        "prompt":  "Photo catalogue photoréaliste d’un(e) Filtre à air, Plis filtrants, pièce automobile seule, détourée, fond transparent, sans marque, sans logo, sans texte, éclairage studio homogène, ombre légère, format carré 1024 x 1024."
+    },
+    {
+        "priority":  27,
+        "familyId":  "air-filter",
+        "familyLabel":  "Filtre à air",
+        "fileName":  "generic-03.webp",
+        "destination":  ".\\public\\media\\parts\\air-filter\\generic-03.webp",
+        "view":  "Vue de profil",
+        "prompt":  "Photo catalogue photoréaliste d’un(e) Filtre à air, Vue de profil, pièce automobile seule, détourée, fond transparent, sans marque, sans logo, sans texte, éclairage studio homogène, ombre légère, format carré 1024 x 1024."
+    },
+    {
+        "priority":  28,
+        "familyId":  "spark-plug",
+        "familyLabel":  "Bougie d’allumage",
+        "fileName":  "generic-01.webp",
+        "destination":  ".\\public\\media\\parts\\spark-plug\\generic-01.webp",
+        "view":  "Vue complète",
+        "prompt":  "Photo catalogue photoréaliste d’un(e) Bougie d’allumage, Vue complète, pièce automobile seule, détourée, fond transparent, sans marque, sans logo, sans texte, éclairage studio homogène, ombre légère, format carré 1024 x 1024."
+    },
+    {
+        "priority":  29,
+        "familyId":  "spark-plug",
+        "familyLabel":  "Bougie d’allumage",
+        "fileName":  "generic-02.webp",
+        "destination":  ".\\public\\media\\parts\\spark-plug\\generic-02.webp",
+        "view":  "Électrode",
+        "prompt":  "Photo catalogue photoréaliste d’un(e) Bougie d’allumage, Électrode, pièce automobile seule, détourée, fond transparent, sans marque, sans logo, sans texte, éclairage studio homogène, ombre légère, format carré 1024 x 1024."
+    },
+    {
+        "priority":  30,
+        "familyId":  "spark-plug",
+        "familyLabel":  "Bougie d’allumage",
+        "fileName":  "generic-03.webp",
+        "destination":  ".\\public\\media\\parts\\spark-plug\\generic-03.webp",
+        "view":  "Filetage",
+        "prompt":  "Photo catalogue photoréaliste d’un(e) Bougie d’allumage, Filetage, pièce automobile seule, détourée, fond transparent, sans marque, sans logo, sans texte, éclairage studio homogène, ombre légère, format carré 1024 x 1024."
+    }
+]

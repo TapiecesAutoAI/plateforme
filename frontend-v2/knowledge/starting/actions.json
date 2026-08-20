@@ -1,0 +1,1614 @@
+[
+    {
+        "id":  "starting-main-behaviour",
+        "workflowId":  "starting",
+        "type":  "ask-question",
+        "text":  "Que se passe-t-il lorsque vous essayez de démarrer le véhicule ?",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  1,
+        "options":  [
+                        {
+                            "id":  "engine-not-turning",
+                            "label":  "Le moteur ne tourne pas",
+                            "value":  "Le moteur ne tourne pas pendant la tentative de démarrage.",
+                            "addsEvidence":  [
+                                                 "symptom-no-crank"
+                                             ],
+                            "nextActionId":  "starting-no-crank-sound"
+                        },
+                        {
+                            "id":  "engine-turning-slowly",
+                            "label":  "Le moteur tourne lentement",
+                            "value":  "Le moteur tourne lentement pendant la tentative de démarrage.",
+                            "addsEvidence":  [
+                                                 "symptom-slow-cranking"
+                                             ],
+                            "nextActionId":  "starting-slow-crank-lights"
+                        },
+                        {
+                            "id":  "engine-cranks",
+                            "label":  "Le moteur tourne normalement mais ne démarre pas",
+                            "value":  "Le moteur tourne normalement mais ne démarre pas.",
+                            "addsEvidence":  [
+                                                 "symptom-engine-cranks"
+                                             ],
+                            "nextActionId":  "starting-general-lights"
+                        },
+                        {
+                            "id":  "single-click",
+                            "label":  "J\u0027entends un seul clic",
+                            "value":  "Un seul clic est entendu pendant la tentative de démarrage.",
+                            "addsEvidence":  [
+                                                 "symptom-single-click"
+                                             ],
+                            "nextActionId":  "starting-single-click-lights"
+                        },
+                        {
+                            "id":  "rapid-clicking",
+                            "label":  "J\u0027entends plusieurs clics rapides",
+                            "value":  "Plusieurs clics rapides sont entendus pendant la tentative de démarrage.",
+                            "addsEvidence":  [
+                                                 "symptom-rapid-clicking"
+                                             ],
+                            "nextActionId":  "starting-rapid-click-lights"
+                        },
+                        {
+                            "id":  "starter-spins-free",
+                            "label":  "Le démarreur tourne dans le vide",
+                            "value":  "Le démarreur tourne rapidement sans entraîner le moteur.",
+                            "addsEvidence":  [
+                                                 "symptom-starter-spins-free"
+                                             ],
+                            "nextActionId":  "starting-confirm-starter-drive"
+                        }
+                    ]
+    },
+    {
+        "id":  "starting-no-crank-sound",
+        "workflowId":  "starting",
+        "type":  "ask-question",
+        "text":  "Quel bruit entendez-vous lorsque le moteur ne tourne pas ?",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  2,
+        "options":  [
+                        {
+                            "id":  "single-click",
+                            "label":  "Un seul clic",
+                            "value":  "Un seul clic est entendu.",
+                            "addsEvidence":  [
+                                                 "symptom-single-click"
+                                             ],
+                            "nextActionId":  "starting-single-click-lights"
+                        },
+                        {
+                            "id":  "rapid-clicking",
+                            "label":  "Plusieurs clics rapides",
+                            "value":  "Plusieurs clics rapides sont entendus.",
+                            "addsEvidence":  [
+                                                 "symptom-rapid-clicking"
+                                             ],
+                            "nextActionId":  "starting-rapid-click-lights"
+                        },
+                        {
+                            "id":  "starter-spins-free",
+                            "label":  "Le démarreur tourne rapidement dans le vide",
+                            "value":  "Le démarreur tourne sans entraîner le moteur.",
+                            "addsEvidence":  [
+                                                 "symptom-starter-spins-free"
+                                             ],
+                            "nextActionId":  "starting-confirm-starter-drive"
+                        },
+                        {
+                            "id":  "no-sound",
+                            "label":  "Aucun bruit",
+                            "value":  "Aucun bruit n\u0027est entendu.",
+                            "nextActionId":  "starting-no-sound-lights"
+                        },
+                        {
+                            "id":  "unsure",
+                            "label":  "Je ne sais pas",
+                            "value":  "Le bruit n\u0027est pas identifié.",
+                            "nextActionId":  "starting-general-lights"
+                        }
+                    ],
+        "requiredEvidence":  [
+                                 "symptom-no-crank"
+                             ]
+    },
+    {
+        "id":  "starting-no-sound-lights",
+        "workflowId":  "starting",
+        "type":  "request-observation",
+        "text":  "Lorsque vous essayez de démarrer, les voyants restent-ils allumés normalement ?",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  3,
+        "options":  [
+                        {
+                            "id":  "off",
+                            "label":  "Non, ils s\u0027éteignent",
+                            "value":  "Les voyants s\u0027éteignent.",
+                            "addsEvidence":  [
+                                                 "observation-lights-dim-strongly"
+                                             ]
+                        },
+                        {
+                            "id":  "dim",
+                            "label":  "Ils faiblissent fortement",
+                            "value":  "Les voyants faiblissent fortement.",
+                            "addsEvidence":  [
+                                                 "observation-lights-dim-strongly"
+                                             ]
+                        },
+                        {
+                            "id":  "normal",
+                            "label":  "Oui, ils restent normaux",
+                            "value":  "Les voyants restent normaux.",
+                            "addsEvidence":  [
+                                                 "observation-lights-stay-normal"
+                                             ]
+                        },
+                        {
+                            "id":  "unsure",
+                            "label":  "Je ne sais pas",
+                            "value":  "Le comportement des voyants n\u0027est pas connu."
+                        }
+                    ],
+        "requiredEvidence":  [
+                                 "symptom-no-crank"
+                             ]
+    },
+    {
+        "id":  "starting-single-click-lights",
+        "workflowId":  "starting",
+        "type":  "request-observation",
+        "text":  "Au moment du clic unique, les voyants ou les phares faiblissent-ils ?",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  4,
+        "options":  [
+                        {
+                            "id":  "strongly",
+                            "label":  "Oui, fortement",
+                            "value":  "Les éclairages faiblissent fortement.",
+                            "addsEvidence":  [
+                                                 "observation-lights-dim-strongly"
+                                             ]
+                        },
+                        {
+                            "id":  "slightly",
+                            "label":  "Oui, légèrement",
+                            "value":  "Les éclairages faiblissent légèrement.",
+                            "addsEvidence":  [
+                                                 "observation-lights-dim-slightly"
+                                             ]
+                        },
+                        {
+                            "id":  "normal",
+                            "label":  "Non, ils restent normaux",
+                            "value":  "Les éclairages restent normaux.",
+                            "addsEvidence":  [
+                                                 "observation-lights-stay-normal"
+                                             ]
+                        },
+                        {
+                            "id":  "unsure",
+                            "label":  "Je ne sais pas",
+                            "value":  "La variation n\u0027est pas connue."
+                        }
+                    ],
+        "requiredEvidence":  [
+                                 "symptom-single-click"
+                             ]
+    },
+    {
+        "id":  "starting-rapid-click-lights",
+        "workflowId":  "starting",
+        "type":  "request-observation",
+        "text":  "Pendant les clics rapides, les voyants ou les phares faiblissent-ils ?",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  5,
+        "options":  [
+                        {
+                            "id":  "strongly",
+                            "label":  "Oui, fortement",
+                            "value":  "Les éclairages faiblissent fortement.",
+                            "addsEvidence":  [
+                                                 "observation-lights-dim-strongly"
+                                             ]
+                        },
+                        {
+                            "id":  "slightly",
+                            "label":  "Oui, légèrement",
+                            "value":  "Les éclairages faiblissent légèrement.",
+                            "addsEvidence":  [
+                                                 "observation-lights-dim-slightly"
+                                             ]
+                        },
+                        {
+                            "id":  "normal",
+                            "label":  "Non, ils restent normaux",
+                            "value":  "Les éclairages restent normaux.",
+                            "addsEvidence":  [
+                                                 "observation-lights-stay-normal"
+                                             ]
+                        },
+                        {
+                            "id":  "unsure",
+                            "label":  "Je ne sais pas",
+                            "value":  "La variation n\u0027est pas connue."
+                        }
+                    ],
+        "requiredEvidence":  [
+                                 "symptom-rapid-clicking"
+                             ]
+    },
+    {
+        "id":  "starting-slow-crank-lights",
+        "workflowId":  "starting",
+        "type":  "request-observation",
+        "text":  "Pendant que le moteur tourne lentement, les voyants ou les phares faiblissent-ils ?",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  6,
+        "options":  [
+                        {
+                            "id":  "strongly",
+                            "label":  "Oui, fortement",
+                            "value":  "Les éclairages faiblissent fortement.",
+                            "addsEvidence":  [
+                                                 "observation-lights-dim-strongly"
+                                             ]
+                        },
+                        {
+                            "id":  "slightly",
+                            "label":  "Oui, légèrement",
+                            "value":  "Les éclairages faiblissent légèrement.",
+                            "addsEvidence":  [
+                                                 "observation-lights-dim-slightly"
+                                             ]
+                        },
+                        {
+                            "id":  "normal",
+                            "label":  "Non, ils restent normaux",
+                            "value":  "Les éclairages restent normaux.",
+                            "addsEvidence":  [
+                                                 "observation-lights-stay-normal"
+                                             ]
+                        },
+                        {
+                            "id":  "unsure",
+                            "label":  "Je ne sais pas",
+                            "value":  "La variation n\u0027est pas connue."
+                        }
+                    ],
+        "requiredEvidence":  [
+                                 "symptom-slow-cranking"
+                             ]
+    },
+    {
+        "id":  "starting-general-lights",
+        "workflowId":  "starting",
+        "type":  "request-observation",
+        "text":  "Les voyants ou les phares faiblissent-ils pendant la tentative de démarrage ?",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  7,
+        "options":  [
+                        {
+                            "id":  "strongly",
+                            "label":  "Oui, fortement",
+                            "value":  "Les éclairages faiblissent fortement.",
+                            "addsEvidence":  [
+                                                 "observation-lights-dim-strongly"
+                                             ]
+                        },
+                        {
+                            "id":  "slightly",
+                            "label":  "Oui, légèrement",
+                            "value":  "Les éclairages faiblissent légèrement.",
+                            "addsEvidence":  [
+                                                 "observation-lights-dim-slightly"
+                                             ]
+                        },
+                        {
+                            "id":  "normal",
+                            "label":  "Non, ils restent normaux",
+                            "value":  "Les éclairages restent normaux.",
+                            "addsEvidence":  [
+                                                 "observation-lights-stay-normal"
+                                             ]
+                        },
+                        {
+                            "id":  "dim",
+                            "label":  "Oui, sans pouvoir préciser",
+                            "value":  "Les éclairages faiblissent.",
+                            "addsEvidence":  [
+                                                 "observation-lights-dim"
+                                             ]
+                        },
+                        {
+                            "id":  "unsure",
+                            "label":  "Je ne sais pas",
+                            "value":  "La variation n\u0027est pas connue."
+                        }
+                    ]
+    },
+    {
+        "id":  "starting-booster-availability",
+        "workflowId":  "starting",
+        "type":  "ask-question",
+        "text":  "Pouvez-vous essayer de démarrer avec des câbles ou un booster correctement branché ?",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  8,
+        "options":  [
+                        {
+                            "id":  "yes",
+                            "label":  "Oui",
+                            "value":  "Un test avec booster peut être effectué."
+                        },
+                        {
+                            "id":  "success",
+                            "label":  "Le véhicule a déjà démarré avec un booster",
+                            "value":  "Le véhicule démarre avec un booster.",
+                            "addsEvidence":  [
+                                                 "observation-jump-start-success"
+                                             ]
+                        },
+                        {
+                            "id":  "failed",
+                            "label":  "Le véhicule n\u0027a pas démarré avec un booster",
+                            "value":  "Le véhicule ne démarre pas avec un booster.",
+                            "addsEvidence":  [
+                                                 "observation-jump-start-fails"
+                                             ]
+                        },
+                        {
+                            "id":  "no",
+                            "label":  "Non",
+                            "value":  "Le test ne peut pas être effectué."
+                        }
+                    ]
+    },
+    {
+        "id":  "starting-booster-test",
+        "workflowId":  "starting",
+        "type":  "request-observation",
+        "text":  "Le véhicule démarre-t-il avec les câbles ou le booster ?",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  9,
+        "options":  [
+                        {
+                            "id":  "yes",
+                            "label":  "Oui",
+                            "value":  "Le véhicule démarre avec assistance.",
+                            "addsEvidence":  [
+                                                 "observation-jump-start-success"
+                                             ],
+                            "rejectsEvidence":  [
+                                                    "observation-jump-start-fails"
+                                                ]
+                        },
+                        {
+                            "id":  "no",
+                            "label":  "Non",
+                            "value":  "Le véhicule ne démarre pas avec assistance.",
+                            "addsEvidence":  [
+                                                 "observation-jump-start-fails"
+                                             ],
+                            "rejectsEvidence":  [
+                                                    "observation-jump-start-success"
+                                                ]
+                        },
+                        {
+                            "id":  "not-tested",
+                            "label":  "Test non effectué",
+                            "value":  "Le test n\u0027a pas été effectué."
+                        }
+                    ]
+    },
+    {
+        "id":  "starting-after-jump-start-success",
+        "workflowId":  "starting",
+        "type":  "ask-question",
+        "text":  "Après le démarrage assisté, le moteur continue-t-il à fonctionner ?",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  10,
+        "options":  [
+                        {
+                            "id":  "yes",
+                            "label":  "Oui",
+                            "value":  "Le moteur continue à fonctionner."
+                        },
+                        {
+                            "id":  "no",
+                            "label":  "Non",
+                            "value":  "Le moteur s\u0027arrête après le retrait de l\u0027assistance."
+                        },
+                        {
+                            "id":  "unsure",
+                            "label":  "Je ne sais pas",
+                            "value":  "Le comportement n\u0027est pas connu."
+                        }
+                    ],
+        "requiredEvidence":  [
+                                 "observation-jump-start-success"
+                             ]
+    },
+    {
+        "id":  "starting-restart-after-jump",
+        "workflowId":  "starting",
+        "type":  "request-observation",
+        "text":  "Après avoir arrêté le moteur, le véhicule redémarre-t-il sans booster ?",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  11,
+        "options":  [
+                        {
+                            "id":  "yes",
+                            "label":  "Oui",
+                            "value":  "Le véhicule redémarre normalement."
+                        },
+                        {
+                            "id":  "no",
+                            "label":  "Non",
+                            "value":  "Le véhicule ne redémarre pas."
+                        },
+                        {
+                            "id":  "slow",
+                            "label":  "Oui, mais lentement",
+                            "value":  "Le véhicule redémarre lentement.",
+                            "addsEvidence":  [
+                                                 "symptom-slow-cranking"
+                                             ]
+                        },
+                        {
+                            "id":  "not-tested",
+                            "label":  "Test non effectué",
+                            "value":  "Le redémarrage n\u0027a pas été testé."
+                        }
+                    ],
+        "requiredEvidence":  [
+                                 "observation-jump-start-success"
+                             ]
+    },
+    {
+        "id":  "starting-battery-age",
+        "workflowId":  "starting",
+        "type":  "ask-question",
+        "text":  "Quel âge approximatif a la batterie ?",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  12,
+        "options":  [
+                        {
+                            "id":  "under-two",
+                            "label":  "Moins de 2 ans",
+                            "value":  "La batterie a moins de deux ans."
+                        },
+                        {
+                            "id":  "two-four",
+                            "label":  "Entre 2 et 4 ans",
+                            "value":  "La batterie a entre deux et quatre ans."
+                        },
+                        {
+                            "id":  "over-four",
+                            "label":  "Plus de 4 ans",
+                            "value":  "La batterie a plus de quatre ans."
+                        },
+                        {
+                            "id":  "unknown",
+                            "label":  "Je ne sais pas",
+                            "value":  "L\u0027âge de la batterie est inconnu."
+                        }
+                    ]
+    },
+    {
+        "id":  "starting-battery-voltage-known",
+        "workflowId":  "starting",
+        "type":  "ask-question",
+        "text":  "Avez-vous mesuré la tension de la batterie moteur arrêté ?",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  13,
+        "options":  [
+                        {
+                            "id":  "yes",
+                            "label":  "Oui",
+                            "value":  "La tension a été mesurée."
+                        },
+                        {
+                            "id":  "no",
+                            "label":  "Non",
+                            "value":  "La tension n\u0027a pas été mesurée."
+                        },
+                        {
+                            "id":  "no-meter",
+                            "label":  "Je n\u0027ai pas de multimètre",
+                            "value":  "Aucun multimètre n\u0027est disponible."
+                        }
+                    ]
+    },
+    {
+        "id":  "starting-battery-voltage-value",
+        "workflowId":  "starting",
+        "type":  "ask-question",
+        "text":  "Quelle tension avez-vous mesurée moteur arrêté ?",
+        "audiences":  [
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "intermediate",
+        "priority":  14,
+        "options":  [
+                        {
+                            "id":  "below-11-8",
+                            "label":  "Moins de 11,8 V",
+                            "value":  "La tension est inférieure à 11,8 V."
+                        },
+                        {
+                            "id":  "11-8-12-2",
+                            "label":  "Entre 11,8 V et 12,2 V",
+                            "value":  "La tension est comprise entre 11,8 V et 12,2 V."
+                        },
+                        {
+                            "id":  "12-2-12-5",
+                            "label":  "Entre 12,2 V et 12,5 V",
+                            "value":  "La tension est comprise entre 12,2 V et 12,5 V."
+                        },
+                        {
+                            "id":  "12-5-plus",
+                            "label":  "12,5 V ou plus",
+                            "value":  "La tension est égale ou supérieure à 12,5 V."
+                        },
+                        {
+                            "id":  "unknown",
+                            "label":  "Je ne connais pas la valeur exacte",
+                            "value":  "La valeur exacte est inconnue."
+                        }
+                    ]
+    },
+    {
+        "id":  "starting-check-battery-terminals",
+        "workflowId":  "starting",
+        "type":  "request-observation",
+        "text":  "Les bornes de la batterie sont-elles propres, serrées et sans oxydation ?",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  15,
+        "options":  [
+                        {
+                            "id":  "bad",
+                            "label":  "Non",
+                            "value":  "Les bornes sont sales, oxydées ou desserrées.",
+                            "addsEvidence":  [
+                                                 "observation-battery-terminals-bad"
+                                             ],
+                            "rejectsEvidence":  [
+                                                    "observation-battery-terminals-good"
+                                                ]
+                        },
+                        {
+                            "id":  "good",
+                            "label":  "Oui",
+                            "value":  "Les bornes sont propres et serrées.",
+                            "addsEvidence":  [
+                                                 "observation-battery-terminals-good"
+                                             ],
+                            "rejectsEvidence":  [
+                                                    "observation-battery-terminals-bad"
+                                                ]
+                        },
+                        {
+                            "id":  "unsure",
+                            "label":  "Je ne sais pas",
+                            "value":  "L\u0027état des bornes est inconnu."
+                        }
+                    ]
+    },
+    {
+        "id":  "starting-terminal-correction-result",
+        "workflowId":  "starting",
+        "type":  "request-observation",
+        "text":  "Après nettoyage et resserrage des bornes, le véhicule démarre-t-il ?",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  16,
+        "options":  [
+                        {
+                            "id":  "yes",
+                            "label":  "Oui",
+                            "value":  "Le véhicule démarre après correction des bornes."
+                        },
+                        {
+                            "id":  "improved",
+                            "label":  "Le démarrage s\u0027est amélioré",
+                            "value":  "Le démarrage s\u0027est amélioré mais reste anormal."
+                        },
+                        {
+                            "id":  "no",
+                            "label":  "Non",
+                            "value":  "Aucun changement n\u0027est observé."
+                        },
+                        {
+                            "id":  "not-done",
+                            "label":  "Opération non effectuée",
+                            "value":  "Les bornes n\u0027ont pas été corrigées."
+                        }
+                    ],
+        "requiredEvidence":  [
+                                 "observation-battery-terminals-bad"
+                             ]
+    },
+    {
+        "id":  "starting-ground-cable-check",
+        "workflowId":  "starting",
+        "type":  "request-observation",
+        "text":  "La liaison de masse entre la batterie, la carrosserie et le moteur semble-t-elle correcte ?",
+        "audiences":  [
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "intermediate",
+        "priority":  17,
+        "options":  [
+                        {
+                            "id":  "bad",
+                            "label":  "Non",
+                            "value":  "Une liaison de masse semble mauvaise."
+                        },
+                        {
+                            "id":  "good",
+                            "label":  "Oui",
+                            "value":  "Les liaisons de masse semblent correctes."
+                        },
+                        {
+                            "id":  "unsure",
+                            "label":  "Je ne sais pas",
+                            "value":  "L\u0027état des masses est inconnu."
+                        }
+                    ]
+    },
+    {
+        "id":  "starting-ground-correction-result",
+        "workflowId":  "starting",
+        "type":  "request-observation",
+        "text":  "Après correction de la liaison de masse, le véhicule démarre-t-il ?",
+        "audiences":  [
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "intermediate",
+        "priority":  18,
+        "options":  [
+                        {
+                            "id":  "yes",
+                            "label":  "Oui",
+                            "value":  "Le véhicule démarre après correction de la masse."
+                        },
+                        {
+                            "id":  "improved",
+                            "label":  "Le démarrage s\u0027est amélioré",
+                            "value":  "Le démarrage s\u0027est amélioré."
+                        },
+                        {
+                            "id":  "no",
+                            "label":  "Non",
+                            "value":  "Aucun changement n\u0027est observé."
+                        },
+                        {
+                            "id":  "not-done",
+                            "label":  "Opération non effectuée",
+                            "value":  "La liaison de masse n\u0027a pas été corrigée."
+                        }
+                    ]
+    },
+    {
+        "id":  "starting-booster-sound",
+        "workflowId":  "starting",
+        "type":  "ask-question",
+        "text":  "Avec le booster branché, quel comportement observez-vous ?",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  19,
+        "options":  [
+                        {
+                            "id":  "single-click",
+                            "label":  "Un seul clic",
+                            "value":  "Un seul clic est entendu avec le booster.",
+                            "addsEvidence":  [
+                                                 "observation-booster-single-click"
+                                             ]
+                        },
+                        {
+                            "id":  "rapid-clicking",
+                            "label":  "Plusieurs clics rapides",
+                            "value":  "Plusieurs clics rapides sont entendus avec le booster.",
+                            "addsEvidence":  [
+                                                 "observation-booster-rapid-clicking"
+                                             ]
+                        },
+                        {
+                            "id":  "no-change",
+                            "label":  "Aucun changement",
+                            "value":  "Le booster ne change pas le comportement.",
+                            "addsEvidence":  [
+                                                 "observation-booster-no-change"
+                                             ]
+                        },
+                        {
+                            "id":  "cranks",
+                            "label":  "Le moteur tourne maintenant normalement",
+                            "value":  "Le moteur est entraîné normalement."
+                        },
+                        {
+                            "id":  "not-tested",
+                            "label":  "Test non effectué",
+                            "value":  "Le comportement avec booster n\u0027est pas connu."
+                        }
+                    ]
+    },
+    {
+        "id":  "starting-booster-connection-check",
+        "workflowId":  "starting",
+        "type":  "request-observation",
+        "text":  "Les pinces du booster sont-elles correctement fixées sur du métal propre ?",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  20,
+        "options":  [
+                        {
+                            "id":  "yes",
+                            "label":  "Oui",
+                            "value":  "Le branchement est correct."
+                        },
+                        {
+                            "id":  "no",
+                            "label":  "Non",
+                            "value":  "Le branchement n\u0027était pas correct."
+                        },
+                        {
+                            "id":  "unsure",
+                            "label":  "Je ne sais pas",
+                            "value":  "La qualité du branchement est inconnue."
+                        }
+                    ]
+    },
+    {
+        "id":  "starting-booster-retest",
+        "workflowId":  "starting",
+        "type":  "request-observation",
+        "text":  "Après correction du branchement du booster, le véhicule démarre-t-il ?",
+        "audiences":  [
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  21,
+        "options":  [
+                        {
+                            "id":  "yes",
+                            "label":  "Oui",
+                            "value":  "Le véhicule démarre après correction du branchement.",
+                            "addsEvidence":  [
+                                                 "observation-jump-start-success"
+                                             ]
+                        },
+                        {
+                            "id":  "no",
+                            "label":  "Non",
+                            "value":  "Le véhicule ne démarre toujours pas.",
+                            "addsEvidence":  [
+                                                 "observation-jump-start-fails"
+                                             ]
+                        },
+                        {
+                            "id":  "not-tested",
+                            "label":  "Test non effectué",
+                            "value":  "Le test n\u0027a pas été refait."
+                        }
+                    ]
+    },
+    {
+        "id":  "starting-starter-supply-check",
+        "workflowId":  "starting",
+        "type":  "request-observation",
+        "text":  "Le câble principal du démarreur semble-t-il bien fixé et sans échauffement ?",
+        "audiences":  [
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "intermediate",
+        "priority":  22,
+        "options":  [
+                        {
+                            "id":  "good",
+                            "label":  "Oui",
+                            "value":  "Le câble semble correct."
+                        },
+                        {
+                            "id":  "bad",
+                            "label":  "Non",
+                            "value":  "Le câble semble desserré ou détérioré."
+                        },
+                        {
+                            "id":  "unknown",
+                            "label":  "Je ne sais pas",
+                            "value":  "L\u0027état du câble est inconnu."
+                        }
+                    ]
+    },
+    {
+        "id":  "starting-starter-cable-repair",
+        "workflowId":  "starting",
+        "type":  "request-observation",
+        "text":  "Après correction du câble du démarreur, le moteur démarre-t-il ?",
+        "audiences":  [
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "intermediate",
+        "priority":  23,
+        "options":  [
+                        {
+                            "id":  "yes",
+                            "label":  "Oui",
+                            "value":  "Le véhicule démarre après correction du câble."
+                        },
+                        {
+                            "id":  "no",
+                            "label":  "Non",
+                            "value":  "Le problème persiste."
+                        },
+                        {
+                            "id":  "not-done",
+                            "label":  "Réparation non effectuée",
+                            "value":  "Le câble n\u0027a pas été corrigé."
+                        }
+                    ]
+    },
+    {
+        "id":  "starting-starter-command-check",
+        "workflowId":  "starting",
+        "type":  "request-observation",
+        "text":  "Le petit fil de commande du démarreur reçoit-il une tension pendant la tentative de démarrage ?",
+        "audiences":  [
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "advanced",
+        "priority":  24,
+        "options":  [
+                        {
+                            "id":  "yes",
+                            "label":  "Oui",
+                            "value":  "La commande du démarreur reçoit une tension.",
+                            "addsEvidence":  [
+                                                 "observation-starter-control-voltage-present"
+                                             ]
+                        },
+                        {
+                            "id":  "no",
+                            "label":  "Non",
+                            "value":  "La commande du démarreur ne reçoit pas de tension.",
+                            "addsEvidence":  [
+                                                 "observation-starter-control-voltage-absent"
+                                             ]
+                        },
+                        {
+                            "id":  "unknown",
+                            "label":  "Test non effectué",
+                            "value":  "La commande n\u0027a pas été mesurée."
+                        }
+                    ]
+    },
+    {
+        "id":  "starting-neutral-clutch-check",
+        "workflowId":  "starting",
+        "type":  "ask-question",
+        "text":  "Le véhicule démarre-t-il en position neutre ou en appuyant complètement sur l\u0027embrayage ?",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  25,
+        "options":  [
+                        {
+                            "id":  "yes",
+                            "label":  "Oui",
+                            "value":  "Le véhicule démarre après correction de la position ou de l\u0027appui sur l\u0027embrayage."
+                        },
+                        {
+                            "id":  "no",
+                            "label":  "Non",
+                            "value":  "Le comportement ne change pas."
+                        },
+                        {
+                            "id":  "not-applicable",
+                            "label":  "Non applicable",
+                            "value":  "Ce contrôle n\u0027est pas applicable."
+                        }
+                    ]
+    },
+    {
+        "id":  "starting-ignition-switch-check",
+        "workflowId":  "starting",
+        "type":  "request-observation",
+        "text":  "Le tableau de bord et les accessoires réagissent-ils normalement lorsque la clé est tournée ?",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  26,
+        "options":  [
+                        {
+                            "id":  "yes",
+                            "label":  "Oui",
+                            "value":  "Le contacteur semble alimenter normalement le véhicule."
+                        },
+                        {
+                            "id":  "no",
+                            "label":  "Non",
+                            "value":  "Le contact électrique semble anormal."
+                        },
+                        {
+                            "id":  "unsure",
+                            "label":  "Je ne sais pas",
+                            "value":  "Le comportement du contacteur est inconnu."
+                        }
+                    ]
+    },
+    {
+        "id":  "starting-confirm-starter-drive",
+        "workflowId":  "starting",
+        "type":  "request-observation",
+        "text":  "Le démarreur tourne-t-il rapidement sans entraîner le moteur ?",
+        "audiences":  [
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  27,
+        "options":  [
+                        {
+                            "id":  "yes",
+                            "label":  "Oui",
+                            "value":  "Le démarreur tourne sans entraîner le moteur.",
+                            "addsEvidence":  [
+                                                 "observation-starter-spins-without-engine"
+                                             ]
+                        },
+                        {
+                            "id":  "no",
+                            "label":  "Non",
+                            "value":  "Le démarreur ne tourne pas dans le vide.",
+                            "rejectsEvidence":  [
+                                                    "symptom-starter-spins-free"
+                                                ]
+                        },
+                        {
+                            "id":  "unsure",
+                            "label":  "Je ne sais pas",
+                            "value":  "Le bruit n\u0027est pas identifié."
+                        }
+                    ]
+    },
+    {
+        "id":  "starting-engine-seized-check",
+        "workflowId":  "starting",
+        "type":  "ask-question",
+        "text":  "Le moteur peut-il être tourné manuellement au vilebrequin ?",
+        "audiences":  [
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "advanced",
+        "priority":  28,
+        "options":  [
+                        {
+                            "id":  "yes",
+                            "label":  "Oui",
+                            "value":  "Le moteur tourne manuellement."
+                        },
+                        {
+                            "id":  "no",
+                            "label":  "Non",
+                            "value":  "Le moteur semble bloqué."
+                        },
+                        {
+                            "id":  "unknown",
+                            "label":  "Test non effectué",
+                            "value":  "Le test n\u0027a pas été effectué."
+                        }
+                    ]
+    },
+    {
+        "id":  "starting-crank-duration",
+        "workflowId":  "starting",
+        "type":  "ask-question",
+        "text":  "Pendant combien de temps le moteur tourne-t-il sans démarrer ?",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  40,
+        "options":  [
+                        {
+                            "id":  "under-three",
+                            "label":  "Moins de 3 secondes",
+                            "value":  "La tentative dure moins de trois secondes."
+                        },
+                        {
+                            "id":  "three-ten",
+                            "label":  "Entre 3 et 10 secondes",
+                            "value":  "La tentative dure entre trois et dix secondes."
+                        },
+                        {
+                            "id":  "over-ten",
+                            "label":  "Plus de 10 secondes",
+                            "value":  "La tentative dure plus de dix secondes."
+                        }
+                    ],
+        "requiredEvidence":  [
+                                 "symptom-engine-cranks"
+                             ]
+    },
+    {
+        "id":  "starting-engine-attempt",
+        "workflowId":  "starting",
+        "type":  "ask-question",
+        "text":  "Le moteur donne-t-il des signes qu\u0027il veut démarrer ?",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  30,
+        "options":  [
+                        {
+                            "id":  "yes",
+                            "label":  "Oui",
+                            "value":  "Le moteur donne quelques signes de démarrage.",
+                            "addsEvidence":  [
+                                                 "observation-engine-attempts-to-start"
+                                             ]
+                        },
+                        {
+                            "id":  "no",
+                            "label":  "Non",
+                            "value":  "Le moteur tourne sans jamais démarrer.",
+                            "addsEvidence":  [
+                                                 "observation-engine-no-attempt"
+                                             ]
+                        },
+                        {
+                            "id":  "unknown",
+                            "label":  "Je ne sais pas",
+                            "value":  "Le comportement n\u0027est pas identifié."
+                        }
+                    ]
+    },
+    {
+        "id":  "starting-fuel-question",
+        "workflowId":  "starting",
+        "type":  "ask-question",
+        "text":  "Le réservoir contient-il suffisamment de carburant ?",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  31,
+        "options":  [
+                        {
+                            "id":  "yes",
+                            "label":  "Oui",
+                            "value":  "Le réservoir contient du carburant."
+                        },
+                        {
+                            "id":  "no",
+                            "label":  "Non",
+                            "value":  "Le niveau de carburant est insuffisant."
+                        },
+                        {
+                            "id":  "unknown",
+                            "label":  "Je ne sais pas",
+                            "value":  "Le niveau de carburant est inconnu."
+                        }
+                    ]
+    },
+    {
+        "id":  "starting-immobilizer-question",
+        "workflowId":  "starting",
+        "type":  "request-observation",
+        "text":  "Un voyant de clé, cadenas ou antivol reste-t-il allumé ou clignote-t-il ?",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  32,
+        "options":  [
+                        {
+                            "id":  "yes",
+                            "label":  "Oui",
+                            "value":  "Un voyant d\u0027antidémarrage est actif.",
+                            "addsEvidence":  [
+                                                 "observation-immobilizer-warning"
+                                             ]
+                        },
+                        {
+                            "id":  "no",
+                            "label":  "Non",
+                            "value":  "Aucun voyant d\u0027antidémarrage anormal n\u0027est observé.",
+                            "addsEvidence":  [
+                                                 "observation-immobilizer-normal"
+                                             ]
+                        },
+                        {
+                            "id":  "unknown",
+                            "label":  "Je ne sais pas",
+                            "value":  "L\u0027état du voyant est inconnu."
+                        }
+                    ]
+    },
+    {
+        "id":  "starting-spare-key-test",
+        "workflowId":  "starting",
+        "type":  "request-observation",
+        "text":  "Le véhicule démarre-t-il avec la seconde clé ?",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  33,
+        "options":  [
+                        {
+                            "id":  "yes",
+                            "label":  "Oui",
+                            "value":  "Le véhicule démarre avec la seconde clé."
+                        },
+                        {
+                            "id":  "no",
+                            "label":  "Non",
+                            "value":  "Le problème reste identique."
+                        },
+                        {
+                            "id":  "none",
+                            "label":  "Je n\u0027ai pas de seconde clé",
+                            "value":  "Aucune seconde clé n\u0027est disponible."
+                        },
+                        {
+                            "id":  "not-tested",
+                            "label":  "Test non effectué",
+                            "value":  "La seconde clé n\u0027a pas été testée."
+                        }
+                    ]
+    },
+    {
+        "id":  "starting-fuel-pump-sound",
+        "workflowId":  "starting",
+        "type":  "request-observation",
+        "text":  "Entendez-vous un léger bourdonnement à la mise du contact ?",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  34,
+        "options":  [
+                        {
+                            "id":  "yes",
+                            "label":  "Oui",
+                            "value":  "Un bourdonnement est entendu.",
+                            "addsEvidence":  [
+                                                 "observation-fuel-pump-prime-present"
+                                             ]
+                        },
+                        {
+                            "id":  "no",
+                            "label":  "Non",
+                            "value":  "Aucun bourdonnement n\u0027est entendu.",
+                            "addsEvidence":  [
+                                                 "observation-fuel-pump-prime-absent"
+                                             ]
+                        },
+                        {
+                            "id":  "diesel",
+                            "label":  "Le véhicule est diesel",
+                            "value":  "Le véhicule utilise un moteur diesel."
+                        },
+                        {
+                            "id":  "unknown",
+                            "label":  "Je ne sais pas",
+                            "value":  "Le bruit n\u0027est pas identifié."
+                        }
+                    ]
+    },
+    {
+        "id":  "starting-fuel-pump-fuse",
+        "workflowId":  "starting",
+        "type":  "request-observation",
+        "text":  "Le fusible de pompe à carburant est-il intact ?",
+        "audiences":  [
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "intermediate",
+        "priority":  35,
+        "options":  [
+                        {
+                            "id":  "good",
+                            "label":  "Oui",
+                            "value":  "Le fusible semble intact."
+                        },
+                        {
+                            "id":  "blown",
+                            "label":  "Non",
+                            "value":  "Le fusible est coupé."
+                        },
+                        {
+                            "id":  "unknown",
+                            "label":  "Je ne sais pas",
+                            "value":  "L\u0027état du fusible est inconnu."
+                        }
+                    ]
+    },
+    {
+        "id":  "starting-fuel-fuse-replacement",
+        "workflowId":  "starting",
+        "type":  "request-observation",
+        "text":  "Après remplacement par un fusible de même intensité, le véhicule démarre-t-il ?",
+        "audiences":  [
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "intermediate",
+        "priority":  36,
+        "options":  [
+                        {
+                            "id":  "yes",
+                            "label":  "Oui",
+                            "value":  "Le véhicule démarre après remplacement du fusible."
+                        },
+                        {
+                            "id":  "blows-again",
+                            "label":  "Le fusible coupe à nouveau",
+                            "value":  "Le fusible de remplacement coupe à nouveau."
+                        },
+                        {
+                            "id":  "no",
+                            "label":  "Non",
+                            "value":  "Le véhicule ne démarre toujours pas."
+                        },
+                        {
+                            "id":  "not-done",
+                            "label":  "Remplacement non effectué",
+                            "value":  "Le fusible n\u0027a pas été remplacé."
+                        }
+                    ]
+    },
+    {
+        "id":  "starting-fuel-pump-relay",
+        "workflowId":  "starting",
+        "type":  "request-observation",
+        "text":  "Le relais de pompe à carburant émet-il un clic à la mise du contact ?",
+        "audiences":  [
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "intermediate",
+        "priority":  37,
+        "options":  [
+                        {
+                            "id":  "yes",
+                            "label":  "Oui",
+                            "value":  "Le relais semble commandé."
+                        },
+                        {
+                            "id":  "no",
+                            "label":  "Non",
+                            "value":  "Le relais ne semble pas commandé."
+                        },
+                        {
+                            "id":  "unknown",
+                            "label":  "Je ne sais pas",
+                            "value":  "Le fonctionnement du relais est inconnu."
+                        }
+                    ]
+    },
+    {
+        "id":  "starting-glow-plug-light",
+        "workflowId":  "starting",
+        "type":  "request-observation",
+        "text":  "Le voyant de préchauffage s\u0027allume-t-il normalement ?",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  38,
+        "options":  [
+                        {
+                            "id":  "normal",
+                            "label":  "Oui",
+                            "value":  "Le voyant s\u0027allume puis s\u0027éteint normalement."
+                        },
+                        {
+                            "id":  "not-on",
+                            "label":  "Non",
+                            "value":  "Le voyant ne s\u0027allume pas."
+                        },
+                        {
+                            "id":  "flashing",
+                            "label":  "Il clignote",
+                            "value":  "Le voyant de préchauffage clignote."
+                        },
+                        {
+                            "id":  "unknown",
+                            "label":  "Je ne sais pas",
+                            "value":  "Le comportement du voyant est inconnu."
+                        }
+                    ]
+    },
+    {
+        "id":  "starting-glow-plug-fuse",
+        "workflowId":  "starting",
+        "type":  "request-observation",
+        "text":  "Le fusible principal du préchauffage est-il intact ?",
+        "audiences":  [
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "intermediate",
+        "priority":  39,
+        "options":  [
+                        {
+                            "id":  "good",
+                            "label":  "Oui",
+                            "value":  "Le fusible est intact."
+                        },
+                        {
+                            "id":  "blown",
+                            "label":  "Non",
+                            "value":  "Le fusible est coupé."
+                        },
+                        {
+                            "id":  "unknown",
+                            "label":  "Je ne sais pas",
+                            "value":  "L\u0027état du fusible est inconnu."
+                        }
+                    ]
+    },
+    {
+        "id":  "starting-engine-warning-lights",
+        "workflowId":  "starting",
+        "type":  "request-observation",
+        "text":  "Le voyant moteur ou un message d\u0027erreur est-il affiché ?",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  40,
+        "options":  [
+                        {
+                            "id":  "yes",
+                            "label":  "Oui",
+                            "value":  "Un voyant ou un message d\u0027erreur est affiché.",
+                            "addsEvidence":  [
+                                                 "observation-engine-warning"
+                                             ]
+                        },
+                        {
+                            "id":  "no",
+                            "label":  "Non",
+                            "value":  "Aucun voyant ou message inhabituel n\u0027est affiché.",
+                            "addsEvidence":  [
+                                                 "observation-engine-warning-absent"
+                                             ]
+                        },
+                        {
+                            "id":  "unknown",
+                            "label":  "Je ne sais pas",
+                            "value":  "Les informations du tableau de bord sont inconnues."
+                        }
+                    ]
+    },
+    {
+        "id":  "starting-conclude",
+        "workflowId":  "starting",
+        "type":  "complete-diagnosis",
+        "text":  "Calcul du diagnostic de démarrage.",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  100,
+        "diagnosisId":  "starting-diagnosis"
+    },
+    {
+        "id":  "vehicle-vin",
+        "workflowId":  "starting",
+        "type":  "request-vin",
+        "text":  "Indiquez le numéro VIN du véhicule.",
+        "purpose":  "Identifier précisément le véhicule avant de confirmer la compatibilité d\u0027une pièce.",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  999
+    }
+]

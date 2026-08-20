@@ -1,0 +1,422 @@
+﻿[
+  {
+    "id": "shock-leak-support-shock",
+    "evidenceId": "observation-suspension-shock-leaking",
+    "hypothesisId": "problem-shock-absorber",
+    "effect": "support",
+    "weight": 0.99
+  },
+  {
+    "id": "shock-damaged-support-shock",
+    "evidenceId": "observation-suspension-shock-damaged",
+    "hypothesisId": "problem-shock-absorber",
+    "effect": "support",
+    "weight": 0.98
+  },
+  {
+    "id": "bounce-failed-support-shock",
+    "evidenceId": "observation-suspension-bounce-test-failed",
+    "hypothesisId": "problem-shock-absorber",
+    "effect": "support",
+    "weight": 0.96
+  },
+  {
+    "id": "poor-damping-support-shock",
+    "evidenceId": "observation-suspension-poor-damping",
+    "hypothesisId": "problem-shock-absorber",
+    "effect": "support",
+    "weight": 0.94
+  },
+  {
+    "id": "excessive-dive-support-shock",
+    "evidenceId": "observation-suspension-excessive-brake-dive",
+    "hypothesisId": "problem-shock-absorber",
+    "effect": "support",
+    "weight": 0.86
+  },
+  {
+    "id": "shock-visual-good-contradict-shock",
+    "evidenceId": "observation-suspension-shock-visual-good",
+    "hypothesisId": "problem-shock-absorber",
+    "effect": "contradict",
+    "weight": 0.62
+  },
+  {
+    "id": "bounce-good-contradict-shock",
+    "evidenceId": "observation-suspension-bounce-test-good",
+    "hypothesisId": "problem-shock-absorber",
+    "effect": "contradict",
+    "weight": 0.78
+  },
+  {
+    "id": "damping-good-contradict-shock",
+    "evidenceId": "observation-suspension-damping-good",
+    "hypothesisId": "problem-shock-absorber",
+    "effect": "contradict",
+    "weight": 0.88
+  },
+  {
+    "id": "shock-mount-bad-support-mount",
+    "evidenceId": "observation-suspension-shock-mount-bad",
+    "hypothesisId": "problem-shock-mount",
+    "effect": "support",
+    "weight": 0.99
+  },
+  {
+    "id": "shock-mount-good-contradict-mount",
+    "evidenceId": "observation-suspension-shock-mount-good",
+    "hypothesisId": "problem-shock-mount",
+    "effect": "contradict",
+    "weight": 0.9
+  },
+  {
+    "id": "strut-bearing-bad-support-bearing",
+    "evidenceId": "observation-suspension-strut-bearing-bad",
+    "hypothesisId": "problem-strut-bearing",
+    "effect": "support",
+    "weight": 0.99
+  },
+  {
+    "id": "stabilizer-link-bad-support-link",
+    "evidenceId": "observation-suspension-stabilizer-link-bad",
+    "hypothesisId": "problem-stabilizer-link",
+    "effect": "support",
+    "weight": 1.0
+  },
+  {
+    "id": "clunk-support-link",
+    "evidenceId": "observation-suspension-noise-clunk",
+    "hypothesisId": "problem-stabilizer-link",
+    "effect": "support",
+    "weight": 0.78
+  },
+  {
+    "id": "rattle-support-link",
+    "evidenceId": "observation-suspension-noise-rattle",
+    "hypothesisId": "problem-stabilizer-link",
+    "effect": "support",
+    "weight": 0.74
+  },
+  {
+    "id": "stabilizer-bushing-bad-support-bushing",
+    "evidenceId": "observation-suspension-stabilizer-bushing-bad",
+    "hypothesisId": "problem-stabilizer-bushing",
+    "effect": "support",
+    "weight": 1.0
+  },
+  {
+    "id": "stabilizer-good-contradict-link",
+    "evidenceId": "observation-suspension-stabilizer-system-good",
+    "hypothesisId": "problem-stabilizer-link",
+    "effect": "contradict",
+    "weight": 0.9
+  },
+  {
+    "id": "stabilizer-good-contradict-bushing",
+    "evidenceId": "observation-suspension-stabilizer-system-good",
+    "hypothesisId": "problem-stabilizer-bushing",
+    "effect": "contradict",
+    "weight": 0.9
+  },
+  {
+    "id": "control-arm-bushing-bad-support",
+    "evidenceId": "observation-suspension-control-arm-bushing-bad",
+    "hypothesisId": "problem-control-arm-bushing",
+    "effect": "support",
+    "weight": 1.0
+  },
+  {
+    "id": "control-arm-bushing-good-contradict",
+    "evidenceId": "observation-suspension-control-arm-bushing-good",
+    "hypothesisId": "problem-control-arm-bushing",
+    "effect": "contradict",
+    "weight": 0.92
+  },
+  {
+    "id": "squeak-support-control-arm-bushing",
+    "evidenceId": "observation-suspension-noise-squeak",
+    "hypothesisId": "problem-control-arm-bushing",
+    "effect": "support",
+    "weight": 0.74
+  },
+  {
+    "id": "ball-joint-bad-support",
+    "evidenceId": "observation-suspension-ball-joint-bad",
+    "hypothesisId": "problem-ball-joint",
+    "effect": "support",
+    "weight": 1.0
+  },
+  {
+    "id": "vertical-play-support-ball-joint",
+    "evidenceId": "observation-suspension-wheel-play-vertical",
+    "hypothesisId": "problem-ball-joint",
+    "effect": "support",
+    "weight": 0.84
+  },
+  {
+    "id": "ball-joint-good-contradict",
+    "evidenceId": "observation-suspension-ball-joint-good",
+    "hypothesisId": "problem-ball-joint",
+    "effect": "contradict",
+    "weight": 0.92
+  },
+  {
+    "id": "front-spring-broken-support",
+    "evidenceId": "observation-suspension-front-spring-broken",
+    "hypothesisId": "problem-front-spring",
+    "effect": "support",
+    "weight": 1.0
+  },
+  {
+    "id": "front-spring-sagging-support",
+    "evidenceId": "observation-suspension-front-spring-sagging",
+    "hypothesisId": "problem-front-spring",
+    "effect": "support",
+    "weight": 0.98
+  },
+  {
+    "id": "front-spring-misplaced-support",
+    "evidenceId": "observation-suspension-front-spring-misplaced",
+    "hypothesisId": "problem-front-spring",
+    "effect": "support",
+    "weight": 0.96
+  },
+  {
+    "id": "front-height-support-front-spring",
+    "evidenceId": "observation-suspension-front-height-difference",
+    "hypothesisId": "problem-front-spring",
+    "effect": "support",
+    "weight": 0.86
+  },
+  {
+    "id": "front-springs-good-contradict",
+    "evidenceId": "observation-suspension-front-springs-good",
+    "hypothesisId": "problem-front-spring",
+    "effect": "contradict",
+    "weight": 0.94
+  },
+  {
+    "id": "rear-spring-broken-support",
+    "evidenceId": "observation-suspension-rear-spring-broken",
+    "hypothesisId": "problem-rear-spring",
+    "effect": "support",
+    "weight": 1.0
+  },
+  {
+    "id": "rear-spring-sagging-support",
+    "evidenceId": "observation-suspension-rear-spring-sagging",
+    "hypothesisId": "problem-rear-spring",
+    "effect": "support",
+    "weight": 0.98
+  },
+  {
+    "id": "rear-height-support-rear-spring",
+    "evidenceId": "observation-suspension-rear-height-difference",
+    "hypothesisId": "problem-rear-spring",
+    "effect": "support",
+    "weight": 0.86
+  },
+  {
+    "id": "rear-springs-good-contradict",
+    "evidenceId": "observation-suspension-rear-springs-good",
+    "hypothesisId": "problem-rear-spring",
+    "effect": "contradict",
+    "weight": 0.94
+  },
+  {
+    "id": "rear-link-bad-support",
+    "evidenceId": "observation-suspension-rear-link-bad",
+    "hypothesisId": "problem-rear-suspension-link",
+    "effect": "support",
+    "weight": 0.99
+  },
+  {
+    "id": "rear-bushing-bad-support",
+    "evidenceId": "observation-suspension-rear-bushing-bad",
+    "hypothesisId": "problem-rear-suspension-link",
+    "effect": "support",
+    "weight": 0.98
+  },
+  {
+    "id": "rear-links-good-contradict",
+    "evidenceId": "observation-suspension-rear-links-good",
+    "hypothesisId": "problem-rear-suspension-link",
+    "effect": "contradict",
+    "weight": 0.92
+  },
+  {
+    "id": "wheel-bearing-bad-support",
+    "evidenceId": "observation-suspension-wheel-bearing-bad",
+    "hypothesisId": "problem-wheel-bearing",
+    "effect": "support",
+    "weight": 1.0
+  },
+  {
+    "id": "all-direction-play-support-bearing",
+    "evidenceId": "observation-suspension-wheel-play-all-directions",
+    "hypothesisId": "problem-wheel-bearing",
+    "effect": "support",
+    "weight": 0.9
+  },
+  {
+    "id": "wheel-bearing-good-contradict",
+    "evidenceId": "observation-suspension-wheel-bearing-good",
+    "hypothesisId": "problem-wheel-bearing",
+    "effect": "contradict",
+    "weight": 0.94
+  },
+  {
+    "id": "outer-tie-rod-bad-support",
+    "evidenceId": "observation-suspension-outer-tie-rod-bad",
+    "hypothesisId": "problem-outer-tie-rod",
+    "effect": "support",
+    "weight": 1.0
+  },
+  {
+    "id": "inner-tie-rod-bad-support",
+    "evidenceId": "observation-suspension-inner-tie-rod-bad",
+    "hypothesisId": "problem-inner-tie-rod",
+    "effect": "support",
+    "weight": 1.0
+  },
+  {
+    "id": "horizontal-play-support-steering-joints",
+    "evidenceId": "observation-suspension-wheel-play-horizontal",
+    "hypothesisId": "problem-outer-tie-rod",
+    "effect": "support",
+    "weight": 0.72
+  },
+  {
+    "id": "steering-joints-good-contradict-outer",
+    "evidenceId": "observation-suspension-steering-joints-good",
+    "hypothesisId": "problem-outer-tie-rod",
+    "effect": "contradict",
+    "weight": 0.9
+  },
+  {
+    "id": "steering-joints-good-contradict-inner",
+    "evidenceId": "observation-suspension-steering-joints-good",
+    "hypothesisId": "problem-inner-tie-rod",
+    "effect": "contradict",
+    "weight": 0.9
+  },
+  {
+    "id": "alignment-bad-support-alignment",
+    "evidenceId": "measurement-suspension-alignment-bad",
+    "hypothesisId": "problem-wheel-alignment",
+    "effect": "support",
+    "weight": 0.99
+  },
+  {
+    "id": "inside-wear-support-alignment",
+    "evidenceId": "observation-suspension-tyre-wear-inside",
+    "hypothesisId": "problem-wheel-alignment",
+    "effect": "support",
+    "weight": 0.9
+  },
+  {
+    "id": "outside-wear-support-alignment",
+    "evidenceId": "observation-suspension-tyre-wear-outside",
+    "hypothesisId": "problem-wheel-alignment",
+    "effect": "support",
+    "weight": 0.86
+  },
+  {
+    "id": "alignment-good-contradict",
+    "evidenceId": "measurement-suspension-alignment-good",
+    "hypothesisId": "problem-wheel-alignment",
+    "effect": "contradict",
+    "weight": 0.96
+  },
+  {
+    "id": "alignment-component-bad-support-deformed",
+    "evidenceId": "observation-suspension-alignment-component-bad",
+    "hypothesisId": "problem-deformed-suspension-component",
+    "effect": "support",
+    "weight": 0.99
+  },
+  {
+    "id": "alignment-components-good-contradict",
+    "evidenceId": "observation-suspension-alignment-components-good",
+    "hypothesisId": "problem-deformed-suspension-component",
+    "effect": "contradict",
+    "weight": 0.92
+  },
+  {
+    "id": "wheel-balance-bad-support",
+    "evidenceId": "measurement-suspension-wheel-balance-bad",
+    "hypothesisId": "problem-wheel-balance",
+    "effect": "support",
+    "weight": 1.0
+  },
+  {
+    "id": "high-speed-vibration-support-balance",
+    "evidenceId": "observation-suspension-vibration-high-speed",
+    "hypothesisId": "problem-wheel-balance",
+    "effect": "support",
+    "weight": 0.9
+  },
+  {
+    "id": "wheel-balance-good-contradict",
+    "evidenceId": "observation-suspension-wheel-balance-good",
+    "hypothesisId": "problem-wheel-balance",
+    "effect": "contradict",
+    "weight": 0.96
+  },
+  {
+    "id": "tyre-deformed-support",
+    "evidenceId": "observation-suspension-tyre-deformed",
+    "hypothesisId": "problem-deformed-tyre",
+    "effect": "support",
+    "weight": 1.0
+  },
+  {
+    "id": "tyre-cupping-support-deformed",
+    "evidenceId": "observation-suspension-tyre-cupping",
+    "hypothesisId": "problem-deformed-tyre",
+    "effect": "support",
+    "weight": 0.94
+  },
+  {
+    "id": "irregular-wear-support-deformed",
+    "evidenceId": "observation-suspension-tyre-wear-irregular",
+    "hypothesisId": "problem-deformed-tyre",
+    "effect": "support",
+    "weight": 0.86
+  },
+  {
+    "id": "rim-bent-support",
+    "evidenceId": "observation-suspension-rim-bent",
+    "hypothesisId": "problem-bent-rim",
+    "effect": "support",
+    "weight": 1.0
+  },
+  {
+    "id": "tyre-pressure-bad-support",
+    "evidenceId": "observation-suspension-tyre-pressure-bad",
+    "hypothesisId": "problem-incorrect-tyre-pressure",
+    "effect": "support",
+    "weight": 1.0
+  },
+  {
+    "id": "tyre-pressure-good-contradict",
+    "evidenceId": "observation-suspension-tyre-pressure-good",
+    "hypothesisId": "problem-incorrect-tyre-pressure",
+    "effect": "contradict",
+    "weight": 0.98
+  },
+  {
+    "id": "load-uneven-support",
+    "evidenceId": "observation-suspension-load-uneven",
+    "hypothesisId": "problem-uneven-load",
+    "effect": "support",
+    "weight": 1.0
+  },
+  {
+    "id": "load-normal-contradict",
+    "evidenceId": "observation-suspension-load-normal",
+    "hypothesisId": "problem-uneven-load",
+    "effect": "contradict",
+    "weight": 0.98
+  }
+]

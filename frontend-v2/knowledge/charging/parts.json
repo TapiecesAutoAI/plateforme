@@ -1,0 +1,74 @@
+[
+    {
+        "id":  "part-alternator",
+        "name":  "Alternateur",
+        "category":  "Circuit de charge",
+        "saleLabel":  "Alternateur complet",
+        "requiresVehicleIdentification":  true,
+        "purchaseWarning":  "Confirmer la tension de charge et l’état de la courroie avant la commande."
+    },
+    {
+        "id":  "part-voltage-regulator",
+        "name":  "Régulateur de tension",
+        "category":  "Alternateur",
+        "saleLabel":  "Régulateur d’alternateur",
+        "requiresVehicleIdentification":  true,
+        "purchaseWarning":  "Le régulateur n’est pas toujours vendu séparément de l’alternateur."
+    },
+    {
+        "id":  "part-accessory-belt",
+        "name":  "Courroie d’accessoires",
+        "category":  "Entraînement des accessoires",
+        "saleLabel":  "Courroie d’accessoires",
+        "requiresVehicleIdentification":  true,
+        "purchaseWarning":  "Contrôler également les galets, le tendeur et les poulies."
+    },
+    {
+        "id":  "part-belt-tensioner",
+        "name":  "Tendeur de courroie",
+        "category":  "Entraînement des accessoires",
+        "saleLabel":  "Tendeur de courroie d’accessoires",
+        "requiresVehicleIdentification":  true,
+        "purchaseWarning":  "Un tendeur défectueux peut endommager rapidement une courroie neuve."
+    },
+    {
+        "id":  "part-overrunning-pulley",
+        "name":  "Poulie débrayable d’alternateur",
+        "category":  "Alternateur",
+        "saleLabel":  "Poulie roue libre d’alternateur",
+        "requiresVehicleIdentification":  true,
+        "purchaseWarning":  "Vérifier que la poulie est remplaçable séparément sur l’alternateur concerné."
+    },
+    {
+        "id":  "part-alternator-cable",
+        "name":  "Câble positif d’alternateur",
+        "category":  "Câblage électrique",
+        "saleLabel":  "Câble B+ d’alternateur",
+        "requiresVehicleIdentification":  true,
+        "purchaseWarning":  "Contrôler les deux extrémités et le fusible principal avant remplacement."
+    },
+    {
+        "id":  "part-ground-cable",
+        "name":  "Câble de masse",
+        "category":  "Câblage électrique",
+        "saleLabel":  "Câble de masse moteur ou batterie",
+        "requiresVehicleIdentification":  true,
+        "purchaseWarning":  "Nettoyer et contrôler les points de fixation avant de remplacer le câble."
+    },
+    {
+        "id":  "part-battery-terminal",
+        "name":  "Cosse de batterie",
+        "category":  "Batterie",
+        "saleLabel":  "Cosse ou borne de batterie",
+        "requiresVehicleIdentification":  false,
+        "purchaseWarning":  "Vérifier le diamètre, la polarité et le type de fixation."
+    },
+    {
+        "id":  "part-main-charging-fuse",
+        "name":  "Fusible principal de charge",
+        "category":  "Protection électrique",
+        "saleLabel":  "Maxi-fusible du circuit de charge",
+        "requiresVehicleIdentification":  true,
+        "purchaseWarning":  "Ne pas remplacer un fusible coupé sans rechercher la cause."
+    }
+]

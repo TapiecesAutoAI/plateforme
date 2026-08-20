@@ -1,0 +1,137 @@
+[
+  {
+    "id": "problem-weak-battery",
+    "label": "Batterie faible ou déchargée",
+    "possibleParts": ["Batterie"],
+    "recommendedChecks": [
+      "Mesurer la tension de batterie moteur arrêté",
+      "Mesurer la chute de tension pendant le démarrage",
+      "Effectuer un test de capacité",
+      "Essayer avec des câbles ou un booster correctement branché"
+    ]
+  },
+  {
+    "id": "problem-battery-connection",
+    "label": "Connexion de batterie ou liaison de masse défectueuse",
+    "possibleParts": ["Cosse de batterie", "Câble positif", "Câble de masse", "Tresse de masse moteur"],
+    "recommendedChecks": [
+      "Contrôler le serrage et l'oxydation des bornes",
+      "Contrôler la liaison de masse batterie-carrosserie",
+      "Contrôler la liaison de masse moteur",
+      "Mesurer les chutes de tension sur les câbles"
+    ]
+  },
+  {
+    "id": "problem-starter",
+    "label": "Démarreur défectueux",
+    "possibleParts": ["Démarreur", "Solénoïde de démarreur"],
+    "recommendedChecks": [
+      "Contrôler l'alimentation principale du démarreur",
+      "Contrôler le fil de commande du solénoïde",
+      "Mesurer le courant absorbé par le démarreur",
+      "Contrôler le fonctionnement du solénoïde"
+    ]
+  },
+  {
+    "id": "problem-starter-drive",
+    "label": "Lanceur ou pignon de démarreur défectueux",
+    "possibleParts": ["Lanceur de démarreur", "Pignon de démarreur", "Démarreur complet", "Couronne de volant moteur"],
+    "recommendedChecks": [
+      "Contrôler l'engagement du lanceur",
+      "Contrôler l'état du pignon",
+      "Contrôler la couronne du volant moteur",
+      "Vérifier que le moteur thermique tourne librement"
+    ]
+  },
+  {
+    "id": "problem-starter-control-circuit",
+    "label": "Circuit de commande du démarreur défectueux",
+    "possibleParts": ["Contacteur de démarrage", "Relais de démarreur", "Capteur de position de boîte", "Contacteur de pédale d'embrayage", "Faisceau de commande"],
+    "recommendedChecks": [
+      "Contrôler la tension sur le fil de commande du démarreur",
+      "Contrôler le relais de démarreur",
+      "Contrôler le contacteur de pédale d'embrayage",
+      "Contrôler le contacteur de position P ou N",
+      "Contrôler le contacteur de démarrage"
+    ]
+  },
+  {
+    "id": "problem-engine-mechanical-blockage",
+    "label": "Moteur thermique ou accessoire mécaniquement bloqué",
+    "possibleParts": ["Moteur", "Alternateur", "Compresseur de climatisation", "Poulie accessoire"],
+    "recommendedChecks": [
+      "Faire tourner le moteur manuellement au vilebrequin",
+      "Contrôler la courroie d'accessoires",
+      "Contrôler les accessoires entraînés",
+      "Vérifier l'absence de blocage interne"
+    ]
+  },
+  {
+    "id": "problem-fuel-supply",
+    "label": "Alimentation en carburant insuffisante ou absente",
+    "possibleParts": ["Pompe à carburant", "Relais de pompe à carburant", "Fusible de pompe à carburant", "Filtre à carburant", "Faisceau de pompe"],
+    "recommendedChecks": [
+      "Contrôler le niveau réel de carburant",
+      "Écouter l'amorçage de la pompe",
+      "Contrôler le fusible de pompe",
+      "Contrôler le relais de pompe",
+      "Mesurer la pression de carburant"
+    ]
+  },
+  {
+    "id": "problem-immobilizer",
+    "label": "Antidémarrage ou clé non reconnue",
+    "possibleParts": ["Clé codée", "Transpondeur de clé", "Antenne d'antidémarrage", "Boîtier antidémarrage"],
+    "recommendedChecks": [
+      "Observer le voyant d'antidémarrage",
+      "Essayer avec la seconde clé",
+      "Lire les codes défaut d'antidémarrage",
+      "Contrôler l'antenne de lecture de clé"
+    ]
+  },
+  {
+    "id": "problem-glow-system",
+    "label": "Système de préchauffage diesel défectueux",
+    "possibleParts": ["Bougies de préchauffage", "Relais de préchauffage", "Fusible de préchauffage", "Boîtier de préchauffage"],
+    "recommendedChecks": [
+      "Contrôler le voyant de préchauffage",
+      "Contrôler le fusible principal",
+      "Mesurer l'alimentation des bougies",
+      "Contrôler la résistance des bougies"
+    ]
+  },
+  {
+    "id": "problem-engine-sensor",
+    "label": "Capteur moteur indispensable au démarrage défectueux",
+    "possibleParts": ["Capteur de vilebrequin", "Capteur d'arbre à cames", "Faisceau moteur", "Connecteur de capteur"],
+    "recommendedChecks": [
+      "Lire les codes défaut moteur",
+      "Contrôler le régime moteur pendant le lancement",
+      "Contrôler le signal du capteur de vilebrequin",
+      "Contrôler le signal du capteur d'arbre à cames",
+      "Contrôler les connecteurs et le faisceau"
+    ]
+  },
+  {
+    "id": "problem-engine-timing",
+    "label": "Calage de distribution incorrect",
+    "possibleParts": ["Courroie de distribution", "Chaîne de distribution", "Tendeur", "Pignon de distribution"],
+    "recommendedChecks": [
+      "Contrôler le calage de distribution",
+      "Contrôler la synchronisation vilebrequin-arbre à cames",
+      "Contrôler la compression moteur",
+      "Vérifier l'historique d'une intervention récente"
+    ]
+  },
+  {
+    "id": "problem-low-compression",
+    "label": "Compression moteur insuffisante",
+    "possibleParts": ["Soupapes", "Segments", "Joint de culasse", "Distribution"],
+    "recommendedChecks": [
+      "Effectuer un test de compression",
+      "Effectuer un test d'étanchéité des cylindres",
+      "Contrôler le calage de distribution",
+      "Observer les fumées pendant la tentative de démarrage"
+    ]
+  }
+]

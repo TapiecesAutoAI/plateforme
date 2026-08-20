@@ -1,0 +1,118 @@
+﻿[
+  {
+    "id": "problem-thermostat",
+    "label": "Thermostat bloqué",
+    "possibleParts": [
+      "Thermostat"
+    ],
+    "recommendedChecks": [
+      "Contrôler la température des durites",
+      "Contrôler l'ouverture du thermostat"
+    ]
+  },
+  {
+    "id": "problem-water-pump",
+    "label": "Pompe à eau défectueuse",
+    "possibleParts": [
+      "Pompe à eau"
+    ],
+    "recommendedChecks": [
+      "Contrôler les fuites",
+      "Contrôler le débit",
+      "Contrôler le bruit"
+    ]
+  },
+  {
+    "id": "problem-radiator-fan",
+    "label": "Ventilateur de refroidissement défectueux",
+    "possibleParts": [
+      "Ventilateur",
+      "Moteur de ventilateur"
+    ],
+    "recommendedChecks": [
+      "Alimenter directement le ventilateur",
+      "Contrôler le moteur"
+    ]
+  },
+  {
+    "id": "problem-fan-control",
+    "label": "Commande du ventilateur défectueuse",
+    "possibleParts": [
+      "Relais",
+      "Fusible",
+      "Calculateur"
+    ],
+    "recommendedChecks": [
+      "Contrôler le relais",
+      "Contrôler le fusible",
+      "Contrôler la commande ECU"
+    ]
+  },
+  {
+    "id": "problem-coolant-leak",
+    "label": "Fuite de liquide de refroidissement",
+    "possibleParts": [
+      "Radiateur",
+      "Durite",
+      "Collier",
+      "Vase d'expansion"
+    ],
+    "recommendedChecks": [
+      "Inspection visuelle",
+      "Mise sous pression"
+    ]
+  },
+  {
+    "id": "problem-temperature-sensor",
+    "label": "Sonde de température défectueuse",
+    "possibleParts": [
+      "Sonde de température"
+    ],
+    "recommendedChecks": [
+      "Comparer avec la valise",
+      "Mesurer la résistance"
+    ]
+  },
+  {
+    "id": "problem-head-gasket",
+    "label": "Joint de culasse défectueux",
+    "possibleParts": [
+      "Joint de culasse"
+    ],
+    "recommendedChecks": [
+      "Test CO₂",
+      "Contrôle pression circuit",
+      "Contrôle mayonnaise"
+    ]
+  },
+  {
+    "id": "problem-air-in-system",
+    "label": "Air dans le circuit",
+    "possibleParts": [
+      "Circuit de refroidissement"
+    ],
+    "recommendedChecks": [
+      "Purge complète",
+      "Contrôle du niveau"
+    ]
+  },
+  {
+    "id": "problem-radiator-blocked",
+    "label": "Radiateur obstrué",
+    "possibleParts": [
+      "Radiateur"
+    ],
+    "recommendedChecks": [
+      "Contrôler les températures",
+      "Contrôler le débit"
+    ]
+  },
+  {
+    "id": "problem-cooling-normal",
+    "label": "Fonctionnement normal",
+    "possibleParts": [],
+    "recommendedChecks": [
+      "Aucune anomalie détectée"
+    ]
+  }
+]

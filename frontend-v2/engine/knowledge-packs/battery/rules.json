@@ -1,0 +1,387 @@
+[
+  {
+    "id": "flat-support-discharged",
+    "evidenceId": "symptom-battery-flat",
+    "hypothesisId": "problem-discharged-battery",
+    "effect": "support",
+    "weight": 0.98
+  },
+  {
+    "id": "weak-support-discharged",
+    "evidenceId": "symptom-battery-weak",
+    "hypothesisId": "problem-discharged-battery",
+    "effect": "support",
+    "weight": 0.9
+  },
+  {
+    "id": "old-support-aged",
+    "evidenceId": "observation-battery-age-over-four",
+    "hypothesisId": "problem-aged-battery",
+    "effect": "support",
+    "weight": 0.88
+  },
+  {
+    "id": "terminals-support-connections",
+    "evidenceId": "observation-battery-terminals-bad",
+    "hypothesisId": "problem-battery-connections",
+    "effect": "support",
+    "weight": 0.98
+  },
+  {
+    "id": "good-terminals-contradict-connections",
+    "evidenceId": "observation-battery-terminals-good",
+    "hypothesisId": "problem-battery-connections",
+    "effect": "contradict",
+    "weight": 0.72
+  },
+  {
+    "id": "ground-support",
+    "evidenceId": "observation-battery-ground-bad",
+    "hypothesisId": "problem-ground-connection",
+    "effect": "support",
+    "weight": 0.96
+  },
+  {
+    "id": "jump-support-discharged",
+    "evidenceId": "observation-jump-start-success",
+    "hypothesisId": "problem-discharged-battery",
+    "effect": "support",
+    "weight": 0.95
+  },
+  {
+    "id": "jumpfail-contradict-discharged",
+    "evidenceId": "observation-jump-start-fails",
+    "hypothesisId": "problem-discharged-battery",
+    "effect": "contradict",
+    "weight": 0.75
+  },
+  {
+    "id": "charge-low",
+    "evidenceId": "measurement-charging-voltage-below-12-8",
+    "hypothesisId": "problem-alternator",
+    "effect": "support",
+    "weight": 0.98
+  },
+  {
+    "id": "charge-high",
+    "evidenceId": "measurement-charging-voltage-above-14-8",
+    "hypothesisId": "problem-voltage-regulator",
+    "effect": "support",
+    "weight": 0.96
+  },
+  {
+    "id": "belt-missing",
+    "evidenceId": "observation-accessory-belt-missing",
+    "hypothesisId": "problem-accessory-belt",
+    "effect": "support",
+    "weight": 0.99
+  },
+  {
+    "id": "belt-loose",
+    "evidenceId": "observation-accessory-belt-loose",
+    "hypothesisId": "problem-accessory-belt",
+    "effect": "support",
+    "weight": 0.94
+  },
+  {
+    "id": "drains-support",
+    "evidenceId": "symptom-battery-drains",
+    "hypothesisId": "problem-parasitic-drain",
+    "effect": "support",
+    "weight": 0.84
+  },
+  {
+    "id": "parasitic-current",
+    "evidenceId": "measurement-parasitic-current-above-80ma",
+    "hypothesisId": "problem-parasitic-drain",
+    "effect": "support",
+    "weight": 0.99
+  },
+  {
+    "id": "wrong-battery",
+    "evidenceId": "observation-start-stop-wrong-battery-type",
+    "hypothesisId": "problem-wrong-battery",
+    "effect": "support",
+    "weight": 0.99
+  },
+  {
+    "id": "bad-cell",
+    "evidenceId": "measurement-battery-test-bad-cell",
+    "hypothesisId": "problem-internal-battery-failure",
+    "effect": "support",
+    "weight": 1
+  },
+  {
+    "id": "replace",
+    "evidenceId": "measurement-battery-test-replace",
+    "hypothesisId": "problem-internal-battery-failure",
+    "effect": "support",
+    "weight": 0.98
+  },
+  {
+    "id": "good-test",
+    "evidenceId": "measurement-battery-test-good",
+    "hypothesisId": "problem-discharged-battery",
+    "effect": "contradict",
+    "weight": 0.8
+  },
+  {
+    "id": "rest-low",
+    "evidenceId": "measurement-rest-voltage-below-11-8",
+    "hypothesisId": "problem-discharged-battery",
+    "effect": "support",
+    "weight": 0.97
+  },
+  {
+    "id": "rest-mid",
+    "evidenceId": "measurement-rest-voltage-11-8-to-12-2",
+    "hypothesisId": "problem-discharged-battery",
+    "effect": "support",
+    "weight": 0.85
+  },
+  {
+    "id": "postcharge-low",
+    "evidenceId": "measurement-post-charge-below-12-2",
+    "hypothesisId": "problem-aged-battery",
+    "effect": "support",
+    "weight": 0.93
+  },
+  {
+    "id": "crank-low",
+    "evidenceId": "measurement-cranking-voltage-below-8",
+    "hypothesisId": "problem-aged-battery",
+    "effect": "support",
+    "weight": 0.94
+  },
+  {
+    "id": "connection-improved",
+    "evidenceId": "observation-terminal-correction-success",
+    "hypothesisId": "problem-battery-connections",
+    "effect": "support",
+    "weight": 0.95
+  },
+  {
+    "id": "ground-fixed",
+    "evidenceId": "observation-ground-correction-success",
+    "hypothesisId": "problem-ground-connection",
+    "effect": "support",
+    "weight": 0.95
+  },
+  {
+    "id": "alt-connection",
+    "evidenceId": "observation-alternator-connection-bad",
+    "hypothesisId": "problem-alternator",
+    "effect": "support",
+    "weight": 0.82
+  },
+  {
+    "id": "fuel-pump-no-prime-support",
+    "evidenceId": "observation-fuel-pump-no-prime",
+    "hypothesisId": "problem-fuel-supply",
+    "effect": "support",
+    "weight": 0.9
+  },
+  {
+    "id": "fuel-pump-primes-contradict",
+    "evidenceId": "observation-fuel-pump-primes",
+    "hypothesisId": "problem-fuel-supply",
+    "effect": "contradict",
+    "weight": 0.45
+  },
+  {
+    "id": "fuel-pump-fuse-blown-support",
+    "evidenceId": "observation-fuel-pump-fuse-blown",
+    "hypothesisId": "problem-fuel-supply",
+    "effect": "support",
+    "weight": 0.96
+  },
+  {
+    "id": "fuel-fuse-replacement-success-support",
+    "evidenceId": "observation-fuel-fuse-replacement-success",
+    "hypothesisId": "problem-fuel-supply",
+    "effect": "support",
+    "weight": 0.98
+  },
+  {
+    "id": "fuel-fuse-blows-again-support",
+    "evidenceId": "observation-fuel-fuse-blows-again",
+    "hypothesisId": "problem-fuel-supply",
+    "effect": "support",
+    "weight": 0.99
+  },
+  {
+    "id": "fuel-pump-relay-not-commanded-support",
+    "evidenceId": "observation-fuel-pump-relay-not-commanded",
+    "hypothesisId": "problem-fuel-supply",
+    "effect": "support",
+    "weight": 0.94
+  },
+  {
+    "id": "starter-single-click",
+    "evidenceId": "symptom-single-click",
+    "hypothesisId": "problem-starter",
+    "effect": "support",
+    "weight": 0.84
+  },
+  {
+    "id": "starter-no-crank",
+    "evidenceId": "symptom-no-crank",
+    "hypothesisId": "problem-starter",
+    "effect": "support",
+    "weight": 0.72
+  },
+  {
+    "id": "starter-control-present",
+    "evidenceId": "observation-starter-control-voltage-present",
+    "hypothesisId": "problem-starter",
+    "effect": "support",
+    "weight": 0.98
+  },
+  {
+    "id": "starter-cranks-contradict",
+    "evidenceId": "symptom-engine-cranks",
+    "hypothesisId": "problem-starter",
+    "effect": "contradict",
+    "weight": 0.99
+  },
+  {
+    "id": "solenoid-single-click",
+    "evidenceId": "symptom-single-click",
+    "hypothesisId": "problem-starter-solenoid",
+    "effect": "support",
+    "weight": 0.97
+  },
+  {
+    "id": "solenoid-control-present",
+    "evidenceId": "observation-starter-control-voltage-present",
+    "hypothesisId": "problem-starter-solenoid",
+    "effect": "support",
+    "weight": 0.94
+  },
+  {
+    "id": "solenoid-spins-contradict",
+    "evidenceId": "symptom-starter-spins-free",
+    "hypothesisId": "problem-starter-solenoid",
+    "effect": "contradict",
+    "weight": 0.92
+  },
+  {
+    "id": "starter-drive-free-spin",
+    "evidenceId": "symptom-starter-spins-free",
+    "hypothesisId": "problem-starter-drive",
+    "effect": "support",
+    "weight": 0.999
+  },
+  {
+    "id": "starter-drive-grinding",
+    "evidenceId": "symptom-metallic-grinding",
+    "hypothesisId": "problem-starter-drive",
+    "effect": "support",
+    "weight": 0.98
+  },
+  {
+    "id": "starter-brushes-intermittent",
+    "evidenceId": "observation-starts-intermittently",
+    "hypothesisId": "problem-starter-worn-brushes",
+    "effect": "support",
+    "weight": 0.98
+  },
+  {
+    "id": "starter-brushes-hot",
+    "evidenceId": "observation-problem-hot-engine",
+    "hypothesisId": "problem-starter-worn-brushes",
+    "effect": "support",
+    "weight": 0.74
+  },
+  {
+    "id": "starter-relay-control-absent",
+    "evidenceId": "observation-starter-control-voltage-absent",
+    "hypothesisId": "problem-starter-relay",
+    "effect": "support",
+    "weight": 0.86
+  },
+  {
+    "id": "starter-relay-control-present-contradict",
+    "evidenceId": "observation-starter-control-voltage-present",
+    "hypothesisId": "problem-starter-relay",
+    "effect": "contradict",
+    "weight": 0.96
+  },
+  {
+    "id": "starter-control-absent",
+    "evidenceId": "observation-starter-control-voltage-absent",
+    "hypothesisId": "problem-starter-control-circuit",
+    "effect": "support",
+    "weight": 0.99
+  },
+  {
+    "id": "starter-control-present-contradict",
+    "evidenceId": "observation-starter-control-voltage-present",
+    "hypothesisId": "problem-starter-control-circuit",
+    "effect": "contradict",
+    "weight": 0.99
+  },
+  {
+    "id": "engine-lock-no-crank",
+    "evidenceId": "symptom-no-crank",
+    "hypothesisId": "problem-engine-mechanical-lock",
+    "effect": "support",
+    "weight": 0.68
+  },
+  {
+    "id": "engine-lock-manual",
+    "evidenceId": "observation-engine-mechanically-locked",
+    "hypothesisId": "problem-engine-mechanical-lock",
+    "effect": "support",
+    "weight": 0.99
+  },
+  {
+    "id": "engine-lock-cranks-contradict",
+    "evidenceId": "symptom-engine-cranks",
+    "hypothesisId": "problem-engine-mechanical-lock",
+    "effect": "contradict",
+    "weight": 0.999
+  },
+  {
+    "id": "engine-cranks-no-start",
+    "evidenceId": "symptom-engine-cranks",
+    "hypothesisId": "problem-engine-cranks-no-start",
+    "effect": "support",
+    "weight": 0.999
+  },
+  {
+    "id": "engine-cranks-no-start-no-crank-contradict",
+    "evidenceId": "symptom-no-crank",
+    "hypothesisId": "problem-engine-cranks-no-start",
+    "effect": "contradict",
+    "weight": 0.99
+  },
+  {
+    "id": "ignition-switch-support",
+    "evidenceId": "observation-ignition-switch-bad",
+    "hypothesisId": "problem-starter-control-circuit",
+    "effect": "support",
+    "weight": 0.92
+  },
+  {
+    "id": "neutral-clutch-support",
+    "evidenceId": "observation-neutral-clutch-start-success",
+    "hypothesisId": "problem-starter-control-circuit",
+    "effect": "support",
+    "weight": 0.96
+  },
+  {
+    "id": "starter-supply-bad-support",
+    "evidenceId": "observation-starter-supply-bad",
+    "hypothesisId": "problem-battery-connections",
+    "effect": "support",
+    "weight": 0.92
+  },
+  {
+    "id": "starter-cable-repair-success-support",
+    "evidenceId": "observation-starter-cable-repair-success",
+    "hypothesisId": "problem-battery-connections",
+    "effect": "support",
+    "weight": 0.95
+  }
+]

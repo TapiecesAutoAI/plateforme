@@ -1,0 +1,5 @@
+﻿"Domain","Exit","Explored","BaselineExplored","ExploredCheck","Terminals","BaselineTerminals","TerminalsCheck","Anomalies","BaselineAnomalies","AnomaliesCheck","ManualReviews","BaselineManualReviews","ManualReviewsCheck"
+"STARTING","0","1542","1542","OK","1139","1139","OK","0","0","OK",,,"-"
+"BRAKING","0","1035","1035","OK","517","517","OK","0","0","OK","157","157","OK"
+"BATTERY","0","3000","3000","OK","591","591","OK","0","0","OK","152","152","OK"
+"CHARGING","0","2000","2000","OK","1343","1343","OK","0","0","OK",,,"-"

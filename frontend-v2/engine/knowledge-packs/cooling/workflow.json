@@ -1,0 +1,6 @@
+﻿{
+  "id": "cooling",
+  "title": "Diagnostic du système de refroidissement",
+  "entryActionId": "cooling-main-symptom",
+  "locked": true
+}

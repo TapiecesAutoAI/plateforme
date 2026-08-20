@@ -1,0 +1,48 @@
+[
+  {
+    "id": "battery-rapid-clicks",
+    "name": "Batterie - clics rapides",
+    "profile": "particulier",
+    "domain": "starting",
+    "initialText": "Ma voiture ne démarre plus. J'entends plusieurs clics rapides et les phares baissent.",
+    "answers": [
+      {
+        "actionId": "starting-booster-test",
+        "optionId": "yes"
+      }
+    ],
+    "expected": {
+      "primaryHypothesisId": "problem-weak-battery",
+      "primaryPartName": "Batterie",
+      "purchaseDecision": "purchase-recommended",
+      "minimumConfidence": 0.85
+    }
+  },
+  {
+    "id": "starter-single-click",
+    "name": "Démarreur - booster inefficace",
+    "profile": "particulier",
+    "domain": "starting",
+    "initialText": "Ma voiture ne démarre plus. J'entends plusieurs clics rapides.",
+    "answers": [
+      {
+        "actionId": "starting-booster-test",
+        "optionId": "no"
+      },
+      {
+        "actionId": "starting-check-battery-terminals",
+        "optionId": "good"
+      },
+      {
+        "actionId": "starting-booster-sound",
+        "optionId": "single-click"
+      }
+    ],
+    "expected": {
+      "primaryHypothesisId": "problem-starter",
+      "primaryPartName": "Démarreur",
+      "purchaseDecision": "purchase-recommended",
+      "minimumConfidence": 0.85
+    }
+  }
+]

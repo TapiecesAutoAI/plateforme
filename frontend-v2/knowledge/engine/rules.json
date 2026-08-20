@@ -1,0 +1,198 @@
+﻿[
+  {
+    "id": "fuel-pump-no-prime-support-pump",
+    "evidenceId": "observation-engine-fuel-pump-no-prime",
+    "hypothesisId": "problem-fuel-pump",
+    "effect": "support",
+    "weight": 0.99
+  },
+  {
+    "id": "fuel-pressure-low-support-pressure",
+    "evidenceId": "measurement-engine-fuel-pressure-low",
+    "hypothesisId": "problem-fuel-pressure",
+    "effect": "support",
+    "weight": 0.99
+  },
+  {
+    "id": "rpm-zero-support-crank",
+    "evidenceId": "measurement-engine-rpm-zero-cranking",
+    "hypothesisId": "problem-crankshaft-sensor",
+    "effect": "support",
+    "weight": 0.99
+  },
+  {
+    "id": "bad-sync-support-timing",
+    "evidenceId": "measurement-engine-cam-crank-sync-bad",
+    "hypothesisId": "problem-camshaft-timing",
+    "effect": "support",
+    "weight": 0.99
+  },
+  {
+    "id": "timing-bad-support-timing",
+    "evidenceId": "observation-engine-timing-bad",
+    "hypothesisId": "problem-camshaft-timing",
+    "effect": "support",
+    "weight": 0.98
+  },
+  {
+    "id": "spark-absent-support-ignition",
+    "evidenceId": "observation-engine-spark-absent",
+    "hypothesisId": "problem-ignition-system",
+    "effect": "support",
+    "weight": 0.98
+  },
+  {
+    "id": "spark-weak-support-ignition",
+    "evidenceId": "observation-engine-spark-weak",
+    "hypothesisId": "problem-ignition-system",
+    "effect": "support",
+    "weight": 0.95
+  },
+  {
+    "id": "coil-follow-support-ignition",
+    "evidenceId": "observation-engine-misfire-follows-coil",
+    "hypothesisId": "problem-ignition-system",
+    "effect": "support",
+    "weight": 1.00
+  },
+  {
+    "id": "injector-balance-support",
+    "evidenceId": "measurement-engine-injector-balance-bad",
+    "hypothesisId": "problem-injector",
+    "effect": "support",
+    "weight": 0.98
+  },
+  {
+    "id": "diesel-return-support",
+    "evidenceId": "measurement-engine-diesel-injector-return-high",
+    "hypothesisId": "problem-injector",
+    "effect": "support",
+    "weight": 0.99
+  },
+  {
+    "id": "compression-all-support",
+    "evidenceId": "measurement-engine-compression-low-all",
+    "hypothesisId": "problem-low-compression",
+    "effect": "support",
+    "weight": 1.00
+  },
+  {
+    "id": "compression-some-support",
+    "evidenceId": "measurement-engine-compression-low-some",
+    "hypothesisId": "problem-low-compression",
+    "effect": "support",
+    "weight": 0.96
+  },
+  {
+    "id": "intake-leak-support-air",
+    "evidenceId": "observation-engine-intake-leak-present",
+    "hypothesisId": "problem-air-intake",
+    "effect": "support",
+    "weight": 0.97
+  },
+  {
+    "id": "maf-support-air",
+    "evidenceId": "measurement-engine-air-metering-bad",
+    "hypothesisId": "problem-air-intake",
+    "effect": "support",
+    "weight": 0.96
+  },
+  {
+    "id": "egr-support",
+    "evidenceId": "observation-engine-egr-bad",
+    "hypothesisId": "problem-egr-system",
+    "effect": "support",
+    "weight": 0.97
+  },
+  {
+    "id": "boost-low-support-turbo",
+    "evidenceId": "measurement-engine-boost-low",
+    "hypothesisId": "problem-turbo-system",
+    "effect": "support",
+    "weight": 0.98
+  },
+  {
+    "id": "boost-leak-support-turbo",
+    "evidenceId": "observation-engine-boost-leak-present",
+    "hypothesisId": "problem-turbo-system",
+    "effect": "support",
+    "weight": 0.98
+  },
+  {
+    "id": "turbo-control-support",
+    "evidenceId": "observation-engine-turbo-control-bad",
+    "hypothesisId": "problem-turbo-system",
+    "effect": "support",
+    "weight": 0.97
+  },
+  {
+    "id": "exhaust-support",
+    "evidenceId": "observation-engine-exhaust-restriction-present",
+    "hypothesisId": "problem-exhaust-restriction",
+    "effect": "support",
+    "weight": 0.98
+  },
+  {
+    "id": "glow-support",
+    "evidenceId": "observation-engine-glow-system-bad",
+    "hypothesisId": "problem-glow-system",
+    "effect": "support",
+    "weight": 0.97
+  },
+  {
+    "id": "immobilizer-support",
+    "evidenceId": "observation-engine-immobilizer-active",
+    "hypothesisId": "problem-immobilizer",
+    "effect": "support",
+    "weight": 0.98
+  },
+  {
+    "id": "ecu-power-support",
+    "evidenceId": "observation-engine-ecu-power-bad",
+    "hypothesisId": "problem-ecu-power",
+    "effect": "support",
+    "weight": 0.99
+  },
+  {
+    "id": "oil-pressure-support-mechanical",
+    "evidenceId": "measurement-engine-oil-pressure-low",
+    "hypothesisId": "problem-engine-mechanical",
+    "effect": "support",
+    "weight": 0.96
+  },
+  {
+    "id": "head-gasket-support",
+    "evidenceId": "measurement-engine-combustion-gas-positive",
+    "hypothesisId": "problem-head-gasket",
+    "effect": "support",
+    "weight": 1.00
+  },
+  {
+    "id": "normal-compression-contradict",
+    "evidenceId": "measurement-engine-compression-normal",
+    "hypothesisId": "problem-low-compression",
+    "effect": "contradict",
+    "weight": 0.90
+  },
+  {
+    "id": "spark-normal-contradict",
+    "evidenceId": "observation-engine-spark-normal",
+    "hypothesisId": "problem-ignition-system",
+    "effect": "contradict",
+    "weight": 0.70
+  },
+  {
+    "id": "fuel-pressure-normal-contradict",
+    "evidenceId": "measurement-engine-fuel-pressure-normal",
+    "hypothesisId": "problem-fuel-pressure",
+    "effect": "contradict",
+    "weight": 0.80
+  },
+  {
+    "id": "boost-normal-contradict",
+    "evidenceId": "measurement-engine-boost-normal",
+    "hypothesisId": "problem-turbo-system",
+    "effect": "contradict",
+    "weight": 0.75
+  }
+]

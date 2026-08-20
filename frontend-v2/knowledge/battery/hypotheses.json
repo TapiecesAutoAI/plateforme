@@ -1,0 +1,120 @@
+[
+  {
+    "id": "problem-discharged-battery",
+    "label": "Batterie déchargée",
+    "possibleParts": [
+      "Batterie"
+    ],
+    "recommendedChecks": [
+      "Mesurer la tension à vide",
+      "Recharger complètement la batterie",
+      "Effectuer un test de capacité"
+    ]
+  },
+  {
+    "id": "problem-aged-battery",
+    "label": "Batterie usée",
+    "possibleParts": [
+      "Batterie"
+    ],
+    "recommendedChecks": [
+      "Contrôler l'âge",
+      "Tester le courant de démarrage",
+      "Comparer aux spécifications constructeur"
+    ]
+  },
+  {
+    "id": "problem-battery-connections",
+    "label": "Bornes ou câbles de batterie défectueux",
+    "possibleParts": [
+      "Cosse positive",
+      "Cosse négative",
+      "Câble positif",
+      "Câble de masse"
+    ],
+    "recommendedChecks": [
+      "Contrôler l'oxydation",
+      "Contrôler le serrage",
+      "Mesurer les chutes de tension"
+    ]
+  },
+  {
+    "id": "problem-ground-connection",
+    "label": "Masse moteur défectueuse",
+    "possibleParts": [
+      "Tresse de masse",
+      "Point de masse"
+    ],
+    "recommendedChecks": [
+      "Contrôler les masses",
+      "Mesurer la chute de tension"
+    ]
+  },
+  {
+    "id": "problem-alternator",
+    "label": "Alternateur défectueux",
+    "possibleParts": [
+      "Alternateur"
+    ],
+    "recommendedChecks": [
+      "Mesurer la tension de charge",
+      "Contrôler le courant de charge"
+    ]
+  },
+  {
+    "id": "problem-voltage-regulator",
+    "label": "Régulateur de tension défectueux",
+    "possibleParts": [
+      "Régulateur de tension"
+    ],
+    "recommendedChecks": [
+      "Contrôler la régulation de tension"
+    ]
+  },
+  {
+    "id": "problem-accessory-belt",
+    "label": "Courroie d'accessoires défectueuse",
+    "possibleParts": [
+      "Courroie",
+      "Galet tendeur"
+    ],
+    "recommendedChecks": [
+      "Contrôler la tension",
+      "Contrôler le patinage"
+    ]
+  },
+  {
+    "id": "problem-parasitic-drain",
+    "label": "Consommation électrique parasite",
+    "possibleParts": [
+      "Circuit électrique",
+      "Calculateur"
+    ],
+    "recommendedChecks": [
+      "Mesurer le courant de fuite",
+      "Isoler les circuits"
+    ]
+  },
+  {
+    "id": "problem-wrong-battery",
+    "label": "Batterie non adaptée au véhicule",
+    "possibleParts": [
+      "Batterie"
+    ],
+    "recommendedChecks": [
+      "Comparer Ah et CCA",
+      "Vérifier le type AGM/EFB"
+    ]
+  },
+  {
+    "id": "problem-internal-battery-failure",
+    "label": "Défaillance interne de la batterie",
+    "possibleParts": [
+      "Batterie"
+    ],
+    "recommendedChecks": [
+      "Tester les éléments",
+      "Remplacer la batterie"
+    ]
+  }
+]

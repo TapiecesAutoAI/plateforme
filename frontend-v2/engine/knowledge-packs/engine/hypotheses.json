@@ -1,0 +1,162 @@
+﻿[
+  {
+    "id": "problem-fuel-pump",
+    "label": "Pompe à carburant défectueuse",
+    "possibleParts": ["Pompe à carburant", "Relais de pompe"],
+    "recommendedChecks": [
+      "Contrôler l'alimentation de la pompe",
+      "Mesurer la pression de carburant",
+      "Contrôler le relais et le fusible"
+    ]
+  },
+  {
+    "id": "problem-fuel-pressure",
+    "label": "Pression de carburant insuffisante",
+    "possibleParts": ["Pompe à carburant", "Régulateur de pression", "Filtre à carburant"],
+    "recommendedChecks": [
+      "Mesurer la pression de carburant",
+      "Contrôler le débit de pompe",
+      "Contrôler le filtre et le régulateur"
+    ]
+  },
+  {
+    "id": "problem-crankshaft-sensor",
+    "label": "Capteur de vilebrequin défectueux",
+    "possibleParts": ["Capteur de vilebrequin", "Faisceau moteur"],
+    "recommendedChecks": [
+      "Contrôler le signal du capteur",
+      "Contrôler le connecteur et le faisceau",
+      "Vérifier le régime moteur au lancement"
+    ]
+  },
+  {
+    "id": "problem-camshaft-timing",
+    "label": "Distribution ou synchronisation moteur incorrecte",
+    "possibleParts": ["Courroie de distribution", "Chaîne de distribution", "Tendeur", "Capteur d'arbre à cames"],
+    "recommendedChecks": [
+      "Contrôler le calage de distribution",
+      "Contrôler la synchronisation vilebrequin-arbre à cames",
+      "Contrôler les capteurs de position"
+    ]
+  },
+  {
+    "id": "problem-ignition-system",
+    "label": "Système d'allumage défectueux",
+    "possibleParts": ["Bobine d'allumage", "Bougie", "Faisceau d'allumage"],
+    "recommendedChecks": [
+      "Contrôler la qualité de l'étincelle",
+      "Permuter les bobines",
+      "Contrôler les bougies"
+    ]
+  },
+  {
+    "id": "problem-injector",
+    "label": "Injecteur défectueux",
+    "possibleParts": ["Injecteur", "Faisceau injecteur"],
+    "recommendedChecks": [
+      "Effectuer un test d'équilibrage",
+      "Contrôler la commande des injecteurs",
+      "Effectuer un test de retour sur diesel"
+    ]
+  },
+  {
+    "id": "problem-low-compression",
+    "label": "Compression moteur insuffisante",
+    "possibleParts": ["Soupapes", "Segments", "Joint de culasse", "Distribution"],
+    "recommendedChecks": [
+      "Mesurer les compressions",
+      "Effectuer un test d'étanchéité",
+      "Contrôler le calage de distribution"
+    ]
+  },
+  {
+    "id": "problem-air-intake",
+    "label": "Admission d'air défectueuse",
+    "possibleParts": ["Débitmètre", "Capteur MAP", "Durite d'admission", "Boîtier papillon"],
+    "recommendedChecks": [
+      "Contrôler les prises d'air",
+      "Lire les valeurs MAF et MAP",
+      "Contrôler le boîtier papillon"
+    ]
+  },
+  {
+    "id": "problem-egr-system",
+    "label": "Vanne EGR défectueuse ou encrassée",
+    "possibleParts": ["Vanne EGR", "Électrovanne EGR"],
+    "recommendedChecks": [
+      "Contrôler la position de la vanne EGR",
+      "Contrôler l'encrassement",
+      "Lire les codes défaut"
+    ]
+  },
+  {
+    "id": "problem-turbo-system",
+    "label": "Circuit de suralimentation défectueux",
+    "possibleParts": ["Turbo", "Électrovanne de commande", "Durite de suralimentation", "Intercooler"],
+    "recommendedChecks": [
+      "Contrôler la pression de suralimentation",
+      "Contrôler les fuites",
+      "Contrôler la commande du turbo"
+    ]
+  },
+  {
+    "id": "problem-exhaust-restriction",
+    "label": "Échappement obstrué",
+    "possibleParts": ["Filtre à particules", "Catalyseur"],
+    "recommendedChecks": [
+      "Contrôler la contre-pression",
+      "Contrôler la saturation du FAP",
+      "Lire les valeurs de pression différentielle"
+    ]
+  },
+  {
+    "id": "problem-glow-system",
+    "label": "Système de préchauffage défectueux",
+    "possibleParts": ["Bougie de préchauffage", "Relais de préchauffage", "Fusible de préchauffage"],
+    "recommendedChecks": [
+      "Contrôler les bougies",
+      "Contrôler le relais",
+      "Contrôler l'alimentation"
+    ]
+  },
+  {
+    "id": "problem-immobilizer",
+    "label": "Antidémarrage ou clé non reconnue",
+    "possibleParts": ["Clé codée", "Antenne antidémarrage", "Boîtier antidémarrage"],
+    "recommendedChecks": [
+      "Essayer la seconde clé",
+      "Contrôler le voyant antidémarrage",
+      "Lire les codes défaut"
+    ]
+  },
+  {
+    "id": "problem-ecu-power",
+    "label": "Alimentation du calculateur moteur défectueuse",
+    "possibleParts": ["Fusible calculateur", "Relais principal", "Faisceau moteur"],
+    "recommendedChecks": [
+      "Contrôler les alimentations",
+      "Contrôler les masses",
+      "Contrôler le relais principal"
+    ]
+  },
+  {
+    "id": "problem-engine-mechanical",
+    "label": "Défaillance mécanique moteur",
+    "possibleParts": ["Distribution", "Soupapes", "Paliers", "Pistons"],
+    "recommendedChecks": [
+      "Contrôler la pression d'huile",
+      "Effectuer une inspection mécanique",
+      "Mesurer les compressions"
+    ]
+  },
+  {
+    "id": "problem-head-gasket",
+    "label": "Joint de culasse ou fuite interne",
+    "possibleParts": ["Joint de culasse", "Culasse"],
+    "recommendedChecks": [
+      "Effectuer un test CO2",
+      "Contrôler les compressions",
+      "Contrôler les pertes de liquide"
+    ]
+  }
+]

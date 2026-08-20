@@ -1,0 +1,35 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="900" height="560" viewBox="0 0 900 560">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f8fafc"/>
+      <stop offset="1" stop-color="#dbeafe"/>
+    </linearGradient>
+    <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#334155"/>
+      <stop offset="1" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="900" height="560" rx="42" fill="url(#bg)"/>
+  <ellipse cx="450" cy="445" rx="285" ry="42" fill="#94a3b8" opacity=".28"/>
+
+  <rect x="205" y="150" width="490" height="285" rx="34" fill="url(#body)"/>
+  <rect x="235" y="115" width="430" height="78" rx="24" fill="#1e293b"/>
+
+  <rect x="275" y="92" width="92" height="45" rx="12" fill="#ef4444"/>
+  <rect x="533" y="92" width="92" height="45" rx="12" fill="#64748b"/>
+
+  <circle cx="321" cy="114" r="16" fill="#fca5a5"/>
+  <circle cx="579" cy="114" r="16" fill="#cbd5e1"/>
+
+  <rect x="260" y="225" width="380" height="135" rx="20" fill="#f8fafc"/>
+  <text x="450" y="285" text-anchor="middle" font-family="Arial" font-size="52" font-weight="700" fill="#0f172a">
+    BATTERIE
+  </text>
+  <text x="450" y="330" text-anchor="middle" font-family="Arial" font-size="25" fill="#475569">
+    Illustration générique
+  </text>
+
+  <text x="320" y="122" text-anchor="middle" font-family="Arial" font-size="28" font-weight="700" fill="#ffffff">+</text>
+  <text x="579" y="122" text-anchor="middle" font-family="Arial" font-size="32" font-weight="700" fill="#ffffff">−</text>
+</svg>

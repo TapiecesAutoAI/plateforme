@@ -1,0 +1,142 @@
+﻿[
+  {
+    "id": "symptom-engine-overheating",
+    "label": "Le moteur surchauffe",
+    "defaultConfidence": 0.96
+  },
+  {
+    "id": "symptom-coolant-loss",
+    "label": "Perte de liquide de refroidissement",
+    "defaultConfidence": 0.96
+  },
+  {
+    "id": "symptom-fan-problem",
+    "label": "Problème de ventilateur",
+    "defaultConfidence": 0.94
+  },
+  {
+    "id": "symptom-heater-problem",
+    "label": "Chauffage habitacle insuffisant",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "symptom-temperature-warning",
+    "label": "Voyant température allumé",
+    "defaultConfidence": 0.95
+  },
+  {
+    "id": "observation-overheat-idle",
+    "label": "Surchauffe au ralenti",
+    "defaultConfidence": 0.93
+  },
+  {
+    "id": "observation-overheat-driving",
+    "label": "Surchauffe en roulant",
+    "defaultConfidence": 0.93
+  },
+  {
+    "id": "observation-overheat-always",
+    "label": "Surchauffe permanente",
+    "defaultConfidence": 0.95
+  },
+  {
+    "id": "observation-fan-running",
+    "label": "Ventilateur fonctionnel",
+    "defaultConfidence": 0.96
+  },
+  {
+    "id": "observation-fan-not-running",
+    "label": "Ventilateur inactif",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "observation-fan-fuse-bad",
+    "label": "Fusible ou relais défectueux",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "observation-fan-fuse-good",
+    "label": "Fusible et relais corrects",
+    "defaultConfidence": 0.95
+  },
+  {
+    "id": "observation-fan-motor-good",
+    "label": "Moteur de ventilateur correct",
+    "defaultConfidence": 0.96
+  },
+  {
+    "id": "observation-fan-motor-bad",
+    "label": "Moteur de ventilateur défectueux",
+    "defaultConfidence": 0.99
+  },
+  {
+    "id": "observation-low-coolant",
+    "label": "Niveau de liquide bas",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "observation-normal-coolant",
+    "label": "Niveau de liquide normal",
+    "defaultConfidence": 0.94
+  },
+  {
+    "id": "observation-visible-coolant-leak",
+    "label": "Fuite visible",
+    "defaultConfidence": 0.99
+  },
+  {
+    "id": "observation-no-visible-leak",
+    "label": "Aucune fuite visible",
+    "defaultConfidence": 0.90
+  },
+  {
+    "id": "observation-upper-hose-hot",
+    "label": "Durite supérieure chaude",
+    "defaultConfidence": 0.94
+  },
+  {
+    "id": "observation-upper-hose-cold",
+    "label": "Durite supérieure froide",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "observation-water-pump-bad",
+    "label": "Pompe à eau défectueuse",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "observation-water-pump-good",
+    "label": "Pompe à eau correcte",
+    "defaultConfidence": 0.95
+  },
+  {
+    "id": "observation-temperature-sensor-bad",
+    "label": "Sonde de température défectueuse",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "observation-temperature-sensor-good",
+    "label": "Sonde de température correcte",
+    "defaultConfidence": 0.95
+  },
+  {
+    "id": "observation-heater-hot",
+    "label": "Chauffage chaud",
+    "defaultConfidence": 0.93
+  },
+  {
+    "id": "observation-heater-cold",
+    "label": "Chauffage froid",
+    "defaultConfidence": 0.96
+  },
+  {
+    "id": "observation-gauge-red",
+    "label": "Aiguille dans le rouge",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "observation-gauge-normal",
+    "label": "Aiguille normale",
+    "defaultConfidence": 0.92
+  }
+]

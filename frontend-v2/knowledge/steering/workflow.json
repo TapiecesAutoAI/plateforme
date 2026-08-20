@@ -1,0 +1,6 @@
+﻿{
+  "id": "steering",
+  "title": "Diagnostic de direction",
+  "entryActionId": "steering-main-symptom",
+  "locked": true
+}

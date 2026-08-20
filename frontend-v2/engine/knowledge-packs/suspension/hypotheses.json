@@ -1,0 +1,257 @@
+﻿[
+  {
+    "id": "problem-shock-absorber",
+    "label": "Amortisseur usé ou défectueux",
+    "possibleParts": [
+      "Amortisseur",
+      "Jambe de force"
+    ],
+    "recommendedChecks": [
+      "Contrôler les fuites",
+      "Effectuer un test de rebond",
+      "Contrôler l'efficacité d'amortissement"
+    ]
+  },
+  {
+    "id": "problem-shock-mount",
+    "label": "Coupelle ou fixation d'amortisseur défectueuse",
+    "possibleParts": [
+      "Coupelle d'amortisseur",
+      "Support supérieur",
+      "Butée"
+    ],
+    "recommendedChecks": [
+      "Contrôler le jeu",
+      "Contrôler les fixations",
+      "Contrôler les bruits"
+    ]
+  },
+  {
+    "id": "problem-strut-bearing",
+    "label": "Roulement supérieur d'amortisseur défectueux",
+    "possibleParts": [
+      "Roulement de coupelle"
+    ],
+    "recommendedChecks": [
+      "Contrôler les points durs",
+      "Contrôler les craquements",
+      "Contrôler le jeu"
+    ]
+  },
+  {
+    "id": "problem-stabilizer-link",
+    "label": "Biellette de barre stabilisatrice usée",
+    "possibleParts": [
+      "Biellette de barre stabilisatrice"
+    ],
+    "recommendedChecks": [
+      "Contrôler le jeu",
+      "Contrôler les rotules",
+      "Contrôler les soufflets"
+    ]
+  },
+  {
+    "id": "problem-stabilizer-bushing",
+    "label": "Silentbloc de barre stabilisatrice usé",
+    "possibleParts": [
+      "Silentbloc de barre stabilisatrice"
+    ],
+    "recommendedChecks": [
+      "Contrôler les fissures",
+      "Contrôler le jeu",
+      "Contrôler le serrage"
+    ]
+  },
+  {
+    "id": "problem-control-arm-bushing",
+    "label": "Silentbloc de triangle ou de bras usé",
+    "possibleParts": [
+      "Silentbloc de triangle",
+      "Triangle de suspension",
+      "Bras de suspension"
+    ],
+    "recommendedChecks": [
+      "Contrôler les fissures",
+      "Contrôler le décollement",
+      "Contrôler les déplacements anormaux"
+    ]
+  },
+  {
+    "id": "problem-ball-joint",
+    "label": "Rotule de suspension usée",
+    "possibleParts": [
+      "Rotule de suspension",
+      "Triangle complet"
+    ],
+    "recommendedChecks": [
+      "Contrôler le jeu vertical",
+      "Contrôler le soufflet",
+      "Contrôler le graissage"
+    ]
+  },
+  {
+    "id": "problem-front-spring",
+    "label": "Ressort avant cassé ou affaissé",
+    "possibleParts": [
+      "Ressort avant",
+      "Semelle de ressort"
+    ],
+    "recommendedChecks": [
+      "Contrôler les spires",
+      "Mesurer la hauteur de caisse",
+      "Contrôler le positionnement"
+    ]
+  },
+  {
+    "id": "problem-rear-spring",
+    "label": "Ressort arrière cassé ou affaissé",
+    "possibleParts": [
+      "Ressort arrière",
+      "Semelle de ressort"
+    ],
+    "recommendedChecks": [
+      "Contrôler les spires",
+      "Mesurer la hauteur de caisse",
+      "Contrôler le positionnement"
+    ]
+  },
+  {
+    "id": "problem-rear-suspension-link",
+    "label": "Bras ou biellette de suspension arrière usé",
+    "possibleParts": [
+      "Bras arrière",
+      "Biellette arrière",
+      "Silentbloc arrière"
+    ],
+    "recommendedChecks": [
+      "Contrôler le jeu",
+      "Contrôler les silentblocs",
+      "Contrôler les déformations"
+    ]
+  },
+  {
+    "id": "problem-wheel-bearing",
+    "label": "Roulement de roue défectueux",
+    "possibleParts": [
+      "Roulement de roue",
+      "Moyeu de roue"
+    ],
+    "recommendedChecks": [
+      "Contrôler le jeu",
+      "Contrôler le grondement",
+      "Contrôler les points durs"
+    ]
+  },
+  {
+    "id": "problem-outer-tie-rod",
+    "label": "Rotule de direction extérieure usée",
+    "possibleParts": [
+      "Rotule de direction"
+    ],
+    "recommendedChecks": [
+      "Contrôler le jeu horizontal",
+      "Contrôler le soufflet",
+      "Contrôler la géométrie"
+    ]
+  },
+  {
+    "id": "problem-inner-tie-rod",
+    "label": "Rotule axiale usée",
+    "possibleParts": [
+      "Rotule axiale"
+    ],
+    "recommendedChecks": [
+      "Contrôler le jeu",
+      "Contrôler le soufflet de crémaillère",
+      "Contrôler la géométrie"
+    ]
+  },
+  {
+    "id": "problem-wheel-alignment",
+    "label": "Géométrie des trains roulants incorrecte",
+    "possibleParts": [
+      "Train avant",
+      "Train arrière"
+    ],
+    "recommendedChecks": [
+      "Mesurer le parallélisme",
+      "Mesurer le carrossage",
+      "Mesurer la chasse"
+    ]
+  },
+  {
+    "id": "problem-deformed-suspension-component",
+    "label": "Élément de suspension déformé",
+    "possibleParts": [
+      "Triangle",
+      "Bras de suspension",
+      "Berceau",
+      "Porte-moyeu"
+    ],
+    "recommendedChecks": [
+      "Contrôler les déformations",
+      "Comparer les mesures de géométrie",
+      "Contrôler les points de fixation"
+    ]
+  },
+  {
+    "id": "problem-wheel-balance",
+    "label": "Roue mal équilibrée",
+    "possibleParts": [
+      "Roue",
+      "Masse d'équilibrage"
+    ],
+    "recommendedChecks": [
+      "Contrôler l'équilibrage",
+      "Contrôler les masses",
+      "Contrôler le faux-rond"
+    ]
+  },
+  {
+    "id": "problem-deformed-tyre",
+    "label": "Pneu déformé ou irrégulièrement usé",
+    "possibleParts": [
+      "Pneu"
+    ],
+    "recommendedChecks": [
+      "Contrôler le faux-rond",
+      "Contrôler les facettes",
+      "Contrôler la pression"
+    ]
+  },
+  {
+    "id": "problem-bent-rim",
+    "label": "Jante voilée ou déformée",
+    "possibleParts": [
+      "Jante"
+    ],
+    "recommendedChecks": [
+      "Mesurer le voile",
+      "Contrôler les chocs",
+      "Contrôler l'équilibrage"
+    ]
+  },
+  {
+    "id": "problem-incorrect-tyre-pressure",
+    "label": "Pression des pneus incorrecte",
+    "possibleParts": [
+      "Pneu",
+      "Valve"
+    ],
+    "recommendedChecks": [
+      "Mesurer les pressions",
+      "Comparer aux valeurs constructeur",
+      "Contrôler les fuites"
+    ]
+  },
+  {
+    "id": "problem-uneven-load",
+    "label": "Charge excessive ou mal répartie",
+    "possibleParts": [],
+    "recommendedChecks": [
+      "Contrôler la charge",
+      "Répartir correctement le poids",
+      "Comparer la hauteur de caisse"
+    ]
+  }
+]

@@ -1,0 +1,1494 @@
+[
+  {
+    "id": "charging-main-symptom",
+    "workflowId": "charging",
+    "type": "ask-question",
+    "text": "Quel est le principal symptôme du circuit de charge ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 1,
+    "options": [
+      {
+        "id": "battery-light",
+        "label": "Le voyant batterie est allumé",
+        "value": "Le voyant batterie est allumé.",
+        "addsEvidence": [
+          "symptom-charging-battery-light"
+        ],
+        "nextActionId": "charging-engine-state"
+      },
+      {
+        "id": "battery-discharges",
+        "label": "La batterie se décharge en roulant",
+        "value": "La batterie se décharge pendant l'utilisation du véhicule.",
+        "addsEvidence": [
+          "symptom-charging-battery-discharges"
+        ],
+        "nextActionId": "charging-voltage-known"
+      },
+      {
+        "id": "electrical-weakness",
+        "label": "Les équipements électriques faiblissent",
+        "value": "Les équipements électriques perdent de la puissance.",
+        "addsEvidence": [
+          "symptom-charging-electrical-weakness"
+        ],
+        "nextActionId": "charging-voltage-known"
+      },
+      {
+        "id": "overvoltage",
+        "label": "Les ampoules grillent ou la tension semble trop élevée",
+        "value": "Une surtension du circuit de charge est suspectée.",
+        "addsEvidence": [
+          "symptom-charging-overvoltage"
+        ],
+        "nextActionId": "charging-voltage-known"
+      },
+      {
+        "id": "noise",
+        "label": "Un bruit vient de l'alternateur ou de la courroie",
+        "value": "Un bruit anormal provient de la zone de l'alternateur.",
+        "addsEvidence": [
+          "symptom-charging-noise"
+        ],
+        "nextActionId": "charging-noise-type"
+      }
+    ]
+  },
+  {
+    "id": "charging-engine-state",
+    "workflowId": "charging",
+    "type": "ask-question",
+    "text": "Le voyant batterie est-il allumé moteur arrêté, moteur tournant, ou dans les deux cas ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 2,
+    "requiredEvidence": [
+      "symptom-charging-battery-light"
+    ],
+    "options": [
+      {
+        "id": "engine-off-only",
+        "label": "Uniquement moteur arrêté",
+        "value": "Le voyant batterie est allumé uniquement moteur arrêté.",
+        "addsEvidence": [
+          "observation-battery-light-engine-off-only"
+        ],
+        "nextActionId": "charging-voltage-known"
+      },
+      {
+        "id": "engine-running",
+        "label": "Moteur tournant",
+        "value": "Le voyant batterie reste allumé moteur tournant.",
+        "addsEvidence": [
+          "observation-battery-light-engine-running"
+        ],
+        "nextActionId": "charging-belt-check"
+      },
+      {
+        "id": "intermittent",
+        "label": "Par intermittence",
+        "value": "Le voyant batterie s'allume par intermittence.",
+        "addsEvidence": [
+          "observation-battery-light-intermittent"
+        ],
+        "nextActionId": "charging-belt-check"
+      }
+    ]
+  },
+  {
+    "id": "charging-belt-check",
+    "workflowId": "charging",
+    "type": "request-observation",
+    "text": "La courroie d'accessoires est-elle présente, tendue et entraînée normalement ?",
+    "audiences": [
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 3,
+    "options": [
+      {
+        "id": "missing",
+        "label": "Absente ou cassée",
+        "value": "La courroie d'accessoires est absente ou cassée.",
+        "addsEvidence": [
+          "observation-accessory-belt-missing"
+        ],
+        "nextActionId": "charging-conclude"
+      },
+      {
+        "id": "loose",
+        "label": "Détendue ou patine",
+        "value": "La courroie d'accessoires est détendue ou patine.",
+        "addsEvidence": [
+          "observation-accessory-belt-loose"
+        ],
+        "nextActionId": "charging-tensioner-check"
+      },
+      {
+        "id": "damaged",
+        "label": "Craquelée ou abîmée",
+        "value": "La courroie d'accessoires est visiblement endommagée.",
+        "addsEvidence": [
+          "observation-accessory-belt-damaged"
+        ],
+        "nextActionId": "charging-tensioner-check"
+      },
+      {
+        "id": "normal",
+        "label": "Elle semble normale",
+        "value": "La courroie d'accessoires semble normale.",
+        "addsEvidence": [
+          "observation-accessory-belt-normal"
+        ],
+        "nextActionId": "charging-alternator-connection"
+      },
+      {
+        "id": "unknown",
+        "label": "Je ne sais pas",
+        "value": "L'état de la courroie n'est pas connu.",
+        "nextActionId": "charging-alternator-connection"
+      }
+    ]
+  },
+  {
+    "id": "charging-tensioner-check",
+    "workflowId": "charging",
+    "type": "request-observation",
+    "text": "Le tendeur et les galets maintiennent-ils correctement la courroie ?",
+    "audiences": [
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 4,
+    "options": [
+      {
+        "id": "bad",
+        "label": "Non, le tendeur ou un galet semble défectueux",
+        "value": "Le tendeur ou un galet semble défectueux.",
+        "addsEvidence": [
+          "observation-belt-tensioner-bad"
+        ],
+        "nextActionId": "charging-conclude"
+      },
+      {
+        "id": "good",
+        "label": "Oui, la tension semble correcte",
+        "value": "Le tendeur et les galets semblent corrects.",
+        "addsEvidence": [
+          "observation-belt-tensioner-good"
+        ],
+        "nextActionId": "charging-alternator-connection"
+      },
+      {
+        "id": "unknown",
+        "label": "Je ne sais pas",
+        "value": "L'état du tendeur et des galets n'est pas connu.",
+        "nextActionId": "charging-alternator-connection"
+      }
+    ]
+  },
+  {
+    "id": "charging-alternator-connection",
+    "workflowId": "charging",
+    "type": "request-observation",
+    "text": "Les câbles et connecteurs de l'alternateur sont-ils correctement fixés et sans oxydation ?",
+    "audiences": [
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 5,
+    "options": [
+      {
+        "id": "bad",
+        "label": "Non",
+        "value": "Une connexion de l'alternateur semble desserrée, oxydée ou endommagée.",
+        "addsEvidence": [
+          "observation-alternator-connection-bad"
+        ],
+        "nextActionId": "charging-connection-correction"
+      },
+      {
+        "id": "good",
+        "label": "Oui",
+        "value": "Les connexions de l'alternateur semblent correctes.",
+        "addsEvidence": [
+          "observation-alternator-connection-good"
+        ],
+        "nextActionId": "charging-voltage-known"
+      },
+      {
+        "id": "unknown",
+        "label": "Je ne sais pas",
+        "value": "L'état des connexions de l'alternateur n'est pas connu.",
+        "nextActionId": "charging-voltage-known"
+      }
+    ]
+  },
+  {
+    "id": "charging-connection-correction",
+    "workflowId": "charging",
+    "type": "request-observation",
+    "text": "Après correction des connexions de l'alternateur, le voyant batterie s'éteint-il ?",
+    "audiences": [
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 6,
+    "requiredEvidence": [
+      "observation-alternator-connection-bad"
+    ],
+    "options": [
+      {
+        "id": "yes",
+        "label": "Oui",
+        "value": "Le voyant batterie s'éteint après correction des connexions.",
+        "addsEvidence": [
+          "observation-alternator-connection-correction-success"
+        ],
+        "nextActionId": "charging-conclude"
+      },
+      {
+        "id": "no",
+        "label": "Non",
+        "value": "Le voyant batterie reste allumé après correction.",
+        "addsEvidence": [
+          "observation-alternator-connection-correction-failed"
+        ],
+        "nextActionId": "charging-voltage-known"
+      },
+      {
+        "id": "not-done",
+        "label": "Correction non effectuée",
+        "value": "Les connexions n'ont pas été corrigées.",
+        "nextActionId": "charging-voltage-known"
+      }
+    ]
+  },
+  {
+    "id": "charging-voltage-known",
+    "workflowId": "charging",
+    "type": "ask-question",
+    "text": "Avez-vous mesuré la tension aux bornes de la batterie moteur tournant ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 7,
+    "options": [
+      {
+        "id": "yes",
+        "label": "Oui",
+        "value": "La tension moteur tournant est connue.",
+        "nextActionId": "charging-voltage-value"
+      },
+      {
+        "id": "no",
+        "label": "Non",
+        "value": "La tension moteur tournant n'est pas connue.",
+        "nextActionId": "charging-electrical-load-behaviour"
+      },
+      {
+        "id": "no-meter",
+        "label": "Je n'ai pas de multimètre",
+        "value": "Aucun multimètre n'est disponible.",
+        "nextActionId": "charging-electrical-load-behaviour"
+      }
+    ]
+  },
+  {
+    "id": "charging-voltage-value",
+    "workflowId": "charging",
+    "type": "ask-question",
+    "text": "Quelle tension mesurez-vous moteur tournant au ralenti ?",
+    "audiences": [
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 8,
+    "options": [
+      {
+        "id": "below-12-5",
+        "label": "Moins de 12,5 V",
+        "value": "La tension moteur tournant est inférieure à 12,5 V.",
+        "addsEvidence": [
+          "measurement-charging-voltage-below-12-5"
+        ],
+        "nextActionId": "charging-rpm-test"
+      },
+      {
+        "id": "12-5-to-13-2",
+        "label": "Entre 12,5 V et 13,2 V",
+        "value": "La tension est comprise entre 12,5 V et 13,2 V.",
+        "addsEvidence": [
+          "measurement-charging-voltage-12-5-to-13-2"
+        ],
+        "nextActionId": "charging-rpm-test"
+      },
+      {
+        "id": "13-2-to-13-8",
+        "label": "Entre 13,2 V et 13,8 V",
+        "value": "La tension est comprise entre 13,2 V et 13,8 V.",
+        "addsEvidence": [
+          "measurement-charging-voltage-13-2-to-13-8"
+        ],
+        "nextActionId": "charging-load-test"
+      },
+      {
+        "id": "13-8-to-14-8",
+        "label": "Entre 13,8 V et 14,8 V",
+        "value": "La tension est comprise entre 13,8 V et 14,8 V.",
+        "addsEvidence": [
+          "measurement-charging-voltage-13-8-to-14-8"
+        ],
+        "nextActionId": "charging-load-test"
+      },
+      {
+        "id": "above-14-8",
+        "label": "Plus de 14,8 V",
+        "value": "La tension moteur tournant est supérieure à 14,8 V.",
+        "addsEvidence": [
+          "measurement-charging-voltage-above-14-8"
+        ],
+        "nextActionId": "charging-overvoltage-behaviour"
+      }
+    ]
+  },
+  {
+    "id": "charging-rpm-test",
+    "workflowId": "charging",
+    "type": "request-observation",
+    "text": "À environ 2 000 tr/min, la tension augmente-t-elle ?",
+    "audiences": [
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 9,
+    "options": [
+      {
+        "id": "no-change",
+        "label": "Non, elle ne change presque pas",
+        "value": "La tension n'augmente pas avec le régime moteur.",
+        "addsEvidence": [
+          "measurement-charging-no-rise-with-rpm"
+        ],
+        "nextActionId": "charging-field-command-known"
+      },
+      {
+        "id": "rises-normal",
+        "label": "Oui, elle monte dans une plage normale",
+        "value": "La tension augmente avec le régime dans une plage normale.",
+        "addsEvidence": [
+          "measurement-charging-rises-with-rpm"
+        ],
+        "nextActionId": "charging-load-test"
+      },
+      {
+        "id": "rises-too-high",
+        "label": "Oui, elle dépasse 14,8 V",
+        "value": "La tension dépasse 14,8 V lorsque le régime augmente.",
+        "addsEvidence": [
+          "measurement-charging-overvoltage-with-rpm"
+        ],
+        "nextActionId": "charging-overvoltage-behaviour"
+      }
+    ]
+  },
+  {
+    "id": "charging-load-test",
+    "workflowId": "charging",
+    "type": "request-observation",
+    "text": "Avec les phares, la ventilation et le dégivrage allumés, quelle tension mesurez-vous ?",
+    "audiences": [
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 10,
+    "options": [
+      {
+        "id": "below-12-5",
+        "label": "Moins de 12,5 V",
+        "value": "La tension descend sous 12,5 V avec les consommateurs.",
+        "addsEvidence": [
+          "measurement-charging-load-below-12-5"
+        ],
+        "nextActionId": "charging-ripple-known"
+      },
+      {
+        "id": "12-5-to-13-2",
+        "label": "Entre 12,5 V et 13,2 V",
+        "value": "La tension reste entre 12,5 V et 13,2 V sous charge.",
+        "addsEvidence": [
+          "measurement-charging-load-12-5-to-13-2"
+        ],
+        "nextActionId": "charging-ripple-known"
+      },
+      {
+        "id": "13-2-to-14-8",
+        "label": "Entre 13,2 V et 14,8 V",
+        "value": "La tension reste dans une plage normale sous charge.",
+        "addsEvidence": [
+          "measurement-charging-load-normal"
+        ],
+        "nextActionId": "charging-battery-condition"
+      },
+      {
+        "id": "above-14-8",
+        "label": "Plus de 14,8 V",
+        "value": "La tension reste trop élevée sous charge.",
+        "addsEvidence": [
+          "measurement-charging-load-above-14-8"
+        ],
+        "nextActionId": "charging-overvoltage-behaviour"
+      }
+    ]
+  },
+  {
+    "id": "charging-ripple-known",
+    "workflowId": "charging",
+    "type": "ask-question",
+    "text": "Avez-vous mesuré l'ondulation alternative aux bornes de la batterie ?",
+    "audiences": [
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "advanced",
+    "priority": 11,
+    "options": [
+      {
+        "id": "yes",
+        "label": "Oui",
+        "value": "L'ondulation alternative a été mesurée.",
+        "nextActionId": "charging-ripple-value"
+      },
+      {
+        "id": "no",
+        "label": "Non",
+        "value": "L'ondulation alternative n'a pas été mesurée.",
+        "nextActionId": "charging-current-output-known"
+      }
+    ]
+  },
+  {
+    "id": "charging-ripple-value",
+    "workflowId": "charging",
+    "type": "ask-question",
+    "text": "Quelle tension alternative mesurez-vous aux bornes de la batterie moteur tournant ?",
+    "audiences": [
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "advanced",
+    "priority": 12,
+    "options": [
+      {
+        "id": "below-0-3",
+        "label": "Moins de 0,3 V AC",
+        "value": "L'ondulation alternative est inférieure à 0,3 V.",
+        "addsEvidence": [
+          "measurement-alternator-ripple-below-0-3"
+        ],
+        "nextActionId": "charging-current-output-known"
+      },
+      {
+        "id": "0-3-to-0-5",
+        "label": "Entre 0,3 V et 0,5 V AC",
+        "value": "L'ondulation alternative est comprise entre 0,3 V et 0,5 V.",
+        "addsEvidence": [
+          "measurement-alternator-ripple-0-3-to-0-5"
+        ],
+        "nextActionId": "charging-current-output-known"
+      },
+      {
+        "id": "above-0-5",
+        "label": "Plus de 0,5 V AC",
+        "value": "L'ondulation alternative dépasse 0,5 V.",
+        "addsEvidence": [
+          "measurement-alternator-ripple-above-0-5"
+        ],
+        "nextActionId": "charging-conclude"
+      }
+    ]
+  },
+  {
+    "id": "charging-current-output-known",
+    "workflowId": "charging",
+    "type": "ask-question",
+    "text": "Le courant de sortie de l'alternateur a-t-il été mesuré sous charge ?",
+    "audiences": [
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "advanced",
+    "priority": 13,
+    "options": [
+      {
+        "id": "yes",
+        "label": "Oui",
+        "value": "Le courant de sortie de l'alternateur est connu.",
+        "nextActionId": "charging-current-output-value"
+      },
+      {
+        "id": "no",
+        "label": "Non",
+        "value": "Le courant de sortie de l'alternateur n'est pas connu.",
+        "nextActionId": "charging-voltage-drop-positive-known"
+      }
+    ]
+  },
+  {
+    "id": "charging-current-output-value",
+    "workflowId": "charging",
+    "type": "ask-question",
+    "text": "Le courant mesuré atteint-il la capacité attendue de l'alternateur ?",
+    "audiences": [
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "advanced",
+    "priority": 14,
+    "options": [
+      {
+        "id": "low",
+        "label": "Non, le courant est nettement insuffisant",
+        "value": "Le courant de sortie de l'alternateur est insuffisant.",
+        "addsEvidence": [
+          "measurement-alternator-output-low"
+        ],
+        "nextActionId": "charging-field-command-known"
+      },
+      {
+        "id": "normal",
+        "label": "Oui, le courant est conforme",
+        "value": "Le courant de sortie de l'alternateur est conforme.",
+        "addsEvidence": [
+          "measurement-alternator-output-normal"
+        ],
+        "nextActionId": "charging-battery-condition"
+      }
+    ]
+  },
+  {
+    "id": "charging-voltage-drop-positive-known",
+    "workflowId": "charging",
+    "type": "ask-question",
+    "text": "La chute de tension entre la borne B+ de l'alternateur et le positif batterie a-t-elle été mesurée ?",
+    "audiences": [
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "advanced",
+    "priority": 15,
+    "options": [
+      {
+        "id": "yes",
+        "label": "Oui",
+        "value": "La chute de tension du câble positif a été mesurée.",
+        "nextActionId": "charging-voltage-drop-positive-value"
+      },
+      {
+        "id": "no",
+        "label": "Non",
+        "value": "La chute de tension du câble positif n'a pas été mesurée.",
+        "nextActionId": "charging-voltage-drop-ground-known"
+      }
+    ]
+  },
+  {
+    "id": "charging-voltage-drop-positive-value",
+    "workflowId": "charging",
+    "type": "ask-question",
+    "text": "Quelle chute de tension mesurez-vous sur le câble positif sous charge ?",
+    "audiences": [
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "advanced",
+    "priority": 16,
+    "options": [
+      {
+        "id": "below-0-2",
+        "label": "Moins de 0,2 V",
+        "value": "La chute de tension positive est inférieure à 0,2 V.",
+        "addsEvidence": [
+          "measurement-positive-voltage-drop-normal"
+        ],
+        "nextActionId": "charging-voltage-drop-ground-known"
+      },
+      {
+        "id": "above-0-2",
+        "label": "Plus de 0,2 V",
+        "value": "La chute de tension positive dépasse 0,2 V.",
+        "addsEvidence": [
+          "measurement-positive-voltage-drop-high"
+        ],
+        "nextActionId": "charging-positive-cable-check"
+      }
+    ]
+  },
+  {
+    "id": "charging-positive-cable-check",
+    "workflowId": "charging",
+    "type": "request-observation",
+    "text": "Le câble positif, le fusible principal ou leurs connexions présentent-ils une anomalie ?",
+    "audiences": [
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "advanced",
+    "priority": 17,
+    "options": [
+      {
+        "id": "bad",
+        "label": "Oui",
+        "value": "Une anomalie est présente sur le circuit positif.",
+        "addsEvidence": [
+          "observation-positive-circuit-bad"
+        ],
+        "nextActionId": "charging-conclude"
+      },
+      {
+        "id": "good",
+        "label": "Non",
+        "value": "Le circuit positif semble correct.",
+        "addsEvidence": [
+          "observation-positive-circuit-good"
+        ],
+        "nextActionId": "charging-voltage-drop-ground-known"
+      }
+    ]
+  },
+  {
+    "id": "charging-voltage-drop-ground-known",
+    "workflowId": "charging",
+    "type": "ask-question",
+    "text": "La chute de tension entre le carter d'alternateur et le négatif batterie a-t-elle été mesurée ?",
+    "audiences": [
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "advanced",
+    "priority": 18,
+    "options": [
+      {
+        "id": "yes",
+        "label": "Oui",
+        "value": "La chute de tension du circuit de masse a été mesurée.",
+        "nextActionId": "charging-voltage-drop-ground-value"
+      },
+      {
+        "id": "no",
+        "label": "Non",
+        "value": "La chute de tension du circuit de masse n'a pas été mesurée.",
+        "nextActionId": "charging-field-command-known"
+      }
+    ]
+  },
+  {
+    "id": "charging-voltage-drop-ground-value",
+    "workflowId": "charging",
+    "type": "ask-question",
+    "text": "Quelle chute de tension mesurez-vous sur le circuit de masse sous charge ?",
+    "audiences": [
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "advanced",
+    "priority": 19,
+    "options": [
+      {
+        "id": "below-0-2",
+        "label": "Moins de 0,2 V",
+        "value": "La chute de tension de masse est inférieure à 0,2 V.",
+        "addsEvidence": [
+          "measurement-ground-voltage-drop-normal"
+        ],
+        "nextActionId": "charging-field-command-known"
+      },
+      {
+        "id": "above-0-2",
+        "label": "Plus de 0,2 V",
+        "value": "La chute de tension de masse dépasse 0,2 V.",
+        "addsEvidence": [
+          "measurement-ground-voltage-drop-high"
+        ],
+        "nextActionId": "charging-ground-check"
+      }
+    ]
+  },
+  {
+    "id": "charging-ground-check",
+    "workflowId": "charging",
+    "type": "request-observation",
+    "text": "Les masses moteur, carrosserie et alternateur sont-elles propres et correctement serrées ?",
+    "audiences": [
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "advanced",
+    "priority": 20,
+    "options": [
+      {
+        "id": "bad",
+        "label": "Non",
+        "value": "Une liaison de masse semble défectueuse.",
+        "addsEvidence": [
+          "observation-charging-ground-bad"
+        ],
+        "nextActionId": "charging-conclude"
+      },
+      {
+        "id": "good",
+        "label": "Oui",
+        "value": "Les liaisons de masse semblent correctes.",
+        "addsEvidence": [
+          "observation-charging-ground-good"
+        ],
+        "nextActionId": "charging-field-command-known"
+      }
+    ]
+  },
+  {
+    "id": "charging-field-command-known",
+    "workflowId": "charging",
+    "type": "ask-question",
+    "text": "La commande d'excitation ou de pilotage de l'alternateur a-t-elle été contrôlée ?",
+    "audiences": [
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "advanced",
+    "priority": 21,
+    "options": [
+      {
+        "id": "yes",
+        "label": "Oui",
+        "value": "La commande de l'alternateur a été contrôlée.",
+        "nextActionId": "charging-field-command-result"
+      },
+      {
+        "id": "no",
+        "label": "Non",
+        "value": "La commande de l'alternateur n'a pas été contrôlée.",
+        "nextActionId": "charging-diagnostic-codes-known"
+      }
+    ]
+  },
+  {
+    "id": "charging-field-command-result",
+    "workflowId": "charging",
+    "type": "ask-question",
+    "text": "La commande d'excitation ou le signal LIN/BSS est-il présent et cohérent ?",
+    "audiences": [
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "advanced",
+    "priority": 22,
+    "options": [
+      {
+        "id": "missing",
+        "label": "Non, la commande est absente",
+        "value": "La commande de l'alternateur est absente.",
+        "addsEvidence": [
+          "measurement-alternator-command-missing"
+        ],
+        "nextActionId": "charging-control-circuit-check"
+      },
+      {
+        "id": "invalid",
+        "label": "Présente mais incohérente",
+        "value": "La commande de l'alternateur est incohérente.",
+        "addsEvidence": [
+          "measurement-alternator-command-invalid"
+        ],
+        "nextActionId": "charging-control-circuit-check"
+      },
+      {
+        "id": "normal",
+        "label": "Oui, la commande est normale",
+        "value": "La commande de l'alternateur est correcte.",
+        "addsEvidence": [
+          "measurement-alternator-command-normal"
+        ],
+        "nextActionId": "charging-conclude"
+      }
+    ]
+  },
+  {
+    "id": "charging-control-circuit-check",
+    "workflowId": "charging",
+    "type": "request-observation",
+    "text": "Le faisceau de commande, les connecteurs et le fusible d'excitation sont-ils corrects ?",
+    "audiences": [
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "advanced",
+    "priority": 23,
+    "options": [
+      {
+        "id": "bad",
+        "label": "Non",
+        "value": "Une anomalie est présente sur le circuit de commande.",
+        "addsEvidence": [
+          "observation-alternator-control-circuit-bad"
+        ],
+        "nextActionId": "charging-conclude"
+      },
+      {
+        "id": "good",
+        "label": "Oui",
+        "value": "Le circuit de commande semble correct.",
+        "addsEvidence": [
+          "observation-alternator-control-circuit-good"
+        ],
+        "nextActionId": "charging-diagnostic-codes-known"
+      }
+    ]
+  },
+  {
+    "id": "charging-diagnostic-codes-known",
+    "workflowId": "charging",
+    "type": "ask-question",
+    "text": "Des codes défaut liés au circuit de charge ont-ils été lus ?",
+    "audiences": [
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 24,
+    "options": [
+      {
+        "id": "yes",
+        "label": "Oui",
+        "value": "Des codes défaut liés au circuit de charge sont présents.",
+        "addsEvidence": [
+          "observation-charging-diagnostic-codes-present"
+        ],
+        "nextActionId": "charging-code-family"
+      },
+      {
+        "id": "no",
+        "label": "Non, aucun code",
+        "value": "Aucun code défaut lié au circuit de charge n'est présent.",
+        "addsEvidence": [
+          "observation-charging-diagnostic-codes-absent"
+        ],
+        "nextActionId": "charging-battery-condition"
+      },
+      {
+        "id": "not-tested",
+        "label": "Lecture non effectuée",
+        "value": "Aucune lecture de codes défaut n'a été effectuée.",
+        "nextActionId": "charging-battery-condition"
+      }
+    ]
+  },
+  {
+    "id": "charging-code-family",
+    "workflowId": "charging",
+    "type": "ask-question",
+    "text": "À quelle famille appartient le code défaut principal ?",
+    "audiences": [
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 25,
+    "options": [
+      {
+        "id": "generator-output",
+        "label": "Tension ou rendement d'alternateur",
+        "value": "Le code concerne la production de l'alternateur.",
+        "addsEvidence": [
+          "observation-code-generator-output"
+        ],
+        "nextActionId": "charging-conclude"
+      },
+      {
+        "id": "communication",
+        "label": "Communication LIN/BSS",
+        "value": "Le code concerne la communication avec l'alternateur.",
+        "addsEvidence": [
+          "observation-code-alternator-communication"
+        ],
+        "nextActionId": "charging-control-circuit-check"
+      },
+      {
+        "id": "battery-sensor",
+        "label": "Capteur de batterie intelligent",
+        "value": "Le code concerne le capteur de batterie.",
+        "addsEvidence": [
+          "observation-code-battery-sensor"
+        ],
+        "nextActionId": "charging-battery-sensor-check"
+      },
+      {
+        "id": "unknown",
+        "label": "Je ne sais pas",
+        "value": "La famille du code défaut n'est pas connue.",
+        "nextActionId": "charging-battery-condition"
+      }
+    ]
+  },
+  {
+    "id": "charging-battery-sensor-check",
+    "workflowId": "charging",
+    "type": "request-observation",
+    "text": "Le capteur de batterie sur la borne négative est-il correctement branché et intact ?",
+    "audiences": [
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 26,
+    "options": [
+      {
+        "id": "bad",
+        "label": "Non",
+        "value": "Le capteur de batterie ou son câblage semble défectueux.",
+        "addsEvidence": [
+          "observation-battery-sensor-bad"
+        ],
+        "nextActionId": "charging-conclude",
+        "supportsHypotheses": [
+          "problem-battery-sensor"
+        ],
+        "rejectsHypotheses": [
+          "problem-alternator-failure"
+        ]
+      },
+      {
+        "id": "good",
+        "label": "Oui",
+        "value": "Le capteur de batterie semble correct.",
+        "addsEvidence": [
+          "observation-battery-sensor-good"
+        ],
+        "nextActionId": "charging-conclude",
+        "rejectsHypotheses": [
+          "problem-battery-sensor"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "charging-electrical-load-behaviour",
+    "workflowId": "charging",
+    "type": "request-observation",
+    "text": "Lorsque les phares, la ventilation ou le dégivrage sont activés, que se passe-t-il ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 27,
+    "options": [
+      {
+        "id": "lights-dim",
+        "label": "Les lumières faiblissent",
+        "value": "Les lumières faiblissent avec les consommateurs.",
+        "addsEvidence": [
+          "observation-electrical-load-lights-dim"
+        ],
+        "nextActionId": "charging-belt-check"
+      },
+      {
+        "id": "engine-idle-unstable",
+        "label": "Le ralenti devient instable",
+        "value": "Le ralenti devient instable lorsque les consommateurs sont activés.",
+        "addsEvidence": [
+          "observation-electrical-load-idle-unstable"
+        ],
+        "nextActionId": "charging-belt-check"
+      },
+      {
+        "id": "normal",
+        "label": "Aucun changement notable",
+        "value": "Les consommateurs n'entraînent pas de changement notable.",
+        "addsEvidence": [
+          "observation-electrical-load-normal"
+        ],
+        "nextActionId": "charging-battery-condition"
+      },
+      {
+        "id": "unknown",
+        "label": "Je ne sais pas",
+        "value": "Le comportement sous charge électrique n'est pas connu.",
+        "nextActionId": "charging-battery-condition"
+      }
+    ]
+  },
+  {
+    "id": "charging-battery-condition",
+    "workflowId": "charging",
+    "type": "ask-question",
+    "text": "La batterie a-t-elle été testée et reconnue en bon état ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 28,
+    "options": [
+      {
+        "id": "good",
+        "label": "Oui, batterie bonne",
+        "value": "La batterie est reconnue en bon état.",
+        "addsEvidence": [
+          "observation-battery-tested-good"
+        ],
+        "nextActionId": "charging-recent-work"
+      },
+      {
+        "id": "weak",
+        "label": "Non, batterie faible ou usée",
+        "value": "La batterie est faible ou usée.",
+        "addsEvidence": [
+          "observation-battery-tested-weak"
+        ],
+        "nextActionId": "charging-conclude"
+      },
+      {
+        "id": "not-tested",
+        "label": "Elle n'a pas été testée",
+        "value": "La batterie n'a pas été testée.",
+        "nextActionId": "charging-recent-work"
+      }
+    ]
+  },
+  {
+    "id": "charging-overvoltage-behaviour",
+    "workflowId": "charging",
+    "type": "request-observation",
+    "text": "Avez-vous observé des ampoules qui grillent, une odeur d'électrolyte ou une batterie chaude ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 29,
+    "options": [
+      {
+        "id": "yes",
+        "label": "Oui",
+        "value": "Des conséquences de surtension sont observées.",
+        "addsEvidence": [
+          "observation-overvoltage-effects-present"
+        ],
+        "nextActionId": "charging-battery-temperature"
+      },
+      {
+        "id": "no",
+        "label": "Non",
+        "value": "Aucune conséquence évidente de surtension n'est observée.",
+        "addsEvidence": [
+          "observation-overvoltage-effects-absent"
+        ],
+        "nextActionId": "charging-regulator-command-check"
+      }
+    ]
+  },
+  {
+    "id": "charging-battery-temperature",
+    "workflowId": "charging",
+    "type": "request-observation",
+    "text": "La batterie est-elle anormalement chaude, gonflée ou fuyarde ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 30,
+    "options": [
+      {
+        "id": "yes",
+        "label": "Oui",
+        "value": "La batterie est anormalement chaude, gonflée ou fuyarde.",
+        "addsEvidence": [
+          "observation-battery-overcharge-damage"
+        ],
+        "nextActionId": "charging-conclude"
+      },
+      {
+        "id": "no",
+        "label": "Non",
+        "value": "La batterie ne présente pas de dommage visible lié à la surcharge.",
+        "addsEvidence": [
+          "observation-battery-overcharge-no-visible-damage"
+        ],
+        "nextActionId": "charging-regulator-command-check"
+      }
+    ]
+  },
+  {
+    "id": "charging-regulator-command-check",
+    "workflowId": "charging",
+    "type": "ask-question",
+    "text": "La consigne de charge demandée par le calculateur est-elle cohérente avec la tension mesurée ?",
+    "audiences": [
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "advanced",
+    "priority": 31,
+    "options": [
+      {
+        "id": "coherent",
+        "label": "Oui",
+        "value": "La consigne de charge est cohérente avec la tension mesurée.",
+        "addsEvidence": [
+          "measurement-charge-command-coherent"
+        ],
+        "nextActionId": "charging-conclude"
+      },
+      {
+        "id": "not-coherent",
+        "label": "Non",
+        "value": "La consigne de charge n'est pas cohérente avec la tension mesurée.",
+        "addsEvidence": [
+          "measurement-charge-command-not-coherent"
+        ],
+        "nextActionId": "charging-control-circuit-check"
+      },
+      {
+        "id": "not-known",
+        "label": "Non contrôlée",
+        "value": "La consigne de charge n'a pas été contrôlée.",
+        "nextActionId": "charging-conclude"
+      }
+    ]
+  },
+  {
+    "id": "charging-noise-type",
+    "workflowId": "charging",
+    "type": "ask-question",
+    "text": "Quel type de bruit entendez-vous dans la zone de l'alternateur ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 32,
+    "requiredEvidence": [
+      "symptom-charging-noise"
+    ],
+    "options": [
+      {
+        "id": "squeal",
+        "label": "Un sifflement ou couinement",
+        "value": "Un sifflement ou couinement est entendu.",
+        "addsEvidence": [
+          "observation-charging-noise-squeal"
+        ],
+        "nextActionId": "charging-belt-check"
+      },
+      {
+        "id": "grinding",
+        "label": "Un grondement ou frottement",
+        "value": "Un grondement ou frottement est entendu.",
+        "addsEvidence": [
+          "observation-charging-noise-grinding"
+        ],
+        "nextActionId": "charging-alternator-bearing-check"
+      },
+      {
+        "id": "rattle",
+        "label": "Un claquement ou bruit de poulie",
+        "value": "Un claquement ou bruit de poulie est entendu.",
+        "addsEvidence": [
+          "observation-charging-noise-rattle"
+        ],
+        "nextActionId": "charging-freewheel-pulley-check"
+      }
+    ]
+  },
+  {
+    "id": "charging-alternator-bearing-check",
+    "workflowId": "charging",
+    "type": "request-observation",
+    "text": "La poulie d'alternateur présente-t-elle du jeu ou un bruit lorsque la courroie est déposée ?",
+    "audiences": [
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "advanced",
+    "priority": 33,
+    "options": [
+      {
+        "id": "bad",
+        "label": "Oui",
+        "value": "La poulie ou les roulements d'alternateur présentent un jeu ou un bruit.",
+        "addsEvidence": [
+          "observation-alternator-bearing-bad"
+        ],
+        "nextActionId": "charging-conclude"
+      },
+      {
+        "id": "good",
+        "label": "Non",
+        "value": "La poulie et les roulements semblent corrects.",
+        "addsEvidence": [
+          "observation-alternator-bearing-good"
+        ],
+        "nextActionId": "charging-freewheel-pulley-check"
+      },
+      {
+        "id": "not-tested",
+        "label": "Test non effectué",
+        "value": "Le contrôle mécanique de l'alternateur n'a pas été effectué.",
+        "nextActionId": "charging-conclude"
+      }
+    ]
+  },
+  {
+    "id": "charging-freewheel-pulley-check",
+    "workflowId": "charging",
+    "type": "request-observation",
+    "text": "La poulie roue libre d'alternateur fonctionne-t-elle correctement ?",
+    "audiences": [
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "advanced",
+    "priority": 34,
+    "options": [
+      {
+        "id": "bad",
+        "label": "Non",
+        "value": "La poulie roue libre d'alternateur est défectueuse.",
+        "addsEvidence": [
+          "observation-alternator-freewheel-pulley-bad"
+        ],
+        "nextActionId": "charging-conclude"
+      },
+      {
+        "id": "good",
+        "label": "Oui",
+        "value": "La poulie roue libre fonctionne correctement.",
+        "addsEvidence": [
+          "observation-alternator-freewheel-pulley-good"
+        ],
+        "nextActionId": "charging-conclude"
+      },
+      {
+        "id": "not-tested",
+        "label": "Test non effectué",
+        "value": "La poulie roue libre n'a pas été testée.",
+        "nextActionId": "charging-conclude"
+      }
+    ]
+  },
+  {
+    "id": "charging-recent-work",
+    "workflowId": "charging",
+    "type": "ask-question",
+    "text": "Le problème est-il apparu après le remplacement de la batterie, de l'alternateur ou une intervention électrique ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 35,
+    "options": [
+      {
+        "id": "battery",
+        "label": "Après remplacement de la batterie",
+        "value": "Le problème est apparu après le remplacement de la batterie.",
+        "addsEvidence": [
+          "observation-charging-problem-after-battery-replacement"
+        ],
+        "nextActionId": "charging-battery-registration"
+      },
+      {
+        "id": "alternator",
+        "label": "Après remplacement de l'alternateur",
+        "value": "Le problème est apparu après le remplacement de l'alternateur.",
+        "addsEvidence": [
+          "observation-charging-problem-after-alternator-replacement"
+        ],
+        "nextActionId": "charging-replacement-compatibility"
+      },
+      {
+        "id": "electrical",
+        "label": "Après une intervention électrique",
+        "value": "Le problème est apparu après une intervention électrique.",
+        "addsEvidence": [
+          "observation-charging-problem-after-electrical-work"
+        ],
+        "nextActionId": "charging-control-circuit-check"
+      },
+      {
+        "id": "no",
+        "label": "Non",
+        "value": "Le problème n'est pas lié à une intervention récente.",
+        "nextActionId": "charging-conclude"
+      }
+    ]
+  },
+  {
+    "id": "charging-battery-registration",
+    "workflowId": "charging",
+    "type": "ask-question",
+    "text": "La nouvelle batterie a-t-elle été enregistrée ou codée si le véhicule l'exige ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 36,
+    "options": [
+      {
+        "id": "yes",
+        "label": "Oui",
+        "value": "La batterie a été enregistrée dans le véhicule.",
+        "addsEvidence": [
+          "observation-battery-registration-done"
+        ],
+        "nextActionId": "charging-conclude"
+      },
+      {
+        "id": "no",
+        "label": "Non",
+        "value": "La batterie n'a pas été enregistrée.",
+        "addsEvidence": [
+          "observation-battery-registration-missing"
+        ],
+        "nextActionId": "charging-conclude"
+      },
+      {
+        "id": "not-required",
+        "label": "Le véhicule ne l'exige pas",
+        "value": "Le véhicule ne nécessite pas l'enregistrement de la batterie.",
+        "nextActionId": "charging-conclude"
+      },
+      {
+        "id": "unknown",
+        "label": "Je ne sais pas",
+        "value": "L'enregistrement de la batterie n'est pas connu.",
+        "nextActionId": "charging-conclude"
+      }
+    ]
+  },
+  {
+    "id": "charging-replacement-compatibility",
+    "workflowId": "charging",
+    "type": "ask-question",
+    "text": "L'alternateur remplacé correspond-il exactement à la référence et à la capacité prévues ?",
+    "audiences": [
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 37,
+    "options": [
+      {
+        "id": "yes",
+        "label": "Oui",
+        "value": "L'alternateur correspond aux spécifications du véhicule.",
+        "addsEvidence": [
+          "observation-alternator-replacement-compatible"
+        ],
+        "nextActionId": "charging-control-circuit-check"
+      },
+      {
+        "id": "no",
+        "label": "Non",
+        "value": "L'alternateur ne correspond pas aux spécifications du véhicule.",
+        "addsEvidence": [
+          "observation-alternator-replacement-incompatible"
+        ],
+        "nextActionId": "charging-conclude"
+      },
+      {
+        "id": "unknown",
+        "label": "Je ne sais pas",
+        "value": "La compatibilité de l'alternateur n'est pas connue.",
+        "nextActionId": "charging-conclude"
+      }
+    ]
+  },
+  {
+    "id": "charging-conclude",
+    "workflowId": "charging",
+    "type": "complete-diagnosis",
+    "text": "Calcul du diagnostic du circuit de charge.",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 100,
+    "diagnosisId": "charging-diagnosis"
+  }
+]

@@ -1,0 +1,6 @@
+﻿{
+  "id": "engine",
+  "title": "Diagnostic moteur",
+  "entryActionId": "engine-main-symptom",
+  "locked": true
+}

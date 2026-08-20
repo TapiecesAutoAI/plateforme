@@ -1,0 +1,451 @@
+﻿[
+  {
+    "id": "steering-main-symptom",
+    "workflowId": "steering",
+    "type": "ask-question",
+    "text": "Quel est le principal problème de direction ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 1,
+    "options": [
+      {
+        "id": "hard",
+        "label": "Direction dure",
+        "value": "La direction est difficile à tourner.",
+        "addsEvidence": [
+          "symptom-steering-hard"
+        ],
+        "nextActionId": "steering-hard-all-time"
+      },
+      {
+        "id": "noise",
+        "label": "Bruit",
+        "value": "Un bruit apparaît pendant la direction.",
+        "addsEvidence": [
+          "symptom-steering-noise"
+        ],
+        "nextActionId": "steering-noise-type"
+      },
+      {
+        "id": "play",
+        "label": "Jeu dans le volant",
+        "value": "Le volant présente du jeu.",
+        "addsEvidence": [
+          "symptom-steering-play"
+        ],
+        "nextActionId": "steering-play-location"
+      },
+      {
+        "id": "pull",
+        "label": "Le véhicule tire",
+        "value": "Le véhicule tire d'un côté.",
+        "addsEvidence": [
+          "symptom-steering-pulls"
+        ],
+        "nextActionId": "steering-pull-side"
+      },
+      {
+        "id": "vibration",
+        "label": "Vibrations",
+        "value": "Des vibrations sont ressenties.",
+        "addsEvidence": [
+          "symptom-steering-vibration"
+        ],
+        "nextActionId": "steering-vibration-speed"
+      },
+      {
+        "id": "warning",
+        "label": "Voyant direction",
+        "value": "Le voyant de direction est allumé.",
+        "addsEvidence": [
+          "symptom-steering-warning"
+        ],
+        "nextActionId": "steering-warning-type"
+      }
+    ]
+  },
+  {
+    "id": "steering-hard-all-time",
+    "workflowId": "steering",
+    "type": "ask-question",
+    "text": "La direction est-elle dure en permanence ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 2,
+    "requiredEvidence": [
+      "symptom-steering-hard"
+    ],
+    "options": [
+      {
+        "id": "always",
+        "label": "Toujours",
+        "value": "Toujours dure.",
+        "addsEvidence": [
+          "observation-steering-hard-always"
+        ],
+        "nextActionId": "steering-power-assisted"
+      },
+      {
+        "id": "sometimes",
+        "label": "Par moments",
+        "value": "Seulement parfois.",
+        "addsEvidence": [
+          "observation-steering-hard-intermittent"
+        ],
+        "nextActionId": "steering-power-assisted"
+      }
+    ]
+  },
+  {
+    "id": "steering-power-assisted",
+    "workflowId": "steering",
+    "type": "ask-question",
+    "text": "Le véhicule possède-t-il une direction assistée hydraulique ou électrique ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 3,
+    "options": [
+      {
+        "id": "hydraulic",
+        "label": "Hydraulique",
+        "value": "Direction assistée hydraulique.",
+        "addsEvidence": [
+          "observation-steering-hydraulic"
+        ],
+        "nextActionId": "steering-fluid-level"
+      },
+      {
+        "id": "electric",
+        "label": "Électrique",
+        "value": "Direction assistée électrique.",
+        "addsEvidence": [
+          "observation-steering-electric"
+        ],
+        "nextActionId": "steering-warning-type"
+      }
+    ]
+  },
+  {
+    "id": "steering-fluid-level",
+    "workflowId": "steering",
+    "type": "request-observation",
+    "text": "Le niveau d'huile de direction est-il correct ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 4,
+    "options": [
+      {
+        "id": "low",
+        "label": "Bas",
+        "value": "Le niveau est insuffisant.",
+        "addsEvidence": [
+          "observation-steering-fluid-low"
+        ],
+        "nextActionId": "steering-leak"
+      },
+      {
+        "id": "normal",
+        "label": "Normal",
+        "value": "Le niveau est normal.",
+        "addsEvidence": [
+          "observation-steering-fluid-normal"
+        ],
+        "nextActionId": "steering-pump-noise"
+      }
+    ]
+  },
+  {
+    "id": "steering-leak",
+    "workflowId": "steering",
+    "type": "request-observation",
+    "text": "Une fuite de liquide est-elle visible ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 5,
+    "options": [
+      {
+        "id": "yes",
+        "label": "Oui",
+        "value": "Une fuite est visible.",
+        "addsEvidence": [
+          "observation-steering-fluid-leak"
+        ],
+        "nextActionId": "steering-conclude"
+      },
+      {
+        "id": "no",
+        "label": "Non",
+        "value": "Aucune fuite.",
+        "addsEvidence": [
+          "observation-steering-no-leak"
+        ],
+        "nextActionId": "steering-pump-noise"
+      }
+    ]
+  },
+  {
+    "id": "steering-pump-noise",
+    "workflowId": "steering",
+    "type": "request-observation",
+    "text": "La pompe de direction fait-elle du bruit ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 6,
+    "options": [
+      {
+        "id": "yes",
+        "label": "Oui",
+        "value": "La pompe est bruyante.",
+        "addsEvidence": [
+          "observation-steering-pump-noisy"
+        ],
+        "nextActionId": "steering-conclude"
+      },
+      {
+        "id": "no",
+        "label": "Non",
+        "value": "Aucun bruit de pompe.",
+        "addsEvidence": [
+          "observation-steering-pump-normal"
+        ],
+        "nextActionId": "steering-conclude"
+      }
+    ]
+  },
+  {
+    "id": "steering-noise-type",
+    "workflowId": "steering",
+    "type": "ask-question",
+    "text": "Quel type de bruit entendez-vous ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 7,
+    "options": [
+      {
+        "id": "clunk",
+        "label": "Claquements",
+        "value": "Des claquements sont entendus.",
+        "addsEvidence": [
+          "observation-steering-clunk"
+        ],
+        "nextActionId": "steering-conclude"
+      },
+      {
+        "id": "whine",
+        "label": "Sifflement",
+        "value": "Un sifflement est entendu.",
+        "addsEvidence": [
+          "observation-steering-whine"
+        ],
+        "nextActionId": "steering-conclude"
+      },
+      {
+        "id": "grinding",
+        "label": "Grincement",
+        "value": "Un grincement est entendu.",
+        "addsEvidence": [
+          "observation-steering-grinding"
+        ],
+        "nextActionId": "steering-conclude"
+      }
+    ]
+  },
+  {
+    "id": "steering-play-location",
+    "workflowId": "steering",
+    "type": "ask-question",
+    "text": "Le jeu est-il présent uniquement au volant ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 8,
+    "options": [
+      {
+        "id": "yes",
+        "label": "Oui",
+        "value": "Jeu au volant.",
+        "addsEvidence": [
+          "observation-steering-wheel-play"
+        ],
+        "nextActionId": "steering-conclude"
+      },
+      {
+        "id": "rack",
+        "label": "Dans la crémaillère",
+        "value": "Jeu dans la crémaillère.",
+        "addsEvidence": [
+          "observation-steering-rack-play"
+        ],
+        "nextActionId": "steering-conclude"
+      }
+    ]
+  },
+  {
+    "id": "steering-pull-side",
+    "workflowId": "steering",
+    "type": "ask-question",
+    "text": "De quel côté tire le véhicule ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 9,
+    "options": [
+      {
+        "id": "left",
+        "label": "Gauche",
+        "value": "Le véhicule tire à gauche.",
+        "addsEvidence": [
+          "observation-steering-pull-left"
+        ],
+        "nextActionId": "steering-conclude"
+      },
+      {
+        "id": "right",
+        "label": "Droite",
+        "value": "Le véhicule tire à droite.",
+        "addsEvidence": [
+          "observation-steering-pull-right"
+        ],
+        "nextActionId": "steering-conclude"
+      }
+    ]
+  },
+  {
+    "id": "steering-vibration-speed",
+    "workflowId": "steering",
+    "type": "ask-question",
+    "text": "À quelle vitesse les vibrations apparaissent-elles ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 10,
+    "options": [
+      {
+        "id": "low",
+        "label": "Faible vitesse",
+        "value": "À faible vitesse.",
+        "addsEvidence": [
+          "observation-steering-vibration-low-speed"
+        ],
+        "nextActionId": "steering-conclude"
+      },
+      {
+        "id": "high",
+        "label": "Haute vitesse",
+        "value": "À haute vitesse.",
+        "addsEvidence": [
+          "observation-steering-vibration-high-speed"
+        ],
+        "nextActionId": "steering-conclude"
+      }
+    ]
+  },
+  {
+    "id": "steering-warning-type",
+    "workflowId": "steering",
+    "type": "ask-question",
+    "text": "Quel voyant est allumé ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 11,
+    "options": [
+      {
+        "id": "eps",
+        "label": "EPS",
+        "value": "Voyant EPS.",
+        "addsEvidence": [
+          "observation-steering-eps-light"
+        ],
+        "nextActionId": "steering-conclude"
+      },
+      {
+        "id": "power",
+        "label": "Direction assistée",
+        "value": "Voyant direction assistée.",
+        "addsEvidence": [
+          "observation-steering-power-light"
+        ],
+        "nextActionId": "steering-conclude"
+      }
+    ]
+  },
+  {
+    "id": "steering-conclude",
+    "workflowId": "steering",
+    "type": "complete-diagnosis",
+    "text": "Calcul du diagnostic de direction.",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 100,
+    "diagnosisId": "steering-diagnosis"
+  }
+]

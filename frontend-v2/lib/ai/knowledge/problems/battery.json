@@ -1,0 +1,41 @@
+{
+  "id": "weak-battery",
+
+  "name": "Batterie faible ou déchargée",
+
+  "category": "demarrage",
+
+  "severity": "medium",
+
+  "description": "La batterie ne fournit plus suffisamment d'énergie pour entraîner correctement le démarreur.",
+
+  "observations": [
+    "ne démarre pas",
+    "clic",
+    "voyants faibles",
+    "phares faibles",
+    "batterie ancienne"
+  ],
+
+  "questions": [
+    {
+      "id": "lights",
+      "text": "Les phares ou les voyants faiblissent-ils lorsque vous essayez de démarrer ?",
+      "informationGain": 0.95
+    },
+    {
+      "id": "battery-age",
+      "text": "Connaissez-vous l'âge approximatif de la batterie ?",
+      "informationGain": 0.62
+    },
+    {
+      "id": "jump-start",
+      "text": "Le véhicule démarre-t-il avec des câbles ou un booster ?",
+      "informationGain": 0.98
+    }
+  ],
+
+  "parts": [
+    "battery"
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "id":"battery",
+  "title":"Diagnostic batterie",
+  "entryActionId":"battery-main-symptom",
+  "locked":true
+}

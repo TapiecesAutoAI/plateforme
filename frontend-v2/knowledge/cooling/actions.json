@@ -1,0 +1,474 @@
+﻿[
+  {
+    "id": "cooling-main-symptom",
+    "workflowId": "cooling",
+    "type": "ask-question",
+    "text": "Quel est le principal problème de refroidissement observé ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 1,
+    "options": [
+      {
+        "id": "overheating",
+        "label": "Le moteur chauffe",
+        "value": "Le moteur surchauffe.",
+        "addsEvidence": [
+          "symptom-engine-overheating"
+        ],
+        "nextActionId": "cooling-temperature-when"
+      },
+      {
+        "id": "coolant-loss",
+        "label": "Perte de liquide",
+        "value": "Le niveau baisse.",
+        "addsEvidence": [
+          "symptom-coolant-loss"
+        ],
+        "nextActionId": "cooling-visible-leak"
+      },
+      {
+        "id": "fan",
+        "label": "Ventilateur",
+        "value": "Le ventilateur fonctionne mal.",
+        "addsEvidence": [
+          "symptom-fan-problem"
+        ],
+        "nextActionId": "cooling-fan-running"
+      },
+      {
+        "id": "heater",
+        "label": "Chauffage habitacle",
+        "value": "Le chauffage ne fonctionne pas correctement.",
+        "addsEvidence": [
+          "symptom-heater-problem"
+        ],
+        "nextActionId": "cooling-heater-temperature"
+      },
+      {
+        "id": "warning",
+        "label": "Voyant température",
+        "value": "Le voyant température est allumé.",
+        "addsEvidence": [
+          "symptom-temperature-warning"
+        ],
+        "nextActionId": "cooling-temperature-gauge"
+      }
+    ]
+  },
+  {
+    "id": "cooling-temperature-when",
+    "workflowId": "cooling",
+    "type": "ask-question",
+    "text": "Quand la température augmente-t-elle ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 2,
+    "requiredEvidence": [
+      "symptom-engine-overheating"
+    ],
+    "options": [
+      {
+        "id": "idle",
+        "label": "Au ralenti",
+        "value": "La température monte au ralenti.",
+        "addsEvidence": [
+          "observation-overheat-idle"
+        ],
+        "nextActionId": "cooling-fan-running"
+      },
+      {
+        "id": "driving",
+        "label": "En roulant",
+        "value": "La température monte en roulant.",
+        "addsEvidence": [
+          "observation-overheat-driving"
+        ],
+        "nextActionId": "cooling-upper-hose"
+      },
+      {
+        "id": "always",
+        "label": "Toujours",
+        "value": "La température monte en permanence.",
+        "addsEvidence": [
+          "observation-overheat-always"
+        ],
+        "nextActionId": "cooling-coolant-level"
+      }
+    ]
+  },
+  {
+    "id": "cooling-fan-running",
+    "workflowId": "cooling",
+    "type": "request-observation",
+    "text": "Le ventilateur se met-il en marche lorsque le moteur est chaud ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 3,
+    "options": [
+      {
+        "id": "yes",
+        "label": "Oui",
+        "value": "Le ventilateur fonctionne.",
+        "addsEvidence": [
+          "observation-fan-running"
+        ],
+        "nextActionId": "cooling-coolant-level"
+      },
+      {
+        "id": "no",
+        "label": "Non",
+        "value": "Le ventilateur ne fonctionne pas.",
+        "addsEvidence": [
+          "observation-fan-not-running"
+        ],
+        "nextActionId": "cooling-fan-fuse"
+      },
+      {
+        "id": "unknown",
+        "label": "Je ne sais pas",
+        "value": "Le fonctionnement est inconnu.",
+        "nextActionId": "cooling-coolant-level"
+      }
+    ]
+  },
+  {
+    "id": "cooling-fan-fuse",
+    "workflowId": "cooling",
+    "type": "request-observation",
+    "text": "Le fusible et le relais du ventilateur sont-ils corrects ?",
+    "audiences": [
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 4,
+    "options": [
+      {
+        "id": "bad",
+        "label": "Non",
+        "value": "Le circuit est défectueux.",
+        "addsEvidence": [
+          "observation-fan-fuse-bad"
+        ],
+        "nextActionId": "cooling-conclude"
+      },
+      {
+        "id": "good",
+        "label": "Oui",
+        "value": "Le circuit est correct.",
+        "addsEvidence": [
+          "observation-fan-fuse-good"
+        ],
+        "nextActionId": "cooling-fan-motor"
+      }
+    ]
+  },
+  {
+    "id": "cooling-fan-motor",
+    "workflowId": "cooling",
+    "type": "request-observation",
+    "text": "Le moteur du ventilateur fonctionne-t-il lorsqu'il est alimenté directement ?",
+    "audiences": [
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "advanced",
+    "priority": 5,
+    "options": [
+      {
+        "id": "yes",
+        "label": "Oui",
+        "value": "Le moteur est fonctionnel.",
+        "addsEvidence": [
+          "observation-fan-motor-good"
+        ],
+        "nextActionId": "cooling-temperature-sensor"
+      },
+      {
+        "id": "no",
+        "label": "Non",
+        "value": "Le moteur est défectueux.",
+        "addsEvidence": [
+          "observation-fan-motor-bad"
+        ],
+        "nextActionId": "cooling-conclude"
+      }
+    ]
+  },
+  {
+    "id": "cooling-coolant-level",
+    "workflowId": "cooling",
+    "type": "request-observation",
+    "text": "Le niveau de liquide de refroidissement est-il correct ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 6,
+    "options": [
+      {
+        "id": "low",
+        "label": "Trop bas",
+        "value": "Le niveau est insuffisant.",
+        "addsEvidence": [
+          "observation-low-coolant"
+        ],
+        "nextActionId": "cooling-visible-leak"
+      },
+      {
+        "id": "normal",
+        "label": "Normal",
+        "value": "Le niveau est correct.",
+        "addsEvidence": [
+          "observation-normal-coolant"
+        ],
+        "nextActionId": "cooling-upper-hose"
+      }
+    ]
+  },
+  {
+    "id": "cooling-visible-leak",
+    "workflowId": "cooling",
+    "type": "request-observation",
+    "text": "Une fuite de liquide est-elle visible ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 7,
+    "options": [
+      {
+        "id": "yes",
+        "label": "Oui",
+        "value": "Une fuite est visible.",
+        "addsEvidence": [
+          "observation-visible-coolant-leak"
+        ],
+        "nextActionId": "cooling-conclude"
+      },
+      {
+        "id": "no",
+        "label": "Non",
+        "value": "Aucune fuite visible.",
+        "addsEvidence": [
+          "observation-no-visible-leak"
+        ],
+        "nextActionId": "cooling-upper-hose"
+      }
+    ]
+  },
+  {
+    "id": "cooling-upper-hose",
+    "workflowId": "cooling",
+    "type": "request-observation",
+    "text": "La grosse durite supérieure devient-elle chaude ?",
+    "audiences": [
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 8,
+    "options": [
+      {
+        "id": "hot",
+        "label": "Oui",
+        "value": "La durite est chaude.",
+        "addsEvidence": [
+          "observation-upper-hose-hot"
+        ],
+        "nextActionId": "cooling-water-pump"
+      },
+      {
+        "id": "cold",
+        "label": "Non",
+        "value": "La durite reste froide.",
+        "addsEvidence": [
+          "observation-upper-hose-cold"
+        ],
+        "nextActionId": "cooling-conclude"
+      }
+    ]
+  },
+  {
+    "id": "cooling-water-pump",
+    "workflowId": "cooling",
+    "type": "request-observation",
+    "text": "La pompe à eau présente-t-elle une fuite ou un bruit anormal ?",
+    "audiences": [
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 9,
+    "options": [
+      {
+        "id": "bad",
+        "label": "Oui",
+        "value": "La pompe semble défectueuse.",
+        "addsEvidence": [
+          "observation-water-pump-bad"
+        ],
+        "nextActionId": "cooling-conclude"
+      },
+      {
+        "id": "good",
+        "label": "Non",
+        "value": "La pompe semble correcte.",
+        "addsEvidence": [
+          "observation-water-pump-good"
+        ],
+        "nextActionId": "cooling-temperature-sensor"
+      }
+    ]
+  },
+  {
+    "id": "cooling-temperature-sensor",
+    "workflowId": "cooling",
+    "type": "request-observation",
+    "text": "La sonde de température fournit-elle une valeur cohérente ?",
+    "audiences": [
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "advanced",
+    "priority": 10,
+    "options": [
+      {
+        "id": "bad",
+        "label": "Non",
+        "value": "La sonde est défectueuse.",
+        "addsEvidence": [
+          "observation-temperature-sensor-bad"
+        ],
+        "nextActionId": "cooling-conclude"
+      },
+      {
+        "id": "good",
+        "label": "Oui",
+        "value": "La sonde est correcte.",
+        "addsEvidence": [
+          "observation-temperature-sensor-good"
+        ],
+        "nextActionId": "cooling-conclude"
+      }
+    ]
+  },
+  {
+    "id": "cooling-heater-temperature",
+    "workflowId": "cooling",
+    "type": "ask-question",
+    "text": "Le chauffage souffle-t-il chaud ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 11,
+    "options": [
+      {
+        "id": "yes",
+        "label": "Oui",
+        "value": "Le chauffage fonctionne.",
+        "addsEvidence": [
+          "observation-heater-hot"
+        ],
+        "nextActionId": "cooling-conclude"
+      },
+      {
+        "id": "no",
+        "label": "Non",
+        "value": "Le chauffage reste froid.",
+        "addsEvidence": [
+          "observation-heater-cold"
+        ],
+        "nextActionId": "cooling-coolant-level"
+      }
+    ]
+  },
+  {
+    "id": "cooling-temperature-gauge",
+    "workflowId": "cooling",
+    "type": "ask-question",
+    "text": "L'aiguille de température monte-t-elle dans le rouge ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 12,
+    "options": [
+      {
+        "id": "yes",
+        "label": "Oui",
+        "value": "L'aiguille atteint le rouge.",
+        "addsEvidence": [
+          "observation-gauge-red"
+        ],
+        "nextActionId": "cooling-temperature-when"
+      },
+      {
+        "id": "no",
+        "label": "Non",
+        "value": "L'aiguille reste normale.",
+        "addsEvidence": [
+          "observation-gauge-normal"
+        ],
+        "nextActionId": "cooling-conclude"
+      }
+    ]
+  },
+  {
+    "id": "cooling-conclude",
+    "workflowId": "cooling",
+    "type": "complete-diagnosis",
+    "text": "Calcul du diagnostic du circuit de refroidissement.",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 100,
+    "diagnosisId": "cooling-diagnosis"
+  }
+]

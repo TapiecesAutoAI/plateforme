@@ -1,0 +1,125 @@
+﻿[
+  {
+    "id": "problem-power-steering-fluid-low",
+    "label": "Niveau de liquide de direction assistée insuffisant",
+    "possibleParts": [
+      "Liquide de direction assistée"
+    ],
+    "recommendedChecks": [
+      "Contrôler le niveau",
+      "Rechercher une fuite",
+      "Contrôler la couleur du liquide"
+    ]
+  },
+  {
+    "id": "problem-power-steering-leak",
+    "label": "Fuite sur le circuit hydraulique",
+    "possibleParts": [
+      "Durite HP",
+      "Durite BP",
+      "Crémaillère",
+      "Pompe"
+    ],
+    "recommendedChecks": [
+      "Inspection visuelle",
+      "Contrôler les raccords",
+      "Contrôler la crémaillère"
+    ]
+  },
+  {
+    "id": "problem-power-steering-pump",
+    "label": "Pompe de direction assistée défectueuse",
+    "possibleParts": [
+      "Pompe de direction assistée"
+    ],
+    "recommendedChecks": [
+      "Contrôler le bruit",
+      "Mesurer la pression",
+      "Contrôler la courroie"
+    ]
+  },
+  {
+    "id": "problem-steering-rack",
+    "label": "Crémaillère de direction défectueuse",
+    "possibleParts": [
+      "Crémaillère"
+    ],
+    "recommendedChecks": [
+      "Contrôler le jeu",
+      "Contrôler les soufflets",
+      "Contrôler les points durs"
+    ]
+  },
+  {
+    "id": "problem-inner-tie-rod",
+    "label": "Rotule axiale usée",
+    "possibleParts": [
+      "Rotule axiale"
+    ],
+    "recommendedChecks": [
+      "Contrôler le jeu",
+      "Contrôler les soufflets"
+    ]
+  },
+  {
+    "id": "problem-outer-tie-rod",
+    "label": "Rotule de direction usée",
+    "possibleParts": [
+      "Rotule de direction"
+    ],
+    "recommendedChecks": [
+      "Contrôler le jeu",
+      "Contrôler les soufflets"
+    ]
+  },
+  {
+    "id": "problem-eps-system",
+    "label": "Direction assistée électrique défectueuse",
+    "possibleParts": [
+      "Moteur EPS",
+      "Calculateur EPS",
+      "Capteur de couple"
+    ],
+    "recommendedChecks": [
+      "Lire les codes défaut",
+      "Contrôler les alimentations",
+      "Contrôler le moteur"
+    ]
+  },
+  {
+    "id": "problem-steering-column",
+    "label": "Colonne de direction défectueuse",
+    "possibleParts": [
+      "Colonne",
+      "Cardan de colonne"
+    ],
+    "recommendedChecks": [
+      "Contrôler les articulations",
+      "Contrôler le jeu"
+    ]
+  },
+  {
+    "id": "problem-wheel-alignment",
+    "label": "Géométrie incorrecte",
+    "possibleParts": [
+      "Train avant"
+    ],
+    "recommendedChecks": [
+      "Contrôler le parallélisme",
+      "Contrôler les angles"
+    ]
+  },
+  {
+    "id": "problem-wheel-balance",
+    "label": "Équilibrage ou pneumatique",
+    "possibleParts": [
+      "Pneu",
+      "Jante"
+    ],
+    "recommendedChecks": [
+      "Équilibrer les roues",
+      "Contrôler les pneus",
+      "Contrôler les jantes"
+    ]
+  }
+]

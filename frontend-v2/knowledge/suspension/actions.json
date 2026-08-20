@@ -1,0 +1,1227 @@
+﻿[
+  {
+    "id": "suspension-main-symptom",
+    "workflowId": "suspension",
+    "type": "ask-question",
+    "text": "Quel est le principal problème de suspension observé ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 1,
+    "options": [
+      {
+        "id": "noise",
+        "label": "Bruit sur les bosses",
+        "value": "Un bruit apparaît sur les irrégularités de la route.",
+        "addsEvidence": [
+          "symptom-suspension-noise"
+        ],
+        "nextActionId": "suspension-noise-type"
+      },
+      {
+        "id": "bouncing",
+        "label": "Le véhicule rebondit",
+        "value": "Le véhicule rebondit excessivement.",
+        "addsEvidence": [
+          "symptom-suspension-bouncing"
+        ],
+        "nextActionId": "suspension-bounce-test"
+      },
+      {
+        "id": "leaning",
+        "label": "Le véhicule penche d'un côté",
+        "value": "Le véhicule présente une hauteur différente d'un côté.",
+        "addsEvidence": [
+          "symptom-suspension-leaning"
+        ],
+        "nextActionId": "suspension-ride-height"
+      },
+      {
+        "id": "instability",
+        "label": "Le véhicule est instable",
+        "value": "Le véhicule manque de stabilité.",
+        "addsEvidence": [
+          "symptom-suspension-instability"
+        ],
+        "nextActionId": "suspension-instability-context"
+      },
+      {
+        "id": "tyre-wear",
+        "label": "Usure anormale des pneus",
+        "value": "Les pneus présentent une usure irrégulière.",
+        "addsEvidence": [
+          "symptom-suspension-tyre-wear"
+        ],
+        "nextActionId": "suspension-tyre-wear-pattern"
+      },
+      {
+        "id": "steering-vibration",
+        "label": "Vibration ou tremblement",
+        "value": "Des vibrations sont ressenties dans le véhicule.",
+        "addsEvidence": [
+          "symptom-suspension-vibration"
+        ],
+        "nextActionId": "suspension-vibration-context"
+      }
+    ]
+  },
+  {
+    "id": "suspension-noise-type",
+    "workflowId": "suspension",
+    "type": "ask-question",
+    "text": "Quel type de bruit entendez-vous ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 2,
+    "requiredEvidence": [
+      "symptom-suspension-noise"
+    ],
+    "options": [
+      {
+        "id": "clunk",
+        "label": "Claquement sec",
+        "value": "Un claquement sec est entendu.",
+        "addsEvidence": [
+          "observation-suspension-noise-clunk"
+        ],
+        "nextActionId": "suspension-link-check"
+      },
+      {
+        "id": "squeak",
+        "label": "Grincement",
+        "value": "Un grincement est entendu.",
+        "addsEvidence": [
+          "observation-suspension-noise-squeak"
+        ],
+        "nextActionId": "suspension-bushing-check"
+      },
+      {
+        "id": "rattle",
+        "label": "Bruit métallique répété",
+        "value": "Un bruit métallique répété est entendu.",
+        "addsEvidence": [
+          "observation-suspension-noise-rattle"
+        ],
+        "nextActionId": "suspension-link-check"
+      },
+      {
+        "id": "knock",
+        "label": "Coup sourd",
+        "value": "Un coup sourd est entendu.",
+        "addsEvidence": [
+          "observation-suspension-noise-knock"
+        ],
+        "nextActionId": "suspension-shock-mount-check"
+      }
+    ]
+  },
+  {
+    "id": "suspension-noise-location",
+    "workflowId": "suspension",
+    "type": "ask-question",
+    "text": "De quelle zone provient principalement le bruit ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 3,
+    "options": [
+      {
+        "id": "front-left",
+        "label": "Avant gauche",
+        "value": "Le bruit provient de l'avant gauche.",
+        "addsEvidence": [
+          "observation-suspension-noise-front-left"
+        ],
+        "nextActionId": "suspension-wheel-play-check"
+      },
+      {
+        "id": "front-right",
+        "label": "Avant droit",
+        "value": "Le bruit provient de l'avant droit.",
+        "addsEvidence": [
+          "observation-suspension-noise-front-right"
+        ],
+        "nextActionId": "suspension-wheel-play-check"
+      },
+      {
+        "id": "rear-left",
+        "label": "Arrière gauche",
+        "value": "Le bruit provient de l'arrière gauche.",
+        "addsEvidence": [
+          "observation-suspension-noise-rear-left"
+        ],
+        "nextActionId": "suspension-rear-link-check"
+      },
+      {
+        "id": "rear-right",
+        "label": "Arrière droit",
+        "value": "Le bruit provient de l'arrière droit.",
+        "addsEvidence": [
+          "observation-suspension-noise-rear-right"
+        ],
+        "nextActionId": "suspension-rear-link-check"
+      },
+      {
+        "id": "unknown",
+        "label": "Zone difficile à identifier",
+        "value": "La provenance exacte du bruit n'est pas connue.",
+        "nextActionId": "suspension-wheel-play-check"
+      }
+    ]
+  },
+  {
+    "id": "suspension-link-check",
+    "workflowId": "suspension",
+    "type": "request-observation",
+    "text": "Les biellettes et silentblocs de barre stabilisatrice présentent-ils du jeu ou une détérioration ?",
+    "audiences": [
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 4,
+    "options": [
+      {
+        "id": "link-bad",
+        "label": "Biellette défectueuse",
+        "value": "Une biellette de barre stabilisatrice présente du jeu.",
+        "addsEvidence": [
+          "observation-suspension-stabilizer-link-bad"
+        ],
+        "nextActionId": "suspension-conclude"
+      },
+      {
+        "id": "bushing-bad",
+        "label": "Silentbloc défectueux",
+        "value": "Un silentbloc de barre stabilisatrice est détérioré.",
+        "addsEvidence": [
+          "observation-suspension-stabilizer-bushing-bad"
+        ],
+        "nextActionId": "suspension-conclude"
+      },
+      {
+        "id": "good",
+        "label": "Ils semblent corrects",
+        "value": "Les biellettes et silentblocs semblent corrects.",
+        "addsEvidence": [
+          "observation-suspension-stabilizer-system-good"
+        ],
+        "nextActionId": "suspension-noise-location"
+      }
+    ]
+  },
+  {
+    "id": "suspension-bushing-check",
+    "workflowId": "suspension",
+    "type": "request-observation",
+    "text": "Les silentblocs de triangle ou de bras de suspension sont-ils fissurés, déchirés ou décollés ?",
+    "audiences": [
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 5,
+    "options": [
+      {
+        "id": "bad",
+        "label": "Oui",
+        "value": "Un silentbloc de suspension est détérioré.",
+        "addsEvidence": [
+          "observation-suspension-control-arm-bushing-bad"
+        ],
+        "nextActionId": "suspension-conclude"
+      },
+      {
+        "id": "good",
+        "label": "Non",
+        "value": "Les silentblocs semblent corrects.",
+        "addsEvidence": [
+          "observation-suspension-control-arm-bushing-good"
+        ],
+        "nextActionId": "suspension-ball-joint-check"
+      }
+    ]
+  },
+  {
+    "id": "suspension-ball-joint-check",
+    "workflowId": "suspension",
+    "type": "request-observation",
+    "text": "Une rotule de suspension présente-t-elle du jeu ou un soufflet endommagé ?",
+    "audiences": [
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 6,
+    "options": [
+      {
+        "id": "bad",
+        "label": "Oui",
+        "value": "Une rotule de suspension est usée ou endommagée.",
+        "addsEvidence": [
+          "observation-suspension-ball-joint-bad"
+        ],
+        "nextActionId": "suspension-conclude"
+      },
+      {
+        "id": "good",
+        "label": "Non",
+        "value": "Les rotules de suspension semblent correctes.",
+        "addsEvidence": [
+          "observation-suspension-ball-joint-good"
+        ],
+        "nextActionId": "suspension-shock-mount-check"
+      }
+    ]
+  },
+  {
+    "id": "suspension-shock-mount-check",
+    "workflowId": "suspension",
+    "type": "request-observation",
+    "text": "La coupelle, le roulement supérieur ou la fixation d'amortisseur présentent-ils du jeu ou un bruit ?",
+    "audiences": [
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 7,
+    "options": [
+      {
+        "id": "mount-bad",
+        "label": "Coupelle ou fixation défectueuse",
+        "value": "La coupelle ou la fixation d'amortisseur est défectueuse.",
+        "addsEvidence": [
+          "observation-suspension-shock-mount-bad"
+        ],
+        "nextActionId": "suspension-conclude"
+      },
+      {
+        "id": "bearing-bad",
+        "label": "Roulement supérieur défectueux",
+        "value": "Le roulement supérieur d'amortisseur est défectueux.",
+        "addsEvidence": [
+          "observation-suspension-strut-bearing-bad"
+        ],
+        "nextActionId": "suspension-conclude"
+      },
+      {
+        "id": "good",
+        "label": "Tout semble correct",
+        "value": "Les fixations supérieures semblent correctes.",
+        "addsEvidence": [
+          "observation-suspension-shock-mount-good"
+        ],
+        "nextActionId": "suspension-shock-leak-check"
+      }
+    ]
+  },
+  {
+    "id": "suspension-shock-leak-check",
+    "workflowId": "suspension",
+    "type": "request-observation",
+    "text": "Un amortisseur présente-t-il une fuite d'huile, une tige endommagée ou une corrosion importante ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 8,
+    "options": [
+      {
+        "id": "leaking",
+        "label": "Oui, il fuit",
+        "value": "Un amortisseur présente une fuite d'huile.",
+        "addsEvidence": [
+          "observation-suspension-shock-leaking"
+        ],
+        "nextActionId": "suspension-conclude"
+      },
+      {
+        "id": "damaged",
+        "label": "La tige ou le corps est endommagé",
+        "value": "Un amortisseur présente une détérioration mécanique.",
+        "addsEvidence": [
+          "observation-suspension-shock-damaged"
+        ],
+        "nextActionId": "suspension-conclude"
+      },
+      {
+        "id": "good",
+        "label": "Aspect normal",
+        "value": "Les amortisseurs ne présentent pas de défaut visible.",
+        "addsEvidence": [
+          "observation-suspension-shock-visual-good"
+        ],
+        "nextActionId": "suspension-bounce-test"
+      }
+    ]
+  },
+  {
+    "id": "suspension-bounce-test",
+    "workflowId": "suspension",
+    "type": "request-observation",
+    "text": "Après avoir appuyé fortement sur la carrosserie puis relâché, le véhicule rebondit-il plusieurs fois ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 9,
+    "options": [
+      {
+        "id": "yes",
+        "label": "Oui, plusieurs rebonds",
+        "value": "La carrosserie rebondit plusieurs fois.",
+        "addsEvidence": [
+          "observation-suspension-bounce-test-failed"
+        ],
+        "nextActionId": "suspension-conclude"
+      },
+      {
+        "id": "no",
+        "label": "Non, elle se stabilise rapidement",
+        "value": "La carrosserie se stabilise rapidement.",
+        "addsEvidence": [
+          "observation-suspension-bounce-test-good"
+        ],
+        "nextActionId": "suspension-road-damping"
+      }
+    ]
+  },
+  {
+    "id": "suspension-road-damping",
+    "workflowId": "suspension",
+    "type": "ask-question",
+    "text": "Sur route ondulée, le véhicule flotte-t-il ou perd-il facilement le contact avec la route ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 10,
+    "options": [
+      {
+        "id": "yes",
+        "label": "Oui",
+        "value": "Le véhicule flotte ou manque d'adhérence sur route ondulée.",
+        "addsEvidence": [
+          "observation-suspension-poor-damping"
+        ],
+        "nextActionId": "suspension-conclude"
+      },
+      {
+        "id": "no",
+        "label": "Non",
+        "value": "Le comportement d'amortissement semble normal.",
+        "addsEvidence": [
+          "observation-suspension-damping-good"
+        ],
+        "nextActionId": "suspension-spring-check"
+      }
+    ]
+  },
+  {
+    "id": "suspension-ride-height",
+    "workflowId": "suspension",
+    "type": "request-observation",
+    "text": "La hauteur de caisse est-elle nettement différente entre le côté gauche et le côté droit ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 11,
+    "requiredEvidence": [
+      "symptom-suspension-leaning"
+    ],
+    "options": [
+      {
+        "id": "front-difference",
+        "label": "Différence à l'avant",
+        "value": "Une différence de hauteur est visible à l'avant.",
+        "addsEvidence": [
+          "observation-suspension-front-height-difference"
+        ],
+        "nextActionId": "suspension-spring-check"
+      },
+      {
+        "id": "rear-difference",
+        "label": "Différence à l'arrière",
+        "value": "Une différence de hauteur est visible à l'arrière.",
+        "addsEvidence": [
+          "observation-suspension-rear-height-difference"
+        ],
+        "nextActionId": "suspension-rear-spring-check"
+      },
+      {
+        "id": "all-side",
+        "label": "Un côté complet est plus bas",
+        "value": "Un côté complet du véhicule est plus bas.",
+        "addsEvidence": [
+          "observation-suspension-side-height-difference"
+        ],
+        "nextActionId": "suspension-spring-check"
+      },
+      {
+        "id": "no",
+        "label": "La hauteur semble identique",
+        "value": "La hauteur semble identique des deux côtés.",
+        "addsEvidence": [
+          "observation-suspension-ride-height-normal"
+        ],
+        "nextActionId": "suspension-load-check"
+      }
+    ]
+  },
+  {
+    "id": "suspension-spring-check",
+    "workflowId": "suspension",
+    "type": "request-observation",
+    "text": "Un ressort avant est-il cassé, fissuré, affaissé ou mal positionné ?",
+    "audiences": [
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 12,
+    "options": [
+      {
+        "id": "broken",
+        "label": "Cassé ou fissuré",
+        "value": "Un ressort avant est cassé ou fissuré.",
+        "addsEvidence": [
+          "observation-suspension-front-spring-broken"
+        ],
+        "nextActionId": "suspension-conclude"
+      },
+      {
+        "id": "sagging",
+        "label": "Affaissé",
+        "value": "Un ressort avant est affaissé.",
+        "addsEvidence": [
+          "observation-suspension-front-spring-sagging"
+        ],
+        "nextActionId": "suspension-conclude"
+      },
+      {
+        "id": "misplaced",
+        "label": "Mal positionné",
+        "value": "Un ressort avant est mal positionné.",
+        "addsEvidence": [
+          "observation-suspension-front-spring-misplaced"
+        ],
+        "nextActionId": "suspension-conclude"
+      },
+      {
+        "id": "good",
+        "label": "Ils semblent corrects",
+        "value": "Les ressorts avant semblent corrects.",
+        "addsEvidence": [
+          "observation-suspension-front-springs-good"
+        ],
+        "nextActionId": "suspension-load-check"
+      }
+    ]
+  },
+  {
+    "id": "suspension-rear-spring-check",
+    "workflowId": "suspension",
+    "type": "request-observation",
+    "text": "Un ressort arrière est-il cassé, fissuré ou affaissé ?",
+    "audiences": [
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 13,
+    "options": [
+      {
+        "id": "broken",
+        "label": "Cassé ou fissuré",
+        "value": "Un ressort arrière est cassé ou fissuré.",
+        "addsEvidence": [
+          "observation-suspension-rear-spring-broken"
+        ],
+        "nextActionId": "suspension-conclude"
+      },
+      {
+        "id": "sagging",
+        "label": "Affaissé",
+        "value": "Un ressort arrière est affaissé.",
+        "addsEvidence": [
+          "observation-suspension-rear-spring-sagging"
+        ],
+        "nextActionId": "suspension-conclude"
+      },
+      {
+        "id": "good",
+        "label": "Ils semblent corrects",
+        "value": "Les ressorts arrière semblent corrects.",
+        "addsEvidence": [
+          "observation-suspension-rear-springs-good"
+        ],
+        "nextActionId": "suspension-rear-link-check"
+      }
+    ]
+  },
+  {
+    "id": "suspension-load-check",
+    "workflowId": "suspension",
+    "type": "ask-question",
+    "text": "Le véhicule est-il fortement chargé ou la charge est-elle mal répartie ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 14,
+    "options": [
+      {
+        "id": "yes",
+        "label": "Oui",
+        "value": "Le véhicule est fortement chargé ou la charge est mal répartie.",
+        "addsEvidence": [
+          "observation-suspension-load-uneven"
+        ],
+        "nextActionId": "suspension-conclude"
+      },
+      {
+        "id": "no",
+        "label": "Non",
+        "value": "La charge du véhicule est normale.",
+        "addsEvidence": [
+          "observation-suspension-load-normal"
+        ],
+        "nextActionId": "suspension-wheel-play-check"
+      }
+    ]
+  },
+  {
+    "id": "suspension-wheel-play-check",
+    "workflowId": "suspension",
+    "type": "request-observation",
+    "text": "Roue levée, un jeu est-il perceptible en la secouant horizontalement ou verticalement ?",
+    "audiences": [
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 15,
+    "options": [
+      {
+        "id": "horizontal",
+        "label": "Jeu horizontal",
+        "value": "Un jeu horizontal est perceptible.",
+        "addsEvidence": [
+          "observation-suspension-wheel-play-horizontal"
+        ],
+        "nextActionId": "suspension-steering-joint-check"
+      },
+      {
+        "id": "vertical",
+        "label": "Jeu vertical",
+        "value": "Un jeu vertical est perceptible.",
+        "addsEvidence": [
+          "observation-suspension-wheel-play-vertical"
+        ],
+        "nextActionId": "suspension-ball-joint-check"
+      },
+      {
+        "id": "all-directions",
+        "label": "Jeu dans toutes les directions",
+        "value": "Un jeu est perceptible dans toutes les directions.",
+        "addsEvidence": [
+          "observation-suspension-wheel-play-all-directions"
+        ],
+        "nextActionId": "suspension-wheel-bearing-check"
+      },
+      {
+        "id": "none",
+        "label": "Aucun jeu perceptible",
+        "value": "Aucun jeu anormal n'est perceptible.",
+        "addsEvidence": [
+          "observation-suspension-wheel-play-none"
+        ],
+        "nextActionId": "suspension-rear-link-check"
+      }
+    ]
+  },
+  {
+    "id": "suspension-steering-joint-check",
+    "workflowId": "suspension",
+    "type": "request-observation",
+    "text": "La rotule de direction ou la rotule axiale présente-t-elle du jeu ?",
+    "audiences": [
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 16,
+    "options": [
+      {
+        "id": "outer",
+        "label": "Rotule extérieure usée",
+        "value": "La rotule de direction extérieure présente du jeu.",
+        "addsEvidence": [
+          "observation-suspension-outer-tie-rod-bad"
+        ],
+        "nextActionId": "suspension-conclude"
+      },
+      {
+        "id": "inner",
+        "label": "Rotule axiale usée",
+        "value": "La rotule axiale présente du jeu.",
+        "addsEvidence": [
+          "observation-suspension-inner-tie-rod-bad"
+        ],
+        "nextActionId": "suspension-conclude"
+      },
+      {
+        "id": "good",
+        "label": "Elles semblent correctes",
+        "value": "Les rotules de direction semblent correctes.",
+        "addsEvidence": [
+          "observation-suspension-steering-joints-good"
+        ],
+        "nextActionId": "suspension-link-check"
+      }
+    ]
+  },
+  {
+    "id": "suspension-wheel-bearing-check",
+    "workflowId": "suspension",
+    "type": "request-observation",
+    "text": "Le roulement de roue présente-t-il du jeu, un grondement ou un point dur ?",
+    "audiences": [
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 17,
+    "options": [
+      {
+        "id": "bad",
+        "label": "Oui",
+        "value": "Le roulement de roue présente une anomalie.",
+        "addsEvidence": [
+          "observation-suspension-wheel-bearing-bad"
+        ],
+        "nextActionId": "suspension-conclude"
+      },
+      {
+        "id": "good",
+        "label": "Non",
+        "value": "Le roulement de roue semble correct.",
+        "addsEvidence": [
+          "observation-suspension-wheel-bearing-good"
+        ],
+        "nextActionId": "suspension-link-check"
+      }
+    ]
+  },
+  {
+    "id": "suspension-rear-link-check",
+    "workflowId": "suspension",
+    "type": "request-observation",
+    "text": "Les bras, biellettes et silentblocs de suspension arrière présentent-ils du jeu ou une détérioration ?",
+    "audiences": [
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 18,
+    "options": [
+      {
+        "id": "arm-bad",
+        "label": "Bras ou biellette défectueux",
+        "value": "Un bras ou une biellette arrière présente une anomalie.",
+        "addsEvidence": [
+          "observation-suspension-rear-link-bad"
+        ],
+        "nextActionId": "suspension-conclude"
+      },
+      {
+        "id": "bushing-bad",
+        "label": "Silentbloc arrière défectueux",
+        "value": "Un silentbloc de suspension arrière est détérioré.",
+        "addsEvidence": [
+          "observation-suspension-rear-bushing-bad"
+        ],
+        "nextActionId": "suspension-conclude"
+      },
+      {
+        "id": "good",
+        "label": "Tout semble correct",
+        "value": "Les éléments de suspension arrière semblent corrects.",
+        "addsEvidence": [
+          "observation-suspension-rear-links-good"
+        ],
+        "nextActionId": "suspension-alignment-check"
+      }
+    ]
+  },
+  {
+    "id": "suspension-instability-context",
+    "workflowId": "suspension",
+    "type": "ask-question",
+    "text": "Dans quelle situation le véhicule semble-t-il instable ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 19,
+    "requiredEvidence": [
+      "symptom-suspension-instability"
+    ],
+    "options": [
+      {
+        "id": "cornering",
+        "label": "Dans les virages",
+        "value": "Le véhicule est instable dans les virages.",
+        "addsEvidence": [
+          "observation-suspension-instability-cornering"
+        ],
+        "nextActionId": "suspension-body-roll"
+      },
+      {
+        "id": "braking",
+        "label": "Au freinage",
+        "value": "Le véhicule est instable au freinage.",
+        "addsEvidence": [
+          "observation-suspension-instability-braking"
+        ],
+        "nextActionId": "suspension-dive-check"
+      },
+      {
+        "id": "acceleration",
+        "label": "À l'accélération",
+        "value": "Le véhicule est instable à l'accélération.",
+        "addsEvidence": [
+          "observation-suspension-instability-acceleration"
+        ],
+        "nextActionId": "suspension-rear-link-check"
+      },
+      {
+        "id": "high-speed",
+        "label": "À haute vitesse",
+        "value": "Le véhicule est instable à haute vitesse.",
+        "addsEvidence": [
+          "observation-suspension-instability-high-speed"
+        ],
+        "nextActionId": "suspension-alignment-check"
+      }
+    ]
+  },
+  {
+    "id": "suspension-body-roll",
+    "workflowId": "suspension",
+    "type": "ask-question",
+    "text": "La carrosserie s'incline-t-elle excessivement dans les virages ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 20,
+    "options": [
+      {
+        "id": "yes",
+        "label": "Oui",
+        "value": "La carrosserie s'incline excessivement.",
+        "addsEvidence": [
+          "observation-suspension-excessive-body-roll"
+        ],
+        "nextActionId": "suspension-link-check"
+      },
+      {
+        "id": "no",
+        "label": "Non",
+        "value": "L'inclinaison de la carrosserie semble normale.",
+        "addsEvidence": [
+          "observation-suspension-body-roll-normal"
+        ],
+        "nextActionId": "suspension-road-damping"
+      }
+    ]
+  },
+  {
+    "id": "suspension-dive-check",
+    "workflowId": "suspension",
+    "type": "ask-question",
+    "text": "L'avant du véhicule plonge-t-il excessivement au freinage ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 21,
+    "options": [
+      {
+        "id": "yes",
+        "label": "Oui",
+        "value": "L'avant plonge excessivement au freinage.",
+        "addsEvidence": [
+          "observation-suspension-excessive-brake-dive"
+        ],
+        "nextActionId": "suspension-bounce-test"
+      },
+      {
+        "id": "no",
+        "label": "Non",
+        "value": "Le comportement au freinage semble normal.",
+        "addsEvidence": [
+          "observation-suspension-brake-dive-normal"
+        ],
+        "nextActionId": "suspension-alignment-check"
+      }
+    ]
+  },
+  {
+    "id": "suspension-tyre-wear-pattern",
+    "workflowId": "suspension",
+    "type": "ask-question",
+    "text": "Quel type d'usure présente le pneu ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 22,
+    "requiredEvidence": [
+      "symptom-suspension-tyre-wear"
+    ],
+    "options": [
+      {
+        "id": "inside",
+        "label": "Usure sur le bord intérieur",
+        "value": "Le pneu est usé sur le bord intérieur.",
+        "addsEvidence": [
+          "observation-suspension-tyre-wear-inside"
+        ],
+        "nextActionId": "suspension-alignment-check"
+      },
+      {
+        "id": "outside",
+        "label": "Usure sur le bord extérieur",
+        "value": "Le pneu est usé sur le bord extérieur.",
+        "addsEvidence": [
+          "observation-suspension-tyre-wear-outside"
+        ],
+        "nextActionId": "suspension-alignment-check"
+      },
+      {
+        "id": "cupping",
+        "label": "Usure en facettes",
+        "value": "Le pneu présente une usure en facettes.",
+        "addsEvidence": [
+          "observation-suspension-tyre-cupping"
+        ],
+        "nextActionId": "suspension-bounce-test"
+      },
+      {
+        "id": "irregular",
+        "label": "Usure irrégulière",
+        "value": "Le pneu présente une usure irrégulière.",
+        "addsEvidence": [
+          "observation-suspension-tyre-wear-irregular"
+        ],
+        "nextActionId": "suspension-wheel-play-check"
+      }
+    ]
+  },
+  {
+    "id": "suspension-alignment-check",
+    "workflowId": "suspension",
+    "type": "ask-question",
+    "text": "La géométrie des trains roulants a-t-elle été contrôlée ?",
+    "audiences": [
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 23,
+    "options": [
+      {
+        "id": "bad",
+        "label": "Oui, les valeurs sont hors tolérance",
+        "value": "La géométrie est hors tolérance.",
+        "addsEvidence": [
+          "measurement-suspension-alignment-bad"
+        ],
+        "nextActionId": "suspension-alignment-cause-check"
+      },
+      {
+        "id": "good",
+        "label": "Oui, les valeurs sont correctes",
+        "value": "La géométrie est conforme.",
+        "addsEvidence": [
+          "measurement-suspension-alignment-good"
+        ],
+        "nextActionId": "suspension-tyre-pressure-check"
+      },
+      {
+        "id": "not-tested",
+        "label": "Non contrôlée",
+        "value": "La géométrie n'a pas été contrôlée.",
+        "nextActionId": "suspension-tyre-pressure-check"
+      }
+    ]
+  },
+  {
+    "id": "suspension-alignment-cause-check",
+    "workflowId": "suspension",
+    "type": "request-observation",
+    "text": "Un élément de suspension est-il déformé, usé ou déplacé ?",
+    "audiences": [
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "advanced",
+    "priority": 24,
+    "options": [
+      {
+        "id": "yes",
+        "label": "Oui",
+        "value": "Un élément de suspension déformé ou usé modifie la géométrie.",
+        "addsEvidence": [
+          "observation-suspension-alignment-component-bad"
+        ],
+        "nextActionId": "suspension-conclude"
+      },
+      {
+        "id": "no",
+        "label": "Non",
+        "value": "Aucun élément déformé ou déplacé n'est identifié.",
+        "addsEvidence": [
+          "observation-suspension-alignment-components-good"
+        ],
+        "nextActionId": "suspension-conclude"
+      }
+    ]
+  },
+  {
+    "id": "suspension-tyre-pressure-check",
+    "workflowId": "suspension",
+    "type": "request-observation",
+    "text": "Les pressions des pneus sont-elles correctes et équilibrées ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 25,
+    "options": [
+      {
+        "id": "bad",
+        "label": "Non",
+        "value": "Les pressions des pneus sont incorrectes ou déséquilibrées.",
+        "addsEvidence": [
+          "observation-suspension-tyre-pressure-bad"
+        ],
+        "nextActionId": "suspension-conclude"
+      },
+      {
+        "id": "good",
+        "label": "Oui",
+        "value": "Les pressions des pneus sont correctes.",
+        "addsEvidence": [
+          "observation-suspension-tyre-pressure-good"
+        ],
+        "nextActionId": "suspension-wheel-balance-check"
+      }
+    ]
+  },
+  {
+    "id": "suspension-vibration-context",
+    "workflowId": "suspension",
+    "type": "ask-question",
+    "text": "Quand les vibrations apparaissent-elles principalement ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 26,
+    "requiredEvidence": [
+      "symptom-suspension-vibration"
+    ],
+    "options": [
+      {
+        "id": "low-speed",
+        "label": "À faible vitesse",
+        "value": "Les vibrations apparaissent à faible vitesse.",
+        "addsEvidence": [
+          "observation-suspension-vibration-low-speed"
+        ],
+        "nextActionId": "suspension-wheel-play-check"
+      },
+      {
+        "id": "high-speed",
+        "label": "À haute vitesse",
+        "value": "Les vibrations apparaissent à haute vitesse.",
+        "addsEvidence": [
+          "observation-suspension-vibration-high-speed"
+        ],
+        "nextActionId": "suspension-wheel-balance-check"
+      },
+      {
+        "id": "bumps",
+        "label": "Sur les bosses",
+        "value": "Les vibrations ou chocs apparaissent sur les bosses.",
+        "addsEvidence": [
+          "observation-suspension-vibration-bumps"
+        ],
+        "nextActionId": "suspension-bushing-check"
+      },
+      {
+        "id": "braking",
+        "label": "Au freinage",
+        "value": "Les vibrations apparaissent au freinage.",
+        "addsEvidence": [
+          "observation-suspension-vibration-braking"
+        ],
+        "nextActionId": "suspension-conclude"
+      }
+    ]
+  },
+  {
+    "id": "suspension-wheel-balance-check",
+    "workflowId": "suspension",
+    "type": "ask-question",
+    "text": "Les roues ont-elles été contrôlées pour l'équilibrage, un pneu déformé ou une jante voilée ?",
+    "audiences": [
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 27,
+    "options": [
+      {
+        "id": "balance-bad",
+        "label": "Équilibrage incorrect",
+        "value": "Une roue est mal équilibrée.",
+        "addsEvidence": [
+          "measurement-suspension-wheel-balance-bad"
+        ],
+        "nextActionId": "suspension-conclude"
+      },
+      {
+        "id": "tyre-bad",
+        "label": "Pneu déformé",
+        "value": "Un pneu est déformé.",
+        "addsEvidence": [
+          "observation-suspension-tyre-deformed"
+        ],
+        "nextActionId": "suspension-conclude"
+      },
+      {
+        "id": "rim-bad",
+        "label": "Jante voilée",
+        "value": "Une jante est voilée.",
+        "addsEvidence": [
+          "observation-suspension-rim-bent"
+        ],
+        "nextActionId": "suspension-conclude"
+      },
+      {
+        "id": "good",
+        "label": "Tout semble correct",
+        "value": "Les roues, pneus et jantes semblent corrects.",
+        "addsEvidence": [
+          "observation-suspension-wheel-balance-good"
+        ],
+        "nextActionId": "suspension-conclude"
+      }
+    ]
+  },
+  {
+    "id": "suspension-conclude",
+    "workflowId": "suspension",
+    "type": "complete-diagnosis",
+    "text": "Calcul du diagnostic de suspension.",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 100,
+    "diagnosisId": "suspension-diagnosis"
+  }
+]

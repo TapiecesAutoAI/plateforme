@@ -1,0 +1,604 @@
+﻿[
+    {
+        "id":  "no-start-support-weak-battery",
+        "evidenceId":  "symptom-no-start",
+        "hypothesisId":  "problem-weak-battery",
+        "effect":  "support",
+        "weight":  0.3
+    },
+    {
+        "id":  "no-start-support-fuel-supply",
+        "evidenceId":  "symptom-no-start",
+        "hypothesisId":  "problem-fuel-supply",
+        "effect":  "support",
+        "weight":  0.25
+    },
+    {
+        "id":  "no-start-support-immobilizer",
+        "evidenceId":  "symptom-no-start",
+        "hypothesisId":  "problem-immobilizer",
+        "effect":  "support",
+        "weight":  0.2
+    },
+    {
+        "id":  "no-crank-support-starter-control",
+        "evidenceId":  "symptom-no-crank",
+        "hypothesisId":  "problem-starter-control-circuit",
+        "effect":  "support",
+        "weight":  0.72
+    },
+    {
+        "id":  "no-crank-support-starter",
+        "evidenceId":  "symptom-no-crank",
+        "hypothesisId":  "problem-starter",
+        "effect":  "support",
+        "weight":  0.58
+    },
+    {
+        "id":  "no-crank-support-battery-connection",
+        "evidenceId":  "symptom-no-crank",
+        "hypothesisId":  "problem-battery-connection",
+        "effect":  "support",
+        "weight":  0.52
+    },
+    {
+        "id":  "no-crank-contradict-fuel-supply",
+        "evidenceId":  "symptom-no-crank",
+        "hypothesisId":  "problem-fuel-supply",
+        "effect":  "contradict",
+        "weight":  0.74
+    },
+    {
+        "id":  "no-crank-contradict-glow-system",
+        "evidenceId":  "symptom-no-crank",
+        "hypothesisId":  "problem-glow-system",
+        "effect":  "contradict",
+        "weight":  0.68
+    },
+    {
+        "id":  "no-crank-contradict-engine-sensor",
+        "evidenceId":  "symptom-no-crank",
+        "hypothesisId":  "problem-engine-sensor",
+        "effect":  "contradict",
+        "weight":  0.56
+    },
+    {
+        "id":  "slow-cranking-support-weak-battery",
+        "evidenceId":  "symptom-slow-cranking",
+        "hypothesisId":  "problem-weak-battery",
+        "effect":  "support",
+        "weight":  0.9
+    },
+    {
+        "id":  "slow-cranking-support-battery-connection",
+        "evidenceId":  "symptom-slow-cranking",
+        "hypothesisId":  "problem-battery-connection",
+        "effect":  "support",
+        "weight":  0.62
+    },
+    {
+        "id":  "slow-cranking-support-starter",
+        "evidenceId":  "symptom-slow-cranking",
+        "hypothesisId":  "problem-starter",
+        "effect":  "support",
+        "weight":  0.48
+    },
+    {
+        "id":  "slow-cranking-contradict-immobilizer",
+        "evidenceId":  "symptom-slow-cranking",
+        "hypothesisId":  "problem-immobilizer",
+        "effect":  "contradict",
+        "weight":  0.54
+    },
+    {
+        "id":  "slow-cranking-contradict-fuel-supply",
+        "evidenceId":  "symptom-slow-cranking",
+        "hypothesisId":  "problem-fuel-supply",
+        "effect":  "contradict",
+        "weight":  0.42
+    },
+    {
+        "id":  "engine-cranks-support-fuel-supply",
+        "evidenceId":  "symptom-engine-cranks",
+        "hypothesisId":  "problem-fuel-supply",
+        "effect":  "support",
+        "weight":  0.72
+    },
+    {
+        "id":  "engine-cranks-support-immobilizer",
+        "evidenceId":  "symptom-engine-cranks",
+        "hypothesisId":  "problem-immobilizer",
+        "effect":  "support",
+        "weight":  0.52
+    },
+    {
+        "id":  "engine-cranks-support-glow-system",
+        "evidenceId":  "symptom-engine-cranks",
+        "hypothesisId":  "problem-glow-system",
+        "effect":  "support",
+        "weight":  0.44
+    },
+    {
+        "id":  "engine-cranks-support-engine-sensor",
+        "evidenceId":  "symptom-engine-cranks",
+        "hypothesisId":  "problem-engine-sensor",
+        "effect":  "support",
+        "weight":  0.7
+    },
+    {
+        "id":  "engine-cranks-support-engine-timing",
+        "evidenceId":  "symptom-engine-cranks",
+        "hypothesisId":  "problem-engine-timing",
+        "effect":  "support",
+        "weight":  0.48
+    },
+    {
+        "id":  "engine-cranks-support-low-compression",
+        "evidenceId":  "symptom-engine-cranks",
+        "hypothesisId":  "problem-low-compression",
+        "effect":  "support",
+        "weight":  0.36
+    },
+    {
+        "id":  "engine-cranks-contradict-starter",
+        "evidenceId":  "symptom-engine-cranks",
+        "hypothesisId":  "problem-starter",
+        "effect":  "contradict",
+        "weight":  0.92
+    },
+    {
+        "id":  "engine-cranks-contradict-starter-control",
+        "evidenceId":  "symptom-engine-cranks",
+        "hypothesisId":  "problem-starter-control-circuit",
+        "effect":  "contradict",
+        "weight":  0.94
+    },
+    {
+        "id":  "engine-cranks-contradict-starter-drive",
+        "evidenceId":  "symptom-engine-cranks",
+        "hypothesisId":  "problem-starter-drive",
+        "effect":  "contradict",
+        "weight":  0.86
+    },
+    {
+        "id":  "single-click-support-starter",
+        "evidenceId":  "symptom-single-click",
+        "hypothesisId":  "problem-starter",
+        "effect":  "support",
+        "weight":  0.86
+    },
+    {
+        "id":  "single-click-support-weak-battery",
+        "evidenceId":  "symptom-single-click",
+        "hypothesisId":  "problem-weak-battery",
+        "effect":  "support",
+        "weight":  0.54
+    },
+    {
+        "id":  "single-click-support-battery-connection",
+        "evidenceId":  "symptom-single-click",
+        "hypothesisId":  "problem-battery-connection",
+        "effect":  "support",
+        "weight":  0.46
+    },
+    {
+        "id":  "single-click-contradict-fuel-supply",
+        "evidenceId":  "symptom-single-click",
+        "hypothesisId":  "problem-fuel-supply",
+        "effect":  "contradict",
+        "weight":  0.72
+    },
+    {
+        "id":  "rapid-clicking-support-weak-battery",
+        "evidenceId":  "symptom-rapid-clicking",
+        "hypothesisId":  "problem-weak-battery",
+        "effect":  "support",
+        "weight":  0.96
+    },
+    {
+        "id":  "rapid-clicking-support-battery-connection",
+        "evidenceId":  "symptom-rapid-clicking",
+        "hypothesisId":  "problem-battery-connection",
+        "effect":  "support",
+        "weight":  0.66
+    },
+    {
+        "id":  "rapid-clicking-contradict-starter-drive",
+        "evidenceId":  "symptom-rapid-clicking",
+        "hypothesisId":  "problem-starter-drive",
+        "effect":  "contradict",
+        "weight":  0.74
+    },
+    {
+        "id":  "starter-spins-free-support-starter-drive",
+        "evidenceId":  "symptom-starter-spins-free",
+        "hypothesisId":  "problem-starter-drive",
+        "effect":  "support",
+        "weight":  0.92
+    },
+    {
+        "id":  "starter-spins-free-contradict-weak-battery",
+        "evidenceId":  "symptom-starter-spins-free",
+        "hypothesisId":  "problem-weak-battery",
+        "effect":  "contradict",
+        "weight":  0.96
+    },
+    {
+        "id":  "starter-spins-free-contradict-starter-control",
+        "evidenceId":  "symptom-starter-spins-free",
+        "hypothesisId":  "problem-starter-control-circuit",
+        "effect":  "contradict",
+        "weight":  0.9
+    },
+    {
+        "id":  "starter-spins-confirm-drive",
+        "evidenceId":  "observation-starter-spins-without-engine",
+        "hypothesisId":  "problem-starter-drive",
+        "effect":  "support",
+        "weight":  0.99
+    },
+    {
+        "id":  "starter-spins-contradict-starter",
+        "evidenceId":  "observation-starter-spins-without-engine",
+        "hypothesisId":  "problem-starter",
+        "effect":  "contradict",
+        "weight":  0.58
+    },
+    {
+        "id":  "lights-dim-support-weak-battery",
+        "evidenceId":  "observation-lights-dim",
+        "hypothesisId":  "problem-weak-battery",
+        "effect":  "support",
+        "weight":  0.72
+    },
+    {
+        "id":  "lights-dim-support-battery-connection",
+        "evidenceId":  "observation-lights-dim",
+        "hypothesisId":  "problem-battery-connection",
+        "effect":  "support",
+        "weight":  0.48
+    },
+    {
+        "id":  "lights-dim-strongly-support-weak-battery",
+        "evidenceId":  "observation-lights-dim-strongly",
+        "hypothesisId":  "problem-weak-battery",
+        "effect":  "support",
+        "weight":  0.93
+    },
+    {
+        "id":  "lights-dim-strongly-support-battery-connection",
+        "evidenceId":  "observation-lights-dim-strongly",
+        "hypothesisId":  "problem-battery-connection",
+        "effect":  "support",
+        "weight":  0.68
+    },
+    {
+        "id":  "lights-dim-strongly-support-starter",
+        "evidenceId":  "observation-lights-dim-strongly",
+        "hypothesisId":  "problem-starter",
+        "effect":  "support",
+        "weight":  0.42
+    },
+    {
+        "id":  "lights-dim-slightly-support-weak-battery",
+        "evidenceId":  "observation-lights-dim-slightly",
+        "hypothesisId":  "problem-weak-battery",
+        "effect":  "support",
+        "weight":  0.58
+    },
+    {
+        "id":  "lights-dim-slightly-support-battery-connection",
+        "evidenceId":  "observation-lights-dim-slightly",
+        "hypothesisId":  "problem-battery-connection",
+        "effect":  "support",
+        "weight":  0.4
+    },
+    {
+        "id":  "lights-normal-contradict-weak-battery",
+        "evidenceId":  "observation-lights-stay-normal",
+        "hypothesisId":  "problem-weak-battery",
+        "effect":  "contradict",
+        "weight":  0.72
+    },
+    {
+        "id":  "lights-normal-support-starter",
+        "evidenceId":  "observation-lights-stay-normal",
+        "hypothesisId":  "problem-starter",
+        "effect":  "support",
+        "weight":  0.62
+    },
+    {
+        "id":  "lights-normal-support-starter-control",
+        "evidenceId":  "observation-lights-stay-normal",
+        "hypothesisId":  "problem-starter-control-circuit",
+        "effect":  "support",
+        "weight":  0.52
+    },
+    {
+        "id":  "lights-normal-contradict-battery-connection",
+        "evidenceId":  "observation-lights-stay-normal",
+        "hypothesisId":  "problem-battery-connection",
+        "effect":  "contradict",
+        "weight":  0.38
+    },
+    {
+        "id":  "jump-success-support-weak-battery",
+        "evidenceId":  "observation-jump-start-success",
+        "hypothesisId":  "problem-weak-battery",
+        "effect":  "support",
+        "weight":  0.98
+    },
+    {
+        "id":  "jump-success-support-battery-connection",
+        "evidenceId":  "observation-jump-start-success",
+        "hypothesisId":  "problem-battery-connection",
+        "effect":  "support",
+        "weight":  0.44
+    },
+    {
+        "id":  "jump-success-contradict-starter",
+        "evidenceId":  "observation-jump-start-success",
+        "hypothesisId":  "problem-starter",
+        "effect":  "contradict",
+        "weight":  0.78
+    },
+    {
+        "id":  "jump-success-contradict-starter-control",
+        "evidenceId":  "observation-jump-start-success",
+        "hypothesisId":  "problem-starter-control-circuit",
+        "effect":  "contradict",
+        "weight":  0.76
+    },
+    {
+        "id":  "jump-fails-contradict-weak-battery",
+        "evidenceId":  "observation-jump-start-fails",
+        "hypothesisId":  "problem-weak-battery",
+        "effect":  "contradict",
+        "weight":  0.74
+    },
+    {
+        "id":  "jump-fails-support-starter",
+        "evidenceId":  "observation-jump-start-fails",
+        "hypothesisId":  "problem-starter",
+        "effect":  "support",
+        "weight":  0.8
+    },
+    {
+        "id":  "jump-fails-support-starter-control",
+        "evidenceId":  "observation-jump-start-fails",
+        "hypothesisId":  "problem-starter-control-circuit",
+        "effect":  "support",
+        "weight":  0.56
+    },
+    {
+        "id":  "jump-fails-support-battery-connection",
+        "evidenceId":  "observation-jump-start-fails",
+        "hypothesisId":  "problem-battery-connection",
+        "effect":  "support",
+        "weight":  0.42
+    },
+    {
+        "id":  "bad-terminals-support-battery-connection",
+        "evidenceId":  "observation-battery-terminals-bad",
+        "hypothesisId":  "problem-battery-connection",
+        "effect":  "support",
+        "weight":  0.98
+    },
+    {
+        "id":  "bad-terminals-support-weak-battery",
+        "evidenceId":  "observation-battery-terminals-bad",
+        "hypothesisId":  "problem-weak-battery",
+        "effect":  "support",
+        "weight":  0.3
+    },
+    {
+        "id":  "bad-terminals-contradict-starter",
+        "evidenceId":  "observation-battery-terminals-bad",
+        "hypothesisId":  "problem-starter",
+        "effect":  "contradict",
+        "weight":  0.54
+    },
+    {
+        "id":  "good-terminals-contradict-battery-connection",
+        "evidenceId":  "observation-battery-terminals-good",
+        "hypothesisId":  "problem-battery-connection",
+        "effect":  "contradict",
+        "weight":  0.7
+    },
+    {
+        "id":  "good-terminals-support-starter",
+        "evidenceId":  "observation-battery-terminals-good",
+        "hypothesisId":  "problem-starter",
+        "effect":  "support",
+        "weight":  0.58
+    },
+    {
+        "id":  "good-terminals-support-starter-control",
+        "evidenceId":  "observation-battery-terminals-good",
+        "hypothesisId":  "problem-starter-control-circuit",
+        "effect":  "support",
+        "weight":  0.34
+    },
+    {
+        "id":  "booster-single-click-support-starter",
+        "evidenceId":  "observation-booster-single-click",
+        "hypothesisId":  "problem-starter",
+        "effect":  "support",
+        "weight":  0.96
+    },
+    {
+        "id":  "booster-single-click-support-starter-control",
+        "evidenceId":  "observation-booster-single-click",
+        "hypothesisId":  "problem-starter-control-circuit",
+        "effect":  "support",
+        "weight":  0.42
+    },
+    {
+        "id":  "booster-single-click-contradict-weak-battery",
+        "evidenceId":  "observation-booster-single-click",
+        "hypothesisId":  "problem-weak-battery",
+        "effect":  "contradict",
+        "weight":  0.78
+    },
+    {
+        "id":  "booster-rapid-clicking-support-battery-connection",
+        "evidenceId":  "observation-booster-rapid-clicking",
+        "hypothesisId":  "problem-battery-connection",
+        "effect":  "support",
+        "weight":  0.8
+    },
+    {
+        "id":  "booster-rapid-clicking-support-weak-battery",
+        "evidenceId":  "observation-booster-rapid-clicking",
+        "hypothesisId":  "problem-weak-battery",
+        "effect":  "support",
+        "weight":  0.5
+    },
+    {
+        "id":  "booster-no-change-support-starter",
+        "evidenceId":  "observation-booster-no-change",
+        "hypothesisId":  "problem-starter",
+        "effect":  "support",
+        "weight":  0.88
+    },
+    {
+        "id":  "booster-no-change-support-starter-control",
+        "evidenceId":  "observation-booster-no-change",
+        "hypothesisId":  "problem-starter-control-circuit",
+        "effect":  "support",
+        "weight":  0.52
+    },
+    {
+        "id":  "booster-no-change-contradict-weak-battery",
+        "evidenceId":  "observation-booster-no-change",
+        "hypothesisId":  "problem-weak-battery",
+        "effect":  "contradict",
+        "weight":  0.68
+    },
+    {
+        "id":  "battery-under-two-contradict-weak-battery",
+        "evidenceId":  "observation-battery-under-two-years",
+        "hypothesisId":  "problem-weak-battery",
+        "effect":  "contradict",
+        "weight":  0.42
+    },
+    {
+        "id":  "battery-under-two-support-starter",
+        "evidenceId":  "observation-battery-under-two-years",
+        "hypothesisId":  "problem-starter",
+        "effect":  "support",
+        "weight":  0.18
+    },
+    {
+        "id":  "battery-two-four-support-weak-battery",
+        "evidenceId":  "observation-battery-two-to-four-years",
+        "hypothesisId":  "problem-weak-battery",
+        "effect":  "support",
+        "weight":  0.38
+    },
+    {
+        "id":  "battery-over-four-support-weak-battery",
+        "evidenceId":  "observation-battery-over-four-years",
+        "hypothesisId":  "problem-weak-battery",
+        "effect":  "support",
+        "weight":  0.9
+    },
+    {
+        "id":  "battery-over-four-contradict-starter",
+        "evidenceId":  "observation-battery-over-four-years",
+        "hypothesisId":  "problem-starter",
+        "effect":  "contradict",
+        "weight":  0.3
+    },
+    {
+        "id":  "no-crank-lights-normal-support-control-strong",
+        "evidenceId":  "symptom-no-crank",
+        "hypothesisId":  "problem-starter-control-circuit",
+        "effect":  "support",
+        "weight":  0.98
+    },
+    {
+        "id":  "lights-normal-contradict-starter-no-crank",
+        "evidenceId":  "observation-lights-stay-normal",
+        "hypothesisId":  "problem-starter",
+        "effect":  "contradict",
+        "weight":  0.72
+    },
+    {
+        "id":  "control-voltage-absent-support-control",
+        "evidenceId":  "observation-starter-control-voltage-absent",
+        "hypothesisId":  "problem-starter-control-circuit",
+        "effect":  "support",
+        "weight":  0.99
+    },
+    {
+        "id":  "control-voltage-absent-contradict-starter",
+        "evidenceId":  "observation-starter-control-voltage-absent",
+        "hypothesisId":  "problem-starter",
+        "effect":  "contradict",
+        "weight":  0.99
+    },
+    {
+        "evidenceId":  "observation-engine-attempts-to-start",
+        "effect":  "support",
+        "hypothesisId":  "problem-engine-sensor",
+        "id":  "engine-attempt-support-engine-sensor",
+        "weight":  0.95
+    },
+    {
+        "evidenceId":  "observation-engine-warning",
+        "effect":  "support",
+        "hypothesisId":  "problem-engine-sensor",
+        "id":  "engine-warning-support-engine-sensor",
+        "weight":  0.92
+    },
+    {
+        "evidenceId":  "observation-engine-warning-absent",
+        "effect":  "contradict",
+        "hypothesisId":  "problem-engine-sensor",
+        "id":  "engine-warning-absent-contradict-engine-sensor",
+        "weight":  0.35
+    },
+    {
+        "evidenceId":  "observation-immobilizer-warning",
+        "effect":  "contradict",
+        "hypothesisId":  "problem-engine-sensor",
+        "id":  "immobilizer-warning-contradict-engine-sensor",
+        "weight":  0.9
+    },
+    {
+        "evidenceId":  "observation-immobilizer-normal",
+        "effect":  "support",
+        "hypothesisId":  "problem-engine-sensor",
+        "id":  "immobilizer-normal-support-engine-sensor",
+        "weight":  0.3
+    },
+    {
+        "id":  "immobilizer-warning-support-immobilizer",
+        "evidenceId":  "observation-immobilizer-warning",
+        "hypothesisId":  "problem-immobilizer",
+        "effect":  "support",
+        "weight":  0.98
+    },
+    {
+        "id":  "immobilizer-warning-contradict-starter-control",
+        "evidenceId":  "observation-immobilizer-warning",
+        "hypothesisId":  "problem-starter-control-circuit",
+        "effect":  "contradict",
+        "weight":  0.95
+    },
+    {
+        "id":  "fuel-pump-prime-absent-support-fuel-supply",
+        "evidenceId":  "observation-fuel-pump-prime-absent",
+        "hypothesisId":  "problem-fuel-supply",
+        "effect":  "support",
+        "weight":  0.88
+    },
+    {
+        "id":  "fuel-pump-prime-present-contradict-fuel-supply",
+        "evidenceId":  "observation-fuel-pump-prime-present",
+        "hypothesisId":  "problem-fuel-supply",
+        "effect":  "contradict",
+        "weight":  0.45
+    }
+]

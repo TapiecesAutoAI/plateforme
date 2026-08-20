@@ -1,0 +1,6 @@
+﻿{
+  "id": "charging",
+  "title": "Diagnostic du circuit de charge",
+  "entryActionId": "charging-main-symptom",
+  "locked": true
+}

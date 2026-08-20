@@ -1,0 +1,6 @@
+﻿{
+  "id": "suspension",
+  "title": "Diagnostic de suspension",
+  "entryActionId": "suspension-main-symptom",
+  "locked": true
+}

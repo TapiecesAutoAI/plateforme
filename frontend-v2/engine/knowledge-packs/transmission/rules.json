@@ -1,0 +1,455 @@
+﻿[
+    {
+        "value":  [
+                      {
+                          "id":  "measurement-dct-clutch-adaptation-bad-to-problem-dct-clutch",
+                          "evidenceId":  "measurement-dct-clutch-adaptation-bad",
+                          "hypothesisId":  "problem-dct-clutch",
+                          "effect":  "support",
+                          "weight":  0.72
+                      },
+                      {
+                          "id":  "measurement-dct-clutch-adaptation-good-to-problem-dct-clutch",
+                          "evidenceId":  "measurement-dct-clutch-adaptation-good",
+                          "hypothesisId":  "problem-dct-clutch",
+                          "effect":  "support",
+                          "weight":  0.72
+                      },
+                      {
+                          "id":  "observation-automatic-filter-blocked-to-problem-automatic-filter",
+                          "evidenceId":  "observation-automatic-filter-blocked",
+                          "hypothesisId":  "problem-automatic-filter",
+                          "effect":  "support",
+                          "weight":  0.72
+                      },
+                      {
+                          "id":  "observation-automatic-fluid-burnt-to-problem-automatic-fluid",
+                          "evidenceId":  "observation-automatic-fluid-burnt",
+                          "hypothesisId":  "problem-automatic-fluid",
+                          "effect":  "support",
+                          "weight":  0.72
+                      },
+                      {
+                          "id":  "observation-automatic-fluid-contaminated-to-problem-automatic-fluid",
+                          "evidenceId":  "observation-automatic-fluid-contaminated",
+                          "hypothesisId":  "problem-automatic-fluid",
+                          "effect":  "support",
+                          "weight":  0.72
+                      },
+                      {
+                          "id":  "observation-automatic-fluid-good-to-problem-automatic-fluid",
+                          "evidenceId":  "observation-automatic-fluid-good",
+                          "hypothesisId":  "problem-automatic-fluid",
+                          "effect":  "contradict",
+                          "weight":  0.72
+                      },
+                      {
+                          "id":  "observation-automatic-fluid-low-to-problem-automatic-fluid",
+                          "evidenceId":  "observation-automatic-fluid-low",
+                          "hypothesisId":  "problem-automatic-fluid",
+                          "effect":  "support",
+                          "weight":  0.72
+                      },
+                      {
+                          "id":  "observation-automatic-pump-bad-to-problem-automatic-pump",
+                          "evidenceId":  "observation-automatic-pump-bad",
+                          "hypothesisId":  "problem-automatic-pump",
+                          "effect":  "support",
+                          "weight":  0.72
+                      },
+                      {
+                          "id":  "observation-automatic-solenoid-bad-to-problem-automatic-solenoid",
+                          "evidenceId":  "observation-automatic-solenoid-bad",
+                          "hypothesisId":  "problem-automatic-solenoid",
+                          "effect":  "support",
+                          "weight":  0.72
+                      },
+                      {
+                          "id":  "observation-automatic-solenoid-good-to-problem-automatic-solenoid",
+                          "evidenceId":  "observation-automatic-solenoid-good",
+                          "hypothesisId":  "problem-automatic-solenoid",
+                          "effect":  "contradict",
+                          "weight":  0.72
+                      },
+                      {
+                          "id":  "observation-automatic-valve-body-bad-to-problem-automatic-valve-body",
+                          "evidenceId":  "observation-automatic-valve-body-bad",
+                          "hypothesisId":  "problem-automatic-valve-body",
+                          "effect":  "support",
+                          "weight":  0.72
+                      },
+                      {
+                          "id":  "observation-clutch-mechanism-bad-to-problem-clutch-mechanism",
+                          "evidenceId":  "observation-clutch-mechanism-bad",
+                          "hypothesisId":  "problem-clutch-mechanism",
+                          "effect":  "support",
+                          "weight":  0.72
+                      },
+                      {
+                          "id":  "observation-clutch-mechanism-good-to-problem-clutch-mechanism",
+                          "evidenceId":  "observation-clutch-mechanism-good",
+                          "hypothesisId":  "problem-clutch-mechanism",
+                          "effect":  "contradict",
+                          "weight":  0.72
+                      },
+                      {
+                          "id":  "observation-clutch-release-bearing-bad-to-problem-clutch-release-bearing",
+                          "evidenceId":  "observation-clutch-release-bearing-bad",
+                          "hypothesisId":  "problem-clutch-release-bearing",
+                          "effect":  "support",
+                          "weight":  0.72
+                      },
+                      {
+                          "id":  "observation-cvt-belt-chain-bad-to-problem-cvt-belt-chain",
+                          "evidenceId":  "observation-cvt-belt-chain-bad",
+                          "hypothesisId":  "problem-cvt-belt-chain",
+                          "effect":  "support",
+                          "weight":  0.72
+                      },
+                      {
+                          "id":  "observation-cvt-fluid-bad-to-problem-cvt-fluid",
+                          "evidenceId":  "observation-cvt-fluid-bad",
+                          "hypothesisId":  "problem-cvt-fluid",
+                          "effect":  "support",
+                          "weight":  0.72
+                      },
+                      {
+                          "id":  "observation-cvt-fluid-good-to-problem-cvt-fluid",
+                          "evidenceId":  "observation-cvt-fluid-good",
+                          "hypothesisId":  "problem-cvt-fluid",
+                          "effect":  "contradict",
+                          "weight":  0.72
+                      },
+                      {
+                          "id":  "observation-cvt-fluid-low-to-problem-cvt-fluid",
+                          "evidenceId":  "observation-cvt-fluid-low",
+                          "hypothesisId":  "problem-cvt-fluid",
+                          "effect":  "support",
+                          "weight":  0.72
+                      },
+                      {
+                          "id":  "observation-cvt-fluid-wrong-to-problem-cvt-fluid",
+                          "evidenceId":  "observation-cvt-fluid-wrong",
+                          "hypothesisId":  "problem-cvt-fluid",
+                          "effect":  "support",
+                          "weight":  0.72
+                      },
+                      {
+                          "id":  "observation-cvt-hydraulic-system-good-to-problem-cvt-hydraulic-system",
+                          "evidenceId":  "observation-cvt-hydraulic-system-good",
+                          "hypothesisId":  "problem-cvt-hydraulic-system",
+                          "effect":  "contradict",
+                          "weight":  0.72
+                      },
+                      {
+                          "id":  "observation-cvt-pulley-bad-to-problem-cvt-pulley",
+                          "evidenceId":  "observation-cvt-pulley-bad",
+                          "hypothesisId":  "problem-cvt-pulley",
+                          "effect":  "support",
+                          "weight":  0.72
+                      },
+                      {
+                          "id":  "observation-dct-actuator-bad-to-problem-dct-actuator",
+                          "evidenceId":  "observation-dct-actuator-bad",
+                          "hypothesisId":  "problem-dct-actuator",
+                          "effect":  "support",
+                          "weight":  0.72
+                      },
+                      {
+                          "id":  "observation-dct-fluid-bad-to-problem-dct-fluid",
+                          "evidenceId":  "observation-dct-fluid-bad",
+                          "hypothesisId":  "problem-dct-fluid",
+                          "effect":  "support",
+                          "weight":  0.72
+                      },
+                      {
+                          "id":  "observation-dct-fluid-good-to-problem-dct-fluid",
+                          "evidenceId":  "observation-dct-fluid-good",
+                          "hypothesisId":  "problem-dct-fluid",
+                          "effect":  "contradict",
+                          "weight":  0.72
+                      },
+                      {
+                          "id":  "observation-dct-fluid-low-to-problem-dct-fluid",
+                          "evidenceId":  "observation-dct-fluid-low",
+                          "hypothesisId":  "problem-dct-fluid",
+                          "effect":  "support",
+                          "weight":  0.72
+                      },
+                      {
+                          "id":  "observation-dct-mechatronic-bad-to-problem-dct-mechatronic",
+                          "evidenceId":  "observation-dct-mechatronic-bad",
+                          "hypothesisId":  "problem-dct-mechatronic",
+                          "effect":  "support",
+                          "weight":  0.72
+                      },
+                      {
+                          "id":  "observation-dct-mechatronic-good-to-problem-dct-mechatronic",
+                          "evidenceId":  "observation-dct-mechatronic-good",
+                          "hypothesisId":  "problem-dct-mechatronic",
+                          "effect":  "contradict",
+                          "weight":  0.72
+                      },
+                      {
+                          "id":  "observation-dct-position-sensor-bad-to-problem-dct-position-sensor",
+                          "evidenceId":  "observation-dct-position-sensor-bad",
+                          "hypothesisId":  "problem-dct-position-sensor",
+                          "effect":  "support",
+                          "weight":  0.72
+                      },
+                      {
+                          "id":  "observation-differential-bearing-bad-to-problem-differential",
+                          "evidenceId":  "observation-differential-bearing-bad",
+                          "hypothesisId":  "problem-differential",
+                          "effect":  "support",
+                          "weight":  0.72
+                      },
+                      {
+                          "id":  "observation-differential-gear-bad-to-problem-differential",
+                          "evidenceId":  "observation-differential-gear-bad",
+                          "hypothesisId":  "problem-differential",
+                          "effect":  "support",
+                          "weight":  0.72
+                      },
+                      {
+                          "id":  "observation-differential-good-to-problem-differential",
+                          "evidenceId":  "observation-differential-good",
+                          "hypothesisId":  "problem-differential",
+                          "effect":  "contradict",
+                          "weight":  0.72
+                      },
+                      {
+                          "id":  "observation-manual-selector-internal-bad-to-problem-manual-selector-internal",
+                          "evidenceId":  "observation-manual-selector-internal-bad",
+                          "hypothesisId":  "problem-manual-selector-internal",
+                          "effect":  "support",
+                          "weight":  0.72
+                      },
+                      {
+                          "id":  "observation-manual-synchronizer-bad-to-problem-manual-synchronizer",
+                          "evidenceId":  "observation-manual-synchronizer-bad",
+                          "hypothesisId":  "problem-manual-synchronizer",
+                          "effect":  "support",
+                          "weight":  0.72
+                      },
+                      {
+                          "id":  "observation-manual-transmission-fluid-bad-to-problem-manual-transmission-fluid",
+                          "evidenceId":  "observation-manual-transmission-fluid-bad",
+                          "hypothesisId":  "problem-manual-transmission-fluid",
+                          "effect":  "support",
+                          "weight":  0.72
+                      },
+                      {
+                          "id":  "observation-manual-transmission-fluid-good-to-problem-manual-transmission-fluid",
+                          "evidenceId":  "observation-manual-transmission-fluid-good",
+                          "hypothesisId":  "problem-manual-transmission-fluid",
+                          "effect":  "contradict",
+                          "weight":  0.72
+                      },
+                      {
+                          "id":  "observation-manual-transmission-fluid-low-to-problem-manual-transmission-fluid",
+                          "evidenceId":  "observation-manual-transmission-fluid-low",
+                          "hypothesisId":  "problem-manual-transmission-fluid",
+                          "effect":  "support",
+                          "weight":  0.72
+                      },
+                      {
+                          "id":  "observation-shift-linkage-bad-to-problem-shift-linkage",
+                          "evidenceId":  "observation-shift-linkage-bad",
+                          "hypothesisId":  "problem-shift-linkage",
+                          "effect":  "support",
+                          "weight":  0.72
+                      },
+                      {
+                          "id":  "observation-shift-linkage-good-to-problem-shift-linkage",
+                          "evidenceId":  "observation-shift-linkage-good",
+                          "hypothesisId":  "problem-shift-linkage",
+                          "effect":  "contradict",
+                          "weight":  0.72
+                      },
+                      {
+                          "id":  "observation-torque-converter-good-to-problem-torque-converter",
+                          "evidenceId":  "observation-torque-converter-good",
+                          "hypothesisId":  "problem-torque-converter",
+                          "effect":  "contradict",
+                          "weight":  0.72
+                      },
+                      {
+                          "id":  "observation-torque-converter-lockup-bad-to-problem-torque-converter",
+                          "evidenceId":  "observation-torque-converter-lockup-bad",
+                          "hypothesisId":  "problem-torque-converter",
+                          "effect":  "support",
+                          "weight":  0.72
+                      },
+                      {
+                          "id":  "observation-torque-converter-shudder-to-problem-torque-converter",
+                          "evidenceId":  "observation-torque-converter-shudder",
+                          "hypothesisId":  "problem-torque-converter",
+                          "effect":  "support",
+                          "weight":  0.72
+                      },
+                      {
+                          "id":  "observation-torque-converter-slip-to-problem-torque-converter",
+                          "evidenceId":  "observation-torque-converter-slip",
+                          "hypothesisId":  "problem-torque-converter",
+                          "effect":  "support",
+                          "weight":  0.72
+                      },
+                      {
+                          "id":  "observation-transmission-control-unit-communication-bad-to-problem-transmission-control-unit",
+                          "evidenceId":  "observation-transmission-control-unit-communication-bad",
+                          "hypothesisId":  "problem-transmission-control-unit",
+                          "effect":  "support",
+                          "weight":  0.72
+                      },
+                      {
+                          "id":  "observation-transmission-control-unit-good-to-problem-transmission-control-unit",
+                          "evidenceId":  "observation-transmission-control-unit-good",
+                          "hypothesisId":  "problem-transmission-control-unit",
+                          "effect":  "contradict",
+                          "weight":  0.72
+                      },
+                      {
+                          "id":  "observation-transmission-control-unit-power-bad-to-problem-transmission-control-unit",
+                          "evidenceId":  "observation-transmission-control-unit-power-bad",
+                          "hypothesisId":  "problem-transmission-control-unit",
+                          "effect":  "support",
+                          "weight":  0.72
+                      },
+                      {
+                          "id":  "observation-transmission-cooling-good-to-problem-transmission-cooling",
+                          "evidenceId":  "observation-transmission-cooling-good",
+                          "hypothesisId":  "problem-transmission-cooling",
+                          "effect":  "contradict",
+                          "weight":  0.72
+                      },
+                      {
+                          "id":  "observation-transmission-position-sensor-bad-to-problem-transmission-position-sensor",
+                          "evidenceId":  "observation-transmission-position-sensor-bad",
+                          "hypothesisId":  "problem-transmission-position-sensor",
+                          "effect":  "support",
+                          "weight":  0.72
+                      },
+                      {
+                          "id":  "symptom-transmission-fluid-leak-to-problem-transmission-fluid-leak",
+                          "evidenceId":  "symptom-transmission-fluid-leak",
+                          "hypothesisId":  "problem-transmission-fluid-leak",
+                          "effect":  "support",
+                          "weight":  0.72
+                      },
+                      {
+                          "id":  "observation-clutch-hydraulic-bad-to-problem-clutch-hydraulic-system",
+                          "evidenceId":  "observation-clutch-hydraulic-bad",
+                          "hypothesisId":  "problem-clutch-hydraulic-system",
+                          "effect":  "support",
+                          "weight":  0.92
+                      },
+                      {
+                          "id":  "observation-clutch-fluid-low-to-problem-clutch-hydraulic-system",
+                          "evidenceId":  "observation-clutch-fluid-low",
+                          "hypothesisId":  "problem-clutch-hydraulic-system",
+                          "effect":  "support",
+                          "weight":  0.82
+                      },
+                      {
+                          "id":  "observation-clutch-hydraulic-good-to-problem-clutch-hydraulic-system",
+                          "evidenceId":  "observation-clutch-hydraulic-good",
+                          "hypothesisId":  "problem-clutch-hydraulic-system",
+                          "effect":  "contradict",
+                          "weight":  0.9
+                      },
+                      {
+                          "id":  "observation-clutch-contaminated-to-problem-clutch-disc",
+                          "evidenceId":  "observation-clutch-contaminated",
+                          "hypothesisId":  "problem-clutch-disc",
+                          "effect":  "support",
+                          "weight":  0.9
+                      },
+                      {
+                          "id":  "observation-clutch-disengagement-improves-to-problem-clutch-disc",
+                          "evidenceId":  "observation-clutch-disengagement-improves",
+                          "hypothesisId":  "problem-clutch-disc",
+                          "effect":  "support",
+                          "weight":  0.78
+                      },
+                      {
+                          "id":  "observation-input-bearing-noise-to-problem-input-shaft-bearing",
+                          "evidenceId":  "observation-input-bearing-noise",
+                          "hypothesisId":  "problem-input-shaft-bearing",
+                          "effect":  "support",
+                          "weight":  0.88
+                      },
+                      {
+                          "id":  "observation-manual-gear-internal-bad-to-problem-manual-gear-damage",
+                          "evidenceId":  "observation-manual-gear-internal-bad",
+                          "hypothesisId":  "problem-manual-gear-damage",
+                          "effect":  "support",
+                          "weight":  0.88
+                      },
+                      {
+                          "id":  "observation-manual-noise-specific-gear-to-problem-manual-gear-damage",
+                          "evidenceId":  "observation-manual-noise-specific-gear",
+                          "hypothesisId":  "problem-manual-gear-damage",
+                          "effect":  "support",
+                          "weight":  0.88
+                      },
+                      {
+                          "id":  "observation-transmission-input-speed-sensor-bad-to-problem-transmission-speed-sensor",
+                          "evidenceId":  "observation-transmission-input-speed-sensor-bad",
+                          "hypothesisId":  "problem-transmission-speed-sensor",
+                          "effect":  "support",
+                          "weight":  0.94
+                      },
+                      {
+                          "id":  "observation-transmission-output-speed-sensor-bad-to-problem-transmission-speed-sensor",
+                          "evidenceId":  "observation-transmission-output-speed-sensor-bad",
+                          "hypothesisId":  "problem-transmission-speed-sensor",
+                          "effect":  "support",
+                          "weight":  0.94
+                      },
+                      {
+                          "id":  "observation-transmission-code-sensor-to-problem-transmission-speed-sensor",
+                          "evidenceId":  "observation-transmission-code-sensor",
+                          "hypothesisId":  "problem-transmission-speed-sensor",
+                          "effect":  "support",
+                          "weight":  0.82
+                      },
+                      {
+                          "id":  "observation-automatic-pan-friction-debris-to-problem-automatic-internal-wear",
+                          "evidenceId":  "observation-automatic-pan-friction-debris",
+                          "hypothesisId":  "problem-automatic-internal-wear",
+                          "effect":  "support",
+                          "weight":  0.94
+                      },
+                      {
+                          "id":  "observation-automatic-pan-metal-debris-to-problem-automatic-internal-wear",
+                          "evidenceId":  "observation-automatic-pan-metal-debris",
+                          "hypothesisId":  "problem-automatic-internal-wear",
+                          "effect":  "support",
+                          "weight":  0.96
+                      },
+                      {
+                          "id":  "observation-automatic-pan-normal-to-problem-automatic-internal-wear",
+                          "evidenceId":  "observation-automatic-pan-normal",
+                          "hypothesisId":  "problem-automatic-internal-wear",
+                          "effect":  "contradict",
+                          "weight":  0.82
+                      },
+                      {
+                          "id":  "observation-transmission-code-ratio-slip-to-problem-automatic-internal-wear",
+                          "evidenceId":  "observation-transmission-code-ratio-slip",
+                          "hypothesisId":  "problem-automatic-internal-wear",
+                          "effect":  "support",
+                          "weight":  0.76
+                      }
+                  ],
+        "Count":  63
+    },
+    {
+        "id":  "observation-input-bearing-not-confirmed-to-problem-input-shaft-bearing",
+        "evidenceId":  "observation-input-bearing-not-confirmed",
+        "hypothesisId":  "problem-input-shaft-bearing",
+        "effect":  "contradict",
+        "weight":  0.9
+    }
+]

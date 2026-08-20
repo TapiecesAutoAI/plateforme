@@ -1,0 +1,128 @@
+﻿[
+  {
+    "id": "fan-not-running-support-fan",
+    "evidenceId": "observation-fan-not-running",
+    "hypothesisId": "problem-radiator-fan",
+    "effect": "support",
+    "weight": 0.99
+  },
+  {
+    "id": "fan-motor-bad-support-fan",
+    "evidenceId": "observation-fan-motor-bad",
+    "hypothesisId": "problem-radiator-fan",
+    "effect": "support",
+    "weight": 1.00
+  },
+  {
+    "id": "fan-fuse-bad-support-control",
+    "evidenceId": "observation-fan-fuse-bad",
+    "hypothesisId": "problem-fan-control",
+    "effect": "support",
+    "weight": 0.99
+  },
+  {
+    "id": "low-coolant-support-leak",
+    "evidenceId": "observation-low-coolant",
+    "hypothesisId": "problem-coolant-leak",
+    "effect": "support",
+    "weight": 0.97
+  },
+  {
+    "id": "visible-leak-support-leak",
+    "evidenceId": "observation-visible-coolant-leak",
+    "hypothesisId": "problem-coolant-leak",
+    "effect": "support",
+    "weight": 1.00
+  },
+  {
+    "id": "upper-hose-cold-support-thermostat",
+    "evidenceId": "observation-upper-hose-cold",
+    "hypothesisId": "problem-thermostat",
+    "effect": "support",
+    "weight": 0.99
+  },
+  {
+    "id": "water-pump-bad-support-pump",
+    "evidenceId": "observation-water-pump-bad",
+    "hypothesisId": "problem-water-pump",
+    "effect": "support",
+    "weight": 0.99
+  },
+  {
+    "id": "temp-sensor-bad-support-sensor",
+    "evidenceId": "observation-temperature-sensor-bad",
+    "hypothesisId": "problem-temperature-sensor",
+    "effect": "support",
+    "weight": 0.99
+  },
+  {
+    "id": "heater-cold-support-air",
+    "evidenceId": "observation-heater-cold",
+    "hypothesisId": "problem-air-in-system",
+    "effect": "support",
+    "weight": 0.92
+  },
+  {
+    "id": "overheat-driving-support-radiator",
+    "evidenceId": "observation-overheat-driving",
+    "hypothesisId": "problem-radiator-blocked",
+    "effect": "support",
+    "weight": 0.90
+  },
+  {
+    "id": "normal-coolant-contradict-leak",
+    "evidenceId": "observation-normal-coolant",
+    "hypothesisId": "problem-coolant-leak",
+    "effect": "contradict",
+    "weight": 0.82
+  },
+  {
+    "id": "fan-running-contradict-fan",
+    "evidenceId": "observation-fan-running",
+    "hypothesisId": "problem-radiator-fan",
+    "effect": "contradict",
+    "weight": 0.90
+  },
+  {
+    "id": "fan-motor-good-contradict-fan",
+    "evidenceId": "observation-fan-motor-good",
+    "hypothesisId": "problem-radiator-fan",
+    "effect": "contradict",
+    "weight": 0.92
+  },
+  {
+    "id": "fan-fuse-good-contradict-control",
+    "evidenceId": "observation-fan-fuse-good",
+    "hypothesisId": "problem-fan-control",
+    "effect": "contradict",
+    "weight": 0.92
+  },
+  {
+    "id": "temp-sensor-good-contradict-sensor",
+    "evidenceId": "observation-temperature-sensor-good",
+    "hypothesisId": "problem-temperature-sensor",
+    "effect": "contradict",
+    "weight": 0.93
+  },
+  {
+    "id": "heater-hot-contradict-air",
+    "evidenceId": "observation-heater-hot",
+    "hypothesisId": "problem-air-in-system",
+    "effect": "contradict",
+    "weight": 0.80
+  },
+  {
+    "id": "upper-hose-hot-contradict-thermostat",
+    "evidenceId": "observation-upper-hose-hot",
+    "hypothesisId": "problem-thermostat",
+    "effect": "contradict",
+    "weight": 0.88
+  },
+  {
+    "id": "no-visible-leak-contradict-leak",
+    "evidenceId": "observation-no-visible-leak",
+    "hypothesisId": "problem-coolant-leak",
+    "effect": "contradict",
+    "weight": 0.74
+  }
+]

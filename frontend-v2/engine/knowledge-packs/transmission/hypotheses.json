@@ -1,0 +1,426 @@
+﻿[
+  {
+    "id": "problem-clutch-hydraulic-system",
+    "label": "Circuit hydraulique d'embrayage défectueux",
+    "possibleParts": [
+      "Maître-cylindre d'embrayage",
+      "Récepteur d'embrayage",
+      "Conduite hydraulique",
+      "Liquide de frein"
+    ],
+    "recommendedChecks": [
+      "Contrôler le niveau de liquide",
+      "Rechercher une fuite",
+      "Contrôler le maître-cylindre",
+      "Contrôler le récepteur"
+    ]
+  },
+  {
+    "id": "problem-clutch-release-bearing",
+    "label": "Butée d'embrayage défectueuse",
+    "possibleParts": [
+      "Butée d'embrayage"
+    ],
+    "recommendedChecks": [
+      "Écouter le bruit pédale enfoncée",
+      "Contrôler la course de débrayage",
+      "Contrôler la butée"
+    ]
+  },
+  {
+    "id": "problem-clutch-mechanism",
+    "label": "Mécanisme d'embrayage défectueux",
+    "possibleParts": [
+      "Mécanisme d'embrayage",
+      "Fourchette d'embrayage"
+    ],
+    "recommendedChecks": [
+      "Contrôler la course",
+      "Contrôler la fourchette",
+      "Inspecter le mécanisme"
+    ]
+  },
+  {
+    "id": "problem-clutch-disc",
+    "label": "Disque d'embrayage usé ou contaminé",
+    "possibleParts": [
+      "Disque d'embrayage",
+      "Kit d'embrayage"
+    ],
+    "recommendedChecks": [
+      "Confirmer le patinage",
+      "Contrôler une contamination par l'huile",
+      "Contrôler l'usure du disque"
+    ]
+  },
+  {
+    "id": "problem-shift-linkage",
+    "label": "Commande de sélection défectueuse",
+    "possibleParts": [
+      "Câble de sélection",
+      "Tringlerie",
+      "Rotule de commande"
+    ],
+    "recommendedChecks": [
+      "Contrôler le réglage",
+      "Contrôler les jeux",
+      "Contrôler les câbles et rotules"
+    ]
+  },
+  {
+    "id": "problem-manual-transmission-fluid",
+    "label": "Huile de boîte manuelle insuffisante ou dégradée",
+    "possibleParts": [
+      "Huile de boîte",
+      "Joint d'étanchéité"
+    ],
+    "recommendedChecks": [
+      "Contrôler le niveau",
+      "Contrôler l'état de l'huile",
+      "Rechercher une fuite"
+    ]
+  },
+  {
+    "id": "problem-manual-synchronizer",
+    "label": "Synchroniseur de boîte manuelle usé",
+    "possibleParts": [
+      "Synchroniseur",
+      "Baladeur"
+    ],
+    "recommendedChecks": [
+      "Identifier le rapport concerné",
+      "Contrôler les craquements",
+      "Inspecter les synchroniseurs"
+    ]
+  },
+  {
+    "id": "problem-manual-selector-internal",
+    "label": "Fourchette ou baladeur interne usé",
+    "possibleParts": [
+      "Fourchette de sélection",
+      "Baladeur"
+    ],
+    "recommendedChecks": [
+      "Contrôler le maintien du rapport",
+      "Contrôler le mécanisme interne",
+      "Inspecter la fourchette"
+    ]
+  },
+  {
+    "id": "problem-manual-gear-damage",
+    "label": "Pignon ou denture de boîte endommagé",
+    "possibleParts": [
+      "Pignon",
+      "Arbre de boîte"
+    ],
+    "recommendedChecks": [
+      "Identifier le rapport bruyant",
+      "Contrôler la limaille",
+      "Inspecter les dentures"
+    ]
+  },
+  {
+    "id": "problem-input-shaft-bearing",
+    "label": "Roulement d'arbre primaire défectueux",
+    "possibleParts": [
+      "Roulement d'arbre primaire"
+    ],
+    "recommendedChecks": [
+      "Comparer le bruit embrayé et débrayé",
+      "Contrôler le jeu de l'arbre primaire"
+    ]
+  },
+  {
+    "id": "problem-differential",
+    "label": "Différentiel défectueux",
+    "possibleParts": [
+      "Roulement de différentiel",
+      "Pignon de différentiel",
+      "Couronne"
+    ],
+    "recommendedChecks": [
+      "Contrôler le jeu",
+      "Contrôler le bruit en accélération et décélération",
+      "Inspecter les dentures"
+    ]
+  },
+  {
+    "id": "problem-automatic-fluid",
+    "label": "Huile de boîte automatique insuffisante ou dégradée",
+    "possibleParts": [
+      "Huile ATF",
+      "Filtre de boîte",
+      "Joint de carter"
+    ],
+    "recommendedChecks": [
+      "Contrôler le niveau",
+      "Contrôler la couleur et l'odeur",
+      "Contrôler la présence de débris"
+    ]
+  },
+  {
+    "id": "problem-automatic-internal-wear",
+    "label": "Usure interne de boîte automatique",
+    "possibleParts": [
+      "Disques de friction",
+      "Tambour",
+      "Train épicycloïdal"
+    ],
+    "recommendedChecks": [
+      "Contrôler les débris dans le carter",
+      "Contrôler les pressions",
+      "Contrôler les rapports de transmission"
+    ]
+  },
+  {
+    "id": "problem-automatic-pump",
+    "label": "Pompe hydraulique de boîte défectueuse",
+    "possibleParts": [
+      "Pompe hydraulique"
+    ],
+    "recommendedChecks": [
+      "Mesurer la pression de ligne",
+      "Contrôler le débit",
+      "Contrôler le filtre"
+    ]
+  },
+  {
+    "id": "problem-automatic-filter",
+    "label": "Filtre de boîte automatique obstrué",
+    "possibleParts": [
+      "Filtre de boîte automatique"
+    ],
+    "recommendedChecks": [
+      "Contrôler le débit",
+      "Inspecter le filtre",
+      "Contrôler la pression de ligne"
+    ]
+  },
+  {
+    "id": "problem-automatic-valve-body",
+    "label": "Bloc hydraulique de boîte défectueux",
+    "possibleParts": [
+      "Bloc hydraulique",
+      "Tiroir hydraulique"
+    ],
+    "recommendedChecks": [
+      "Contrôler les pressions",
+      "Effectuer les tests d'actionneurs",
+      "Inspecter les tiroirs"
+    ]
+  },
+  {
+    "id": "problem-automatic-solenoid",
+    "label": "Électrovanne de boîte automatique défectueuse",
+    "possibleParts": [
+      "Électrovanne de changement de rapport",
+      "Électrovanne de pression"
+    ],
+    "recommendedChecks": [
+      "Lire les codes défaut",
+      "Mesurer la résistance",
+      "Effectuer les tests d'actionneurs"
+    ]
+  },
+  {
+    "id": "problem-torque-converter",
+    "label": "Convertisseur de couple défectueux",
+    "possibleParts": [
+      "Convertisseur de couple",
+      "Embrayage de verrouillage"
+    ],
+    "recommendedChecks": [
+      "Contrôler le glissement",
+      "Contrôler le verrouillage",
+      "Contrôler les vibrations"
+    ]
+  },
+  {
+    "id": "problem-dct-clutch",
+    "label": "Embrayage de boîte double embrayage usé",
+    "possibleParts": [
+      "Embrayage DCT",
+      "Kit double embrayage"
+    ],
+    "recommendedChecks": [
+      "Lire les valeurs d'adaptation",
+      "Contrôler l'usure",
+      "Effectuer l'apprentissage"
+    ]
+  },
+  {
+    "id": "problem-dct-fluid",
+    "label": "Huile de boîte double embrayage incorrecte ou dégradée",
+    "possibleParts": [
+      "Huile DCT",
+      "Filtre DCT"
+    ],
+    "recommendedChecks": [
+      "Contrôler le niveau",
+      "Contrôler la qualité",
+      "Vérifier la spécification"
+    ]
+  },
+  {
+    "id": "problem-dct-mechatronic",
+    "label": "Mécatronique de boîte double embrayage défectueuse",
+    "possibleParts": [
+      "Mécatronique",
+      "Calculateur de boîte"
+    ],
+    "recommendedChecks": [
+      "Lire les codes défaut",
+      "Contrôler les pressions",
+      "Effectuer les tests d'actionneurs"
+    ]
+  },
+  {
+    "id": "problem-dct-actuator",
+    "label": "Actionneur de boîte double embrayage défectueux",
+    "possibleParts": [
+      "Actionneur d'embrayage",
+      "Actionneur de sélection"
+    ],
+    "recommendedChecks": [
+      "Effectuer les tests d'actionneurs",
+      "Contrôler les valeurs de position"
+    ]
+  },
+  {
+    "id": "problem-dct-position-sensor",
+    "label": "Capteur de position de boîte double embrayage défectueux",
+    "possibleParts": [
+      "Capteur de position",
+      "Faisceau"
+    ],
+    "recommendedChecks": [
+      "Lire les valeurs de position",
+      "Contrôler le faisceau",
+      "Lire les codes défaut"
+    ]
+  },
+  {
+    "id": "problem-cvt-fluid",
+    "label": "Huile CVT incorrecte, insuffisante ou dégradée",
+    "possibleParts": [
+      "Huile CVT",
+      "Filtre CVT"
+    ],
+    "recommendedChecks": [
+      "Contrôler le niveau",
+      "Vérifier la spécification",
+      "Contrôler l'état de l'huile"
+    ]
+  },
+  {
+    "id": "problem-cvt-hydraulic-system",
+    "label": "Circuit hydraulique CVT défectueux",
+    "possibleParts": [
+      "Pompe CVT",
+      "Filtre CVT",
+      "Bloc hydraulique"
+    ],
+    "recommendedChecks": [
+      "Mesurer la pression",
+      "Contrôler la pompe",
+      "Contrôler le filtre",
+      "Contrôler le bloc hydraulique"
+    ]
+  },
+  {
+    "id": "problem-cvt-belt-chain",
+    "label": "Courroie ou chaîne métallique CVT usée",
+    "possibleParts": [
+      "Courroie métallique",
+      "Chaîne CVT"
+    ],
+    "recommendedChecks": [
+      "Contrôler le patinage",
+      "Inspecter la courroie ou la chaîne",
+      "Contrôler les débris"
+    ]
+  },
+  {
+    "id": "problem-cvt-pulley",
+    "label": "Poulie CVT défectueuse",
+    "possibleParts": [
+      "Poulie primaire",
+      "Poulie secondaire"
+    ],
+    "recommendedChecks": [
+      "Inspecter les surfaces",
+      "Contrôler le déplacement",
+      "Contrôler la pression"
+    ]
+  },
+  {
+    "id": "problem-transmission-fluid-leak",
+    "label": "Fuite d'huile de transmission",
+    "possibleParts": [
+      "Joint spi",
+      "Joint de carter",
+      "Conduite de refroidissement",
+      "Carter"
+    ],
+    "recommendedChecks": [
+      "Localiser la fuite",
+      "Contrôler le niveau",
+      "Nettoyer puis contrôler à nouveau"
+    ]
+  },
+  {
+    "id": "problem-transmission-speed-sensor",
+    "label": "Capteur de vitesse de transmission défectueux",
+    "possibleParts": [
+      "Capteur de vitesse d'entrée",
+      "Capteur de vitesse de sortie",
+      "Faisceau"
+    ],
+    "recommendedChecks": [
+      "Lire les valeurs de vitesse",
+      "Contrôler le faisceau",
+      "Lire les codes défaut"
+    ]
+  },
+  {
+    "id": "problem-transmission-position-sensor",
+    "label": "Capteur de position de transmission défectueux",
+    "possibleParts": [
+      "Capteur de position",
+      "Contacteur multifonction"
+    ],
+    "recommendedChecks": [
+      "Contrôler les positions affichées",
+      "Contrôler le réglage",
+      "Lire les codes défaut"
+    ]
+  },
+  {
+    "id": "problem-transmission-cooling",
+    "label": "Refroidissement de transmission défectueux",
+    "possibleParts": [
+      "Refroidisseur d'huile",
+      "Conduite de refroidissement"
+    ],
+    "recommendedChecks": [
+      "Contrôler le débit",
+      "Contrôler les conduites",
+      "Contrôler la température d'huile"
+    ]
+  },
+  {
+    "id": "problem-transmission-control-unit",
+    "label": "Alimentation ou communication du calculateur de transmission défectueuse",
+    "possibleParts": [
+      "Calculateur de boîte",
+      "Fusible",
+      "Relais",
+      "Faisceau CAN"
+    ],
+    "recommendedChecks": [
+      "Contrôler les alimentations",
+      "Contrôler les masses",
+      "Contrôler le réseau CAN"
+    ]
+  }
+]

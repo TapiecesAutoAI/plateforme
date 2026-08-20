@@ -1,0 +1,374 @@
+﻿[
+    {
+        "id":  "starting-main-behaviour",
+        "workflowId":  "starting",
+        "type":  "ask-question",
+        "text":  "Que se passe-t-il lorsque vous essayez de démarrer le véhicule ?",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  1,
+        "options":  [
+                        {
+                            "id":  "engine-not-turning",
+                            "label":  "Le moteur ne tourne pas",
+                            "value":  "Le moteur ne tourne pas pendant la tentative de démarrage.",
+                            "addsEvidence":  [
+                                                 "symptom-no-crank"
+                                             ],
+                            "nextActionId":  "starting-sound"
+                        },
+                        {
+                            "id":  "engine-turning-slowly",
+                            "label":  "Le moteur tourne lentement",
+                            "value":  "Le moteur tourne lentement pendant la tentative de démarrage.",
+                            "addsEvidence":  [
+                                                 "symptom-slow-cranking"
+                                             ],
+                            "nextActionId":  "starting-lights"
+                        },
+                        {
+                            "id":  "engine-cranks",
+                            "label":  "Le moteur tourne normalement mais ne démarre pas",
+                            "value":  "Le moteur tourne normalement mais ne démarre pas.",
+                            "addsEvidence":  [
+                                                 "symptom-engine-cranks"
+                                             ],
+                            "nextActionId":  "starting-conclude"
+                        },
+                        {
+                            "id":  "single-click",
+                            "label":  "J\u0027entends un seul clic",
+                            "value":  "Un seul clic est entendu pendant la tentative de démarrage.",
+                            "addsEvidence":  [
+                                                 "symptom-single-click"
+                                             ],
+                            "nextActionId":  "starting-lights"
+                        },
+                        {
+                            "id":  "rapid-clicking",
+                            "label":  "J\u0027entends plusieurs clics rapides",
+                            "value":  "Plusieurs clics rapides sont entendus pendant la tentative de démarrage.",
+                            "addsEvidence":  [
+                                                 "symptom-rapid-clicking"
+                                             ],
+                            "nextActionId":  "starting-lights"
+                        }
+                    ]
+    },
+    {
+        "id":  "starting-sound",
+        "workflowId":  "starting",
+        "type":  "ask-question",
+        "text":  "Quel bruit entendez-vous au moment de démarrer ?",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  2,
+        "options":  [
+                        {
+                            "id":  "starter-spins-free",
+                            "label":  "Le démarreur tourne dans le vide",
+                            "value":  "Le démarreur tourne dans le vide.",
+                            "addsEvidence":  [
+                                                 "symptom-starter-spins-free"
+                                             ],
+                            "nextActionId":  "starting-confirm-starter-drive",
+                            "rejectsEvidence":  [
+                                                    "symptom-single-click",
+                                                    "symptom-rapid-clicking"
+                                                ]
+                        },
+                        {
+                            "id":  "single-click",
+                            "label":  "Un seul clic",
+                            "value":  "Un seul clic est entendu.",
+                            "addsEvidence":  [
+                                                 "symptom-single-click"
+                                             ],
+                            "nextActionId":  "starting-lights"
+                        },
+                        {
+                            "id":  "rapid-clicking",
+                            "label":  "Plusieurs clics rapides",
+                            "value":  "Plusieurs clics rapides sont entendus.",
+                            "addsEvidence":  [
+                                                 "symptom-rapid-clicking"
+                                             ],
+                            "nextActionId":  "starting-lights"
+                        }
+                    ]
+    },
+    {
+        "id":  "starting-lights",
+        "workflowId":  "starting",
+        "type":  "request-observation",
+        "text":  "Les voyants ou les phares faiblissent-ils pendant la tentative de démarrage ?",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  3,
+        "options":  [
+                        {
+                            "id":  "strongly",
+                            "label":  "Oui, fortement",
+                            "value":  "Les voyants ou les phares faiblissent fortement.",
+                            "addsEvidence":  [
+                                                 "observation-lights-dim-strongly"
+                                             ],
+                            "nextActionId":  "starting-conclude"
+                        },
+                        {
+                            "id":  "slightly",
+                            "label":  "Oui, légèrement",
+                            "value":  "Les voyants ou les phares faiblissent légèrement.",
+                            "addsEvidence":  [
+                                                 "observation-lights-dim-slightly"
+                                             ],
+                            "nextActionId":  "starting-conclude"
+                        },
+                        {
+                            "id":  "normal",
+                            "label":  "Non, ils restent normaux",
+                            "value":  "Les voyants et les phares restent normaux.",
+                            "addsEvidence":  [
+                                                 "observation-lights-stay-normal"
+                                             ],
+                            "nextActionId":  "starting-conclude"
+                        },
+                        {
+                            "id":  "unsure",
+                            "label":  "Je ne sais pas",
+                            "value":  "La variation des éclairages n\u0027est pas connue.",
+                            "nextActionId":  "starting-conclude"
+                        },
+                        {
+                            "id":  "dim-unspecified",
+                            "label":  "Oui, mais je ne peux pas préciser davantage",
+                            "value":  "Les voyants ou les phares faiblissent pendant le démarrage.",
+                            "addsEvidence":  [
+                                                 "observation-lights-dim"
+                                             ],
+                            "nextActionId":  "starting-conclude"
+                        }
+                    ]
+    },
+    {
+        "id":  "starting-conclude",
+        "workflowId":  "starting",
+        "type":  "complete-diagnosis",
+        "text":  "Calcul du diagnostic de démarrage.",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  100,
+        "diagnosisId":  "starting-diagnosis"
+    },
+    {
+        "id":  "starting-confirm-starter-drive",
+        "workflowId":  "starting",
+        "type":  "request-observation",
+        "text":  "Entendez-vous clairement le moteur électrique du démarreur tourner rapidement sans que le moteur du véhicule soit entraîné ?",
+        "purpose":  "Confirmer un défaut du lanceur ou du pignon du démarreur.",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  2,
+        "options":  [
+                        {
+                            "id":  "yes",
+                            "label":  "Oui, le démarreur tourne mais le moteur ne tourne pas",
+                            "value":  "Le démarreur tourne rapidement sans entraîner le moteur.",
+                            "addsEvidence":  [
+                                                 "observation-starter-spins-without-engine"
+                                             ],
+                            "nextActionId":  "starting-conclude"
+                        },
+                        {
+                            "id":  "no",
+                            "label":  "Non, ce n’est pas ce bruit",
+                            "value":  "Le démarreur ne tourne pas clairement dans le vide.",
+                            "rejectsEvidence":  [
+                                                    "symptom-starter-spins-free"
+                                                ],
+                            "nextActionId":  "starting-lights"
+                        },
+                        {
+                            "id":  "unsure",
+                            "label":  "Je ne sais pas",
+                            "value":  "Le bruit ne peut pas être identifié avec certitude.",
+                            "nextActionId":  "starting-lights"
+                        }
+                    ],
+        "requiredEvidence":  [
+                                 "symptom-starter-spins-free"
+                             ]
+    },
+    {
+        "id":  "starting-booster-test",
+        "workflowId":  "starting",
+        "type":  "ask-question",
+        "text":  "Le véhicule démarre-t-il avec des câbles ou un booster ?",
+        "purpose":  "Vérifier simplement si la batterie manque de puissance avant de conseiller son achat.",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  1,
+        "options":  [
+                        {
+                            "id":  "yes",
+                            "label":  "Oui, il démarre",
+                            "value":  "Le véhicule démarre avec des câbles ou un booster.",
+                            "addsEvidence":  [
+                                                 "observation-jump-start-success"
+                                             ],
+                            "nextActionId":  "starting-conclude"
+                        },
+                        {
+                            "id":  "no",
+                            "label":  "Non, il ne démarre pas",
+                            "value":  "Le véhicule ne démarre pas avec des câbles ou un booster.",
+                            "addsEvidence":  [
+                                                 "observation-jump-start-fails"
+                                             ],
+                            "nextActionId":  "starting-conclude"
+                        },
+                        {
+                            "id":  "not-tested",
+                            "label":  "Je n’ai pas encore essayé",
+                            "value":  "Le test avec des câbles ou un booster n’a pas été effectué.",
+                            "nextActionId":  "starting-conclude"
+                        }
+                    ]
+    },
+    {
+        "id":  "starting-check-battery-terminals",
+        "workflowId":  "starting",
+        "type":  "request-observation",
+        "text":  "Les bornes de la batterie semblent-elles propres, bien serrées et sans dépôt blanc ou vert ?",
+        "purpose":  "Distinguer une mauvaise connexion de batterie d’un problème de démarreur.",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  1,
+        "requiredEvidence":  [
+                                 "observation-jump-start-fails"
+                             ],
+        "options":  [
+                        {
+                            "id":  "bad",
+                            "label":  "Non, elles sont sales, oxydées ou desserrées",
+                            "value":  "Les bornes de batterie sont en mauvais état.",
+                            "addsEvidence":  [
+                                                 "observation-battery-terminals-bad"
+                                             ],
+                            "nextActionId":  "starting-conclude"
+                        },
+                        {
+                            "id":  "good",
+                            "label":  "Oui, elles semblent propres et bien serrées",
+                            "value":  "Les bornes de batterie semblent correctes.",
+                            "addsEvidence":  [
+                                                 "observation-battery-terminals-good"
+                                             ],
+                            "nextActionId":  "starting-conclude"
+                        },
+                        {
+                            "id":  "unsure",
+                            "label":  "Je ne sais pas",
+                            "value":  "L’état des bornes de batterie n’est pas connu.",
+                            "nextActionId":  "starting-conclude"
+                        }
+                    ]
+    },
+    {
+        "id":  "starting-booster-sound",
+        "workflowId":  "starting",
+        "type":  "ask-question",
+        "text":  "Avec le booster branché, quel bruit entendez-vous lorsque vous essayez de démarrer ?",
+        "purpose":  "Distinguer un démarreur défectueux d’un problème de batterie ou de connexion.",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  1,
+        "requiredEvidence":  [
+                                 "observation-jump-start-fails",
+                                 "observation-battery-terminals-good"
+                             ],
+        "options":  [
+                        {
+                            "id":  "single-click",
+                            "label":  "Un seul clic",
+                            "value":  "Avec le booster, un seul clic est entendu.",
+                            "addsEvidence":  [
+                                                 "observation-booster-single-click"
+                                             ],
+                            "nextActionId":  "starting-conclude"
+                        },
+                        {
+                            "id":  "rapid-clicking",
+                            "label":  "Toujours plusieurs clics rapides",
+                            "value":  "Avec le booster, plusieurs clics rapides sont toujours entendus.",
+                            "addsEvidence":  [
+                                                 "observation-booster-rapid-clicking"
+                                             ],
+                            "nextActionId":  "starting-conclude"
+                        },
+                        {
+                            "id":  "no-change",
+                            "label":  "Le bruit ne change pas",
+                            "value":  "Le booster ne modifie pas le comportement.",
+                            "addsEvidence":  [
+                                                 "observation-booster-no-change"
+                                             ],
+                            "nextActionId":  "starting-conclude"
+                        },
+                        {
+                            "id":  "unsure",
+                            "label":  "Je ne sais pas",
+                            "value":  "Le bruit avec le booster n’est pas identifié.",
+                            "nextActionId":  "starting-conclude"
+                        }
+                    ]
+    }
+]

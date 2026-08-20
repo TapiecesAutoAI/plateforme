@@ -1,0 +1,6 @@
+﻿{
+  "id": "starting",
+  "title": "Diagnostic de démarrage",
+  "entryActionId": "starting-main-behaviour",
+  "locked": true
+}

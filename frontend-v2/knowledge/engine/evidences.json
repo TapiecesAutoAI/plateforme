@@ -1,0 +1,547 @@
+[
+  {
+    "id": "measurement-engine-air-metering-bad",
+    "label": "engine air metering bad",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-engine-air-metering-good",
+    "label": "engine air metering good",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-engine-boost-high",
+    "label": "engine boost high",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-engine-boost-low",
+    "label": "engine boost low",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-engine-boost-normal",
+    "label": "engine boost normal",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-engine-cam-crank-sync-bad",
+    "label": "engine cam crank sync bad",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-engine-cam-crank-sync-good",
+    "label": "engine cam crank sync good",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-engine-combustion-gas-negative",
+    "label": "engine combustion gas negative",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-engine-combustion-gas-positive",
+    "label": "engine combustion gas positive",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-engine-compression-low-all",
+    "label": "engine compression low all",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-engine-compression-low-some",
+    "label": "engine compression low some",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-engine-compression-normal",
+    "label": "engine compression normal",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-engine-diesel-injector-return-high",
+    "label": "engine diesel injector return high",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-engine-diesel-injector-return-normal",
+    "label": "engine diesel injector return normal",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-engine-diesel-rail-pressure-low",
+    "label": "engine diesel rail pressure low",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-engine-diesel-rail-pressure-normal",
+    "label": "engine diesel rail pressure normal",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-engine-fuel-pressure-low",
+    "label": "engine fuel pressure low",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-engine-fuel-pressure-normal",
+    "label": "engine fuel pressure normal",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-engine-fuel-trim-negative",
+    "label": "engine fuel trim negative",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-engine-fuel-trim-normal",
+    "label": "engine fuel trim normal",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-engine-fuel-trim-positive",
+    "label": "engine fuel trim positive",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-engine-injector-command-absent",
+    "label": "engine injector command absent",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-engine-injector-command-present",
+    "label": "engine injector command present",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-engine-oil-pressure-low",
+    "label": "engine oil pressure low",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-engine-oil-pressure-normal",
+    "label": "engine oil pressure normal",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-engine-rpm-present-cranking",
+    "label": "engine rpm present cranking",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-engine-rpm-zero-cranking",
+    "label": "engine rpm zero cranking",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "observation-engine-boost-leak-absent",
+    "label": "engine boost leak absent",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-boost-leak-present",
+    "label": "engine boost leak present",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-code-air",
+    "label": "engine code air",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-code-boost",
+    "label": "engine code boost",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-code-emissions",
+    "label": "engine code emissions",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-code-fuel",
+    "label": "engine code fuel",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-code-misfire",
+    "label": "engine code misfire",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-code-timing",
+    "label": "engine code timing",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-coolant-level-stable",
+    "label": "engine coolant level stable",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-coolant-loss-internal",
+    "label": "engine coolant loss internal",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-crank-sensor-bad",
+    "label": "engine crank sensor bad",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-crank-sensor-good",
+    "label": "engine crank sensor good",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-diagnostic-codes-absent",
+    "label": "engine diagnostic codes absent",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-diagnostic-codes-present",
+    "label": "engine diagnostic codes present",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-ecu-power-bad",
+    "label": "engine ecu power bad",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-ecu-power-good",
+    "label": "engine ecu power good",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-egr-bad",
+    "label": "engine egr bad",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-exhaust-restriction-absent",
+    "label": "engine exhaust restriction absent",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-exhaust-restriction-present",
+    "label": "engine exhaust restriction present",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-fuel-diesel",
+    "label": "engine fuel diesel",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-fuel-hybrid",
+    "label": "engine fuel hybrid",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-fuel-level-insufficient",
+    "label": "engine fuel level insufficient",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-fuel-level-sufficient",
+    "label": "engine fuel level sufficient",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-fuel-petrol",
+    "label": "engine fuel petrol",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-fuel-pump-circuit-bad",
+    "label": "engine fuel pump circuit bad",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-fuel-pump-circuit-good",
+    "label": "engine fuel pump circuit good",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-fuel-pump-no-prime",
+    "label": "engine fuel pump no prime",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-fuel-pump-primes",
+    "label": "engine fuel pump primes",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-glow-light-flashing",
+    "label": "engine glow light flashing",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-glow-light-normal",
+    "label": "engine glow light normal",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-glow-light-off",
+    "label": "engine glow light off",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-glow-system-bad",
+    "label": "engine glow system bad",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-glow-system-good",
+    "label": "engine glow system good",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-immobilizer-active",
+    "label": "engine immobilizer active",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-immobilizer-inactive",
+    "label": "engine immobilizer inactive",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-intake-leak-absent",
+    "label": "engine intake leak absent",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-intake-leak-present",
+    "label": "engine intake leak present",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-misfire-always",
+    "label": "engine misfire always",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-misfire-does-not-follow-ignition",
+    "label": "engine misfire does not follow ignition",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-misfire-follows-coil",
+    "label": "engine misfire follows coil",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-misfire-follows-plug",
+    "label": "engine misfire follows plug",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-misfire-idle",
+    "label": "engine misfire idle",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-misfire-load",
+    "label": "engine misfire load",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-misfire-multiple-cylinders",
+    "label": "engine misfire multiple cylinders",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-misfire-single-cylinder",
+    "label": "engine misfire single cylinder",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-noise-knock",
+    "label": "engine noise knock",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-noise-rattle",
+    "label": "engine noise rattle",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-noise-ticking",
+    "label": "engine noise ticking",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-noise-whistle",
+    "label": "engine noise whistle",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-oil-consumption-high",
+    "label": "engine oil consumption high",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-oil-consumption-normal",
+    "label": "engine oil consumption normal",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-power-loss-always",
+    "label": "engine power loss always",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-power-loss-high-rpm",
+    "label": "engine power loss high rpm",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-power-loss-load",
+    "label": "engine power loss load",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-rough-idle-always",
+    "label": "engine rough idle always",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-rough-idle-cold",
+    "label": "engine rough idle cold",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-rough-idle-hot",
+    "label": "engine rough idle hot",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-smoke-black",
+    "label": "engine smoke black",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-smoke-blue",
+    "label": "engine smoke blue",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-smoke-grey",
+    "label": "engine smoke grey",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-smoke-white",
+    "label": "engine smoke white",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-spare-key-fails",
+    "label": "engine spare key fails",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-spare-key-success",
+    "label": "engine spare key success",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-spark-absent",
+    "label": "engine spark absent",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-spark-normal",
+    "label": "engine spark normal",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-spark-weak",
+    "label": "engine spark weak",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-throttle-bad",
+    "label": "engine throttle bad",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-throttle-egr-good",
+    "label": "engine throttle egr good",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-timing-bad",
+    "label": "engine timing bad",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-timing-good",
+    "label": "engine timing good",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-turbo-control-bad",
+    "label": "engine turbo control bad",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-turbo-control-good",
+    "label": "engine turbo control good",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-warning-light-fixed",
+    "label": "engine warning light fixed",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-warning-light-flashing",
+    "label": "engine warning light flashing",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-warning-light-intermittent",
+    "label": "engine warning light intermittent",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "symptom-engine-cranks-no-start",
+    "label": "engine cranks no start",
+    "defaultConfidence": 0.9
+  },
+  {
+    "id": "symptom-engine-loss-power",
+    "label": "engine loss power",
+    "defaultConfidence": 0.9
+  },
+  {
+    "id": "symptom-engine-misfire",
+    "label": "engine misfire",
+    "defaultConfidence": 0.9
+  },
+  {
+    "id": "symptom-engine-noise",
+    "label": "engine noise",
+    "defaultConfidence": 0.9
+  },
+  {
+    "id": "symptom-engine-rough-idle",
+    "label": "engine rough idle",
+    "defaultConfidence": 0.9
+  },
+  {
+    "id": "symptom-engine-smoke",
+    "label": "engine smoke",
+    "defaultConfidence": 0.9
+  },
+  {
+    "id": "symptom-engine-warning-light",
+    "label": "engine warning light",
+    "defaultConfidence": 0.9
+  }
+]

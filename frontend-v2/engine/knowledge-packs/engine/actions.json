@@ -1,0 +1,1914 @@
+[
+  {
+    "id": "engine-main-symptom",
+    "workflowId": "engine",
+    "type": "ask-question",
+    "text": "Quel est le principal problème moteur ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 1,
+    "options": [
+      {
+        "id": "no-start",
+        "label": "Le moteur tourne mais ne démarre pas",
+        "value": "Le moteur tourne sans démarrer.",
+        "addsEvidence": [
+          "symptom-engine-cranks-no-start"
+        ],
+        "nextActionId": "engine-fuel-type"
+      },
+      {
+        "id": "rough-idle",
+        "label": "Ralenti instable",
+        "value": "Le ralenti est instable.",
+        "addsEvidence": [
+          "symptom-engine-rough-idle"
+        ],
+        "nextActionId": "engine-idle-context"
+      },
+      {
+        "id": "loss-power",
+        "label": "Manque de puissance",
+        "value": "Le moteur manque de puissance.",
+        "addsEvidence": [
+          "symptom-engine-loss-power"
+        ],
+        "nextActionId": "engine-power-context"
+      },
+      {
+        "id": "misfire",
+        "label": "Ratés ou broutements",
+        "value": "Le moteur présente des ratés.",
+        "addsEvidence": [
+          "symptom-engine-misfire"
+        ],
+        "nextActionId": "engine-misfire-context"
+      },
+      {
+        "id": "smoke",
+        "label": "Fumée anormale",
+        "value": "Le moteur fume anormalement.",
+        "addsEvidence": [
+          "symptom-engine-smoke"
+        ],
+        "nextActionId": "engine-smoke-color"
+      },
+      {
+        "id": "noise",
+        "label": "Bruit moteur anormal",
+        "value": "Un bruit moteur anormal est présent.",
+        "addsEvidence": [
+          "symptom-engine-noise"
+        ],
+        "nextActionId": "engine-noise-type"
+      },
+      {
+        "id": "warning",
+        "label": "Voyant moteur allumé",
+        "value": "Le voyant moteur est allumé.",
+        "addsEvidence": [
+          "symptom-engine-warning-light"
+        ],
+        "nextActionId": "engine-warning-state"
+      }
+    ]
+  },
+  {
+    "id": "engine-fuel-type",
+    "workflowId": "engine",
+    "type": "ask-question",
+    "text": "Quel est le type de carburant ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 2,
+    "options": [
+      {
+        "id": "petrol",
+        "label": "Essence",
+        "value": "Le moteur est essence.",
+        "addsEvidence": [
+          "observation-engine-fuel-petrol"
+        ],
+        "nextActionId": "engine-fuel-level"
+      },
+      {
+        "id": "diesel",
+        "label": "Diesel",
+        "value": "Le moteur est diesel.",
+        "addsEvidence": [
+          "observation-engine-fuel-diesel"
+        ],
+        "nextActionId": "engine-glow-light"
+      },
+      {
+        "id": "hybrid",
+        "label": "Hybride",
+        "value": "Le véhicule est hybride.",
+        "addsEvidence": [
+          "observation-engine-fuel-hybrid"
+        ],
+        "nextActionId": "engine-fuel-level"
+      },
+      {
+        "id": "unknown",
+        "label": "Je ne sais pas",
+        "value": "Le carburant est inconnu.",
+        "nextActionId": "engine-fuel-level"
+      }
+    ],
+    "requiredEvidence": [
+      "symptom-engine-cranks-no-start"
+    ]
+  },
+  {
+    "id": "engine-fuel-level",
+    "workflowId": "engine",
+    "type": "ask-question",
+    "text": "Le réservoir contient-il suffisamment de carburant ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 3,
+    "options": [
+      {
+        "id": "yes",
+        "label": "Oui",
+        "value": "Le niveau est suffisant.",
+        "addsEvidence": [
+          "observation-engine-fuel-level-sufficient"
+        ],
+        "nextActionId": "engine-immobilizer"
+      },
+      {
+        "id": "no",
+        "label": "Non",
+        "value": "Le niveau est insuffisant.",
+        "addsEvidence": [
+          "observation-engine-fuel-level-insufficient"
+        ],
+        "nextActionId": "engine-conclude"
+      },
+      {
+        "id": "unknown",
+        "label": "Je ne sais pas",
+        "value": "Le niveau est inconnu.",
+        "nextActionId": "engine-immobilizer"
+      }
+    ]
+  },
+  {
+    "id": "engine-immobilizer",
+    "workflowId": "engine",
+    "type": "request-observation",
+    "text": "Un voyant de clé ou d'antidémarrage reste-t-il actif ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 4,
+    "options": [
+      {
+        "id": "yes",
+        "label": "Oui",
+        "value": "L'antidémarrage semble actif.",
+        "addsEvidence": [
+          "observation-engine-immobilizer-active"
+        ],
+        "nextActionId": "engine-spare-key"
+      },
+      {
+        "id": "no",
+        "label": "Non",
+        "value": "L'antidémarrage ne semble pas actif.",
+        "addsEvidence": [
+          "observation-engine-immobilizer-inactive"
+        ],
+        "nextActionId": "engine-fuel-pump"
+      },
+      {
+        "id": "unknown",
+        "label": "Je ne sais pas",
+        "value": "L'état est inconnu.",
+        "nextActionId": "engine-fuel-pump"
+      }
+    ]
+  },
+  {
+    "id": "engine-spare-key",
+    "workflowId": "engine",
+    "type": "request-observation",
+    "text": "Le moteur démarre-t-il avec la seconde clé ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 5,
+    "options": [
+      {
+        "id": "yes",
+        "label": "Oui",
+        "value": "Le moteur démarre avec la seconde clé.",
+        "addsEvidence": [
+          "observation-engine-spare-key-success"
+        ],
+        "nextActionId": "engine-conclude"
+      },
+      {
+        "id": "no",
+        "label": "Non",
+        "value": "Le moteur ne démarre pas avec la seconde clé.",
+        "addsEvidence": [
+          "observation-engine-spare-key-fails"
+        ],
+        "nextActionId": "engine-fuel-pump"
+      },
+      {
+        "id": "not-tested",
+        "label": "Non testé",
+        "value": "La seconde clé n'a pas été testée.",
+        "nextActionId": "engine-fuel-pump"
+      }
+    ],
+    "requiredEvidence": [
+      "observation-engine-immobilizer-active"
+    ]
+  },
+  {
+    "id": "engine-fuel-pump",
+    "workflowId": "engine",
+    "type": "request-observation",
+    "text": "Entendez-vous la pompe à carburant s'amorcer ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 6,
+    "options": [
+      {
+        "id": "yes",
+        "label": "Oui",
+        "value": "La pompe s'amorce.",
+        "addsEvidence": [
+          "observation-engine-fuel-pump-primes"
+        ],
+        "nextActionId": "engine-spark-known"
+      },
+      {
+        "id": "no",
+        "label": "Non",
+        "value": "La pompe ne s'amorce pas.",
+        "addsEvidence": [
+          "observation-engine-fuel-pump-no-prime"
+        ],
+        "nextActionId": "engine-fuel-pump-circuit"
+      },
+      {
+        "id": "unknown",
+        "label": "Je ne sais pas",
+        "value": "L'amorçage est inconnu.",
+        "nextActionId": "engine-spark-known"
+      }
+    ]
+  },
+  {
+    "id": "engine-fuel-pump-circuit",
+    "workflowId": "engine",
+    "type": "request-observation",
+    "text": "Le fusible et le relais de pompe sont-ils corrects ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 7,
+    "options": [
+      {
+        "id": "bad",
+        "label": "Non",
+        "value": "Le circuit de pompe est défectueux.",
+        "addsEvidence": [
+          "observation-engine-fuel-pump-circuit-bad"
+        ],
+        "nextActionId": "engine-conclude"
+      },
+      {
+        "id": "good",
+        "label": "Oui",
+        "value": "Le circuit de pompe semble correct.",
+        "addsEvidence": [
+          "observation-engine-fuel-pump-circuit-good"
+        ],
+        "nextActionId": "engine-fuel-pressure"
+      },
+      {
+        "id": "unknown",
+        "label": "Je ne sais pas",
+        "value": "Le circuit n'est pas contrôlé.",
+        "nextActionId": "engine-fuel-pressure"
+      }
+    ]
+  },
+  {
+    "id": "engine-fuel-pressure",
+    "workflowId": "engine",
+    "type": "ask-question",
+    "text": "La pression de carburant est-elle conforme ?",
+    "audiences": [
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "advanced",
+    "priority": 8,
+    "options": [
+      {
+        "id": "low",
+        "label": "Non, trop faible",
+        "value": "La pression est insuffisante.",
+        "addsEvidence": [
+          "measurement-engine-fuel-pressure-low"
+        ],
+        "nextActionId": "engine-conclude"
+      },
+      {
+        "id": "normal",
+        "label": "Oui",
+        "value": "La pression est correcte.",
+        "addsEvidence": [
+          "measurement-engine-fuel-pressure-normal"
+        ],
+        "nextActionId": "engine-spark-known"
+      },
+      {
+        "id": "not-tested",
+        "label": "Non mesurée",
+        "value": "La pression n'est pas mesurée.",
+        "nextActionId": "engine-spark-known"
+      }
+    ]
+  },
+  {
+    "id": "engine-spark-known",
+    "workflowId": "engine",
+    "type": "ask-question",
+    "text": "L'étincelle a-t-elle été contrôlée ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 9,
+    "options": [
+      {
+        "id": "none",
+        "label": "Aucune étincelle",
+        "value": "Aucune étincelle n'est présente.",
+        "addsEvidence": [
+          "observation-engine-spark-absent"
+        ],
+        "nextActionId": "engine-rpm-signal"
+      },
+      {
+        "id": "weak",
+        "label": "Faible ou irrégulière",
+        "value": "L'étincelle est faible.",
+        "addsEvidence": [
+          "observation-engine-spark-weak"
+        ],
+        "nextActionId": "engine-ignition-swap"
+      },
+      {
+        "id": "normal",
+        "label": "Oui, correcte",
+        "value": "L'étincelle est correcte.",
+        "addsEvidence": [
+          "observation-engine-spark-normal"
+        ],
+        "nextActionId": "engine-injector-command"
+      },
+      {
+        "id": "not-tested",
+        "label": "Non contrôlée",
+        "value": "L'étincelle n'est pas contrôlée.",
+        "nextActionId": "engine-rpm-signal"
+      }
+    ]
+  },
+  {
+    "id": "engine-rpm-signal",
+    "workflowId": "engine",
+    "type": "ask-question",
+    "text": "Un régime moteur est-il détecté pendant le lancement ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 10,
+    "options": [
+      {
+        "id": "zero",
+        "label": "Non, 0 tr/min",
+        "value": "Aucun régime n'est détecté.",
+        "addsEvidence": [
+          "measurement-engine-rpm-zero-cranking"
+        ],
+        "nextActionId": "engine-crank-sensor"
+      },
+      {
+        "id": "present",
+        "label": "Oui",
+        "value": "Un régime est détecté.",
+        "addsEvidence": [
+          "measurement-engine-rpm-present-cranking"
+        ],
+        "nextActionId": "engine-sync"
+      },
+      {
+        "id": "not-tested",
+        "label": "Non contrôlé",
+        "value": "Le régime n'est pas contrôlé.",
+        "nextActionId": "engine-sync"
+      }
+    ]
+  },
+  {
+    "id": "engine-crank-sensor",
+    "workflowId": "engine",
+    "type": "request-observation",
+    "text": "Le capteur vilebrequin et son faisceau sont-ils corrects ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 11,
+    "options": [
+      {
+        "id": "bad",
+        "label": "Non",
+        "value": "Le capteur vilebrequin ou son circuit est défectueux.",
+        "addsEvidence": [
+          "observation-engine-crank-sensor-bad"
+        ],
+        "nextActionId": "engine-conclude"
+      },
+      {
+        "id": "good",
+        "label": "Oui",
+        "value": "Le capteur semble correct.",
+        "addsEvidence": [
+          "observation-engine-crank-sensor-good"
+        ],
+        "nextActionId": "engine-sync"
+      },
+      {
+        "id": "unknown",
+        "label": "Non contrôlé",
+        "value": "Le capteur n'est pas contrôlé.",
+        "nextActionId": "engine-sync"
+      }
+    ]
+  },
+  {
+    "id": "engine-sync",
+    "workflowId": "engine",
+    "type": "ask-question",
+    "text": "La synchronisation vilebrequin-arbre à cames est-elle correcte ?",
+    "audiences": [
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "advanced",
+    "priority": 12,
+    "options": [
+      {
+        "id": "yes",
+        "label": "Oui",
+        "value": "La synchronisation est correcte.",
+        "addsEvidence": [
+          "measurement-engine-cam-crank-sync-good"
+        ],
+        "nextActionId": "engine-injector-command"
+      },
+      {
+        "id": "no",
+        "label": "Non",
+        "value": "La synchronisation est incorrecte.",
+        "addsEvidence": [
+          "measurement-engine-cam-crank-sync-bad"
+        ],
+        "nextActionId": "engine-timing"
+      },
+      {
+        "id": "not-tested",
+        "label": "Non contrôlée",
+        "value": "La synchronisation n'est pas contrôlée.",
+        "nextActionId": "engine-injector-command"
+      }
+    ]
+  },
+  {
+    "id": "engine-timing",
+    "workflowId": "engine",
+    "type": "request-observation",
+    "text": "Le calage de distribution est-il correct ?",
+    "audiences": [
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "advanced",
+    "priority": 13,
+    "options": [
+      {
+        "id": "bad",
+        "label": "Non",
+        "value": "Le calage est incorrect.",
+        "addsEvidence": [
+          "observation-engine-timing-bad"
+        ],
+        "nextActionId": "engine-conclude"
+      },
+      {
+        "id": "good",
+        "label": "Oui",
+        "value": "Le calage est correct.",
+        "addsEvidence": [
+          "observation-engine-timing-good"
+        ],
+        "nextActionId": "engine-compression"
+      },
+      {
+        "id": "not-tested",
+        "label": "Non contrôlé",
+        "value": "Le calage n'est pas contrôlé.",
+        "nextActionId": "engine-compression"
+      }
+    ]
+  },
+  {
+    "id": "engine-injector-command",
+    "workflowId": "engine",
+    "type": "ask-question",
+    "text": "La commande des injecteurs est-elle présente ?",
+    "audiences": [
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "advanced",
+    "priority": 14,
+    "options": [
+      {
+        "id": "yes",
+        "label": "Oui",
+        "value": "La commande est présente.",
+        "addsEvidence": [
+          "measurement-engine-injector-command-present"
+        ],
+        "nextActionId": "engine-compression"
+      },
+      {
+        "id": "no",
+        "label": "Non",
+        "value": "La commande est absente.",
+        "addsEvidence": [
+          "measurement-engine-injector-command-absent"
+        ],
+        "nextActionId": "engine-ecu-power"
+      },
+      {
+        "id": "not-tested",
+        "label": "Non contrôlée",
+        "value": "La commande n'est pas contrôlée.",
+        "nextActionId": "engine-compression"
+      }
+    ]
+  },
+  {
+    "id": "engine-ecu-power",
+    "workflowId": "engine",
+    "type": "request-observation",
+    "text": "Les alimentations, masses et fusibles du calculateur sont-ils corrects ?",
+    "audiences": [
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "advanced",
+    "priority": 15,
+    "options": [
+      {
+        "id": "bad",
+        "label": "Non",
+        "value": "Une alimentation du calculateur est défectueuse.",
+        "addsEvidence": [
+          "observation-engine-ecu-power-bad"
+        ],
+        "nextActionId": "engine-conclude"
+      },
+      {
+        "id": "good",
+        "label": "Oui",
+        "value": "Les alimentations sont correctes.",
+        "addsEvidence": [
+          "observation-engine-ecu-power-good"
+        ],
+        "nextActionId": "engine-codes"
+      },
+      {
+        "id": "unknown",
+        "label": "Non contrôlés",
+        "value": "Les alimentations ne sont pas contrôlées.",
+        "nextActionId": "engine-codes"
+      }
+    ]
+  },
+  {
+    "id": "engine-compression",
+    "workflowId": "engine",
+    "type": "ask-question",
+    "text": "Les compressions moteur sont-elles conformes ?",
+    "audiences": [
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "advanced",
+    "priority": 16,
+    "options": [
+      {
+        "id": "low-all",
+        "label": "Faibles sur tous les cylindres",
+        "value": "Toutes les compressions sont faibles.",
+        "addsEvidence": [
+          "measurement-engine-compression-low-all"
+        ],
+        "nextActionId": "engine-conclude"
+      },
+      {
+        "id": "low-some",
+        "label": "Faibles sur certains cylindres",
+        "value": "Certaines compressions sont faibles.",
+        "addsEvidence": [
+          "measurement-engine-compression-low-some"
+        ],
+        "nextActionId": "engine-conclude"
+      },
+      {
+        "id": "normal",
+        "label": "Oui",
+        "value": "Les compressions sont normales.",
+        "addsEvidence": [
+          "measurement-engine-compression-normal"
+        ],
+        "nextActionId": "engine-codes"
+      },
+      {
+        "id": "not-tested",
+        "label": "Non mesurées",
+        "value": "Les compressions ne sont pas mesurées.",
+        "nextActionId": "engine-codes"
+      }
+    ]
+  },
+  {
+    "id": "engine-glow-light",
+    "workflowId": "engine",
+    "type": "request-observation",
+    "text": "Le voyant de préchauffage s'allume-t-il normalement ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 17,
+    "options": [
+      {
+        "id": "normal",
+        "label": "Oui",
+        "value": "Le voyant fonctionne normalement.",
+        "addsEvidence": [
+          "observation-engine-glow-light-normal"
+        ],
+        "nextActionId": "engine-diesel-rail"
+      },
+      {
+        "id": "off",
+        "label": "Non",
+        "value": "Le voyant ne s'allume pas.",
+        "addsEvidence": [
+          "observation-engine-glow-light-off"
+        ],
+        "nextActionId": "engine-glow-system"
+      },
+      {
+        "id": "flashing",
+        "label": "Il clignote",
+        "value": "Le voyant clignote.",
+        "addsEvidence": [
+          "observation-engine-glow-light-flashing"
+        ],
+        "nextActionId": "engine-codes"
+      }
+    ],
+    "requiredEvidence": [
+      "observation-engine-fuel-diesel"
+    ]
+  },
+  {
+    "id": "engine-glow-system",
+    "workflowId": "engine",
+    "type": "request-observation",
+    "text": "Le fusible, relais et les bougies de préchauffage sont-ils corrects ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 18,
+    "options": [
+      {
+        "id": "bad",
+        "label": "Non",
+        "value": "Le système de préchauffage est défectueux.",
+        "addsEvidence": [
+          "observation-engine-glow-system-bad"
+        ],
+        "nextActionId": "engine-conclude"
+      },
+      {
+        "id": "good",
+        "label": "Oui",
+        "value": "Le système semble correct.",
+        "addsEvidence": [
+          "observation-engine-glow-system-good"
+        ],
+        "nextActionId": "engine-diesel-rail"
+      },
+      {
+        "id": "unknown",
+        "label": "Non contrôlé",
+        "value": "Le système n'est pas contrôlé.",
+        "nextActionId": "engine-diesel-rail"
+      }
+    ]
+  },
+  {
+    "id": "engine-diesel-rail",
+    "workflowId": "engine",
+    "type": "ask-question",
+    "text": "La pression de rampe diesel atteint-elle la valeur nécessaire au démarrage ?",
+    "audiences": [
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "advanced",
+    "priority": 19,
+    "options": [
+      {
+        "id": "low",
+        "label": "Non",
+        "value": "La pression de rampe est insuffisante.",
+        "addsEvidence": [
+          "measurement-engine-diesel-rail-pressure-low"
+        ],
+        "nextActionId": "engine-diesel-return"
+      },
+      {
+        "id": "normal",
+        "label": "Oui",
+        "value": "La pression est suffisante.",
+        "addsEvidence": [
+          "measurement-engine-diesel-rail-pressure-normal"
+        ],
+        "nextActionId": "engine-codes"
+      },
+      {
+        "id": "not-tested",
+        "label": "Non contrôlée",
+        "value": "La pression n'est pas contrôlée.",
+        "nextActionId": "engine-codes"
+      }
+    ]
+  },
+  {
+    "id": "engine-diesel-return",
+    "workflowId": "engine",
+    "type": "request-observation",
+    "text": "Le test de retour révèle-t-il un injecteur anormal ?",
+    "audiences": [
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "advanced",
+    "priority": 20,
+    "options": [
+      {
+        "id": "yes",
+        "label": "Oui",
+        "value": "Un injecteur présente un retour excessif.",
+        "addsEvidence": [
+          "measurement-engine-diesel-injector-return-high"
+        ],
+        "nextActionId": "engine-conclude"
+      },
+      {
+        "id": "no",
+        "label": "Non",
+        "value": "Les retours sont équilibrés.",
+        "addsEvidence": [
+          "measurement-engine-diesel-injector-return-normal"
+        ],
+        "nextActionId": "engine-conclude"
+      },
+      {
+        "id": "not-tested",
+        "label": "Non testé",
+        "value": "Le test n'est pas effectué.",
+        "nextActionId": "engine-conclude"
+      }
+    ]
+  },
+  {
+    "id": "engine-idle-context",
+    "workflowId": "engine",
+    "type": "ask-question",
+    "text": "Le ralenti instable apparaît-il à froid, à chaud ou toujours ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 21,
+    "options": [
+      {
+        "id": "cold",
+        "label": "À froid",
+        "value": "Le défaut apparaît à froid.",
+        "addsEvidence": [
+          "observation-engine-rough-idle-cold"
+        ],
+        "nextActionId": "engine-intake-leak"
+      },
+      {
+        "id": "hot",
+        "label": "À chaud",
+        "value": "Le défaut apparaît à chaud.",
+        "addsEvidence": [
+          "observation-engine-rough-idle-hot"
+        ],
+        "nextActionId": "engine-intake-leak"
+      },
+      {
+        "id": "always",
+        "label": "Toujours",
+        "value": "Le défaut est permanent.",
+        "addsEvidence": [
+          "observation-engine-rough-idle-always"
+        ],
+        "nextActionId": "engine-intake-leak"
+      }
+    ],
+    "requiredEvidence": [
+      "symptom-engine-rough-idle"
+    ]
+  },
+  {
+    "id": "engine-intake-leak",
+    "workflowId": "engine",
+    "type": "request-observation",
+    "text": "Une prise d'air ou une durite endommagée est-elle visible ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 22,
+    "options": [
+      {
+        "id": "yes",
+        "label": "Oui",
+        "value": "Une prise d'air est présente.",
+        "addsEvidence": [
+          "observation-engine-intake-leak-present"
+        ],
+        "nextActionId": "engine-conclude"
+      },
+      {
+        "id": "no",
+        "label": "Non",
+        "value": "Aucune prise d'air visible.",
+        "addsEvidence": [
+          "observation-engine-intake-leak-absent"
+        ],
+        "nextActionId": "engine-air-metering"
+      },
+      {
+        "id": "unknown",
+        "label": "Non contrôlé",
+        "value": "L'admission n'est pas contrôlée.",
+        "nextActionId": "engine-air-metering"
+      }
+    ]
+  },
+  {
+    "id": "engine-air-metering",
+    "workflowId": "engine",
+    "type": "ask-question",
+    "text": "Les valeurs débitmètre ou pression d'admission sont-elles cohérentes ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 23,
+    "options": [
+      {
+        "id": "bad",
+        "label": "Non",
+        "value": "Les valeurs sont incohérentes.",
+        "addsEvidence": [
+          "measurement-engine-air-metering-bad"
+        ],
+        "nextActionId": "engine-conclude"
+      },
+      {
+        "id": "good",
+        "label": "Oui",
+        "value": "Les valeurs sont cohérentes.",
+        "addsEvidence": [
+          "measurement-engine-air-metering-good"
+        ],
+        "nextActionId": "engine-throttle-egr"
+      },
+      {
+        "id": "not-tested",
+        "label": "Non contrôlées",
+        "value": "Les valeurs ne sont pas contrôlées.",
+        "nextActionId": "engine-throttle-egr"
+      }
+    ]
+  },
+  {
+    "id": "engine-throttle-egr",
+    "workflowId": "engine",
+    "type": "request-observation",
+    "text": "Le boîtier papillon ou la vanne EGR sont-ils encrassés ou bloqués ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 24,
+    "options": [
+      {
+        "id": "throttle",
+        "label": "Papillon en cause",
+        "value": "Le boîtier papillon est défectueux.",
+        "addsEvidence": [
+          "observation-engine-throttle-bad"
+        ],
+        "nextActionId": "engine-conclude"
+      },
+      {
+        "id": "egr",
+        "label": "EGR en cause",
+        "value": "La vanne EGR est défectueuse.",
+        "addsEvidence": [
+          "observation-engine-egr-bad"
+        ],
+        "nextActionId": "engine-conclude"
+      },
+      {
+        "id": "good",
+        "label": "Ils semblent corrects",
+        "value": "Papillon et EGR semblent corrects.",
+        "addsEvidence": [
+          "observation-engine-throttle-egr-good"
+        ],
+        "nextActionId": "engine-codes"
+      },
+      {
+        "id": "unknown",
+        "label": "Non contrôlés",
+        "value": "Ils ne sont pas contrôlés.",
+        "nextActionId": "engine-codes"
+      }
+    ]
+  },
+  {
+    "id": "engine-misfire-context",
+    "workflowId": "engine",
+    "type": "ask-question",
+    "text": "Les ratés apparaissent-ils au ralenti, en charge ou toujours ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 25,
+    "options": [
+      {
+        "id": "idle",
+        "label": "Au ralenti",
+        "value": "Les ratés apparaissent au ralenti.",
+        "addsEvidence": [
+          "observation-engine-misfire-idle"
+        ],
+        "nextActionId": "engine-misfire-cylinder"
+      },
+      {
+        "id": "load",
+        "label": "En charge",
+        "value": "Les ratés apparaissent en charge.",
+        "addsEvidence": [
+          "observation-engine-misfire-load"
+        ],
+        "nextActionId": "engine-misfire-cylinder"
+      },
+      {
+        "id": "always",
+        "label": "Toujours",
+        "value": "Les ratés sont permanents.",
+        "addsEvidence": [
+          "observation-engine-misfire-always"
+        ],
+        "nextActionId": "engine-misfire-cylinder"
+      }
+    ],
+    "requiredEvidence": [
+      "symptom-engine-misfire"
+    ]
+  },
+  {
+    "id": "engine-misfire-cylinder",
+    "workflowId": "engine",
+    "type": "ask-question",
+    "text": "Un cylindre précis est-il identifié ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 26,
+    "options": [
+      {
+        "id": "one",
+        "label": "Oui",
+        "value": "Un cylindre précis est identifié.",
+        "addsEvidence": [
+          "observation-engine-misfire-single-cylinder"
+        ],
+        "nextActionId": "engine-ignition-swap"
+      },
+      {
+        "id": "multiple",
+        "label": "Plusieurs cylindres",
+        "value": "Plusieurs cylindres sont concernés.",
+        "addsEvidence": [
+          "observation-engine-misfire-multiple-cylinders"
+        ],
+        "nextActionId": "engine-fuel-trim"
+      },
+      {
+        "id": "unknown",
+        "label": "Non identifié",
+        "value": "Aucun cylindre n'est identifié.",
+        "nextActionId": "engine-fuel-trim"
+      }
+    ]
+  },
+  {
+    "id": "engine-ignition-swap",
+    "workflowId": "engine",
+    "type": "request-observation",
+    "text": "Le défaut suit-il la bobine ou la bougie lorsqu'elles sont permutées ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 27,
+    "options": [
+      {
+        "id": "coil",
+        "label": "Oui, la bobine",
+        "value": "Le défaut suit la bobine.",
+        "addsEvidence": [
+          "observation-engine-misfire-follows-coil"
+        ],
+        "nextActionId": "engine-conclude"
+      },
+      {
+        "id": "plug",
+        "label": "Oui, la bougie",
+        "value": "Le défaut suit la bougie.",
+        "addsEvidence": [
+          "observation-engine-misfire-follows-plug"
+        ],
+        "nextActionId": "engine-conclude"
+      },
+      {
+        "id": "no",
+        "label": "Non",
+        "value": "Le défaut reste sur le cylindre.",
+        "addsEvidence": [
+          "observation-engine-misfire-does-not-follow-ignition"
+        ],
+        "nextActionId": "engine-compression"
+      },
+      {
+        "id": "not-tested",
+        "label": "Non testé",
+        "value": "La permutation n'est pas effectuée.",
+        "nextActionId": "engine-compression"
+      }
+    ]
+  },
+  {
+    "id": "engine-fuel-trim",
+    "workflowId": "engine",
+    "type": "ask-question",
+    "text": "Les corrections de richesse sont-elles anormales ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 28,
+    "options": [
+      {
+        "id": "positive",
+        "label": "Fortement positives",
+        "value": "Les corrections sont positives.",
+        "addsEvidence": [
+          "measurement-engine-fuel-trim-positive"
+        ],
+        "nextActionId": "engine-intake-leak"
+      },
+      {
+        "id": "negative",
+        "label": "Fortement négatives",
+        "value": "Les corrections sont négatives.",
+        "addsEvidence": [
+          "measurement-engine-fuel-trim-negative"
+        ],
+        "nextActionId": "engine-fuel-pressure"
+      },
+      {
+        "id": "normal",
+        "label": "Normales",
+        "value": "Les corrections sont normales.",
+        "addsEvidence": [
+          "measurement-engine-fuel-trim-normal"
+        ],
+        "nextActionId": "engine-codes"
+      },
+      {
+        "id": "not-tested",
+        "label": "Non contrôlées",
+        "value": "Les corrections ne sont pas contrôlées.",
+        "nextActionId": "engine-codes"
+      }
+    ]
+  },
+  {
+    "id": "engine-power-context",
+    "workflowId": "engine",
+    "type": "ask-question",
+    "text": "Le manque de puissance apparaît-il en permanence, en charge ou à haut régime ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 29,
+    "options": [
+      {
+        "id": "always",
+        "label": "En permanence",
+        "value": "Le manque de puissance est permanent.",
+        "addsEvidence": [
+          "observation-engine-power-loss-always"
+        ],
+        "nextActionId": "engine-boost"
+      },
+      {
+        "id": "load",
+        "label": "En charge",
+        "value": "Le manque de puissance apparaît en charge.",
+        "addsEvidence": [
+          "observation-engine-power-loss-load"
+        ],
+        "nextActionId": "engine-boost"
+      },
+      {
+        "id": "high-rpm",
+        "label": "À haut régime",
+        "value": "Le manque de puissance apparaît à haut régime.",
+        "addsEvidence": [
+          "observation-engine-power-loss-high-rpm"
+        ],
+        "nextActionId": "engine-exhaust"
+      }
+    ],
+    "requiredEvidence": [
+      "symptom-engine-loss-power"
+    ]
+  },
+  {
+    "id": "engine-boost",
+    "workflowId": "engine",
+    "type": "ask-question",
+    "text": "La pression de suralimentation est-elle conforme ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 30,
+    "options": [
+      {
+        "id": "low",
+        "label": "Trop faible",
+        "value": "La pression est insuffisante.",
+        "addsEvidence": [
+          "measurement-engine-boost-low"
+        ],
+        "nextActionId": "engine-boost-leak"
+      },
+      {
+        "id": "high",
+        "label": "Trop élevée",
+        "value": "La pression est excessive.",
+        "addsEvidence": [
+          "measurement-engine-boost-high"
+        ],
+        "nextActionId": "engine-turbo-control"
+      },
+      {
+        "id": "normal",
+        "label": "Oui",
+        "value": "La pression est correcte.",
+        "addsEvidence": [
+          "measurement-engine-boost-normal"
+        ],
+        "nextActionId": "engine-exhaust"
+      },
+      {
+        "id": "not-tested",
+        "label": "Non contrôlée",
+        "value": "La pression n'est pas contrôlée.",
+        "nextActionId": "engine-exhaust"
+      }
+    ]
+  },
+  {
+    "id": "engine-boost-leak",
+    "workflowId": "engine",
+    "type": "request-observation",
+    "text": "Une durite de suralimentation est-elle fendue ou déboîtée ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 31,
+    "options": [
+      {
+        "id": "yes",
+        "label": "Oui",
+        "value": "Une fuite de suralimentation est présente.",
+        "addsEvidence": [
+          "observation-engine-boost-leak-present"
+        ],
+        "nextActionId": "engine-conclude"
+      },
+      {
+        "id": "no",
+        "label": "Non",
+        "value": "Aucune fuite visible.",
+        "addsEvidence": [
+          "observation-engine-boost-leak-absent"
+        ],
+        "nextActionId": "engine-turbo-control"
+      },
+      {
+        "id": "unknown",
+        "label": "Non contrôlé",
+        "value": "Le circuit n'est pas contrôlé.",
+        "nextActionId": "engine-turbo-control"
+      }
+    ]
+  },
+  {
+    "id": "engine-turbo-control",
+    "workflowId": "engine",
+    "type": "request-observation",
+    "text": "La commande du turbo fonctionne-t-elle correctement ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 32,
+    "options": [
+      {
+        "id": "bad",
+        "label": "Non",
+        "value": "La commande du turbo est défectueuse.",
+        "addsEvidence": [
+          "observation-engine-turbo-control-bad"
+        ],
+        "nextActionId": "engine-conclude"
+      },
+      {
+        "id": "good",
+        "label": "Oui",
+        "value": "La commande semble correcte.",
+        "addsEvidence": [
+          "observation-engine-turbo-control-good"
+        ],
+        "nextActionId": "engine-exhaust"
+      },
+      {
+        "id": "unknown",
+        "label": "Non contrôlée",
+        "value": "La commande n'est pas contrôlée.",
+        "nextActionId": "engine-exhaust"
+      }
+    ]
+  },
+  {
+    "id": "engine-exhaust",
+    "workflowId": "engine",
+    "type": "request-observation",
+    "text": "Le FAP ou le catalyseur semble-t-il colmaté ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 33,
+    "options": [
+      {
+        "id": "yes",
+        "label": "Oui",
+        "value": "Une restriction d'échappement est présente.",
+        "addsEvidence": [
+          "observation-engine-exhaust-restriction-present"
+        ],
+        "nextActionId": "engine-conclude"
+      },
+      {
+        "id": "no",
+        "label": "Non",
+        "value": "Aucune restriction évidente.",
+        "addsEvidence": [
+          "observation-engine-exhaust-restriction-absent"
+        ],
+        "nextActionId": "engine-codes"
+      },
+      {
+        "id": "unknown",
+        "label": "Non contrôlé",
+        "value": "L'échappement n'est pas contrôlé.",
+        "nextActionId": "engine-codes"
+      }
+    ]
+  },
+  {
+    "id": "engine-smoke-color",
+    "workflowId": "engine",
+    "type": "ask-question",
+    "text": "Quelle est la couleur de la fumée ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 34,
+    "options": [
+      {
+        "id": "blue",
+        "label": "Bleue",
+        "value": "La fumée est bleue.",
+        "addsEvidence": [
+          "observation-engine-smoke-blue"
+        ],
+        "nextActionId": "engine-oil-consumption"
+      },
+      {
+        "id": "white",
+        "label": "Blanche",
+        "value": "La fumée est blanche.",
+        "addsEvidence": [
+          "observation-engine-smoke-white"
+        ],
+        "nextActionId": "engine-coolant-loss"
+      },
+      {
+        "id": "black",
+        "label": "Noire",
+        "value": "La fumée est noire.",
+        "addsEvidence": [
+          "observation-engine-smoke-black"
+        ],
+        "nextActionId": "engine-air-metering"
+      },
+      {
+        "id": "grey",
+        "label": "Grise",
+        "value": "La fumée est grise.",
+        "addsEvidence": [
+          "observation-engine-smoke-grey"
+        ],
+        "nextActionId": "engine-codes"
+      }
+    ],
+    "requiredEvidence": [
+      "symptom-engine-smoke"
+    ]
+  },
+  {
+    "id": "engine-oil-consumption",
+    "workflowId": "engine",
+    "type": "ask-question",
+    "text": "Le moteur consomme-t-il anormalement de l'huile ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 35,
+    "options": [
+      {
+        "id": "yes",
+        "label": "Oui",
+        "value": "La consommation d'huile est élevée.",
+        "addsEvidence": [
+          "observation-engine-oil-consumption-high"
+        ],
+        "nextActionId": "engine-compression"
+      },
+      {
+        "id": "no",
+        "label": "Non",
+        "value": "La consommation est normale.",
+        "addsEvidence": [
+          "observation-engine-oil-consumption-normal"
+        ],
+        "nextActionId": "engine-compression"
+      },
+      {
+        "id": "unknown",
+        "label": "Je ne sais pas",
+        "value": "La consommation est inconnue.",
+        "nextActionId": "engine-compression"
+      }
+    ]
+  },
+  {
+    "id": "engine-coolant-loss",
+    "workflowId": "engine",
+    "type": "ask-question",
+    "text": "Le liquide de refroidissement baisse-t-il sans fuite externe ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 36,
+    "options": [
+      {
+        "id": "yes",
+        "label": "Oui",
+        "value": "Le liquide baisse sans fuite visible.",
+        "addsEvidence": [
+          "observation-engine-coolant-loss-internal"
+        ],
+        "nextActionId": "engine-combustion-gas"
+      },
+      {
+        "id": "no",
+        "label": "Non",
+        "value": "Le niveau reste stable.",
+        "addsEvidence": [
+          "observation-engine-coolant-level-stable"
+        ],
+        "nextActionId": "engine-codes"
+      },
+      {
+        "id": "unknown",
+        "label": "Je ne sais pas",
+        "value": "L'évolution du niveau est inconnue.",
+        "nextActionId": "engine-codes"
+      }
+    ]
+  },
+  {
+    "id": "engine-combustion-gas",
+    "workflowId": "engine",
+    "type": "request-observation",
+    "text": "Le test de gaz de combustion dans le liquide est-il positif ?",
+    "audiences": [
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "advanced",
+    "priority": 37,
+    "options": [
+      {
+        "id": "yes",
+        "label": "Oui",
+        "value": "Des gaz de combustion sont détectés.",
+        "addsEvidence": [
+          "measurement-engine-combustion-gas-positive"
+        ],
+        "nextActionId": "engine-conclude"
+      },
+      {
+        "id": "no",
+        "label": "Non",
+        "value": "Aucun gaz n'est détecté.",
+        "addsEvidence": [
+          "measurement-engine-combustion-gas-negative"
+        ],
+        "nextActionId": "engine-conclude"
+      },
+      {
+        "id": "not-tested",
+        "label": "Non testé",
+        "value": "Le test n'est pas effectué.",
+        "nextActionId": "engine-conclude"
+      }
+    ]
+  },
+  {
+    "id": "engine-noise-type",
+    "workflowId": "engine",
+    "type": "ask-question",
+    "text": "Quel type de bruit entendez-vous ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 38,
+    "options": [
+      {
+        "id": "knock",
+        "label": "Claquement métallique",
+        "value": "Un claquement métallique est entendu.",
+        "addsEvidence": [
+          "observation-engine-noise-knock"
+        ],
+        "nextActionId": "engine-oil-pressure"
+      },
+      {
+        "id": "rattle",
+        "label": "Bruit de chaîne",
+        "value": "Un bruit de chaîne est entendu.",
+        "addsEvidence": [
+          "observation-engine-noise-rattle"
+        ],
+        "nextActionId": "engine-timing"
+      },
+      {
+        "id": "whistle",
+        "label": "Sifflement",
+        "value": "Un sifflement est entendu.",
+        "addsEvidence": [
+          "observation-engine-noise-whistle"
+        ],
+        "nextActionId": "engine-boost-leak"
+      },
+      {
+        "id": "ticking",
+        "label": "Tic-tic régulier",
+        "value": "Un tic-tic est entendu.",
+        "addsEvidence": [
+          "observation-engine-noise-ticking"
+        ],
+        "nextActionId": "engine-conclude"
+      }
+    ],
+    "requiredEvidence": [
+      "symptom-engine-noise"
+    ]
+  },
+  {
+    "id": "engine-oil-pressure",
+    "workflowId": "engine",
+    "type": "ask-question",
+    "text": "La pression d'huile est-elle conforme ?",
+    "audiences": [
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "advanced",
+    "priority": 39,
+    "options": [
+      {
+        "id": "low",
+        "label": "Non, trop faible",
+        "value": "La pression d'huile est faible.",
+        "addsEvidence": [
+          "measurement-engine-oil-pressure-low"
+        ],
+        "nextActionId": "engine-conclude"
+      },
+      {
+        "id": "normal",
+        "label": "Oui",
+        "value": "La pression d'huile est normale.",
+        "addsEvidence": [
+          "measurement-engine-oil-pressure-normal"
+        ],
+        "nextActionId": "engine-conclude"
+      },
+      {
+        "id": "not-tested",
+        "label": "Non mesurée",
+        "value": "La pression n'est pas mesurée.",
+        "nextActionId": "engine-conclude"
+      }
+    ]
+  },
+  {
+    "id": "engine-warning-state",
+    "workflowId": "engine",
+    "type": "ask-question",
+    "text": "Le voyant moteur est-il fixe ou clignotant ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 40,
+    "options": [
+      {
+        "id": "fixed",
+        "label": "Fixe",
+        "value": "Le voyant est fixe.",
+        "addsEvidence": [
+          "observation-engine-warning-light-fixed"
+        ],
+        "nextActionId": "engine-codes"
+      },
+      {
+        "id": "flashing",
+        "label": "Clignotant",
+        "value": "Le voyant clignote.",
+        "addsEvidence": [
+          "observation-engine-warning-light-flashing"
+        ],
+        "nextActionId": "engine-misfire-cylinder"
+      },
+      {
+        "id": "intermittent",
+        "label": "Intermittent",
+        "value": "Le voyant est intermittent.",
+        "addsEvidence": [
+          "observation-engine-warning-light-intermittent"
+        ],
+        "nextActionId": "engine-codes"
+      }
+    ],
+    "requiredEvidence": [
+      "symptom-engine-warning-light"
+    ]
+  },
+  {
+    "id": "engine-codes",
+    "workflowId": "engine",
+    "type": "ask-question",
+    "text": "Des codes défaut moteur ont-ils été lus ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 41,
+    "options": [
+      {
+        "id": "yes",
+        "label": "Oui",
+        "value": "Des codes défaut sont présents.",
+        "addsEvidence": [
+          "observation-engine-diagnostic-codes-present"
+        ],
+        "nextActionId": "engine-code-family"
+      },
+      {
+        "id": "none",
+        "label": "Aucun code",
+        "value": "Aucun code défaut n'est présent.",
+        "addsEvidence": [
+          "observation-engine-diagnostic-codes-absent"
+        ],
+        "nextActionId": "engine-conclude"
+      },
+      {
+        "id": "not-tested",
+        "label": "Non lus",
+        "value": "Les codes n'ont pas été lus.",
+        "nextActionId": "engine-conclude"
+      }
+    ]
+  },
+  {
+    "id": "engine-code-family",
+    "workflowId": "engine",
+    "type": "ask-question",
+    "text": "Quelle famille correspond au code principal ?",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "intermediate",
+    "priority": 42,
+    "options": [
+      {
+        "id": "misfire",
+        "label": "Ratés",
+        "value": "Le code concerne des ratés.",
+        "addsEvidence": [
+          "observation-engine-code-misfire"
+        ],
+        "nextActionId": "engine-misfire-cylinder"
+      },
+      {
+        "id": "fuel",
+        "label": "Carburant",
+        "value": "Le code concerne le carburant.",
+        "addsEvidence": [
+          "observation-engine-code-fuel"
+        ],
+        "nextActionId": "engine-fuel-pressure"
+      },
+      {
+        "id": "air",
+        "label": "Admission",
+        "value": "Le code concerne l'admission.",
+        "addsEvidence": [
+          "observation-engine-code-air"
+        ],
+        "nextActionId": "engine-air-metering"
+      },
+      {
+        "id": "timing",
+        "label": "Synchronisation",
+        "value": "Le code concerne la synchronisation.",
+        "addsEvidence": [
+          "observation-engine-code-timing"
+        ],
+        "nextActionId": "engine-timing"
+      },
+      {
+        "id": "boost",
+        "label": "Suralimentation",
+        "value": "Le code concerne la suralimentation.",
+        "addsEvidence": [
+          "observation-engine-code-boost"
+        ],
+        "nextActionId": "engine-boost"
+      },
+      {
+        "id": "emissions",
+        "label": "Émissions",
+        "value": "Le code concerne les émissions.",
+        "addsEvidence": [
+          "observation-engine-code-emissions"
+        ],
+        "nextActionId": "engine-exhaust"
+      },
+      {
+        "id": "unknown",
+        "label": "Je ne sais pas",
+        "value": "La famille est inconnue.",
+        "nextActionId": "engine-conclude"
+      }
+    ]
+  },
+  {
+    "id": "engine-conclude",
+    "workflowId": "engine",
+    "type": "complete-diagnosis",
+    "text": "Calcul du diagnostic moteur.",
+    "audiences": [
+      "particulier",
+      "bricoleur",
+      "vendeur-pieces-auto",
+      "mecanicien-garage",
+      "depanneur"
+    ],
+    "complexity": "simple",
+    "priority": 100,
+    "diagnosisId": "engine-diagnosis"
+  }
+]

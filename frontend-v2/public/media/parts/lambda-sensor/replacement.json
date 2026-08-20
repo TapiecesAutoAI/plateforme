@@ -1,0 +1,16 @@
+﻿{
+    "steps":  [
+
+              ],
+    "availableAfterPurchase":  true,
+    "warnings":  [
+
+                 ],
+    "partFamily":  "lambda-sensor",
+    "estimatedMinutes":  null,
+    "tools":  [
+
+              ],
+    "status":  "to-be-completed",
+    "difficulty":  null
+}

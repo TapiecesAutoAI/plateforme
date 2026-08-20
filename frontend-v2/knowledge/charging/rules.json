@@ -1,0 +1,289 @@
+[
+    {
+        "id":  "battery-light-support-alt",
+        "evidenceId":  "observation-battery-light-engine-running",
+        "hypothesisId":  "problem-alternator-failure",
+        "effect":  "support",
+        "weight":  0.98
+    },
+    {
+        "id":  "low-voltage-support-alt",
+        "evidenceId":  "measurement-charging-voltage-below-12-5",
+        "hypothesisId":  "problem-alternator-failure",
+        "effect":  "support",
+        "weight":  0.99
+    },
+    {
+        "id":  "mid-low-support-alt",
+        "evidenceId":  "measurement-charging-voltage-12-5-to-13-2",
+        "hypothesisId":  "problem-alternator-failure",
+        "effect":  "support",
+        "weight":  0.85
+    },
+    {
+        "id":  "high-voltage-support-reg",
+        "evidenceId":  "measurement-charging-voltage-above-14-8",
+        "hypothesisId":  "problem-voltage-regulator",
+        "effect":  "support",
+        "weight":  0.99
+    },
+    {
+        "id":  "overcharge-support",
+        "evidenceId":  "observation-overvoltage-effects-present",
+        "hypothesisId":  "problem-overcharge",
+        "effect":  "support",
+        "weight":  0.97
+    },
+    {
+        "id":  "belt-missing",
+        "evidenceId":  "observation-accessory-belt-missing",
+        "hypothesisId":  "problem-accessory-belt",
+        "effect":  "support",
+        "weight":  1.0
+    },
+    {
+        "id":  "belt-loose",
+        "evidenceId":  "observation-accessory-belt-loose",
+        "hypothesisId":  "problem-accessory-belt",
+        "effect":  "support",
+        "weight":  0.96
+    },
+    {
+        "id":  "tensioner",
+        "evidenceId":  "observation-belt-tensioner-bad",
+        "hypothesisId":  "problem-accessory-belt",
+        "effect":  "support",
+        "weight":  0.95
+    },
+    {
+        "id":  "alt-conn",
+        "evidenceId":  "observation-alternator-connection-bad",
+        "hypothesisId":  "problem-alternator-connections",
+        "effect":  "support",
+        "weight":  0.98
+    },
+    {
+        "id":  "alt-conn-fix",
+        "evidenceId":  "observation-alternator-connection-correction-success",
+        "hypothesisId":  "problem-alternator-connections",
+        "effect":  "support",
+        "weight":  0.95
+    },
+    {
+        "id":  "ground-high",
+        "evidenceId":  "measurement-ground-voltage-drop-high",
+        "hypothesisId":  "problem-ground-circuit",
+        "effect":  "support",
+        "weight":  0.98
+    },
+    {
+        "id":  "ground-bad",
+        "evidenceId":  "observation-charging-ground-bad",
+        "hypothesisId":  "problem-ground-circuit",
+        "effect":  "support",
+        "weight":  0.96
+    },
+    {
+        "id":  "positive-high",
+        "evidenceId":  "measurement-positive-voltage-drop-high",
+        "hypothesisId":  "problem-positive-cable",
+        "effect":  "support",
+        "weight":  0.98
+    },
+    {
+        "id":  "positive-bad",
+        "evidenceId":  "observation-positive-circuit-bad",
+        "hypothesisId":  "problem-positive-cable",
+        "effect":  "support",
+        "weight":  0.96
+    },
+    {
+        "id":  "cmd-missing",
+        "evidenceId":  "measurement-alternator-command-missing",
+        "hypothesisId":  "problem-alternator-command",
+        "effect":  "support",
+        "weight":  0.99
+    },
+    {
+        "id":  "cmd-invalid",
+        "evidenceId":  "measurement-alternator-command-invalid",
+        "hypothesisId":  "problem-alternator-command",
+        "effect":  "support",
+        "weight":  0.95
+    },
+    {
+        "id":  "control-bad",
+        "evidenceId":  "observation-alternator-control-circuit-bad",
+        "hypothesisId":  "problem-alternator-command",
+        "effect":  "support",
+        "weight":  0.95
+    },
+    {
+        "id":  "sensor",
+        "evidenceId":  "observation-battery-sensor-bad",
+        "hypothesisId":  "problem-battery-sensor",
+        "effect":  "support",
+        "weight":  0.98
+    },
+    {
+        "id":  "freewheel",
+        "evidenceId":  "observation-alternator-freewheel-pulley-bad",
+        "hypothesisId":  "problem-freewheel-pulley",
+        "effect":  "support",
+        "weight":  0.99
+    },
+    {
+        "id":  "bearing",
+        "evidenceId":  "observation-alternator-bearing-bad",
+        "hypothesisId":  "problem-freewheel-pulley",
+        "effect":  "support",
+        "weight":  0.82
+    },
+    {
+        "id":  "ripple",
+        "evidenceId":  "measurement-alternator-ripple-above-0-5",
+        "hypothesisId":  "problem-alternator-failure",
+        "effect":  "support",
+        "weight":  0.97
+    },
+    {
+        "id":  "output-low",
+        "evidenceId":  "measurement-alternator-output-low",
+        "hypothesisId":  "problem-alternator-failure",
+        "effect":  "support",
+        "weight":  0.96
+    },
+    {
+        "id":  "normal-output-contradict",
+        "evidenceId":  "measurement-alternator-output-normal",
+        "hypothesisId":  "problem-alternator-failure",
+        "effect":  "contradict",
+        "weight":  0.7
+    },
+    {
+        "id":  "charge-normal-contradict",
+        "evidenceId":  "measurement-charging-load-normal",
+        "hypothesisId":  "problem-alternator-failure",
+        "effect":  "contradict",
+        "weight":  0.72
+    },
+    {
+        "id":  "battery-weak",
+        "evidenceId":  "observation-battery-tested-weak",
+        "hypothesisId":  "problem-overcharge",
+        "effect":  "contradict",
+        "weight":  0.4
+    },
+    {
+        "id":  "symptom-battery-light-support-alternator",
+        "evidenceId":  "symptom-charging-battery-light",
+        "hypothesisId":  "problem-alternator-failure",
+        "effect":  "support",
+        "weight":  0.25
+    },
+    {
+        "id":  "symptom-battery-light-support-regulator",
+        "evidenceId":  "symptom-charging-battery-light",
+        "hypothesisId":  "problem-voltage-regulator",
+        "effect":  "support",
+        "weight":  0.15
+    },
+    {
+        "id":  "symptom-battery-light-support-command",
+        "evidenceId":  "symptom-charging-battery-light",
+        "hypothesisId":  "problem-alternator-command",
+        "effect":  "support",
+        "weight":  0.12
+    },
+    {
+        "id":  "symptom-discharges-support-alternator",
+        "evidenceId":  "symptom-charging-battery-discharges",
+        "hypothesisId":  "problem-alternator-failure",
+        "effect":  "support",
+        "weight":  0.25
+    },
+    {
+        "id":  "symptom-discharges-support-connections",
+        "evidenceId":  "symptom-charging-battery-discharges",
+        "hypothesisId":  "problem-alternator-connections",
+        "effect":  "support",
+        "weight":  0.15
+    },
+    {
+        "id":  "symptom-discharges-support-positive",
+        "evidenceId":  "symptom-charging-battery-discharges",
+        "hypothesisId":  "problem-positive-cable",
+        "effect":  "support",
+        "weight":  0.12
+    },
+    {
+        "id":  "symptom-discharges-support-ground",
+        "evidenceId":  "symptom-charging-battery-discharges",
+        "hypothesisId":  "problem-ground-circuit",
+        "effect":  "support",
+        "weight":  0.12
+    },
+    {
+        "id":  "symptom-electrical-weakness-support-alternator",
+        "evidenceId":  "symptom-charging-electrical-weakness",
+        "hypothesisId":  "problem-alternator-failure",
+        "effect":  "support",
+        "weight":  0.22
+    },
+    {
+        "id":  "symptom-electrical-weakness-support-connections",
+        "evidenceId":  "symptom-charging-electrical-weakness",
+        "hypothesisId":  "problem-alternator-connections",
+        "effect":  "support",
+        "weight":  0.15
+    },
+    {
+        "id":  "symptom-electrical-weakness-support-positive",
+        "evidenceId":  "symptom-charging-electrical-weakness",
+        "hypothesisId":  "problem-positive-cable",
+        "effect":  "support",
+        "weight":  0.12
+    },
+    {
+        "id":  "symptom-electrical-weakness-support-ground",
+        "evidenceId":  "symptom-charging-electrical-weakness",
+        "hypothesisId":  "problem-ground-circuit",
+        "effect":  "support",
+        "weight":  0.12
+    },
+    {
+        "id":  "symptom-overvoltage-support-regulator",
+        "evidenceId":  "symptom-charging-overvoltage",
+        "hypothesisId":  "problem-voltage-regulator",
+        "effect":  "support",
+        "weight":  0.3
+    },
+    {
+        "id":  "symptom-overvoltage-support-overcharge",
+        "evidenceId":  "symptom-charging-overvoltage",
+        "hypothesisId":  "problem-overcharge",
+        "effect":  "support",
+        "weight":  0.25
+    },
+    {
+        "id":  "symptom-noise-support-accessory-belt",
+        "evidenceId":  "symptom-charging-noise",
+        "hypothesisId":  "problem-accessory-belt",
+        "effect":  "support",
+        "weight":  0.22
+    },
+    {
+        "id":  "symptom-noise-support-freewheel",
+        "evidenceId":  "symptom-charging-noise",
+        "hypothesisId":  "problem-freewheel-pulley",
+        "effect":  "support",
+        "weight":  0.22
+    },
+    {
+        "id":  "symptom-noise-support-alternator",
+        "evidenceId":  "symptom-charging-noise",
+        "hypothesisId":  "problem-alternator-failure",
+        "effect":  "support",
+        "weight":  0.1
+    }
+]

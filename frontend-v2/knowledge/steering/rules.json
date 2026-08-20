@@ -1,0 +1,135 @@
+﻿[
+  {
+    "id": "fluid-low-support-fluid",
+    "evidenceId": "observation-steering-fluid-low",
+    "hypothesisId": "problem-power-steering-fluid-low",
+    "effect": "support",
+    "weight": 0.99
+  },
+  {
+    "id": "fluid-normal-contradict-fluid",
+    "evidenceId": "observation-steering-fluid-normal",
+    "hypothesisId": "problem-power-steering-fluid-low",
+    "effect": "contradict",
+    "weight": 0.92
+  },
+  {
+    "id": "leak-support-leak",
+    "evidenceId": "observation-steering-fluid-leak",
+    "hypothesisId": "problem-power-steering-leak",
+    "effect": "support",
+    "weight": 1.00
+  },
+  {
+    "id": "no-leak-contradict-leak",
+    "evidenceId": "observation-steering-no-leak",
+    "hypothesisId": "problem-power-steering-leak",
+    "effect": "contradict",
+    "weight": 0.85
+  },
+  {
+    "id": "pump-noisy-support-pump",
+    "evidenceId": "observation-steering-pump-noisy",
+    "hypothesisId": "problem-power-steering-pump",
+    "effect": "support",
+    "weight": 0.98
+  },
+  {
+    "id": "pump-normal-contradict-pump",
+    "evidenceId": "observation-steering-pump-normal",
+    "hypothesisId": "problem-power-steering-pump",
+    "effect": "contradict",
+    "weight": 0.90
+  },
+  {
+    "id": "rack-play-support-rack",
+    "evidenceId": "observation-steering-rack-play",
+    "hypothesisId": "problem-steering-rack",
+    "effect": "support",
+    "weight": 0.99
+  },
+  {
+    "id": "wheel-play-support-column",
+    "evidenceId": "observation-steering-wheel-play",
+    "hypothesisId": "problem-steering-column",
+    "effect": "support",
+    "weight": 0.86
+  },
+  {
+    "id": "clunk-support-inner-rod",
+    "evidenceId": "observation-steering-clunk",
+    "hypothesisId": "problem-inner-tie-rod",
+    "effect": "support",
+    "weight": 0.88
+  },
+  {
+    "id": "grinding-support-rack",
+    "evidenceId": "observation-steering-grinding",
+    "hypothesisId": "problem-steering-rack",
+    "effect": "support",
+    "weight": 0.91
+  },
+  {
+    "id": "whine-support-pump",
+    "evidenceId": "observation-steering-whine",
+    "hypothesisId": "problem-power-steering-pump",
+    "effect": "support",
+    "weight": 0.95
+  },
+  {
+    "id": "eps-light-support-eps",
+    "evidenceId": "observation-steering-eps-light",
+    "hypothesisId": "problem-eps-system",
+    "effect": "support",
+    "weight": 0.99
+  },
+  {
+    "id": "power-light-support-eps",
+    "evidenceId": "observation-steering-power-light",
+    "hypothesisId": "problem-eps-system",
+    "effect": "support",
+    "weight": 0.95
+  },
+  {
+    "id": "pull-left-support-alignment",
+    "evidenceId": "observation-steering-pull-left",
+    "hypothesisId": "problem-wheel-alignment",
+    "effect": "support",
+    "weight": 0.84
+  },
+  {
+    "id": "pull-right-support-alignment",
+    "evidenceId": "observation-steering-pull-right",
+    "hypothesisId": "problem-wheel-alignment",
+    "effect": "support",
+    "weight": 0.84
+  },
+  {
+    "id": "high-speed-vibration-support-balance",
+    "evidenceId": "observation-steering-vibration-high-speed",
+    "hypothesisId": "problem-wheel-balance",
+    "effect": "support",
+    "weight": 0.98
+  },
+  {
+    "id": "low-speed-vibration-support-rack",
+    "evidenceId": "observation-steering-vibration-low-speed",
+    "hypothesisId": "problem-steering-rack",
+    "effect": "support",
+    "weight": 0.82
+  },
+  {
+    "id": "hydraulic-support-pump",
+    "evidenceId": "observation-steering-hydraulic",
+    "hypothesisId": "problem-power-steering-pump",
+    "effect": "support",
+    "weight": 0.40
+  },
+  {
+    "id": "electric-support-eps",
+    "evidenceId": "observation-steering-electric",
+    "hypothesisId": "problem-eps-system",
+    "effect": "support",
+    "weight": 0.40
+  }
+]

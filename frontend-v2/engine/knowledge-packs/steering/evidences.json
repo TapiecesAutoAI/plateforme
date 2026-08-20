@@ -1,0 +1,137 @@
+﻿[
+    {
+        "id":  "observation-steering-clunk",
+        "label":  "steering clunk",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-steering-electric",
+        "label":  "steering electric",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-steering-eps-light",
+        "label":  "steering eps light",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-steering-fluid-leak",
+        "label":  "steering fluid leak",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-steering-fluid-low",
+        "label":  "steering fluid low",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-steering-fluid-normal",
+        "label":  "steering fluid normal",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-steering-grinding",
+        "label":  "steering grinding",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-steering-hard-always",
+        "label":  "steering hard always",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-steering-hard-intermittent",
+        "label":  "steering hard intermittent",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-steering-hydraulic",
+        "label":  "steering hydraulic",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-steering-no-leak",
+        "label":  "steering no leak",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-steering-power-light",
+        "label":  "steering power light",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-steering-pull-left",
+        "label":  "steering pull left",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-steering-pull-right",
+        "label":  "steering pull right",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-steering-pump-noisy",
+        "label":  "steering pump noisy",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-steering-pump-normal",
+        "label":  "steering pump normal",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-steering-rack-play",
+        "label":  "steering rack play",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-steering-vibration-high-speed",
+        "label":  "steering vibration high speed",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-steering-vibration-low-speed",
+        "label":  "steering vibration low speed",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-steering-wheel-play",
+        "label":  "steering wheel play",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "observation-steering-whine",
+        "label":  "steering whine",
+        "defaultConfidence":  0.92
+    },
+    {
+        "id":  "symptom-steering-hard",
+        "label":  "steering hard",
+        "defaultConfidence":  0.9
+    },
+    {
+        "id":  "symptom-steering-noise",
+        "label":  "steering noise",
+        "defaultConfidence":  0.9
+    },
+    {
+        "id":  "symptom-steering-play",
+        "label":  "steering play",
+        "defaultConfidence":  0.9
+    },
+    {
+        "id":  "symptom-steering-pulls",
+        "label":  "steering pulls",
+        "defaultConfidence":  0.9
+    },
+    {
+        "id":  "symptom-steering-vibration",
+        "label":  "steering vibration",
+        "defaultConfidence":  0.9
+    },
+    {
+        "id":  "symptom-steering-warning",
+        "label":  "steering warning",
+        "defaultConfidence":  0.9
+    }
+]

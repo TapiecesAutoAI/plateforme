@@ -1,0 +1,6 @@
+﻿{
+  "id": "transmission",
+  "title": "Diagnostic de transmission",
+  "entryActionId": "transmission-main-symptom",
+  "locked": true
+}

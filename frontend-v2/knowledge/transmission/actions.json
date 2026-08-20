@@ -1,0 +1,2317 @@
+[
+    {
+        "id":  "transmission-main-symptom",
+        "workflowId":  "transmission",
+        "type":  "ask-question",
+        "text":  "Quel est le principal problème de transmission observé ?",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  1,
+        "options":  [
+                        {
+                            "id":  "gear-selection",
+                            "label":  "Une vitesse passe mal ou ne passe plus",
+                            "value":  "La sélection des rapports est difficile ou impossible.",
+                            "addsEvidence":  [
+                                                 "symptom-transmission-gear-selection"
+                                             ],
+                            "nextActionId":  "transmission-type"
+                        },
+                        {
+                            "id":  "slipping",
+                            "label":  "La transmission patine",
+                            "value":  "Le régime moteur augmente sans accélération proportionnelle.",
+                            "addsEvidence":  [
+                                                 "symptom-transmission-slipping"
+                                             ],
+                            "nextActionId":  "transmission-type"
+                        },
+                        {
+                            "id":  "noise",
+                            "label":  "Un bruit vient de la transmission",
+                            "value":  "Un bruit anormal provient de la transmission.",
+                            "addsEvidence":  [
+                                                 "symptom-transmission-noise"
+                                             ],
+                            "nextActionId":  "transmission-type"
+                        },
+                        {
+                            "id":  "jerking",
+                            "label":  "Des à-coups apparaissent",
+                            "value":  "La transmission provoque des à-coups.",
+                            "addsEvidence":  [
+                                                 "symptom-transmission-jerking"
+                                             ],
+                            "nextActionId":  "transmission-type"
+                        },
+                        {
+                            "id":  "leak",
+                            "label":  "Une fuite d\u0027huile est visible",
+                            "value":  "Une fuite d\u0027huile de transmission est visible.",
+                            "addsEvidence":  [
+                                                 "symptom-transmission-fluid-leak"
+                                             ],
+                            "nextActionId":  "transmission-type"
+                        },
+                        {
+                            "id":  "warning",
+                            "label":  "Un voyant de boîte est allumé",
+                            "value":  "Un voyant de transmission est allumé.",
+                            "addsEvidence":  [
+                                                 "symptom-transmission-warning"
+                                             ],
+                            "nextActionId":  "transmission-type"
+                        },
+                        {
+                            "id":  "vibration",
+                            "label":  "Des vibrations apparaissent",
+                            "value":  "Des vibrations sont ressenties dans la transmission.",
+                            "addsEvidence":  [
+                                                 "symptom-transmission-vibration"
+                                             ],
+                            "nextActionId":  "transmission-type"
+                        }
+                    ]
+    },
+    {
+        "id":  "transmission-type",
+        "workflowId":  "transmission",
+        "type":  "ask-question",
+        "text":  "Quel type de transmission équipe le véhicule ?",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  2,
+        "options":  [
+                        {
+                            "id":  "manual",
+                            "label":  "Boîte manuelle",
+                            "value":  "Le véhicule possède une boîte manuelle.",
+                            "addsEvidence":  [
+                                                 "observation-transmission-manual"
+                                             ],
+                            "nextActionId":  "transmission-manual-symptom"
+                        },
+                        {
+                            "id":  "automatic",
+                            "label":  "Boîte automatique classique",
+                            "value":  "Le véhicule possède une boîte automatique à convertisseur.",
+                            "addsEvidence":  [
+                                                 "observation-transmission-automatic"
+                                             ],
+                            "nextActionId":  "transmission-automatic-symptom"
+                        },
+                        {
+                            "id":  "dct",
+                            "label":  "Boîte double embrayage",
+                            "value":  "Le véhicule possède une boîte à double embrayage.",
+                            "addsEvidence":  [
+                                                 "observation-transmission-dct"
+                                             ],
+                            "nextActionId":  "transmission-dct-symptom"
+                        },
+                        {
+                            "id":  "cvt",
+                            "label":  "Boîte CVT",
+                            "value":  "Le véhicule possède une transmission CVT.",
+                            "addsEvidence":  [
+                                                 "observation-transmission-cvt"
+                                             ],
+                            "nextActionId":  "transmission-cvt-symptom"
+                        },
+                        {
+                            "id":  "unknown",
+                            "label":  "Je ne sais pas",
+                            "value":  "Le type de transmission n\u0027est pas connu.",
+                            "nextActionId":  "transmission-fluid-leak-check"
+                        }
+                    ]
+    },
+    {
+        "id":  "transmission-manual-symptom",
+        "workflowId":  "transmission",
+        "type":  "ask-question",
+        "text":  "Quel symptôme concerne principalement la boîte manuelle ?",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  3,
+        "requiredEvidence":  [
+                                 "observation-transmission-manual"
+                             ],
+        "options":  [
+                        {
+                            "id":  "hard-gears",
+                            "label":  "Les vitesses passent difficilement",
+                            "value":  "Les rapports sont difficiles à engager.",
+                            "addsEvidence":  [
+                                                 "observation-manual-gears-hard"
+                                             ],
+                            "nextActionId":  "transmission-clutch-disengagement"
+                        },
+                        {
+                            "id":  "gear-jumps",
+                            "label":  "Une vitesse saute",
+                            "value":  "Un rapport se désengage seul.",
+                            "addsEvidence":  [
+                                                 "observation-manual-gear-jumps"
+                                             ],
+                            "nextActionId":  "transmission-manual-gear-specific"
+                        },
+                        {
+                            "id":  "grinding",
+                            "label":  "La boîte craque",
+                            "value":  "Un craquement apparaît lors du passage des rapports.",
+                            "addsEvidence":  [
+                                                 "observation-manual-gear-grinding"
+                                             ],
+                            "nextActionId":  "transmission-clutch-disengagement"
+                        },
+                        {
+                            "id":  "noise",
+                            "label":  "La boîte est bruyante",
+                            "value":  "Un bruit anormal provient de la boîte manuelle.",
+                            "addsEvidence":  [
+                                                 "observation-manual-transmission-noise"
+                                             ],
+                            "nextActionId":  "transmission-manual-noise-context"
+                        },
+                        {
+                            "id":  "slipping",
+                            "label":  "L\u0027embrayage patine",
+                            "value":  "Le régime moteur augmente sans accélération proportionnelle.",
+                            "addsEvidence":  [
+                                                 "observation-manual-clutch-slipping"
+                                             ],
+                            "nextActionId":  "transmission-clutch-slip-test"
+                        }
+                    ]
+    },
+    {
+        "id":  "transmission-clutch-disengagement",
+        "workflowId":  "transmission",
+        "type":  "request-observation",
+        "text":  "Moteur tournant, la boîte passe-t-elle mieux lorsque la pédale d\u0027embrayage est enfoncée à fond plusieurs secondes ?",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  4,
+        "options":  [
+                        {
+                            "id":  "yes",
+                            "label":  "Oui",
+                            "value":  "Les rapports passent mieux après maintien de la pédale enfoncée.",
+                            "addsEvidence":  [
+                                                 "observation-clutch-disengagement-improves"
+                                             ],
+                            "nextActionId":  "transmission-clutch-hydraulic-check",
+                            "nextActionIdByProfile":  {
+                                                          "particulier":  "transmission-particulier-clutch-hydraulic"
+                                                      }
+                        },
+                        {
+                            "id":  "no",
+                            "label":  "Non",
+                            "value":  "Les rapports restent difficiles à engager.",
+                            "addsEvidence":  [
+                                                 "observation-clutch-disengagement-no-improvement"
+                                             ],
+                            "nextActionId":  "transmission-shift-linkage-check",
+                            "nextActionIdByProfile":  {
+                                                          "particulier":  "transmission-particulier-shift-linkage"
+                                                      }
+                        }
+                    ]
+    },
+    {
+        "id":  "transmission-clutch-hydraulic-check",
+        "workflowId":  "transmission",
+        "type":  "request-observation",
+        "text":  "Le niveau de liquide, le maître-cylindre et le récepteur d\u0027embrayage sont-ils corrects ?",
+        "audiences":  [
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "intermediate",
+        "priority":  5,
+        "options":  [
+                        {
+                            "id":  "fluid-low",
+                            "label":  "Le niveau est bas",
+                            "value":  "Le niveau du circuit d\u0027embrayage est insuffisant.",
+                            "addsEvidence":  [
+                                                 "observation-clutch-fluid-low"
+                                             ],
+                            "nextActionId":  "transmission-clutch-leak-check"
+                        },
+                        {
+                            "id":  "hydraulic-bad",
+                            "label":  "Le maître-cylindre ou le récepteur est défectueux",
+                            "value":  "Le circuit hydraulique d\u0027embrayage est défectueux.",
+                            "addsEvidence":  [
+                                                 "observation-clutch-hydraulic-bad"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "good",
+                            "label":  "Le circuit semble correct",
+                            "value":  "Le circuit hydraulique d\u0027embrayage semble correct.",
+                            "addsEvidence":  [
+                                                 "observation-clutch-hydraulic-good"
+                                             ],
+                            "nextActionId":  "transmission-clutch-mechanical-check"
+                        }
+                    ]
+    },
+    {
+        "id":  "transmission-clutch-leak-check",
+        "workflowId":  "transmission",
+        "type":  "request-observation",
+        "text":  "Une fuite est-elle visible au maître-cylindre, au récepteur ou sur la conduite d\u0027embrayage ?",
+        "audiences":  [
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "intermediate",
+        "priority":  6,
+        "options":  [
+                        {
+                            "id":  "yes",
+                            "label":  "Oui",
+                            "value":  "Une fuite du circuit d\u0027embrayage est visible.",
+                            "addsEvidence":  [
+                                                 "observation-clutch-hydraulic-leak"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "no",
+                            "label":  "Non",
+                            "value":  "Aucune fuite visible n\u0027est détectée.",
+                            "addsEvidence":  [
+                                                 "observation-clutch-no-visible-leak"
+                                             ],
+                            "nextActionId":  "transmission-clutch-mechanical-check"
+                        }
+                    ]
+    },
+    {
+        "id":  "transmission-clutch-mechanical-check",
+        "workflowId":  "transmission",
+        "type":  "request-observation",
+        "text":  "La butée, la fourchette ou le mécanisme d\u0027embrayage présentent-ils un bruit, un point dur ou une course anormale ?",
+        "audiences":  [
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "intermediate",
+        "priority":  7,
+        "options":  [
+                        {
+                            "id":  "release-bearing",
+                            "label":  "La butée est bruyante",
+                            "value":  "La butée d\u0027embrayage est bruyante.",
+                            "addsEvidence":  [
+                                                 "observation-clutch-release-bearing-bad"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "mechanism",
+                            "label":  "Le mécanisme semble défectueux",
+                            "value":  "Le mécanisme d\u0027embrayage présente une anomalie.",
+                            "addsEvidence":  [
+                                                 "observation-clutch-mechanism-bad"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "good",
+                            "label":  "Aucune anomalie visible",
+                            "value":  "Le mécanisme semble correct.",
+                            "addsEvidence":  [
+                                                 "observation-clutch-mechanism-good"
+                                             ],
+                            "nextActionId":  "transmission-shift-linkage-check"
+                        }
+                    ]
+    },
+    {
+        "id":  "transmission-clutch-slip-test",
+        "workflowId":  "transmission",
+        "type":  "ask-question",
+        "text":  "En forte accélération sur un rapport élevé, le régime moteur augmente-t-il sans hausse équivalente de vitesse ?",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  8,
+        "options":  [
+                        {
+                            "id":  "yes",
+                            "label":  "Oui",
+                            "value":  "L\u0027embrayage patine sous charge.",
+                            "addsEvidence":  [
+                                                 "observation-clutch-slip-confirmed"
+                                             ],
+                            "nextActionId":  "transmission-clutch-contamination-check",
+                            "nextActionIdByProfile":  {
+                                                          "particulier":  "transmission-particulier-clutch-contamination"
+                                                      }
+                        },
+                        {
+                            "id":  "no",
+                            "label":  "Non",
+                            "value":  "Aucun patinage net n\u0027est observé.",
+                            "addsEvidence":  [
+                                                 "observation-clutch-slip-not-confirmed"
+                                             ],
+                            "nextActionId":  "transmission-manual-noise-context"
+                        }
+                    ]
+    },
+    {
+        "id":  "transmission-clutch-contamination-check",
+        "workflowId":  "transmission",
+        "type":  "request-observation",
+        "text":  "Une fuite d\u0027huile moteur ou de boîte peut-elle contaminer le disque d\u0027embrayage ?",
+        "audiences":  [
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "intermediate",
+        "priority":  9,
+        "options":  [
+                        {
+                            "id":  "yes",
+                            "label":  "Oui",
+                            "value":  "Le disque d\u0027embrayage peut être contaminé par de l\u0027huile.",
+                            "addsEvidence":  [
+                                                 "observation-clutch-contaminated"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "no",
+                            "label":  "Non",
+                            "value":  "Aucune contamination visible n\u0027est détectée.",
+                            "addsEvidence":  [
+                                                 "observation-clutch-not-contaminated"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        }
+                    ]
+    },
+    {
+        "id":  "transmission-shift-linkage-check",
+        "workflowId":  "transmission",
+        "type":  "request-observation",
+        "text":  "Les câbles, tringleries et rotules de sélection sont-ils correctement réglés et sans jeu excessif ?",
+        "audiences":  [
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "intermediate",
+        "priority":  10,
+        "options":  [
+                        {
+                            "id":  "bad",
+                            "label":  "Non",
+                            "value":  "La commande de sélection est mal réglée ou usée.",
+                            "addsEvidence":  [
+                                                 "observation-shift-linkage-bad"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "good",
+                            "label":  "Oui",
+                            "value":  "La commande de sélection semble correcte.",
+                            "addsEvidence":  [
+                                                 "observation-shift-linkage-good"
+                                             ],
+                            "nextActionId":  "transmission-manual-oil-check"
+                        }
+                    ]
+    },
+    {
+        "id":  "transmission-manual-oil-check",
+        "workflowId":  "transmission",
+        "type":  "request-observation",
+        "text":  "Le niveau et l\u0027état de l\u0027huile de boîte manuelle sont-ils corrects ?",
+        "audiences":  [
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "intermediate",
+        "priority":  11,
+        "options":  [
+                        {
+                            "id":  "low",
+                            "label":  "Niveau trop bas",
+                            "value":  "Le niveau d\u0027huile de boîte est insuffisant.",
+                            "addsEvidence":  [
+                                                 "observation-manual-transmission-fluid-low"
+                                             ],
+                            "nextActionId":  "transmission-fluid-leak-check"
+                        },
+                        {
+                            "id":  "contaminated",
+                            "label":  "Huile dégradée ou contaminée",
+                            "value":  "L\u0027huile de boîte est dégradée ou contaminée.",
+                            "addsEvidence":  [
+                                                 "observation-manual-transmission-fluid-bad"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "good",
+                            "label":  "Niveau et état corrects",
+                            "value":  "L\u0027huile de boîte manuelle semble correcte.",
+                            "addsEvidence":  [
+                                                 "observation-manual-transmission-fluid-good"
+                                             ],
+                            "nextActionId":  "transmission-manual-internal-check"
+                        }
+                    ]
+    },
+    {
+        "id":  "transmission-manual-gear-specific",
+        "workflowId":  "transmission",
+        "type":  "ask-question",
+        "text":  "Le défaut concerne-t-il un seul rapport ou plusieurs rapports ?",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  12,
+        "options":  [
+                        {
+                            "id":  "one",
+                            "label":  "Un seul rapport",
+                            "value":  "Un seul rapport est concerné.",
+                            "addsEvidence":  [
+                                                 "observation-manual-single-gear-problem"
+                                             ],
+                            "nextActionId":  "transmission-manual-internal-check"
+                        },
+                        {
+                            "id":  "multiple",
+                            "label":  "Plusieurs rapports",
+                            "value":  "Plusieurs rapports sont concernés.",
+                            "addsEvidence":  [
+                                                 "observation-manual-multiple-gears-problem"
+                                             ],
+                            "nextActionId":  "transmission-shift-linkage-check",
+                            "nextActionIdByProfile":  {
+                                                          "particulier":  "transmission-particulier-shift-linkage"
+                                                      }
+                        }
+                    ]
+    },
+    {
+        "id":  "transmission-manual-noise-context",
+        "workflowId":  "transmission",
+        "type":  "ask-question",
+        "text":  "Quand le bruit de boîte manuelle apparaît-il ?",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  13,
+        "options":  [
+                        {
+                            "id":  "neutral",
+                            "label":  "Au point mort",
+                            "value":  "Le bruit apparaît au point mort.",
+                            "addsEvidence":  [
+                                                 "observation-manual-noise-neutral"
+                                             ],
+                            "nextActionId":  "transmission-input-bearing-check"
+                        },
+                        {
+                            "id":  "specific-gear",
+                            "label":  "Sur un rapport précis",
+                            "value":  "Le bruit apparaît sur un rapport précis.",
+                            "addsEvidence":  [
+                                                 "observation-manual-noise-specific-gear"
+                                             ],
+                            "nextActionId":  "transmission-manual-internal-check"
+                        },
+                        {
+                            "id":  "acceleration",
+                            "label":  "En accélération",
+                            "value":  "Le bruit apparaît en accélération.",
+                            "addsEvidence":  [
+                                                 "observation-manual-noise-acceleration"
+                                             ],
+                            "nextActionId":  "transmission-differential-check",
+                            "nextActionIdByProfile":  {
+                                                          "particulier":  "transmission-particulier-differential"
+                                                      }
+                        },
+                        {
+                            "id":  "deceleration",
+                            "label":  "En décélération",
+                            "value":  "Le bruit apparaît en décélération.",
+                            "addsEvidence":  [
+                                                 "observation-manual-noise-deceleration"
+                                             ],
+                            "nextActionId":  "transmission-differential-check",
+                            "nextActionIdByProfile":  {
+                                                          "particulier":  "transmission-particulier-differential"
+                                                      }
+                        }
+                    ]
+    },
+    {
+        "id":  "transmission-input-bearing-check",
+        "workflowId":  "transmission",
+        "type":  "request-observation",
+        "text":  "Le bruit disparaît-il lorsque la pédale d\u0027embrayage est enfoncée ?",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  14,
+        "options":  [
+                        {
+                            "id":  "yes",
+                            "label":  "Oui",
+                            "value":  "Le bruit disparaît lorsque l\u0027embrayage est débrayé.",
+                            "addsEvidence":  [
+                                                 "observation-input-bearing-noise"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "no",
+                            "label":  "Non",
+                            "value":  "Le bruit reste présent.",
+                            "addsEvidence":  [
+                                                 "observation-input-bearing-not-confirmed"
+                                             ],
+                            "nextActionId":  "transmission-manual-internal-check"
+                        }
+                    ]
+    },
+    {
+        "id":  "transmission-manual-internal-check",
+        "workflowId":  "transmission",
+        "type":  "request-observation",
+        "text":  "Les synchros, fourchettes, baladeurs ou pignons présentent-ils une usure ou une détérioration ?",
+        "audiences":  [
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "advanced",
+        "priority":  15,
+        "options":  [
+                        {
+                            "id":  "synchro",
+                            "label":  "Synchroniseur usé",
+                            "value":  "Un synchroniseur est usé.",
+                            "addsEvidence":  [
+                                                 "observation-manual-synchronizer-bad"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "fork",
+                            "label":  "Fourchette ou baladeur usé",
+                            "value":  "Une fourchette ou un baladeur est usé.",
+                            "addsEvidence":  [
+                                                 "observation-manual-selector-internal-bad"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "gear",
+                            "label":  "Pignon ou denture endommagé",
+                            "value":  "Un pignon ou une denture est endommagé.",
+                            "addsEvidence":  [
+                                                 "observation-manual-gear-internal-bad"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "good",
+                            "label":  "Aucun défaut interne identifié",
+                            "value":  "Aucun défaut interne évident n\u0027est identifié.",
+                            "addsEvidence":  [
+                                                 "observation-manual-internal-good"
+                                             ],
+                            "nextActionId":  "transmission-differential-check"
+                        }
+                    ]
+    },
+    {
+        "id":  "transmission-automatic-symptom",
+        "workflowId":  "transmission",
+        "type":  "ask-question",
+        "text":  "Quel symptôme concerne principalement la boîte automatique ?",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  16,
+        "requiredEvidence":  [
+                                 "observation-transmission-automatic"
+                             ],
+        "options":  [
+                        {
+                            "id":  "slipping",
+                            "label":  "Patinage",
+                            "value":  "La boîte automatique patine.",
+                            "addsEvidence":  [
+                                                 "observation-automatic-slipping"
+                                             ],
+                            "nextActionId":  "transmission-automatic-fluid-check",
+                            "nextActionIdByProfile":  {
+                                                          "particulier":  "transmission-particulier-automatic"
+                                                      }
+                        },
+                        {
+                            "id":  "harsh-shift",
+                            "label":  "Passages de rapports brutaux",
+                            "value":  "Les passages de rapports sont brutaux.",
+                            "addsEvidence":  [
+                                                 "observation-automatic-harsh-shifts"
+                                             ],
+                            "nextActionId":  "transmission-automatic-fluid-check",
+                            "nextActionIdByProfile":  {
+                                                          "particulier":  "transmission-particulier-automatic"
+                                                      }
+                        },
+                        {
+                            "id":  "delayed-engagement",
+                            "label":  "Retard à l\u0027engagement de D ou R",
+                            "value":  "L\u0027engagement de la marche avant ou arrière est retardé.",
+                            "addsEvidence":  [
+                                                 "observation-automatic-delayed-engagement"
+                                             ],
+                            "nextActionId":  "transmission-automatic-fluid-check",
+                            "nextActionIdByProfile":  {
+                                                          "particulier":  "transmission-particulier-automatic"
+                                                      }
+                        },
+                        {
+                            "id":  "no-drive",
+                            "label":  "Le véhicule n\u0027avance plus",
+                            "value":  "La boîte n\u0027entraîne plus le véhicule.",
+                            "addsEvidence":  [
+                                                 "observation-automatic-no-drive"
+                                             ],
+                            "nextActionId":  "transmission-automatic-fluid-check",
+                            "nextActionIdByProfile":  {
+                                                          "particulier":  "transmission-particulier-automatic"
+                                                      }
+                        },
+                        {
+                            "id":  "limp-mode",
+                            "label":  "Mode dégradé",
+                            "value":  "La boîte fonctionne en mode dégradé.",
+                            "addsEvidence":  [
+                                                 "observation-automatic-limp-mode"
+                                             ],
+                            "nextActionId":  "transmission-diagnostic-codes",
+                            "nextActionIdByProfile":  {
+                                                          "particulier":  "transmission-particulier-diagnostic-codes"
+                                                      }
+                        }
+                    ]
+    },
+    {
+        "id":  "transmission-automatic-fluid-check",
+        "workflowId":  "transmission",
+        "type":  "request-observation",
+        "text":  "Le niveau, la couleur et l\u0027odeur de l\u0027huile de boîte automatique sont-ils corrects ?",
+        "audiences":  [
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "intermediate",
+        "priority":  17,
+        "options":  [
+                        {
+                            "id":  "low",
+                            "label":  "Niveau trop bas",
+                            "value":  "Le niveau d\u0027huile de boîte automatique est insuffisant.",
+                            "addsEvidence":  [
+                                                 "observation-automatic-fluid-low"
+                                             ],
+                            "nextActionId":  "transmission-fluid-leak-check"
+                        },
+                        {
+                            "id":  "burnt",
+                            "label":  "Huile sombre ou odeur de brûlé",
+                            "value":  "L\u0027huile de boîte automatique est brûlée ou dégradée.",
+                            "addsEvidence":  [
+                                                 "observation-automatic-fluid-burnt"
+                                             ],
+                            "nextActionId":  "transmission-automatic-pan-check"
+                        },
+                        {
+                            "id":  "contaminated",
+                            "label":  "Huile contaminée",
+                            "value":  "L\u0027huile de boîte automatique est contaminée.",
+                            "addsEvidence":  [
+                                                 "observation-automatic-fluid-contaminated"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "good",
+                            "label":  "Niveau et état corrects",
+                            "value":  "L\u0027huile de boîte automatique semble correcte.",
+                            "addsEvidence":  [
+                                                 "observation-automatic-fluid-good"
+                                             ],
+                            "nextActionId":  "transmission-diagnostic-codes"
+                        }
+                    ]
+    },
+    {
+        "id":  "transmission-automatic-pan-check",
+        "workflowId":  "transmission",
+        "type":  "request-observation",
+        "text":  "Le carter contient-il une quantité anormale de limaille, de friction ou de débris ?",
+        "audiences":  [
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "advanced",
+        "priority":  18,
+        "options":  [
+                        {
+                            "id":  "metal",
+                            "label":  "Oui, limaille métallique",
+                            "value":  "Une quantité anormale de limaille est présente.",
+                            "addsEvidence":  [
+                                                 "observation-automatic-pan-metal-debris"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "friction",
+                            "label":  "Oui, matière de friction",
+                            "value":  "Une quantité anormale de matière de friction est présente.",
+                            "addsEvidence":  [
+                                                 "observation-automatic-pan-friction-debris"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "normal",
+                            "label":  "Non, dépôt normal",
+                            "value":  "Le dépôt dans le carter semble normal.",
+                            "addsEvidence":  [
+                                                 "observation-automatic-pan-normal"
+                                             ],
+                            "nextActionId":  "transmission-line-pressure-check"
+                        }
+                    ]
+    },
+    {
+        "id":  "transmission-line-pressure-check",
+        "workflowId":  "transmission",
+        "type":  "ask-question",
+        "text":  "La pression hydraulique de ligne est-elle conforme dans les différents rapports ?",
+        "audiences":  [
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "advanced",
+        "priority":  19,
+        "options":  [
+                        {
+                            "id":  "low",
+                            "label":  "Non, pression insuffisante",
+                            "value":  "La pression hydraulique est insuffisante.",
+                            "addsEvidence":  [
+                                                 "measurement-automatic-line-pressure-low"
+                                             ],
+                            "nextActionId":  "transmission-pump-valve-body-check"
+                        },
+                        {
+                            "id":  "high",
+                            "label":  "Pression trop élevée",
+                            "value":  "La pression hydraulique est excessive.",
+                            "addsEvidence":  [
+                                                 "measurement-automatic-line-pressure-high"
+                                             ],
+                            "nextActionId":  "transmission-solenoid-check"
+                        },
+                        {
+                            "id":  "normal",
+                            "label":  "Pression conforme",
+                            "value":  "La pression hydraulique est conforme.",
+                            "addsEvidence":  [
+                                                 "measurement-automatic-line-pressure-normal"
+                                             ],
+                            "nextActionId":  "transmission-solenoid-check"
+                        },
+                        {
+                            "id":  "not-tested",
+                            "label":  "Non mesurée",
+                            "value":  "La pression hydraulique n\u0027a pas été mesurée.",
+                            "nextActionId":  "transmission-solenoid-check"
+                        }
+                    ]
+    },
+    {
+        "id":  "transmission-pump-valve-body-check",
+        "workflowId":  "transmission",
+        "type":  "request-observation",
+        "text":  "La pompe hydraulique, le filtre ou le bloc hydraulique présentent-ils une anomalie ?",
+        "audiences":  [
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "advanced",
+        "priority":  20,
+        "options":  [
+                        {
+                            "id":  "pump",
+                            "label":  "Pompe hydraulique défectueuse",
+                            "value":  "La pompe hydraulique de boîte est défectueuse.",
+                            "addsEvidence":  [
+                                                 "observation-automatic-pump-bad"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "filter",
+                            "label":  "Filtre obstrué",
+                            "value":  "Le filtre de boîte automatique est obstrué.",
+                            "addsEvidence":  [
+                                                 "observation-automatic-filter-blocked"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "valve-body",
+                            "label":  "Bloc hydraulique défectueux",
+                            "value":  "Le bloc hydraulique présente une anomalie.",
+                            "addsEvidence":  [
+                                                 "observation-automatic-valve-body-bad"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "good",
+                            "label":  "Aucune anomalie identifiée",
+                            "value":  "La pompe, le filtre et le bloc hydraulique semblent corrects.",
+                            "addsEvidence":  [
+                                                 "observation-automatic-hydraulic-system-good"
+                                             ],
+                            "nextActionId":  "transmission-solenoid-check"
+                        }
+                    ]
+    },
+    {
+        "id":  "transmission-solenoid-check",
+        "workflowId":  "transmission",
+        "type":  "request-observation",
+        "text":  "Les électrovannes de commande répondent-elles correctement aux tests d\u0027actionneurs ?",
+        "audiences":  [
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "advanced",
+        "priority":  21,
+        "options":  [
+                        {
+                            "id":  "bad",
+                            "label":  "Non",
+                            "value":  "Une ou plusieurs électrovannes sont défectueuses.",
+                            "addsEvidence":  [
+                                                 "observation-automatic-solenoid-bad"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "good",
+                            "label":  "Oui",
+                            "value":  "Les électrovannes répondent correctement.",
+                            "addsEvidence":  [
+                                                 "observation-automatic-solenoid-good"
+                                             ],
+                            "nextActionId":  "transmission-torque-converter-check"
+                        }
+                    ]
+    },
+    {
+        "id":  "transmission-torque-converter-check",
+        "workflowId":  "transmission",
+        "type":  "request-observation",
+        "text":  "Le convertisseur présente-t-il un patinage excessif, des vibrations ou un défaut de verrouillage ?",
+        "audiences":  [
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "advanced",
+        "priority":  22,
+        "options":  [
+                        {
+                            "id":  "slip",
+                            "label":  "Patinage excessif",
+                            "value":  "Le convertisseur présente un patinage excessif.",
+                            "addsEvidence":  [
+                                                 "observation-torque-converter-slip"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "shudder",
+                            "label":  "Vibrations au verrouillage",
+                            "value":  "Le convertisseur provoque des vibrations au verrouillage.",
+                            "addsEvidence":  [
+                                                 "observation-torque-converter-shudder"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "lockup",
+                            "label":  "Verrouillage défectueux",
+                            "value":  "Le verrouillage du convertisseur est défectueux.",
+                            "addsEvidence":  [
+                                                 "observation-torque-converter-lockup-bad"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "good",
+                            "label":  "Fonctionnement normal",
+                            "value":  "Le convertisseur semble fonctionner normalement.",
+                            "addsEvidence":  [
+                                                 "observation-torque-converter-good"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        }
+                    ]
+    },
+    {
+        "id":  "transmission-dct-symptom",
+        "workflowId":  "transmission",
+        "type":  "ask-question",
+        "text":  "Quel symptôme concerne principalement la boîte double embrayage ?",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  23,
+        "requiredEvidence":  [
+                                 "observation-transmission-dct"
+                             ],
+        "options":  [
+                        {
+                            "id":  "judder",
+                            "label":  "Tremblements au démarrage",
+                            "value":  "La boîte tremble au démarrage.",
+                            "addsEvidence":  [
+                                                 "observation-dct-launch-judder"
+                                             ],
+                            "nextActionId":  "transmission-dct-clutch-adaptation"
+                        },
+                        {
+                            "id":  "harsh",
+                            "label":  "Passages de rapports brutaux",
+                            "value":  "Les passages de rapports sont brutaux.",
+                            "addsEvidence":  [
+                                                 "observation-dct-harsh-shifts"
+                                             ],
+                            "nextActionId":  "transmission-dct-clutch-adaptation"
+                        },
+                        {
+                            "id":  "no-gear",
+                            "label":  "Un rapport ne s\u0027engage plus",
+                            "value":  "Un rapport ne s\u0027engage plus.",
+                            "addsEvidence":  [
+                                                 "observation-dct-gear-not-engaging"
+                                             ],
+                            "nextActionId":  "transmission-diagnostic-codes",
+                            "nextActionIdByProfile":  {
+                                                          "particulier":  "transmission-particulier-diagnostic-codes"
+                                                      }
+                        },
+                        {
+                            "id":  "overheat",
+                            "label":  "Surchauffe de boîte",
+                            "value":  "La boîte double embrayage surchauffe.",
+                            "addsEvidence":  [
+                                                 "observation-dct-overheating"
+                                             ],
+                            "nextActionId":  "transmission-dct-fluid-check",
+                            "nextActionIdByProfile":  {
+                                                          "particulier":  "transmission-particulier-dct"
+                                                      }
+                        }
+                    ]
+    },
+    {
+        "id":  "transmission-dct-clutch-adaptation",
+        "workflowId":  "transmission",
+        "type":  "ask-question",
+        "text":  "Les valeurs d\u0027adaptation et d\u0027usure des embrayages sont-elles dans les tolérances ?",
+        "audiences":  [
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "advanced",
+        "priority":  24,
+        "options":  [
+                        {
+                            "id":  "bad",
+                            "label":  "Non",
+                            "value":  "Les valeurs d\u0027adaptation ou d\u0027usure sont hors tolérance.",
+                            "addsEvidence":  [
+                                                 "measurement-dct-clutch-adaptation-bad"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "good",
+                            "label":  "Oui",
+                            "value":  "Les valeurs d\u0027adaptation sont conformes.",
+                            "addsEvidence":  [
+                                                 "measurement-dct-clutch-adaptation-good"
+                                             ],
+                            "nextActionId":  "transmission-dct-mechatronic-check"
+                        },
+                        {
+                            "id":  "not-tested",
+                            "label":  "Non contrôlées",
+                            "value":  "Les adaptations n\u0027ont pas été contrôlées.",
+                            "nextActionId":  "transmission-dct-mechatronic-check"
+                        }
+                    ]
+    },
+    {
+        "id":  "transmission-dct-fluid-check",
+        "workflowId":  "transmission",
+        "type":  "request-observation",
+        "text":  "Le niveau et l\u0027état de l\u0027huile de boîte double embrayage sont-ils corrects ?",
+        "audiences":  [
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "intermediate",
+        "priority":  25,
+        "options":  [
+                        {
+                            "id":  "low",
+                            "label":  "Niveau trop bas",
+                            "value":  "Le niveau d\u0027huile de la boîte DCT est insuffisant.",
+                            "addsEvidence":  [
+                                                 "observation-dct-fluid-low"
+                                             ],
+                            "nextActionId":  "transmission-fluid-leak-check"
+                        },
+                        {
+                            "id":  "bad",
+                            "label":  "Huile dégradée",
+                            "value":  "L\u0027huile de la boîte DCT est dégradée.",
+                            "addsEvidence":  [
+                                                 "observation-dct-fluid-bad"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "good",
+                            "label":  "Niveau et état corrects",
+                            "value":  "L\u0027huile de la boîte DCT semble correcte.",
+                            "addsEvidence":  [
+                                                 "observation-dct-fluid-good"
+                                             ],
+                            "nextActionId":  "transmission-dct-mechatronic-check"
+                        }
+                    ]
+    },
+    {
+        "id":  "transmission-dct-mechatronic-check",
+        "workflowId":  "transmission",
+        "type":  "request-observation",
+        "text":  "La mécatronique, les actionneurs et les capteurs de position fonctionnent-ils correctement ?",
+        "audiences":  [
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "advanced",
+        "priority":  26,
+        "options":  [
+                        {
+                            "id":  "mechatronic",
+                            "label":  "Mécatronique défectueuse",
+                            "value":  "La mécatronique présente une anomalie.",
+                            "addsEvidence":  [
+                                                 "observation-dct-mechatronic-bad"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "actuator",
+                            "label":  "Actionneur défectueux",
+                            "value":  "Un actionneur de boîte est défectueux.",
+                            "addsEvidence":  [
+                                                 "observation-dct-actuator-bad"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "sensor",
+                            "label":  "Capteur de position défectueux",
+                            "value":  "Un capteur de position de boîte est défectueux.",
+                            "addsEvidence":  [
+                                                 "observation-dct-position-sensor-bad"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "good",
+                            "label":  "Tout semble correct",
+                            "value":  "La mécatronique et les actionneurs semblent corrects.",
+                            "addsEvidence":  [
+                                                 "observation-dct-mechatronic-good"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        }
+                    ]
+    },
+    {
+        "id":  "transmission-cvt-symptom",
+        "workflowId":  "transmission",
+        "type":  "ask-question",
+        "text":  "Quel symptôme concerne principalement la transmission CVT ?",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  27,
+        "requiredEvidence":  [
+                                 "observation-transmission-cvt"
+                             ],
+        "options":  [
+                        {
+                            "id":  "slip",
+                            "label":  "Patinage",
+                            "value":  "La transmission CVT patine.",
+                            "addsEvidence":  [
+                                                 "observation-cvt-slipping"
+                                             ],
+                            "nextActionId":  "transmission-cvt-fluid-check",
+                            "nextActionIdByProfile":  {
+                                                          "particulier":  "transmission-particulier-cvt"
+                                                      }
+                        },
+                        {
+                            "id":  "judder",
+                            "label":  "Tremblements",
+                            "value":  "La transmission CVT provoque des tremblements.",
+                            "addsEvidence":  [
+                                                 "observation-cvt-judder"
+                                             ],
+                            "nextActionId":  "transmission-cvt-fluid-check",
+                            "nextActionIdByProfile":  {
+                                                          "particulier":  "transmission-particulier-cvt"
+                                                      }
+                        },
+                        {
+                            "id":  "noise",
+                            "label":  "Bruit de roulement ou sifflement",
+                            "value":  "Un bruit anormal provient de la transmission CVT.",
+                            "addsEvidence":  [
+                                                 "observation-cvt-noise"
+                                             ],
+                            "nextActionId":  "transmission-cvt-pulley-belt-check"
+                        },
+                        {
+                            "id":  "no-drive",
+                            "label":  "Le véhicule n\u0027avance plus",
+                            "value":  "La transmission CVT n\u0027entraîne plus le véhicule.",
+                            "addsEvidence":  [
+                                                 "observation-cvt-no-drive"
+                                             ],
+                            "nextActionId":  "transmission-cvt-fluid-check",
+                            "nextActionIdByProfile":  {
+                                                          "particulier":  "transmission-particulier-cvt"
+                                                      }
+                        }
+                    ]
+    },
+    {
+        "id":  "transmission-cvt-fluid-check",
+        "workflowId":  "transmission",
+        "type":  "request-observation",
+        "text":  "Le niveau, le type et l\u0027état de l\u0027huile CVT sont-ils corrects ?",
+        "audiences":  [
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "intermediate",
+        "priority":  28,
+        "options":  [
+                        {
+                            "id":  "low",
+                            "label":  "Niveau trop bas",
+                            "value":  "Le niveau d\u0027huile CVT est insuffisant.",
+                            "addsEvidence":  [
+                                                 "observation-cvt-fluid-low"
+                                             ],
+                            "nextActionId":  "transmission-fluid-leak-check"
+                        },
+                        {
+                            "id":  "wrong",
+                            "label":  "Huile incorrecte",
+                            "value":  "L\u0027huile utilisée n\u0027est pas conforme aux spécifications.",
+                            "addsEvidence":  [
+                                                 "observation-cvt-fluid-wrong"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "bad",
+                            "label":  "Huile dégradée",
+                            "value":  "L\u0027huile CVT est dégradée.",
+                            "addsEvidence":  [
+                                                 "observation-cvt-fluid-bad"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "good",
+                            "label":  "Niveau et état corrects",
+                            "value":  "L\u0027huile CVT semble correcte.",
+                            "addsEvidence":  [
+                                                 "observation-cvt-fluid-good"
+                                             ],
+                            "nextActionId":  "transmission-cvt-pressure-check"
+                        }
+                    ]
+    },
+    {
+        "id":  "transmission-cvt-pressure-check",
+        "workflowId":  "transmission",
+        "type":  "ask-question",
+        "text":  "La pression hydraulique de la CVT est-elle conforme ?",
+        "audiences":  [
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "advanced",
+        "priority":  29,
+        "options":  [
+                        {
+                            "id":  "low",
+                            "label":  "Non, trop faible",
+                            "value":  "La pression hydraulique CVT est insuffisante.",
+                            "addsEvidence":  [
+                                                 "measurement-cvt-pressure-low"
+                                             ],
+                            "nextActionId":  "transmission-cvt-pump-valve-check"
+                        },
+                        {
+                            "id":  "normal",
+                            "label":  "Oui",
+                            "value":  "La pression hydraulique CVT est conforme.",
+                            "addsEvidence":  [
+                                                 "measurement-cvt-pressure-normal"
+                                             ],
+                            "nextActionId":  "transmission-cvt-pulley-belt-check"
+                        },
+                        {
+                            "id":  "not-tested",
+                            "label":  "Non mesurée",
+                            "value":  "La pression CVT n\u0027a pas été mesurée.",
+                            "nextActionId":  "transmission-cvt-pulley-belt-check"
+                        }
+                    ]
+    },
+    {
+        "id":  "transmission-cvt-pump-valve-check",
+        "workflowId":  "transmission",
+        "type":  "request-observation",
+        "text":  "La pompe, le filtre ou le bloc hydraulique de la CVT présentent-ils une anomalie ?",
+        "audiences":  [
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "advanced",
+        "priority":  30,
+        "options":  [
+                        {
+                            "id":  "pump",
+                            "label":  "Pompe défectueuse",
+                            "value":  "La pompe hydraulique CVT est défectueuse.",
+                            "addsEvidence":  [
+                                                 "observation-cvt-pump-bad"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "filter",
+                            "label":  "Filtre obstrué",
+                            "value":  "Le filtre CVT est obstrué.",
+                            "addsEvidence":  [
+                                                 "observation-cvt-filter-blocked"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "valve-body",
+                            "label":  "Bloc hydraulique défectueux",
+                            "value":  "Le bloc hydraulique CVT est défectueux.",
+                            "addsEvidence":  [
+                                                 "observation-cvt-valve-body-bad"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "good",
+                            "label":  "Aucune anomalie",
+                            "value":  "Le circuit hydraulique CVT semble correct.",
+                            "addsEvidence":  [
+                                                 "observation-cvt-hydraulic-system-good"
+                                             ],
+                            "nextActionId":  "transmission-cvt-pulley-belt-check"
+                        }
+                    ]
+    },
+    {
+        "id":  "transmission-cvt-pulley-belt-check",
+        "workflowId":  "transmission",
+        "type":  "request-observation",
+        "text":  "La courroie ou chaîne métallique et les poulies de la CVT présentent-elles une usure ou une détérioration ?",
+        "audiences":  [
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "advanced",
+        "priority":  31,
+        "options":  [
+                        {
+                            "id":  "belt",
+                            "label":  "Courroie ou chaîne usée",
+                            "value":  "La courroie ou chaîne CVT est usée.",
+                            "addsEvidence":  [
+                                                 "observation-cvt-belt-chain-bad"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "pulley",
+                            "label":  "Poulie endommagée",
+                            "value":  "Une poulie CVT est endommagée.",
+                            "addsEvidence":  [
+                                                 "observation-cvt-pulley-bad"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "good",
+                            "label":  "Éléments corrects",
+                            "value":  "La courroie, la chaîne et les poulies semblent correctes.",
+                            "addsEvidence":  [
+                                                 "observation-cvt-mechanical-system-good"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        }
+                    ]
+    },
+    {
+        "id":  "transmission-fluid-leak-check",
+        "workflowId":  "transmission",
+        "type":  "request-observation",
+        "text":  "Où la fuite d\u0027huile de transmission semble-t-elle située ?",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  32,
+        "options":  [
+                        {
+                            "id":  "seal",
+                            "label":  "Joint spi ou sortie de transmission",
+                            "value":  "Une fuite est visible près d\u0027un joint spi ou d\u0027une sortie.",
+                            "addsEvidence":  [
+                                                 "observation-transmission-seal-leak"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "pan",
+                            "label":  "Carter ou joint de carter",
+                            "value":  "Une fuite est visible au niveau du carter.",
+                            "addsEvidence":  [
+                                                 "observation-transmission-pan-leak"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "cooler-line",
+                            "label":  "Conduite de refroidissement",
+                            "value":  "Une fuite est visible sur une conduite de refroidissement.",
+                            "addsEvidence":  [
+                                                 "observation-transmission-cooler-line-leak"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "unknown",
+                            "label":  "Origine inconnue",
+                            "value":  "L\u0027origine exacte de la fuite n\u0027est pas connue.",
+                            "addsEvidence":  [
+                                                 "observation-transmission-leak-source-unknown"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        }
+                    ]
+    },
+    {
+        "id":  "transmission-diagnostic-codes",
+        "workflowId":  "transmission",
+        "type":  "ask-question",
+        "text":  "Des codes défaut de transmission ont-ils été lus ?",
+        "audiences":  [
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "intermediate",
+        "priority":  33,
+        "options":  [
+                        {
+                            "id":  "ratio",
+                            "label":  "Défaut de rapport ou de glissement",
+                            "value":  "Un code concerne un rapport incorrect ou un glissement.",
+                            "addsEvidence":  [
+                                                 "observation-transmission-code-ratio-slip"
+                                             ],
+                            "nextActionId":  "transmission-fluid-type-router"
+                        },
+                        {
+                            "id":  "solenoid",
+                            "label":  "Défaut d\u0027électrovanne",
+                            "value":  "Un code concerne une électrovanne.",
+                            "addsEvidence":  [
+                                                 "observation-transmission-code-solenoid"
+                                             ],
+                            "nextActionId":  "transmission-solenoid-check"
+                        },
+                        {
+                            "id":  "sensor",
+                            "label":  "Défaut de capteur",
+                            "value":  "Un code concerne un capteur de vitesse ou de position.",
+                            "addsEvidence":  [
+                                                 "observation-transmission-code-sensor"
+                                             ],
+                            "nextActionId":  "transmission-sensor-check"
+                        },
+                        {
+                            "id":  "temperature",
+                            "label":  "Défaut de température",
+                            "value":  "Un code concerne la température de transmission.",
+                            "addsEvidence":  [
+                                                 "observation-transmission-code-temperature"
+                                             ],
+                            "nextActionId":  "transmission-cooling-check"
+                        },
+                        {
+                            "id":  "communication",
+                            "label":  "Défaut de communication",
+                            "value":  "Un code concerne la communication avec le calculateur de boîte.",
+                            "addsEvidence":  [
+                                                 "observation-transmission-code-communication"
+                                             ],
+                            "nextActionId":  "transmission-control-unit-power-check"
+                        },
+                        {
+                            "id":  "none",
+                            "label":  "Aucun code",
+                            "value":  "Aucun code défaut de transmission n\u0027est présent.",
+                            "addsEvidence":  [
+                                                 "observation-transmission-no-codes"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "not-tested",
+                            "label":  "Lecture non effectuée",
+                            "value":  "Les codes défaut n\u0027ont pas été lus.",
+                            "nextActionId":  "transmission-conclude"
+                        }
+                    ]
+    },
+    {
+        "id":  "transmission-fluid-type-router",
+        "workflowId":  "transmission",
+        "type":  "ask-question",
+        "text":  "Quel type de transmission est concerné par le défaut de rapport ou de glissement ?",
+        "audiences":  [
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "intermediate",
+        "priority":  34,
+        "options":  [
+                        {
+                            "id":  "automatic",
+                            "label":  "Automatique",
+                            "value":  "Le défaut concerne une boîte automatique.",
+                            "nextActionId":  "transmission-automatic-fluid-check"
+                        },
+                        {
+                            "id":  "dct",
+                            "label":  "Double embrayage",
+                            "value":  "Le défaut concerne une boîte double embrayage.",
+                            "nextActionId":  "transmission-dct-clutch-adaptation"
+                        },
+                        {
+                            "id":  "cvt",
+                            "label":  "CVT",
+                            "value":  "Le défaut concerne une transmission CVT.",
+                            "nextActionId":  "transmission-cvt-fluid-check"
+                        },
+                        {
+                            "id":  "manual",
+                            "label":  "Manuelle",
+                            "value":  "Le défaut concerne une boîte manuelle.",
+                            "nextActionId":  "transmission-manual-oil-check"
+                        }
+                    ]
+    },
+    {
+        "id":  "transmission-sensor-check",
+        "workflowId":  "transmission",
+        "type":  "request-observation",
+        "text":  "Les capteurs de vitesse d\u0027entrée, de sortie et de position fournissent-ils des valeurs cohérentes ?",
+        "audiences":  [
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "advanced",
+        "priority":  35,
+        "options":  [
+                        {
+                            "id":  "input",
+                            "label":  "Capteur de vitesse d\u0027entrée défectueux",
+                            "value":  "Le capteur de vitesse d\u0027entrée est défectueux.",
+                            "addsEvidence":  [
+                                                 "observation-transmission-input-speed-sensor-bad"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "output",
+                            "label":  "Capteur de vitesse de sortie défectueux",
+                            "value":  "Le capteur de vitesse de sortie est défectueux.",
+                            "addsEvidence":  [
+                                                 "observation-transmission-output-speed-sensor-bad"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "position",
+                            "label":  "Capteur de position défectueux",
+                            "value":  "Le capteur de position de boîte est défectueux.",
+                            "addsEvidence":  [
+                                                 "observation-transmission-position-sensor-bad"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "good",
+                            "label":  "Valeurs cohérentes",
+                            "value":  "Les capteurs fournissent des valeurs cohérentes.",
+                            "addsEvidence":  [
+                                                 "observation-transmission-sensors-good"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        }
+                    ]
+    },
+    {
+        "id":  "transmission-cooling-check",
+        "workflowId":  "transmission",
+        "type":  "request-observation",
+        "text":  "Le refroidisseur d\u0027huile et ses conduites permettent-ils un refroidissement correct de la transmission ?",
+        "audiences":  [
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "advanced",
+        "priority":  36,
+        "options":  [
+                        {
+                            "id":  "blocked",
+                            "label":  "Refroidisseur obstrué",
+                            "value":  "Le refroidisseur de transmission est obstrué.",
+                            "addsEvidence":  [
+                                                 "observation-transmission-cooler-blocked"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "leak",
+                            "label":  "Conduite fuyarde",
+                            "value":  "Une conduite de refroidissement fuit.",
+                            "addsEvidence":  [
+                                                 "observation-transmission-cooler-line-leak"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "good",
+                            "label":  "Refroidissement correct",
+                            "value":  "Le système de refroidissement de transmission semble correct.",
+                            "addsEvidence":  [
+                                                 "observation-transmission-cooling-good"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        }
+                    ]
+    },
+    {
+        "id":  "transmission-control-unit-power-check",
+        "workflowId":  "transmission",
+        "type":  "request-observation",
+        "text":  "Les alimentations, masses, fusibles et communications du calculateur de transmission sont-ils corrects ?",
+        "audiences":  [
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "advanced",
+        "priority":  37,
+        "options":  [
+                        {
+                            "id":  "power-bad",
+                            "label":  "Alimentation ou masse défectueuse",
+                            "value":  "Une alimentation ou masse du calculateur est défectueuse.",
+                            "addsEvidence":  [
+                                                 "observation-transmission-control-unit-power-bad"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "communication-bad",
+                            "label":  "Communication réseau défectueuse",
+                            "value":  "La communication avec le calculateur de transmission est défectueuse.",
+                            "addsEvidence":  [
+                                                 "observation-transmission-control-unit-communication-bad"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "good",
+                            "label":  "Tout semble correct",
+                            "value":  "Les alimentations et communications sont correctes.",
+                            "addsEvidence":  [
+                                                 "observation-transmission-control-unit-good"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        }
+                    ]
+    },
+    {
+        "id":  "transmission-differential-check",
+        "workflowId":  "transmission",
+        "type":  "request-observation",
+        "text":  "Le différentiel présente-t-il un grondement, un jeu ou un bruit qui varie entre accélération et décélération ?",
+        "audiences":  [
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "intermediate",
+        "priority":  38,
+        "options":  [
+                        {
+                            "id":  "bearing",
+                            "label":  "Roulement bruyant",
+                            "value":  "Un roulement de différentiel est bruyant.",
+                            "addsEvidence":  [
+                                                 "observation-differential-bearing-bad"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "gear",
+                            "label":  "Jeu ou denture anormale",
+                            "value":  "Le différentiel présente un jeu ou une denture anormale.",
+                            "addsEvidence":  [
+                                                 "observation-differential-gear-bad"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "good",
+                            "label":  "Aucune anomalie",
+                            "value":  "Le différentiel semble correct.",
+                            "addsEvidence":  [
+                                                 "observation-differential-good"
+                                             ],
+                            "nextActionId":  "transmission-conclude"
+                        }
+                    ]
+    },
+    {
+        "id":  "transmission-conclude",
+        "workflowId":  "transmission",
+        "type":  "complete-diagnosis",
+        "text":  "Calcul du diagnostic de transmission.",
+        "audiences":  [
+                          "particulier",
+                          "bricoleur",
+                          "vendeur-pieces-auto",
+                          "mecanicien-garage",
+                          "depanneur"
+                      ],
+        "complexity":  "simple",
+        "priority":  100,
+        "diagnosisId":  "transmission-diagnosis"
+    },
+    {
+        "id":  "transmission-particulier-clutch-hydraulic",
+        "text":  "Le comportement de la pédale d\u0027embrayage vous paraît-il anormal ?",
+        "type":  "ask-question",
+        "complexity":  "simple",
+        "audiences":  [
+                          "particulier"
+                      ],
+        "requiredEvidence":  [
+
+                             ],
+        "priority":  1,
+        "options":  [
+                        {
+                            "id":  "soft-or-stays-down",
+                            "label":  "Oui, elle est molle ou reste enfoncée",
+                            "description":  "",
+                            "addsEvidence":  [
+                                                 "observation-clutch-hydraulic-bad"
+                                             ],
+                            "rejectsEvidence":  [
+
+                                                ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "fluid-visible-low",
+                            "label":  "Oui, le niveau de liquide paraît bas ou une fuite est visible",
+                            "description":  "",
+                            "addsEvidence":  [
+                                                 "observation-clutch-fluid-low"
+                                             ],
+                            "rejectsEvidence":  [
+
+                                                ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "normal",
+                            "label":  "Non, la pédale semble normale",
+                            "description":  "",
+                            "addsEvidence":  [
+                                                 "observation-clutch-hydraulic-good"
+                                             ],
+                            "rejectsEvidence":  [
+
+                                                ],
+                            "nextActionId":  "transmission-particulier-shift-linkage"
+                        },
+                        {
+                            "id":  "unknown",
+                            "label":  "Je ne sais pas",
+                            "description":  "",
+                            "addsEvidence":  [
+                                                 "observation-clutch-hydraulic-unknown"
+                                             ],
+                            "rejectsEvidence":  [
+
+                                                ],
+                            "nextActionId":  "transmission-particulier-shift-linkage"
+                        }
+                    ]
+    },
+    {
+        "id":  "transmission-particulier-shift-linkage",
+        "text":  "Le levier de vitesses présente-t-il un comportement inhabituel ?",
+        "type":  "ask-question",
+        "complexity":  "simple",
+        "audiences":  [
+                          "particulier"
+                      ],
+        "requiredEvidence":  [
+
+                             ],
+        "priority":  1,
+        "options":  [
+                        {
+                            "id":  "loose",
+                            "label":  "Oui, il semble anormalement lâche ou imprécis",
+                            "description":  "",
+                            "addsEvidence":  [
+                                                 "observation-shift-linkage-bad"
+                                             ],
+                            "rejectsEvidence":  [
+
+                                                ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "hard",
+                            "label":  "Oui, certains rapports sont difficiles à sélectionner",
+                            "description":  "",
+                            "addsEvidence":  [
+                                                 "observation-shift-linkage-bad"
+                                             ],
+                            "rejectsEvidence":  [
+
+                                                ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "normal",
+                            "label":  "Non, le levier semble fonctionner normalement",
+                            "description":  "",
+                            "addsEvidence":  [
+                                                 "observation-shift-linkage-good"
+                                             ],
+                            "rejectsEvidence":  [
+
+                                                ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "unknown",
+                            "label":  "Je ne sais pas",
+                            "description":  "",
+                            "addsEvidence":  [
+                                                 "observation-shift-linkage-unknown"
+                                             ],
+                            "rejectsEvidence":  [
+
+                                                ],
+                            "nextActionId":  "transmission-conclude"
+                        }
+                    ]
+    },
+    {
+        "id":  "transmission-particulier-clutch-contamination",
+        "text":  "Voyez-vous une fuite d\u0027huile sous le véhicule près de la jonction entre le moteur et la boîte ?",
+        "type":  "ask-question",
+        "complexity":  "simple",
+        "audiences":  [
+                          "particulier"
+                      ],
+        "requiredEvidence":  [
+
+                             ],
+        "priority":  1,
+        "options":  [
+                        {
+                            "id":  "visible-leak",
+                            "label":  "Oui, une fuite est visible",
+                            "description":  "",
+                            "addsEvidence":  [
+                                                 "observation-clutch-contaminated"
+                                             ],
+                            "rejectsEvidence":  [
+
+                                                ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "no-visible-leak",
+                            "label":  "Non, aucune fuite visible",
+                            "description":  "",
+                            "addsEvidence":  [
+                                                 "observation-clutch-not-contaminated"
+                                             ],
+                            "rejectsEvidence":  [
+
+                                                ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "unknown",
+                            "label":  "Je ne sais pas",
+                            "description":  "",
+                            "addsEvidence":  [
+                                                 "observation-clutch-contamination-unknown"
+                                             ],
+                            "rejectsEvidence":  [
+
+                                                ],
+                            "nextActionId":  "transmission-conclude"
+                        }
+                    ]
+    },
+    {
+        "id":  "transmission-particulier-differential",
+        "text":  "Le bruit change-t-il nettement lorsque vous accélérez puis relâchez l\u0027accélérateur ?",
+        "type":  "ask-question",
+        "complexity":  "simple",
+        "audiences":  [
+                          "particulier"
+                      ],
+        "requiredEvidence":  [
+
+                             ],
+        "priority":  1,
+        "options":  [
+                        {
+                            "id":  "changes",
+                            "label":  "Oui, le bruit change nettement",
+                            "description":  "",
+                            "addsEvidence":  [
+                                                 "observation-differential-bearing-bad"
+                                             ],
+                            "rejectsEvidence":  [
+
+                                                ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "constant",
+                            "label":  "Non, le bruit reste similaire",
+                            "description":  "",
+                            "addsEvidence":  [
+                                                 "observation-differential-good"
+                                             ],
+                            "rejectsEvidence":  [
+
+                                                ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "unknown",
+                            "label":  "Je ne sais pas",
+                            "description":  "",
+                            "addsEvidence":  [
+                                                 "observation-differential-unknown"
+                                             ],
+                            "rejectsEvidence":  [
+
+                                                ],
+                            "nextActionId":  "transmission-conclude"
+                        }
+                    ]
+    },
+    {
+        "id":  "transmission-particulier-automatic",
+        "text":  "Avez-vous remarqué une fuite de liquide sous la voiture ou une odeur inhabituelle après avoir roulé ?",
+        "type":  "ask-question",
+        "complexity":  "simple",
+        "audiences":  [
+                          "particulier"
+                      ],
+        "requiredEvidence":  [
+
+                             ],
+        "priority":  1,
+        "options":  [
+                        {
+                            "id":  "leak",
+                            "label":  "Oui, une fuite est visible",
+                            "description":  "",
+                            "addsEvidence":  [
+                                                 "observation-automatic-fluid-low"
+                                             ],
+                            "rejectsEvidence":  [
+
+                                                ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "burnt-smell",
+                            "label":  "Oui, une odeur de brûlé est présente",
+                            "description":  "",
+                            "addsEvidence":  [
+                                                 "observation-automatic-fluid-burnt"
+                                             ],
+                            "rejectsEvidence":  [
+
+                                                ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "none",
+                            "label":  "Non, rien de particulier",
+                            "description":  "",
+                            "addsEvidence":  [
+                                                 "observation-automatic-fluid-unknown"
+                                             ],
+                            "rejectsEvidence":  [
+
+                                                ],
+                            "nextActionId":  "transmission-particulier-diagnostic-codes"
+                        },
+                        {
+                            "id":  "unknown",
+                            "label":  "Je ne sais pas",
+                            "description":  "",
+                            "addsEvidence":  [
+                                                 "observation-automatic-fluid-unknown"
+                                             ],
+                            "rejectsEvidence":  [
+
+                                                ],
+                            "nextActionId":  "transmission-particulier-diagnostic-codes"
+                        }
+                    ]
+    },
+    {
+        "id":  "transmission-particulier-diagnostic-codes",
+        "text":  "Disposez-vous d\u0027un code défaut de transmission lu avec un appareil de diagnostic ?",
+        "type":  "ask-question",
+        "complexity":  "simple",
+        "audiences":  [
+                          "particulier"
+                      ],
+        "requiredEvidence":  [
+
+                             ],
+        "priority":  1,
+        "options":  [
+                        {
+                            "id":  "yes",
+                            "label":  "Oui",
+                            "description":  "",
+                            "addsEvidence":  [
+                                                 "observation-transmission-code-present"
+                                             ],
+                            "rejectsEvidence":  [
+
+                                                ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "no",
+                            "label":  "Non, aucune lecture n\u0027a été effectuée",
+                            "description":  "",
+                            "addsEvidence":  [
+                                                 "observation-transmission-code-not-tested"
+                                             ],
+                            "rejectsEvidence":  [
+
+                                                ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "unknown",
+                            "label":  "Je ne sais pas",
+                            "description":  "",
+                            "addsEvidence":  [
+                                                 "observation-transmission-code-not-tested"
+                                             ],
+                            "rejectsEvidence":  [
+
+                                                ],
+                            "nextActionId":  "transmission-conclude"
+                        }
+                    ]
+    },
+    {
+        "id":  "transmission-particulier-dct",
+        "text":  "Après avoir roulé, avez-vous remarqué une fuite sous le véhicule ou un message de surchauffe de boîte ?",
+        "type":  "ask-question",
+        "complexity":  "simple",
+        "audiences":  [
+                          "particulier"
+                      ],
+        "requiredEvidence":  [
+
+                             ],
+        "priority":  1,
+        "options":  [
+                        {
+                            "id":  "leak",
+                            "label":  "Oui, une fuite est visible",
+                            "description":  "",
+                            "addsEvidence":  [
+                                                 "observation-dct-fluid-low"
+                                             ],
+                            "rejectsEvidence":  [
+
+                                                ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "overheat-warning",
+                            "label":  "Oui, un message ou voyant de surchauffe apparaît",
+                            "description":  "",
+                            "addsEvidence":  [
+                                                 "observation-dct-fluid-bad"
+                                             ],
+                            "rejectsEvidence":  [
+
+                                                ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "none",
+                            "label":  "Non",
+                            "description":  "",
+                            "addsEvidence":  [
+                                                 "observation-dct-fluid-unknown"
+                                             ],
+                            "rejectsEvidence":  [
+
+                                                ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "unknown",
+                            "label":  "Je ne sais pas",
+                            "description":  "",
+                            "addsEvidence":  [
+                                                 "observation-dct-fluid-unknown"
+                                             ],
+                            "rejectsEvidence":  [
+
+                                                ],
+                            "nextActionId":  "transmission-conclude"
+                        }
+                    ]
+    },
+    {
+        "id":  "transmission-particulier-cvt",
+        "text":  "Avez-vous remarqué une fuite sous le véhicule, une odeur de brûlé ou un message concernant la boîte CVT ?",
+        "type":  "ask-question",
+        "complexity":  "simple",
+        "audiences":  [
+                          "particulier"
+                      ],
+        "requiredEvidence":  [
+
+                             ],
+        "priority":  1,
+        "options":  [
+                        {
+                            "id":  "leak",
+                            "label":  "Oui, une fuite est visible",
+                            "description":  "",
+                            "addsEvidence":  [
+                                                 "observation-cvt-fluid-low"
+                                             ],
+                            "rejectsEvidence":  [
+
+                                                ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "burnt",
+                            "label":  "Oui, une odeur de brûlé ou un message apparaît",
+                            "description":  "",
+                            "addsEvidence":  [
+                                                 "observation-cvt-fluid-bad"
+                                             ],
+                            "rejectsEvidence":  [
+
+                                                ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "none",
+                            "label":  "Non",
+                            "description":  "",
+                            "addsEvidence":  [
+                                                 "observation-cvt-fluid-unknown"
+                                             ],
+                            "rejectsEvidence":  [
+
+                                                ],
+                            "nextActionId":  "transmission-conclude"
+                        },
+                        {
+                            "id":  "unknown",
+                            "label":  "Je ne sais pas",
+                            "description":  "",
+                            "addsEvidence":  [
+                                                 "observation-cvt-fluid-unknown"
+                                             ],
+                            "rejectsEvidence":  [
+
+                                                ],
+                            "nextActionId":  "transmission-conclude"
+                        }
+                    ]
+    }
+]

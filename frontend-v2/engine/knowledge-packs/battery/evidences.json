@@ -1,0 +1,702 @@
+[
+  {
+    "id": "measurement-battery-test-bad-cell",
+    "label": "battery test bad cell",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-battery-test-good",
+    "label": "battery test good",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-battery-test-recharge-retest",
+    "label": "battery test recharge retest",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-battery-test-replace",
+    "label": "battery test replace",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-charging-under-load-12-8-to-13-5",
+    "label": "charging under load 12 8 to 13 5",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-charging-under-load-above-13-5",
+    "label": "charging under load above 13 5",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-charging-under-load-below-12-8",
+    "label": "charging under load below 12 8",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-charging-voltage-12-8-to-13-5",
+    "label": "charging voltage 12 8 to 13 5",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-charging-voltage-13-5-to-14-8",
+    "label": "charging voltage 13 5 to 14 8",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-charging-voltage-above-14-8",
+    "label": "charging voltage above 14 8",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-charging-voltage-below-12-8",
+    "label": "charging voltage below 12 8",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-cranking-voltage-8-to-9-6",
+    "label": "cranking voltage 8 to 9 6",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-cranking-voltage-9-6-to-10-5",
+    "label": "cranking voltage 9 6 to 10 5",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-cranking-voltage-above-10-5",
+    "label": "cranking voltage above 10 5",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-cranking-voltage-below-8",
+    "label": "cranking voltage below 8",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-parasitic-current-30-to-80ma",
+    "label": "parasitic current 30 to 80ma",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-parasitic-current-above-80ma",
+    "label": "parasitic current above 80ma",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-parasitic-current-below-30ma",
+    "label": "parasitic current below 30ma",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-post-charge-12-2-to-12-5",
+    "label": "post charge 12 2 to 12 5",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-post-charge-above-12-5",
+    "label": "post charge above 12 5",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-post-charge-below-12-2",
+    "label": "post charge below 12 2",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-rest-voltage-11-8-to-12-2",
+    "label": "rest voltage 11 8 to 12 2",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-rest-voltage-12-2-to-12-5",
+    "label": "rest voltage 12 2 to 12 5",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-rest-voltage-above-12-5",
+    "label": "rest voltage above 12 5",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "measurement-rest-voltage-below-11-8",
+    "label": "rest voltage below 11 8",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "observation-accessory-belt-loose",
+    "label": "accessory belt loose",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-accessory-belt-missing",
+    "label": "accessory belt missing",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-accessory-belt-normal",
+    "label": "accessory belt normal",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-alternator-connection-bad",
+    "label": "alternator connection bad",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-alternator-connection-correction-failed",
+    "label": "alternator connection correction failed",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-alternator-connection-correction-success",
+    "label": "alternator connection correction success",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-alternator-connection-good",
+    "label": "alternator connection good",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-battery-age-over-four",
+    "label": "battery age over four",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-battery-age-two-to-four",
+    "label": "battery age two to four",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-battery-age-under-two",
+    "label": "battery age under two",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-battery-case-hot",
+    "label": "battery case hot",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-battery-case-leaking",
+    "label": "battery case leaking",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-battery-case-normal",
+    "label": "battery case normal",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-battery-case-swollen",
+    "label": "battery case swollen",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-battery-charge-incomplete",
+    "label": "battery charge incomplete",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-battery-fully-charged",
+    "label": "battery fully charged",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-battery-ground-bad",
+    "label": "battery ground bad",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-battery-ground-good",
+    "label": "battery ground good",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-battery-light-engine-off-only",
+    "label": "battery light engine off only",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-battery-light-engine-running",
+    "label": "battery light engine running",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-battery-light-intermittent",
+    "label": "battery light intermittent",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-battery-light-off-running",
+    "label": "battery light off running",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-battery-specification-correct",
+    "label": "battery specification correct",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-battery-specification-incorrect",
+    "label": "battery specification incorrect",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-battery-terminals-bad",
+    "label": "battery terminals bad",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-battery-terminals-good",
+    "label": "battery terminals good",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-dashboard-lights-dim",
+    "label": "dashboard lights dim",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-dashboard-lights-normal",
+    "label": "dashboard lights normal",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-dashboard-lights-unstable",
+    "label": "dashboard lights unstable",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-dashboard-no-lights",
+    "label": "dashboard no lights",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-discharge-after-days",
+    "label": "discharge after days",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-discharge-after-weeks",
+    "label": "discharge after weeks",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-discharge-overnight",
+    "label": "discharge overnight",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-discharge-within-hours",
+    "label": "discharge within hours",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-frequent-short-trips",
+    "label": "frequent short trips",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-ground-correction-failed",
+    "label": "ground correction failed",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-ground-correction-success",
+    "label": "ground correction success",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-jump-start-fails",
+    "label": "jump start fails",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-jump-start-success",
+    "label": "jump start success",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-long-storage",
+    "label": "long storage",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-no-obvious-parasitic-consumer",
+    "label": "no obvious parasitic consumer",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-normal-use",
+    "label": "normal use",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-parasitic-circuit-identified",
+    "label": "parasitic circuit identified",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-parasitic-circuit-not-identified",
+    "label": "parasitic circuit not identified",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-parasitic-consumer-known",
+    "label": "parasitic consumer known",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-parasitic-consumer-possible",
+    "label": "parasitic consumer possible",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-restart-after-jump-fails",
+    "label": "restart after jump fails",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-restart-after-jump-success",
+    "label": "restart after jump success",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-start-stop-agm",
+    "label": "start stop agm",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-start-stop-efb",
+    "label": "start stop efb",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-start-stop-wrong-battery-type",
+    "label": "start stop wrong battery type",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-terminal-correction-failed",
+    "label": "terminal correction failed",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-terminal-correction-improved",
+    "label": "terminal correction improved",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-terminal-correction-success",
+    "label": "terminal correction success",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "symptom-battery-drains",
+    "label": "battery drains",
+    "defaultConfidence": 0.9
+  },
+  {
+    "id": "symptom-battery-flat",
+    "label": "battery flat",
+    "defaultConfidence": 0.9
+  },
+  {
+    "id": "symptom-battery-replacement-check",
+    "label": "battery replacement check",
+    "defaultConfidence": 0.9
+  },
+  {
+    "id": "symptom-battery-warning-light",
+    "label": "battery warning light",
+    "defaultConfidence": 0.9
+  },
+  {
+    "id": "symptom-battery-weak",
+    "label": "battery weak",
+    "defaultConfidence": 0.9
+  },
+  {
+    "id": "observation-fuel-pump-primes",
+    "label": "fuel pump primes",
+    "defaultConfidence": 0.9
+  },
+  {
+    "id": "observation-fuel-pump-no-prime",
+    "label": "fuel pump does not prime",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-fuel-pump-fuse-good",
+    "label": "fuel pump fuse good",
+    "defaultConfidence": 0.9
+  },
+  {
+    "id": "observation-fuel-pump-fuse-blown",
+    "label": "fuel pump fuse blown",
+    "defaultConfidence": 0.95
+  },
+  {
+    "id": "observation-fuel-fuse-replacement-success",
+    "label": "fuel fuse replacement success",
+    "defaultConfidence": 0.96
+  },
+  {
+    "id": "observation-fuel-fuse-blows-again",
+    "label": "fuel fuse blows again",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "observation-fuel-fuse-replacement-no-start",
+    "label": "fuel fuse replacement no start",
+    "defaultConfidence": 0.9
+  },
+  {
+    "id": "observation-fuel-pump-relay-commanded",
+    "label": "fuel pump relay commanded",
+    "defaultConfidence": 0.9
+  },
+  {
+    "id": "observation-fuel-pump-relay-not-commanded",
+    "label": "fuel pump relay not commanded",
+    "defaultConfidence": 0.94
+  },
+  {
+    "id": "observation-battery-terminal-corrosion",
+    "label": "Les bornes ou connexions de batterie sont oxydées ou desserrées",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-battery-voltage-low",
+    "label": "La tension de batterie est insuffisante",
+    "defaultConfidence": 0.96
+  },
+  {
+    "id": "observation-battery-voltage-normal",
+    "label": "La tension de batterie est normale",
+    "defaultConfidence": 0.9
+  },
+  {
+    "id": "observation-lights-dim-slightly",
+    "label": "Les voyants ou les phares faiblissent légèrement",
+    "defaultConfidence": 0.62
+  },
+  {
+    "id": "observation-lights-dim-strongly",
+    "label": "Les voyants ou les phares faiblissent fortement",
+    "defaultConfidence": 0.88
+  },
+  {
+    "id": "observation-lights-stay-normal",
+    "label": "Les voyants et les phares restent normaux",
+    "defaultConfidence": 0.78
+  },
+  {
+    "id": "observation-problem-hot-engine",
+    "label": "Le problème apparaît surtout moteur chaud",
+    "defaultConfidence": 0.8
+  },
+  {
+    "id": "observation-starter-control-voltage-absent",
+    "label": "La commande électrique n'arrive pas au démarreur",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "observation-starter-control-voltage-present",
+    "label": "La commande électrique arrive au démarreur",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "observation-starts-intermittently",
+    "label": "Le véhicule démarre parfois après plusieurs tentatives",
+    "defaultConfidence": 0.9
+  },
+  {
+    "id": "symptom-engine-cranks",
+    "label": "Le moteur tourne normalement mais ne démarre pas",
+    "defaultConfidence": 0.96
+  },
+  {
+    "id": "symptom-metallic-grinding",
+    "label": "Un bruit métallique ou de grincement est entendu au démarrage",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "symptom-no-crank",
+    "label": "Le moteur ne tourne pas pendant la tentative de démarrage",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "symptom-rapid-clicking",
+    "label": "Plusieurs clics rapides sont entendus au démarrage",
+    "defaultConfidence": 0.96
+  },
+  {
+    "id": "symptom-single-click",
+    "label": "Un seul clic est entendu au démarrage",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "symptom-slow-cranking",
+    "label": "Le moteur tourne lentement pendant la tentative de démarrage",
+    "defaultConfidence": 0.94
+  },
+  {
+    "id": "symptom-starter-spins-free",
+    "label": "Le démarreur tourne dans le vide",
+    "defaultConfidence": 0.99
+  },
+  {
+    "id": "observation-booster-connection-good",
+    "label": "Le booster est correctement connecté",
+    "defaultConfidence": 0.9
+  },
+  {
+    "id": "observation-booster-connection-bad",
+    "label": "Le booster était mal connecté",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-engine-attempts-to-start",
+    "label": "Le moteur donne des signes de démarrage",
+    "defaultConfidence": 0.85
+  },
+  {
+    "id": "observation-engine-no-start-attempt",
+    "label": "Le moteur tourne sans donner de signe de démarrage",
+    "defaultConfidence": 0.9
+  },
+  {
+    "id": "observation-engine-turns-manually",
+    "label": "Le moteur tourne manuellement",
+    "defaultConfidence": 0.96
+  },
+  {
+    "id": "observation-engine-mechanically-locked",
+    "label": "Le moteur semble mécaniquement bloqué",
+    "defaultConfidence": 0.98
+  },
+  {
+    "id": "observation-engine-warning-present",
+    "label": "Un voyant moteur ou un message d'erreur est présent",
+    "defaultConfidence": 0.88
+  },
+  {
+    "id": "observation-engine-warning-absent",
+    "label": "Aucun voyant moteur ou message inhabituel n'est présent",
+    "defaultConfidence": 0.8
+  },
+  {
+    "id": "observation-glow-plug-fuse-good",
+    "label": "Le fusible de préchauffage est intact",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-glow-plug-fuse-blown",
+    "label": "Le fusible de préchauffage est coupé",
+    "defaultConfidence": 0.96
+  },
+  {
+    "id": "observation-glow-plug-light-normal",
+    "label": "Le voyant de préchauffage fonctionne normalement",
+    "defaultConfidence": 0.88
+  },
+  {
+    "id": "observation-glow-plug-light-absent",
+    "label": "Le voyant de préchauffage ne s'allume pas",
+    "defaultConfidence": 0.92
+  },
+  {
+    "id": "observation-glow-plug-light-flashing",
+    "label": "Le voyant de préchauffage clignote",
+    "defaultConfidence": 0.94
+  },
+  {
+    "id": "observation-ignition-switch-good",
+    "label": "Le contacteur de démarrage semble fonctionner normalement",
+    "defaultConfidence": 0.88
+  },
+  {
+    "id": "observation-ignition-switch-bad",
+    "label": "Le comportement du contacteur de démarrage est anormal",
+    "defaultConfidence": 0.94
+  },
+  {
+    "id": "observation-immobilizer-warning",
+    "label": "Un voyant d'antidémarrage est actif",
+    "defaultConfidence": 0.95
+  },
+  {
+    "id": "observation-immobilizer-normal",
+    "label": "Aucun voyant d'antidémarrage anormal n'est présent",
+    "defaultConfidence": 0.86
+  },
+  {
+    "id": "observation-neutral-clutch-start-success",
+    "label": "Le véhicule démarre après correction de la position de boîte ou de l'embrayage",
+    "defaultConfidence": 0.97
+  },
+  {
+    "id": "observation-neutral-clutch-no-change",
+    "label": "Le contrôle neutre ou embrayage ne change pas le comportement",
+    "defaultConfidence": 0.9
+  },
+  {
+    "id": "observation-starter-cable-repair-success",
+    "label": "Le véhicule démarre après correction du câble de démarreur",
+    "defaultConfidence": 0.97
+  },
+  {
+    "id": "observation-starter-cable-repair-failed",
+    "label": "Le problème persiste après correction du câble de démarreur",
+    "defaultConfidence": 0.9
+  },
+  {
+    "id": "observation-starter-supply-good",
+    "label": "Le câble principal du démarreur semble correct",
+    "defaultConfidence": 0.9
+  },
+  {
+    "id": "observation-starter-supply-bad",
+    "label": "Le câble principal du démarreur semble desserré ou détérioré",
+    "defaultConfidence": 0.95
+  },
+  {
+    "id": "observation-crank-duration-under-three",
+    "label": "La tentative de démarrage dure moins de trois secondes",
+    "defaultConfidence": 0.85
+  },
+  {
+    "id": "observation-crank-duration-three-to-ten",
+    "label": "La tentative de démarrage dure entre trois et dix secondes",
+    "defaultConfidence": 0.88
+  },
+  {
+    "id": "observation-crank-duration-over-ten",
+    "label": "La tentative de démarrage dure plus de dix secondes",
+    "defaultConfidence": 0.9
+  },
+  {
+    "id": "observation-fuel-level-sufficient",
+    "label": "Le réservoir contient suffisamment de carburant",
+    "defaultConfidence": 0.9
+  },
+  {
+    "id": "observation-fuel-level-insufficient",
+    "label": "Le niveau de carburant est insuffisant",
+    "defaultConfidence": 0.96
+  },
+  {
+    "id": "observation-spare-key-start-success",
+    "label": "Le véhicule démarre avec la seconde clé",
+    "defaultConfidence": 0.97
+  },
+  {
+    "id": "observation-spare-key-start-fails",
+    "label": "Le problème reste identique avec la seconde clé",
+    "defaultConfidence": 0.94
+  }
+]
