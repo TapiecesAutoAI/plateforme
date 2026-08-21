@@ -5,3 +5,10 @@
 *.before-*
 *.encoding-backup-*
 encoding-backup-*/
+
+# Local archive
+/_local-archive/
+
+# Obsolete local frontend implementation
+/frontend/*
+!/frontend/README.md
