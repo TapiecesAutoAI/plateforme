@@ -1,0 +1,7 @@
+
+# Local development backups
+*.bak
+*.backup
+*.before-*
+*.encoding-backup-*
+encoding-backup-*/
