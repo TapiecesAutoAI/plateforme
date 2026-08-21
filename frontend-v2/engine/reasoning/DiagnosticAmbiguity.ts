@@ -106,8 +106,8 @@ export function buildDiagnosticAmbiguity(
     );
 
   /*
-   * Le second diagnostic doit reprÃƒÆ’Ã‚Â©senter
-   * au moins 20 % de probabilitÃƒÆ’Ã‚Â©.
+   * Le second diagnostic doit reprǸsenter
+   * au moins 20 % de probabilitǸ.
    */
   if (
     secondProbability < 0.25
@@ -116,7 +116,7 @@ export function buildDiagnosticAmbiguity(
   }
 
   /*
-   * ÃƒÆ’Ã¢â‚¬Â°cart maximal acceptÃƒÆ’Ã‚Â© :
+   * Écart maximal accepté :
    * 30 points.
    *
    * Ex:

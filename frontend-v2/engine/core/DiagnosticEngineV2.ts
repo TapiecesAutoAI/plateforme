@@ -1,4 +1,4 @@
-﻿import type {
+import type {
   DiagnosticAction as LegacyDiagnosticAction,
   DiagnosticActionResult,
   DiagnosticAudience,
@@ -167,7 +167,7 @@ const DEFAULT_OPTIONS:
  * Nouveau pipeline de diagnostic.
  *
  * Il conserve les sessions et Knowledge Packs historiques comme couche
- * d'entrÃ©e, puis les convertit vers engine/model avant d'exÃ©cuter le
+ * d'entrǸe, puis les convertit vers engine/model avant d'exǸcuter le
  * ReasoningEngine V2.
  *
  * L'ancien DiagnosticEngine reste intact pendant la migration.
@@ -338,7 +338,7 @@ export class DiagnosticEngineV2 {
 
     if (!session.vehicle.vin) {
       throw new Error(
-        "Impossible de valider la compatibilitÃ© sans VIN.",
+        "Impossible de valider la compatibilitǸ sans VIN.",
       );
     }
 
@@ -1017,7 +1017,7 @@ export class DiagnosticEngineV2 {
           (
             confirmationV2Applied
               ? "Confirmation V2 prioritaire."
-              : "Confirmation dÃ©sactivÃ©e."
+              : "Confirmation dǸsactivǸe."
           ),
       },
     );
@@ -1411,9 +1411,9 @@ export class DiagnosticEngineV2 {
 
     const message =
       recommended
-        ? "Nous pensons avoir probablement trouvÃ© la panne. Vous pouvez arrÃªter les questions maintenant ou continuer le diagnostic."
+        ? "Nous pensons avoir probablement trouvǸ la panne. Vous pouvez arrǦter les questions maintenant ou continuer le diagnostic."
         : available
-          ? "Une panne probable est dÃ©jÃ  identifiÃ©e. Quelques questions supplÃ©mentaires peuvent encore amÃ©liorer la fiabilitÃ© du diagnostic."
+          ? "Une panne probable est déjà identifiée. Quelques questions supplémentaires peuvent encore améliorer la fiabilité du diagnostic."
           : "";
 
     return {
@@ -3719,7 +3719,7 @@ export class DiagnosticEngineV2 {
     ) {
 
       throw new RangeError(
-        "maximumAlternativeCount doit Ãªtre un entier positif ou nul.",
+        "maximumAlternativeCount doit Ǧtre un entier positif ou nul.",
       );
 
     }
@@ -3732,7 +3732,7 @@ export class DiagnosticEngineV2 {
     ) {
 
       throw new RangeError(
-        "maximumParticulierQuestions doit Ãªtre un entier strictement positif.",
+        "maximumParticulierQuestions doit Ǧtre un entier strictement positif.",
       );
 
     }
@@ -3754,7 +3754,7 @@ export class DiagnosticEngineV2 {
     ) {
 
       throw new RangeError(
-        `${name} doit Ãªtre un nombre fini strictement positif.`,
+        `${name} doit Ǧtre un nombre fini strictement positif.`,
       );
 
     }
@@ -3775,7 +3775,7 @@ export class DiagnosticEngineV2 {
     ) {
 
       throw new RangeError(
-        `${name} doit Ãªtre un nombre fini compris entre 0 et 1.`,
+        `${name} doit Ǧtre un nombre fini compris entre 0 et 1.`,
       );
 
     }

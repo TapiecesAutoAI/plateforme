@@ -1,4 +1,4 @@
-﻿import {
+import {
   Contradiction,
   DiagnosticResult,
   Hypothesis,
@@ -151,8 +151,8 @@ const DEFAULT_THRESHOLDS: DecisionThresholds = {
 /**
  * Orchestre les moteurs probabiliste, informationnel et contradictoire.
  *
- * Ce moteur ne modifie jamais le ReasoningContext. Il transforme l'Ã’Â©tat
- * courant du raisonnement en une dÃ’Â©cision dÃ’Â©terministe et explicable.
+ * Ce moteur ne modifie jamais le ReasoningContext. Il transforme l'Ò©tat
+ * courant du raisonnement en une dÒ©cision dÒ©terministe et explicable.
  */
 export class DecisionEngine {
 
@@ -709,7 +709,7 @@ export class DecisionEngine {
         evidence,
 
         reason:
-          `La preuve "${item}" possÃ’Â¨de des Ã’Â©tats incompatibles.`,
+          `La preuve "${item}" possÒ¨de des Ò©tats incompatibles.`,
 
         severity: 1,
 
@@ -799,7 +799,7 @@ export class DecisionEngine {
       return {
 
         summary:
-          "Aucune hypothÃ’Â¨se exploitable n'est disponible dans le contexte de raisonnement.",
+          "Aucune hypothÒ¨se exploitable n'est disponible dans le contexte de raisonnement.",
 
         supportingEvidenceIds: [],
 
@@ -883,9 +883,9 @@ export class DecisionEngine {
       case "manual_review":
 
         return (
-          `L'hypothÃ’Â¨se principale est "${hypothesis.name}" ` +
-          `Ã’Â  ${probability} %, mais les contradictions ou les preuves ` +
-          `obligatoires empÃ’Âªchent une conclusion automatique sÃ’Â»re.`
+          `L'hypothÒ¨se principale est "${hypothesis.name}" ` +
+          `Ò  ${probability} %, mais les contradictions ou les preuves ` +
+          `obligatoires empÒªchent une conclusion automatique sÒ»re.`
         );
 
       case "insufficient_information":
@@ -969,7 +969,7 @@ export class DecisionEngine {
         value > 1
       ) {
         throw new RangeError(
-          `${name} doit Ã’Âªtre compris entre 0 et 1.`,
+          `${name} doit Òªtre compris entre 0 et 1.`,
         );
       }
 
@@ -982,7 +982,7 @@ export class DecisionEngine {
       thresholds.minimumQuestionGain < 0
     ) {
       throw new RangeError(
-        "minimumQuestionGain doit Ã’Âªtre positif ou nul.",
+        "minimumQuestionGain doit Òªtre positif ou nul.",
       );
     }
 
@@ -993,7 +993,7 @@ export class DecisionEngine {
       thresholds.maximumAlternatives < 0
     ) {
       throw new RangeError(
-        "maximumAlternatives doit Ã’Âªtre un entier positif ou nul.",
+        "maximumAlternatives doit Òªtre un entier positif ou nul.",
       );
     }
 

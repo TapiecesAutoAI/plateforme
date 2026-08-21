@@ -1,4 +1,4 @@
-﻿import {
+import {
   DiagnosticEngineV2,
 } from "../../engine/core/DiagnosticEngineV2";
 
@@ -134,7 +134,7 @@ for (const profile of profiles) {
           false;
 
         firstAnomalies.push(
-          `${pathText(path)} | parcours continue aprÃ¨s fin`,
+          `${pathText(path)} | parcours continue après fin`,
         );
 
         break;
@@ -422,7 +422,7 @@ for (const profile of profiles) {
           20
         ) {
           firstAnomalies.push(
-            `${pathText(path)} | complete-diagnosis non exÃ©cutÃ©`,
+            `${pathText(path)} | complete-diagnosis non exǸcutǸ`,
           );
         }
       }

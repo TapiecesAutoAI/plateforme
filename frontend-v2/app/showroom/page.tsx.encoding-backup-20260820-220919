@@ -471,9 +471,9 @@ export default function ShowroomPage() {
    * CHAT10_DEMO_DATABASE_SEED
    *
    * Migration non destructive :
-   * - complète les champs vides ;
-   * - conserve les données utilisateur ;
-   * - ajoute les véhicules démo C1-C5 ;
+   * - complÃƒÆ’Ã‚Â¨te les champs vides ;
+   * - conserve les donnÃƒÆ’Ã‚Â©es utilisateur ;
+   * - ajoute les vÃƒÆ’Ã‚Â©hicules dÃƒÆ’Ã‚Â©mo C1-C5 ;
    * - ajoute les historiques fictifs.
    */
   useEffect(
@@ -810,7 +810,7 @@ export default function ShowroomPage() {
     ) {
 
       setError(
-        "Prénom, nom et téléphone sont obligatoires.",
+        "PrÃƒÆ’Ã‚Â©nom, nom et tÃƒÆ’Ã‚Â©lÃƒÆ’Ã‚Â©phone sont obligatoires.",
       );
 
       return;
@@ -897,7 +897,7 @@ export default function ShowroomPage() {
     if (!search) {
 
       setError(
-        "Introduisez votre code ID, téléphone, email ou nom.",
+        "Introduisez votre code ID, tÃƒÆ’Ã‚Â©lÃƒÆ’Ã‚Â©phone, email ou nom.",
       );
 
       return;
@@ -998,7 +998,7 @@ export default function ShowroomPage() {
     ) {
 
       setError(
-        "Plusieurs clients portent ce nom. Utilisez le prénom + nom, le téléphone ou le code ID.",
+        "Plusieurs clients portent ce nom. Utilisez le prÃƒÆ’Ã‚Â©nom + nom, le tÃƒÆ’Ã‚Â©lÃƒÆ’Ã‚Â©phone ou le code ID.",
       );
 
       return;
@@ -1317,7 +1317,7 @@ export default function ShowroomPage() {
     ) {
 
       setError(
-        "Indiquez au minimum la marque et le modèle, ou introduisez le VIN.",
+        "Indiquez au minimum la marque et le modÃƒÆ’Ã‚Â¨le, ou introduisez le VIN.",
       );
 
       return;
@@ -1395,7 +1395,7 @@ export default function ShowroomPage() {
 
       label:
         label ||
-        "Véhicule identifié par VIN",
+        "VÃƒÆ’Ã‚Â©hicule identifiÃƒÆ’Ã‚Â© par VIN",
     };
 
     const nextVehicles =
@@ -1468,11 +1468,11 @@ export default function ShowroomPage() {
     );
 
     /*
-     * Après création ou modification,
-     * on reste sur la liste des véhicules.
+     * AprÃƒÆ’Ã‚Â¨s crÃƒÆ’Ã‚Â©ation ou modification,
+     * on reste sur la liste des vÃƒÆ’Ã‚Â©hicules.
      *
      * Le client choisit explicitement
-     * le véhicule qu'il souhaite utiliser.
+     * le vÃƒÆ’Ã‚Â©hicule qu'il souhaite utiliser.
      */
     setScreen(
       "vehicle",
@@ -1712,7 +1712,7 @@ export default function ShowroomPage() {
     if (!customer) {
 
       setError(
-        "Client non identifié.",
+        "Client non identifiÃƒÆ’Ã‚Â©.",
       );
 
       return;
@@ -1721,18 +1721,18 @@ export default function ShowroomPage() {
     if (!vehicle) {
 
       setError(
-        "Choisissez d'abord un véhicule.",
+        "Choisissez d'abord un vÃƒÆ’Ã‚Â©hicule.",
       );
 
       return;
     }
 
     /*
-     * Le client, son véhicule et son profil
-     * sont déjà connus dans le showroom.
+     * Le client, son vÃƒÆ’Ã‚Â©hicule et son profil
+     * sont dÃƒÆ’Ã‚Â©jÃƒÆ’Ã‚Â  connus dans le showroom.
      *
-     * La page pièce ne doit donc PAS
-     * recommencer l'identification véhicule.
+     * La page piÃƒÆ’Ã‚Â¨ce ne doit donc PAS
+     * recommencer l'identification vÃƒÆ’Ã‚Â©hicule.
      */
 
     window.sessionStorage.setItem(
@@ -1800,7 +1800,7 @@ export default function ShowroomPage() {
     ) {
 
       setError(
-        "Client, véhicule ou profil manquant.",
+        "Client, vÃƒÆ’Ã‚Â©hicule ou profil manquant.",
       );
 
       return;
@@ -1855,7 +1855,7 @@ export default function ShowroomPage() {
 
         throw new Error(
           data.error ??
-          "Impossible de créer le ticket.",
+          "Impossible de crÃƒÆ’Ã‚Â©er le ticket.",
         );
       }
 
@@ -1907,7 +1907,7 @@ export default function ShowroomPage() {
       setError(
         exception instanceof Error
           ? exception.message
-          : "Erreur lors de la création du ticket.",
+          : "Erreur lors de la crÃƒÆ’Ã‚Â©ation du ticket.",
       );
     }
   }
@@ -1931,7 +1931,7 @@ export default function ShowroomPage() {
       return "Bricoleur";
     }
 
-    return "Mécanicien / professionnel";
+    return "MÃƒÆ’Ã‚Â©canicien / professionnel";
   }
 
   return (
@@ -1963,7 +1963,7 @@ export default function ShowroomPage() {
             </h1>
 
             <p className="mt-4 w-full text-center text-2xl text-blue-200">
-              Votre véhicule. Votre diagnostic. Votre pièce.
+              Votre vÃ©hicule. Votre diagnostic. Votre piÃ¨ce.
             </p>
 
 
@@ -1976,7 +1976,7 @@ export default function ShowroomPage() {
 
               <div className="w-full max-w-xl rounded-full bg-white px-10 py-5 text-center text-2xl font-bold text-blue-950 shadow-2xl transition duration-300 hover:scale-[1.03]">
 
-                Touchez l&apos;écran pour commencer
+                Touchez l&apos;Ã©cran pour commencer
 
               </div>
 
@@ -2031,7 +2031,7 @@ export default function ShowroomPage() {
                   onClick={goBack}
                   className="rounded-xl border border-slate-300 bg-white px-5 py-3 font-semibold"
                 >
-                  ← Retour
+                  ÃƒÂ¢Ã¢â‚¬Â Ã‚Â Retour
                 </button>
 
                 <button
@@ -2073,15 +2073,15 @@ export default function ShowroomPage() {
                   >
 
                     <p className="text-sm font-bold uppercase text-blue-700">
-                      Déjà client
+                      DÃƒÆ’Ã‚Â©jÃƒÆ’Ã‚Â  client
                     </p>
 
                     <h2 className="mt-4 text-3xl font-black">
-                      J'ai déjà un compte
+                      J'ai dÃƒÆ’Ã‚Â©jÃƒÆ’Ã‚Â  un compte
                     </h2>
 
                     <p className="mt-4 text-slate-600">
-                      Code ID, téléphone ou email.
+                      Code ID, tÃƒÆ’Ã‚Â©lÃƒÆ’Ã‚Â©phone ou email.
                     </p>
 
                   </button>
@@ -2103,11 +2103,11 @@ export default function ShowroomPage() {
                     </p>
 
                     <h2 className="mt-4 text-3xl font-black">
-                      Créer mon compte
+                      CrÃƒÆ’Ã‚Â©er mon compte
                     </h2>
 
                     <p className="mt-4 text-slate-600">
-                      Coordonnées et véhicule.
+                      CoordonnÃƒÆ’Ã‚Â©es et vÃƒÆ’Ã‚Â©hicule.
                     </p>
 
                   </button>
@@ -2136,7 +2136,7 @@ export default function ShowroomPage() {
                     </h2>
 
                     <p className="mt-4 text-lg text-slate-600">
-                      Décrivez votre besoin : nettoyage, pneu crevé, liquide, ampoule, batterie...
+                      DÃƒÆ’Ã‚Â©crivez votre besoin : nettoyage, pneu crevÃƒÆ’Ã‚Â©, liquide, ampoule, batterie...
                     </p>
 
                   </button>
@@ -2162,7 +2162,7 @@ export default function ShowroomPage() {
                     </h2>
 
                     <p className="mt-4 text-lg text-slate-600">
-                      Retrouvez votre commande et récupérez-la au comptoir.
+                      Retrouvez votre commande et rÃƒÆ’Ã‚Â©cupÃƒÆ’Ã‚Â©rez-la au comptoir.
                     </p>
 
                   </button>
@@ -2191,7 +2191,7 @@ export default function ShowroomPage() {
                         event.target.value,
                       )
                   }
-                  placeholder="Code client (ex. C7), téléphone, email ou nom"
+                  placeholder="Code client (ex. C7), tÃƒÆ’Ã‚Â©lÃƒÆ’Ã‚Â©phone, email ou nom"
                   className="mt-7 w-full rounded-2xl border border-slate-300 px-5 py-4 text-xl"
                 />
 
@@ -2212,7 +2212,7 @@ export default function ShowroomPage() {
               <section className="mx-auto max-w-3xl rounded-3xl bg-white p-9 shadow-xl">
 
                 <h1 className="text-4xl font-black">
-                  Créer votre compte
+                  CrÃƒÆ’Ã‚Â©er votre compte
                 </h1>
 
                 <div className="mt-8 grid gap-4 md:grid-cols-2">
@@ -2225,7 +2225,7 @@ export default function ShowroomPage() {
                           event.target.value,
                         )
                     }
-                    placeholder="Prénom"
+                    placeholder="PrÃƒÆ’Ã‚Â©nom"
                     className="rounded-xl border border-slate-300 px-5 py-4"
                   />
 
@@ -2249,7 +2249,7 @@ export default function ShowroomPage() {
                           event.target.value,
                         )
                     }
-                    placeholder="Téléphone"
+                    placeholder="TÃƒÆ’Ã‚Â©lÃƒÆ’Ã‚Â©phone"
                     className="rounded-xl border border-slate-300 px-5 py-4"
                   />
 
@@ -2314,7 +2314,7 @@ export default function ShowroomPage() {
                   onClick={createCustomer}
                   className="mt-7 w-full rounded-2xl bg-emerald-700 px-6 py-4 text-xl font-bold text-white"
                 >
-                  Créer mon compte
+                  CrÃƒÆ’Ã‚Â©er mon compte
                 </button>
 
               </section>
@@ -2330,7 +2330,7 @@ export default function ShowroomPage() {
                 </h1>
 
                 <p className="mt-3 text-xl text-slate-600">
-                  Choisissez le véhicule concerné.
+                  Choisissez le vÃƒÆ’Ã‚Â©hicule concernÃƒÆ’Ã‚Â©.
                 </p>
 
 
@@ -2386,7 +2386,7 @@ export default function ShowroomPage() {
 <div className="mt-6 rounded-3xl bg-white p-7 shadow-xl">
 
                         <p className="text-sm font-black uppercase tracking-wide text-blue-700">
-                          Historique du véhicule
+                          Historique du vÃƒÆ’Ã‚Â©hicule
                         </p>
 
                         <h2 className="mt-2 text-3xl font-black text-slate-950">
@@ -2450,7 +2450,7 @@ export default function ShowroomPage() {
                             </p>
 
                             <p className="mt-1 text-3xl font-black">
-                              {totalPurchased.toFixed(2)} €
+                              {totalPurchased.toFixed(2)} ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬
                             </p>
 
                           </div>
@@ -2463,7 +2463,7 @@ export default function ShowroomPage() {
                           <div className="mt-8 rounded-2xl bg-slate-50 p-8 text-center">
 
                             <p className="font-bold text-slate-700">
-                              Aucun historique pour ce véhicule.
+                              Aucun historique pour ce vÃƒÆ’Ã‚Â©hicule.
                             </p>
 
                           </div>
@@ -2513,8 +2513,8 @@ export default function ShowroomPage() {
 
                                         {
                                           entry.purchased
-                                            ? "Achetée"
-                                            : "Non achetée"
+                                            ? "AchetÃƒÆ’Ã‚Â©e"
+                                            : "Non achetÃƒÆ’Ã‚Â©e"
                                         }
 
                                       </p>
@@ -2522,7 +2522,7 @@ export default function ShowroomPage() {
                                       {entry.amount !== null && (
 
                                         <p className="mt-1 text-lg font-black">
-                                          {entry.amount.toFixed(2)} €
+                                          {entry.amount.toFixed(2)} ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬
                                         </p>
 
                                       )}
@@ -2535,7 +2535,7 @@ export default function ShowroomPage() {
                                   <div className="mt-5 border-t border-slate-200 pt-4">
 
                                     <p className="text-sm text-slate-500">
-                                      Validation après achat
+                                      Validation aprÃƒÆ’Ã‚Â¨s achat
                                     </p>
 
                                     <p className="mt-1 font-bold">
@@ -2543,14 +2543,14 @@ export default function ShowroomPage() {
                                       {
                                         entry.emailValidation ===
                                         "confirmed-correct"
-                                          ? "✓ Client confirme que la pièce était correcte"
+                                          ? "ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“ Client confirme que la piÃƒÆ’Ã‚Â¨ce ÃƒÆ’Ã‚Â©tait correcte"
                                           : entry.emailValidation ===
                                             "reported-incorrect"
-                                            ? "✕ Client signale que la pièce était incorrecte"
+                                            ? "ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¢ Client signale que la piÃƒÆ’Ã‚Â¨ce ÃƒÆ’Ã‚Â©tait incorrecte"
                                             : entry.emailValidation ===
                                               "pending"
-                                              ? "Email envoyé — réponse en attente"
-                                              : "Validation non demandée"
+                                              ? "Email envoyÃƒÆ’Ã‚Â© ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â rÃƒÆ’Ã‚Â©ponse en attente"
+                                              : "Validation non demandÃƒÆ’Ã‚Â©e"
                                       }
 
                                     </p>
@@ -2559,7 +2559,7 @@ export default function ShowroomPage() {
 
                                       <p className="mt-1 text-sm text-slate-500">
 
-                                        Réponse reçue le{" "}
+                                        RÃƒÆ’Ã‚Â©ponse reÃƒÆ’Ã‚Â§ue le{" "}
                                         {
                                           new Date(
                                             entry.emailValidatedAt,
@@ -2602,11 +2602,11 @@ export default function ShowroomPage() {
                       <div className="border-b border-slate-200 bg-slate-50 px-6 py-4">
 
                         <h2 className="text-xl font-black text-slate-950">
-                          Vos véhicules enregistrés
+                          Vos vÃƒÆ’Ã‚Â©hicules enregistrÃƒÆ’Ã‚Â©s
                         </h2>
 
                         <p className="mt-1 text-sm text-slate-500">
-                          Sélectionnez un véhicule pour le modifier ou le supprimer.
+                          SÃƒÆ’Ã‚Â©lectionnez un vÃƒÆ’Ã‚Â©hicule pour le modifier ou le supprimer.
                         </p>
 
                       </div>
@@ -2728,7 +2728,7 @@ export default function ShowroomPage() {
                                       }
                                       className="rounded-2xl bg-blue-950 px-7 py-4 font-black text-white"
                                     >
-                                      Utiliser ce véhicule
+                                      Utiliser ce vÃƒÆ’Ã‚Â©hicule
                                     </button>
 
                                     <button
@@ -2779,7 +2779,7 @@ export default function ShowroomPage() {
                                   {!latest && (
 
                                     <p className="mt-3 text-sm text-slate-500">
-                                      Aucune recherche enregistrée pour ce véhicule.
+                                      Aucune recherche enregistrÃƒÆ’Ã‚Â©e pour ce vÃƒÆ’Ã‚Â©hicule.
                                     </p>
 
                                   )}
@@ -2792,7 +2792,7 @@ export default function ShowroomPage() {
                                       <div>
 
                                         <p className="text-xs font-bold uppercase text-slate-400">
-                                          Dernière recherche
+                                          DerniÃƒÆ’Ã‚Â¨re recherche
                                         </p>
 
                                         <p className="mt-1 font-semibold text-slate-800">
@@ -2812,7 +2812,7 @@ export default function ShowroomPage() {
                                       <div>
 
                                         <p className="text-xs font-bold uppercase text-slate-400">
-                                          Pièce déterminée
+                                          PiÃƒÆ’Ã‚Â¨ce dÃƒÆ’Ã‚Â©terminÃƒÆ’Ã‚Â©e
                                         </p>
 
                                         <p className="mt-1 font-semibold text-slate-800">
@@ -2850,8 +2850,8 @@ export default function ShowroomPage() {
                                           {
                                             latest.amount !==
                                             null
-                                              ? `${latest.amount.toFixed(2)} €`
-                                              : "—"
+                                              ? `${latest.amount.toFixed(2)} ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬`
+                                              : "ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â"
                                           }
 
                                         </p>
@@ -2870,14 +2870,14 @@ export default function ShowroomPage() {
                                           {
                                             latest.emailValidation ===
                                             "confirmed-correct"
-                                              ? "✓ Pièce correcte"
+                                              ? "ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“ PiÃƒÆ’Ã‚Â¨ce correcte"
                                               : latest.emailValidation ===
                                                 "reported-incorrect"
-                                                ? "✕ Pièce incorrecte"
+                                                ? "ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¢ PiÃƒÆ’Ã‚Â¨ce incorrecte"
                                                 : latest.emailValidation ===
                                                   "pending"
                                                   ? "En attente"
-                                                  : "Non demandée"
+                                                  : "Non demandÃƒÆ’Ã‚Â©e"
                                           }
 
                                         </p>
@@ -2952,7 +2952,7 @@ export default function ShowroomPage() {
                                                     {
                                                       entry.amount !==
                                                       null
-                                                        ? ` • ${entry.amount.toFixed(2)} €`
+                                                        ? ` ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ ${entry.amount.toFixed(2)} ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬`
                                                         : ""
                                                     }
 
@@ -2998,7 +2998,7 @@ export default function ShowroomPage() {
                       }
                       className="rounded-2xl border-2 border-blue-300 bg-blue-50 px-6 py-5 text-lg font-black text-blue-950"
                     >
-                      + Ajouter un véhicule
+                      + Ajouter un vÃƒÆ’Ã‚Â©hicule
                     </button>
 
 
@@ -3022,7 +3022,7 @@ export default function ShowroomPage() {
                       }
                       className="rounded-2xl border-2 border-amber-300 bg-amber-50 px-6 py-5 text-lg font-black text-amber-900 disabled:cursor-not-allowed disabled:opacity-40"
                     >
-                      Modifier le véhicule
+                      Modifier le vÃƒÆ’Ã‚Â©hicule
                     </button>
 
 
@@ -3046,7 +3046,7 @@ export default function ShowroomPage() {
                       }
                       className="rounded-2xl border-2 border-red-300 bg-red-50 px-6 py-5 text-lg font-black text-red-700 disabled:cursor-not-allowed disabled:opacity-40"
                     >
-                      Supprimer le véhicule
+                      Supprimer le vÃƒÆ’Ã‚Â©hicule
                     </button>
 
                   </div>
@@ -3061,10 +3061,10 @@ export default function ShowroomPage() {
 
                       <h2 className="text-2xl font-black">
                         {editingVehicleId
-                          ? "Modifier le véhicule"
+                          ? "Modifier le vÃƒÆ’Ã‚Â©hicule"
                           : vehicles.length > 0
-                            ? "Ajouter un nouveau véhicule"
-                            : "Ajouter un véhicule"}
+                            ? "Ajouter un nouveau vÃƒÆ’Ã‚Â©hicule"
+                            : "Ajouter un vÃƒÆ’Ã‚Â©hicule"}
                       </h2>
 
                       <button
@@ -3090,7 +3090,7 @@ export default function ShowroomPage() {
                       </p>
 
                       <p className="mt-1 text-sm text-slate-600">
-                        Introduisez le VIN. Le décodage automatique des caractéristiques sera connecté au fournisseur de données véhicule.
+                        Introduisez le VIN. Le dÃƒÆ’Ã‚Â©codage automatique des caractÃƒÆ’Ã‚Â©ristiques sera connectÃƒÆ’Ã‚Â© au fournisseur de donnÃƒÆ’Ã‚Â©es vÃƒÆ’Ã‚Â©hicule.
                       </p>
 
                       <input
@@ -3102,7 +3102,7 @@ export default function ShowroomPage() {
                                 .toUpperCase(),
                             )
                         }
-                        placeholder="Numéro VIN"
+                        placeholder="NumÃƒÆ’Ã‚Â©ro VIN"
                         className="mt-4 w-full rounded-xl border border-slate-300 px-5 py-4 font-mono"
                       />
 
@@ -3111,7 +3111,7 @@ export default function ShowroomPage() {
                         onClick={
                           () =>
                             setError(
-                              "Décodage VIN automatique : connexion au fournisseur véhicule à installer.",
+                              "DÃƒÆ’Ã‚Â©codage VIN automatique : connexion au fournisseur vÃƒÆ’Ã‚Â©hicule ÃƒÆ’Ã‚Â  installer.",
                             )
                         }
                         className="mt-3 w-full rounded-xl bg-blue-950 px-5 py-3 font-bold text-white"
@@ -3123,7 +3123,7 @@ export default function ShowroomPage() {
 
 
                     <div className="my-6 text-center font-semibold text-slate-400">
-                      ou compléter manuellement
+                      ou complÃƒÆ’Ã‚Â©ter manuellement
                     </div>
 
 
@@ -3184,7 +3184,7 @@ export default function ShowroomPage() {
         );
       }
     }
-    placeholder="Commencez à écrire : Audi, BMW..."
+    placeholder="Commencez ÃƒÆ’Ã‚Â  ÃƒÆ’Ã‚Â©crire : Audi, BMW..."
     className="w-full rounded-xl border border-slate-300 px-5 py-4"
   />
 
@@ -3206,7 +3206,7 @@ export default function ShowroomPage() {
                       <div>
 
   <label className="mb-2 block text-sm font-bold text-slate-700">
-    Modèle
+    ModÃƒÆ’Ã‚Â¨le
   </label>
 
   <input
@@ -3243,7 +3243,7 @@ export default function ShowroomPage() {
     }
     placeholder={
       brand
-        ? "Choisissez ou écrivez le modèle"
+        ? "Choisissez ou ÃƒÆ’Ã‚Â©crivez le modÃƒÆ’Ã‚Â¨le"
         : "Choisissez d'abord la marque"
     }
     className="w-full rounded-xl border border-slate-300 px-5 py-4"
@@ -3267,7 +3267,7 @@ export default function ShowroomPage() {
                       <div>
 
   <label className="mb-2 block text-sm font-bold text-slate-700">
-    Année
+    AnnÃƒÆ’Ã‚Â©e
     <span className="ml-2 font-normal text-slate-400">
       facultatif
     </span>
@@ -3304,8 +3304,8 @@ export default function ShowroomPage() {
     }
     placeholder={
       model
-        ? "Choisissez l'année"
-        : "Année"
+        ? "Choisissez l'annÃƒÆ’Ã‚Â©e"
+        : "AnnÃƒÆ’Ã‚Â©e"
     }
     className="w-full rounded-xl border border-slate-300 px-5 py-4"
   />
@@ -3363,7 +3363,7 @@ export default function ShowroomPage() {
       {
         year
           ? "Choisissez le carburant"
-          : "Choisissez d'abord l'année"
+          : "Choisissez d'abord l'annÃƒÆ’Ã‚Â©e"
       }
     </option>
 
@@ -3451,7 +3451,7 @@ export default function ShowroomPage() {
     }
     placeholder={
       model
-        ? "Choisissez ou écrivez la motorisation"
+        ? "Choisissez ou ÃƒÆ’Ã‚Â©crivez la motorisation"
         : "Motorisation"
     }
     className="w-full rounded-xl border border-slate-300 px-5 py-4"
@@ -3511,7 +3511,7 @@ export default function ShowroomPage() {
                     >
                       {editingVehicleId
                         ? "Enregistrer les modifications"
-                        : "Enregistrer ce véhicule"}
+                        : "Enregistrer ce vÃƒÆ’Ã‚Â©hicule"}
                     </button>
 
                   </div>
@@ -3528,7 +3528,7 @@ export default function ShowroomPage() {
                 <div className="rounded-2xl bg-white p-5 shadow">
 
                   <p className="text-sm text-slate-500">
-                    Véhicule
+                    VÃƒÆ’Ã‚Â©hicule
                   </p>
 
                   <p className="mt-1 text-xl font-black">
@@ -3612,7 +3612,7 @@ export default function ShowroomPage() {
                     className="rounded-3xl bg-blue-950 p-8 text-left text-white shadow-xl"
                   >
                     <h2 className="text-3xl font-black">
-                      J'ai un problème
+                      J'ai un problÃƒÆ’Ã‚Â¨me
                     </h2>
 
                     <p className="mt-4 text-blue-100">
@@ -3626,7 +3626,7 @@ export default function ShowroomPage() {
                     className="rounded-3xl bg-white p-8 text-left shadow-xl"
                   >
                     <h2 className="text-3xl font-black">
-                      Je connais ma pièce
+                      Je connais ma piÃƒÆ’Ã‚Â¨ce
                     </h2>
 
                     <p className="mt-4 text-slate-600">
@@ -3644,7 +3644,7 @@ export default function ShowroomPage() {
                     </h2>
 
                     <p className="mt-4">
-                      Prendre un ticket avec les données du véhicule déjà transmises.
+                      Prendre un ticket avec les donnÃƒÆ’Ã‚Â©es du vÃƒÆ’Ã‚Â©hicule dÃƒÆ’Ã‚Â©jÃƒÆ’Ã‚Â  transmises.
                     </p>
                   </button>
 
@@ -3662,7 +3662,7 @@ export default function ShowroomPage() {
               <section className="mx-auto max-w-3xl rounded-3xl bg-white p-10 text-center shadow-2xl">
 
                 <p className="text-sm font-black uppercase text-amber-700">
-                  Votre numéro
+                  Votre numÃƒÆ’Ã‚Â©ro
                 </p>
 
                 <p className="mt-5 text-8xl font-black">
@@ -3670,7 +3670,7 @@ export default function ShowroomPage() {
                 </p>
 
                 <p className="mt-6 text-xl">
-                  Le vendeur possède déjà les informations suivantes :
+                  Le vendeur possÃƒÆ’Ã‚Â¨de dÃƒÆ’Ã‚Â©jÃƒÆ’Ã‚Â  les informations suivantes :
                 </p>
 
                 <div className="mt-6 rounded-2xl bg-slate-50 p-6 text-left">
@@ -3682,7 +3682,7 @@ export default function ShowroomPage() {
                   </p>
 
                   <p className="mt-2">
-                    <strong>Véhicule :</strong>{" "}
+                    <strong>VÃƒÆ’Ã‚Â©hicule :</strong>{" "}
                     {vehicle.label}
                   </p>
 
@@ -3714,7 +3714,7 @@ export default function ShowroomPage() {
                   </h1>
 
                   <p className="mt-3 text-xl text-slate-600">
-                    Pas besoin de compte ni d'identifier votre véhicule pour les produits que vous connaissez déjà.
+                    Pas besoin de compte ni d'identifier votre vÃƒÆ’Ã‚Â©hicule pour les produits que vous connaissez dÃƒÆ’Ã‚Â©jÃƒÆ’Ã‚Â .
                   </p>
 
                 </div>
@@ -3728,7 +3728,7 @@ export default function ShowroomPage() {
                   >
 
                     <p className="text-sm font-black uppercase text-blue-700">
-                      Éclairage
+                      ÃƒÆ’Ã¢â‚¬Â°clairage
                     </p>
 
                     <h2 className="mt-3 text-2xl font-black">
@@ -3736,7 +3736,7 @@ export default function ShowroomPage() {
                     </h2>
 
                     <p className="mt-3 text-slate-600">
-                      H7, H4, W5W et autres références courantes.
+                      H7, H4, W5W et autres rÃƒÆ’Ã‚Â©fÃƒÆ’Ã‚Â©rences courantes.
                     </p>
 
                   </button>
@@ -3796,7 +3796,7 @@ export default function ShowroomPage() {
                     </h2>
 
                     <p className="mt-3 text-slate-600">
-                      Désodorisants, fusibles, chiffons, raclettes et petits équipements.
+                      DÃƒÆ’Ã‚Â©sodorisants, fusibles, chiffons, raclettes et petits ÃƒÆ’Ã‚Â©quipements.
                     </p>
 
                   </button>
@@ -3805,7 +3805,7 @@ export default function ShowroomPage() {
 
 
                 <div className="mt-8 rounded-2xl border border-blue-200 bg-blue-50 p-5 text-center text-sm font-semibold text-blue-950">
-                  Pour un produit dépendant du véhicule, TaPiecesAuto pourra proposer une vérification de compatibilité avant l'achat.
+                  Pour un produit dÃƒÆ’Ã‚Â©pendant du vÃƒÆ’Ã‚Â©hicule, TaPiecesAuto pourra proposer une vÃƒÆ’Ã‚Â©rification de compatibilitÃƒÆ’Ã‚Â© avant l'achat.
                 </div>
 
               </section>
@@ -3828,7 +3828,7 @@ export default function ShowroomPage() {
                         event.target.value,
                       )
                   }
-                  placeholder="Numéro de commande"
+                  placeholder="NumÃƒÆ’Ã‚Â©ro de commande"
                   className="mt-7 w-full rounded-2xl border border-slate-300 px-5 py-4 text-xl"
                 />
 
@@ -3854,11 +3854,11 @@ export default function ShowroomPage() {
                   </h2>
 
                   <p className="mx-auto mt-4 max-w-md text-center text-lg leading-7 text-slate-600">
-                    Vous allez fermer cette session client et revenir à l'accueil de TaPiecesAuto.
+                    Vous allez fermer cette session client et revenir ÃƒÆ’Ã‚Â  l'accueil de TaPiecesAuto.
                   </p>
 
                   <div className="mt-5 rounded-2xl bg-blue-50 p-4 text-center text-sm font-semibold text-blue-950">
-                    Les véhicules, recherches et historiques restent enregistrés.
+                    Les vÃƒÆ’Ã‚Â©hicules, recherches et historiques restent enregistrÃƒÆ’Ã‚Â©s.
                   </div>
 
                   <div className="mt-7 grid gap-4 sm:grid-cols-2">

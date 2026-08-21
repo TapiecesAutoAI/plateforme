@@ -1,4 +1,4 @@
-﻿import {
+import {
   DiagnosticEngineV2,
 } from "../../engine/core/DiagnosticEngineV2";
 
@@ -68,7 +68,7 @@ function replay(
       !result.action
     ) {
       failures.push(
-        `Le parcours contient encore des rÃ©ponses aprÃ¨s la fin du diagnostic.`,
+        `Le parcours contient encore des réponses après la fin du diagnostic.`,
       );
 
       return {
@@ -88,7 +88,7 @@ function replay(
       )
     ) {
       failures.push(
-        `Question rÃ©pÃ©tÃ©e : ${action.id}.`,
+        `Question rǸpǸtǸe : ${action.id}.`,
       );
     }
 
@@ -105,7 +105,7 @@ function replay(
     ) {
       failures.push(
         [
-          "Parcours devenu incohÃ©rent.",
+          "Parcours devenu incohǸrent.",
           `Attendu : ${expectedChoice.actionId}.`,
           `Obtenu : ${action.id}.`,
         ].join(" "),
@@ -200,7 +200,7 @@ function validateTerminal(
     primary === null
   ) {
     failures.push(
-      "Diagnostic terminÃ© sans hypothÃ¨se principale.",
+      "Diagnostic terminé sans hypothèse principale.",
     );
   }
 
@@ -217,7 +217,7 @@ function validateTerminal(
     actionIds.length
   ) {
     failures.push(
-      "Une mÃªme question apparaÃ®t plusieurs fois dans le parcours.",
+      "Une mǦme question apparaǩt plusieurs fois dans le parcours.",
     );
   }
 
@@ -246,7 +246,7 @@ function formatPath(
     path.length ===
     0
   ) {
-    return "(aucune rÃ©ponse)";
+    return "(aucune rǸponse)";
   }
 
   return path
@@ -461,7 +461,7 @@ function printProfileResult(
   );
 
   console.log(
-    `Parcours explorÃ©s : ${result.exploredPaths}`,
+    `Parcours explorǸs : ${result.exploredPaths}`,
   );
 
   console.log(
@@ -508,7 +508,7 @@ function printProfileResult(
   ) {
     console.log("");
     console.log(
-      "PremiÃ¨res anomalies :",
+      "Premières anomalies :",
     );
 
     for (
@@ -624,7 +624,7 @@ function run() {
   );
 
   console.log(
-    `Parcours explorÃ©s : ${totalExplored}`,
+    `Parcours explorǸs : ${totalExplored}`,
   );
 
   console.log(

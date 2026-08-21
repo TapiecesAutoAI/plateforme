@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import PartImageGallery from "./PartImageGallery";
 import DiagnosticConfirmationCard from "./DiagnosticConfirmationCard";
@@ -208,15 +208,15 @@ function cleanSummary(
 ): string {
   return summary
     .replace(
-      /^Cause la plus probable\s*:\s*[Â«"]?/,
+      /^Cause la plus probable\s*:\s*[«"]?/,
       "",
     )
     .replace(
-      /^L'hypothÃ¨se principale est\s*[Â«"]?/,
+      /^L'hypothèse principale est\s*[«"]?/,
       "",
     )
     .replace(
-      /[Â»"]?\s+avec une confiance de.*$/,
+      /[»"]?\s+avec une confiance de.*$/,
       "",
     )
     .trim();
@@ -307,7 +307,7 @@ export default function UnifiedDiagnosticResult({
     <section className="mt-7 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl">
       <header className="bg-slate-950 px-6 py-5 text-white">
         <p className="text-sm font-bold uppercase tracking-widest text-blue-300">
-  RÃ©sultat de l&apos;analyse
+  RǸsultat de l&apos;analyse
 </p>
       </header>
 
@@ -337,7 +337,7 @@ export default function UnifiedDiagnosticResult({
             </div>
           ) : (
             <div className="mx-auto mt-5 max-w-xl rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-950">
-              La famille de panne est identifiÃ©e, mais aucune piÃ¨ce prÃ©cise ne peut encore Ãªtre dÃ©signÃ©e. Effectuez la vÃ©rification conseillÃ©e avant toute commande.
+              La famille de panne est identifiée, mais aucune pièce précise ne peut encore être désignée. Effectuez la vérification conseillée avant toute commande.
             </div>
           )}
 
@@ -372,7 +372,7 @@ export default function UnifiedDiagnosticResult({
         {causalChain?.active && (
           <div className="mt-7 rounded-2xl border-2 border-rose-300 bg-rose-50 p-5">
             <p className="text-sm font-bold uppercase tracking-wide text-rose-900">
-              ChaÃ®ne causale dÃ©tectÃ©e
+              Chaǩne causale dǸtectǸe
             </p>
 
             <p className="mt-2 text-sm leading-6 text-slate-700">
@@ -397,12 +397,12 @@ export default function UnifiedDiagnosticResult({
               </div>
 
               <div className="text-center text-2xl font-black text-rose-700">
-                â†’
+                →
               </div>
 
               <div className="rounded-xl border border-orange-200 bg-white p-4">
                 <p className="text-xs font-bold uppercase tracking-wide text-orange-700">
-                  DÃ©faut secondaire
+                  DǸfaut secondaire
                 </p>
 
                 <div className="mt-2 flex items-start justify-between gap-3">
@@ -429,7 +429,7 @@ export default function UnifiedDiagnosticResult({
 
             <div className="mt-5 rounded-xl border border-blue-200 bg-blue-50 p-4">
               <p className="text-xs font-bold uppercase tracking-wide text-blue-900">
-                ContrÃ´le de confirmation
+                Contrôle de confirmation
               </p>
 
               <p className="mt-2 font-semibold leading-6 text-slate-950">
@@ -439,7 +439,7 @@ export default function UnifiedDiagnosticResult({
 
             <div className="mt-5">
               <p className="text-xs font-bold uppercase tracking-wide text-slate-700">
-                Ordre de rÃ©paration conseillÃ©
+                Ordre de rǸparation conseillǸ
               </p>
 
               <ol className="mt-3 space-y-2">
@@ -463,14 +463,14 @@ export default function UnifiedDiagnosticResult({
             </div>
 
             <div className="mt-4 rounded-xl bg-red-100 px-4 py-3 text-sm font-bold text-red-950">
-              Traitez la cause primaire avant de remplacer uniquement la piÃ¨ce secondaire.
+              Traitez la cause primaire avant de remplacer uniquement la pièce secondaire.
             </div>
           </div>
         )}
         {!causalChain?.active && coexistence?.active && (
           <div className="mt-7 rounded-2xl border-2 border-violet-300 bg-violet-50 p-5">
             <p className="text-sm font-bold uppercase tracking-wide text-violet-900">
-              Deux pannes peuvent Ãªtre prÃ©sentes
+              Deux pannes peuvent Ǧtre prǸsentes
             </p>
 
             <p className="mt-2 text-sm leading-6 text-slate-700">
@@ -486,8 +486,8 @@ export default function UnifiedDiagnosticResult({
                   >
                     <p className="text-xs font-bold uppercase tracking-wide text-slate-500">
                       {index === 0
-                        ? "DÃ©faut probable nÂ°1"
-                        : "DÃ©faut probable nÂ°2"}
+                        ? "Défaut probable n°1"
+                        : "Défaut probable n°2"}
                     </p>
 
                     <div className="mt-2 flex items-start justify-between gap-3">
@@ -501,7 +501,7 @@ export default function UnifiedDiagnosticResult({
                     </div>
 
                     <p className="mt-2 text-xs text-slate-500">
-                      {candidate.supportingEvidenceCount} Ã©lÃ©ment(s) concordant(s)
+                      {candidate.supportingEvidenceCount} ǸlǸment(s) concordant(s)
                     </p>
                   </div>
                 ),
@@ -510,7 +510,7 @@ export default function UnifiedDiagnosticResult({
 
             <div className="mt-5 rounded-xl border border-blue-200 bg-blue-50 p-4">
               <p className="text-xs font-bold uppercase tracking-wide text-blue-900">
-                VÃ©rification des deux dÃ©fauts
+                VǸrification des deux dǸfauts
               </p>
 
               <p className="mt-2 font-semibold leading-6 text-slate-950">
@@ -519,7 +519,7 @@ export default function UnifiedDiagnosticResult({
             </div>
 
             <div className="mt-4 rounded-xl bg-violet-100 px-4 py-3 text-sm font-semibold text-violet-950">
-              Ne vous arrÃªtez pas aprÃ¨s avoir confirmÃ© le premier dÃ©faut : vÃ©rifiez Ã©galement le second.
+              Ne vous arrêtez pas après avoir confirmé le premier défaut : vérifiez également le second.
             </div>
           </div>
         )}
@@ -530,7 +530,7 @@ export default function UnifiedDiagnosticResult({
           ambiguity.candidates.length >= 2 && (
           <div className="mt-7 rounded-2xl border-2 border-amber-300 bg-amber-50 p-5">
             <p className="text-sm font-bold uppercase tracking-wide text-amber-900">
-              Diagnostic Ã  confirmer
+              Diagnostic à confirmer
             </p>
 
             <p className="mt-2 text-sm text-slate-700">
@@ -548,8 +548,8 @@ export default function UnifiedDiagnosticResult({
                       <div>
                         <p className="text-xs font-bold uppercase tracking-wide text-slate-500">
                           {index === 0
-                            ? "Cause probable nÂ°1"
-                            : "Cause probable nÂ°2"}
+                            ? "Cause probable n°1"
+                            : "Cause probable n°2"}
                         </p>
 
                         <p className="mt-1 font-bold text-slate-950">
@@ -578,7 +578,7 @@ export default function UnifiedDiagnosticResult({
             {ambiguity.finalCheck.text && (
               <div className="mt-5 rounded-xl border border-blue-200 bg-blue-50 p-4">
                 <p className="text-xs font-bold uppercase tracking-wide text-blue-900">
-                  ContrÃ´le final pour trancher
+                  Contrôle final pour trancher
                 </p>
 
                 <p className="mt-2 font-semibold text-slate-950">
@@ -588,7 +588,7 @@ export default function UnifiedDiagnosticResult({
             )}
 
             <div className="mt-4 rounded-xl bg-red-50 px-4 py-3 text-sm font-semibold text-red-900">
-              Ne remplacez aucune piÃ¨ce avant d&apos;avoir effectuÃ© ce contrÃ´le final.
+              Ne remplacez aucune pièce avant d&apos;avoir effectué ce contrôle final.
             </div>
           </div>
         )}
@@ -597,11 +597,11 @@ export default function UnifiedDiagnosticResult({
           conclusion.recommendedChecks.length > 0 && (
           <div className="mt-7 rounded-2xl border border-blue-200 bg-blue-50 p-5">
             <p className="text-sm font-bold uppercase tracking-wide text-blue-900">
-              VÃ©rification finale conseillÃ©e
+              VǸrification finale conseillǸe
             </p>
 
             <p className="mt-2 text-sm text-slate-600">
-              Avant de commander la piÃ¨ce, effectuez de prÃ©fÃ©rence ce contrÃ´le :
+              Avant de commander la pièce, effectuez de préférence ce contrôle :
             </p>
 
             <div className="mt-4 rounded-xl bg-white p-4">
@@ -634,7 +634,7 @@ export default function UnifiedDiagnosticResult({
                   }
                   className="rounded-xl bg-red-600 px-4 py-3 font-semibold text-white transition hover:bg-red-700"
                 >
-                  Test nÃ©gatif
+                  Test nǸgatif
                 </button>
 
                 <button
@@ -646,7 +646,7 @@ export default function UnifiedDiagnosticResult({
                   }
                   className="rounded-xl border border-slate-300 bg-white px-4 py-3 font-semibold text-slate-700 transition hover:bg-slate-100"
                 >
-                  Impossible Ã  tester
+                  Impossible à tester
                 </button>
               </div>
               )}
@@ -655,7 +655,7 @@ export default function UnifiedDiagnosticResult({
             {conclusion.recommendedChecks.length > 1 && (
               <details className="mt-4">
                 <summary className="cursor-pointer text-sm font-semibold text-blue-800">
-                  Voir les autres contrÃ´les possibles
+                  Voir les autres contrôles possibles
                 </summary>
 
                 <ul className="mt-3 grid gap-2">
@@ -698,7 +698,7 @@ export default function UnifiedDiagnosticResult({
 
         {salesRecommendation?.alternativePart && (
           <p className="mt-5 rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-600">
-            Autre piÃ¨ce Ã  vÃ©rifier :{" "}
+            Autre pièce à vérifier :{" "}
             <strong className="text-slate-950">
               {
                 salesRecommendation
@@ -726,7 +726,7 @@ export default function UnifiedDiagnosticResult({
             type="button"
             className="mt-7 w-full rounded-2xl bg-slate-800 px-6 py-4 text-lg font-bold text-white transition hover:bg-slate-950"
           >
-            Demander un contrÃ´le professionnel
+            Demander un contrôle professionnel
           </button>
         )}
       </div>
