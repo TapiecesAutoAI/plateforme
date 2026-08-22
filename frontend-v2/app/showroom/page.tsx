@@ -2116,56 +2116,181 @@ export default function ShowroomPage() {
 
                 <div className="mt-6 grid gap-6 md:grid-cols-2">
 
-                  <button
-                    type="button"
-                    onClick={
-                      () =>
-                        router.push(
-                          "/achat-rapide",
-                        )
-                    }
-                    className="min-h-[190px] rounded-3xl border-2 border-amber-200 bg-white p-10 text-left shadow transition hover:-translate-y-1 hover:shadow-xl"
-                  >
+                                    <div className="md:col-span-2">
 
-                    <p className="text-sm font-black uppercase tracking-wide text-amber-700">
-                      Achat rapide
-                    </p>
+                    <div className="mb-4 flex items-end justify-between gap-4">
 
-                    <h2 className="mt-5 text-3xl font-black text-slate-950">
-                      J&apos;ai besoin d&apos;un produit
-                    </h2>
+                      <div>
 
-                    <p className="mt-4 text-lg text-slate-600">
-                      Décrivez votre besoin : nettoyage, pneu crevé, liquide, ampoule, batterie...
-                    </p>
+                        <p className="text-sm font-black uppercase tracking-widest text-amber-700">
+                          Achat rapide
+                        </p>
 
-                  </button>
+                        <h2 className="mt-1 text-2xl font-black text-slate-950">
+                          Je sais ce que je cherche
+                        </h2>
+
+                      </div>
+
+                      <p className="hidden text-sm font-semibold text-slate-500 lg:block">
+                        Choisissez une catégorie
+                      </p>
+
+                    </div>
 
 
-                  <button
-                    type="button"
-                    onClick={
-                      () =>
-                        setScreen(
-                          "pickup",
-                        )
-                    }
-                    className="min-h-[190px] rounded-3xl border-2 border-violet-200 bg-white p-10 text-left shadow transition hover:-translate-y-1 hover:shadow-xl"
-                  >
+                    <div className="grid gap-4 md:grid-cols-3">
 
-                    <p className="text-sm font-black uppercase tracking-wide text-violet-700">
-                      Commande existante
-                    </p>
+                      <button
+                        type="button"
+                        onClick={
+                          () =>
+                            router.push(
+                              "/achat-rapide",
+                            )
+                        }
+                        className="group relative min-h-[185px] overflow-hidden rounded-3xl border-2 border-blue-200 bg-gradient-to-br from-blue-50 via-white to-blue-100 p-6 text-left shadow transition hover:-translate-y-1 hover:border-blue-400 hover:shadow-xl"
+                      >
 
-                    <h2 className="mt-5 text-3xl font-black text-slate-950">
-                      Retirer une commande
-                    </h2>
+                        <div className="absolute -right-5 -top-6 text-8xl opacity-[0.07]">
+                          🧽
+                        </div>
 
-                    <p className="mt-4 text-lg text-slate-600">
-                      Retrouvez votre commande et récupérez-la au comptoir.
-                    </p>
+                        <div className="relative">
 
-                  </button>
+                          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-700 text-2xl shadow">
+                            🧽
+                          </div>
+
+                          <h3 className="mt-5 text-xl font-black text-slate-950">
+                            Produits &amp; accessoires
+                          </h3>
+
+                          <p className="mt-2 text-sm leading-5 text-slate-600">
+                            Nettoyage, pneu, entretien et accessoires universels.
+                          </p>
+
+                          <div className="mt-4 text-sm font-black text-blue-700">
+                            Ouvrir →
+                          </div>
+
+                        </div>
+
+                      </button>
+
+
+                      <button
+                        type="button"
+                        onClick={
+                          () =>
+                            router.push(
+                              "/achat-rapide/fluides",
+                            )
+                        }
+                        className="group relative min-h-[185px] overflow-hidden rounded-3xl border-2 border-amber-200 bg-gradient-to-br from-amber-50 via-white to-orange-100 p-6 text-left shadow transition hover:-translate-y-1 hover:border-amber-400 hover:shadow-xl"
+                      >
+
+                        <div className="absolute -right-5 -top-6 text-8xl opacity-[0.07]">
+                          🛢️
+                        </div>
+
+                        <div className="relative">
+
+                          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-500 text-2xl shadow">
+                            🛢️
+                          </div>
+
+                          <h3 className="mt-5 text-xl font-black text-slate-950">
+                            Lubrifiants &amp; fluides
+                          </h3>
+
+                          <p className="mt-2 text-sm leading-5 text-slate-600">
+                            Huile, antigel, liquide de frein, AdBlue et lave-glace.
+                          </p>
+
+                          <div className="mt-4 text-sm font-black text-amber-700">
+                            Ouvrir →
+                          </div>
+
+                        </div>
+
+                      </button>
+
+
+                      <button
+                        type="button"
+                        onClick={
+                          () =>
+                            router.push(
+                              "/achat-rapide/outillage",
+                            )
+                        }
+                        className="group relative min-h-[185px] overflow-hidden rounded-3xl border-2 border-emerald-200 bg-gradient-to-br from-emerald-50 via-white to-emerald-100 p-6 text-left shadow transition hover:-translate-y-1 hover:border-emerald-400 hover:shadow-xl"
+                      >
+
+                        <div className="absolute -right-5 -top-6 text-8xl opacity-[0.07]">
+                          🔧
+                        </div>
+
+                        <div className="relative">
+
+                          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-700 text-2xl shadow">
+                            🔧
+                          </div>
+
+                          <h3 className="mt-5 text-xl font-black text-slate-950">
+                            Outillage
+                          </h3>
+
+                          <p className="mt-2 text-sm leading-5 text-slate-600">
+                            Clés, douilles, pinces, crics et outils d&apos;atelier.
+                          </p>
+
+                          <div className="mt-4 text-sm font-black text-emerald-700">
+                            Ouvrir →
+                          </div>
+
+                        </div>
+
+                      </button>
+
+                    </div>
+
+                  </div>
+
+
+                                    <div className="md:col-span-2 mt-16 flex justify-center">
+
+                    <button
+                      type="button"
+                      onClick={
+                        () =>
+                          setScreen(
+                            "pickup",
+                          )
+                      }
+                      className="group w-full max-w-xl rounded-3xl border-2 border-violet-200 bg-white px-8 py-6 text-center shadow transition hover:-translate-y-1 hover:border-violet-400 hover:shadow-xl"
+                    >
+
+                      <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-violet-100 text-2xl">
+                        📦
+                      </div>
+
+                      <p className="mt-4 text-xs font-black uppercase tracking-widest text-violet-700">
+                        Commande existante
+                      </p>
+
+                      <h2 className="mt-2 text-2xl font-black text-slate-950">
+                        Retirer une commande
+                      </h2>
+
+                      <p className="mx-auto mt-2 max-w-md text-sm text-slate-600">
+                        J&apos;ai déjà commandé et je viens récupérer ma commande.
+                      </p>
+
+                    </button>
+
+                  </div>
 
                 </div>
 

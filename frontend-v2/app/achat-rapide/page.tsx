@@ -2,251 +2,632 @@
 
 import {
   FormEvent,
+  useEffect,
+  useRef,
   useState,
 } from "react";
 
 import Link from "next/link";
 
 
-type QuickNeed = {
-  id: string;
-  icon: string;
-  title: string;
-  example: string;
+type Role =
+  | "user"
+  | "assistant";
+
+
+type Message = {
+  id: number;
+  role: Role;
+  text: string;
 };
 
 
-const QUICK_NEEDS: QuickNeed[] = [
+type ConversationState = {
+  intent:
+    | "none"
+    | "clean"
+    | "tyre"
+    | "travel"
+    | "smell"
+    | "equipment";
+
+  step: number;
+};
+
+
+type Inspiration = {
+  id: string;
+  icon: string;
+  title: string;
+  prompt: string;
+  className: string;
+  imageUrl: string;
+};
+
+
+const INSPIRATIONS: Inspiration[] = [
   {
     id: "clean",
-    icon: "🧽",
-    title: "Nettoyer mon véhicule",
-    example: "Je veux nettoyer mon véhicule",
+    icon: "\u{1F9FD}",
+    title: "Nettoyer",
+    prompt: "Je veux nettoyer mon vehicule",
+    className: "from-blue-950/85 via-blue-800/65 to-slate-950/90",
+    imageUrl: "https://images.unsplash.com/photo-1607860108855-64acf2078ed9?auto=format&fit=crop&w=900&q=85",
   },
   {
     id: "tyre",
-    icon: "🛞",
-    title: "Mon pneu est crevé",
-    example: "Mon pneu est crevé",
+    icon: "\u{1F6DE}",
+    title: "Pneu / crevaison",
+    prompt: "Mon pneu est creve",
+    className: "from-orange-950/90 via-orange-700/55 to-slate-950/90",
+    imageUrl: "https://images.unsplash.com/photo-1578844251758-2f71da64c96f?auto=format&fit=crop&w=900&q=85",
   },
   {
-    id: "brake-fluid",
-    icon: "🟡",
-    title: "Liquide de frein",
-    example: "Je veux faire l'appoint de mon liquide de frein",
+    id: "interior",
+    icon: "\u2728",
+    title: "Interieur",
+    prompt: "Je veux rafraichir mon interieur",
+    className: "from-emerald-950/90 via-emerald-700/55 to-slate-950/90",
+    imageUrl: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=900&q=85",
   },
   {
-    id: "coolant",
-    icon: "💧",
-    title: "Antigel / refroidissement",
-    example: "Il me faut de l'antigel",
-  },
-  {
-    id: "bulb",
-    icon: "💡",
-    title: "Une ampoule ne va plus",
-    example: "Mon phare ne s'allume plus",
-  },
-  {
-    id: "wipers",
-    icon: "🌧️",
-    title: "Changer mes essuie-glaces",
-    example: "Je veux changer mes essuie-glaces",
-  },
-  {
-    id: "battery",
-    icon: "🔋",
-    title: "Ma batterie est faible",
-    example: "Ma batterie semble faible",
-  },
-  {
-    id: "other",
-    icon: "•••",
-    title: "Autre besoin",
-    example: "",
+    id: "travel",
+    icon: "\u{1F9F0}",
+    title: "Preparer un trajet",
+    prompt: "Je pars en voyage et je veux quelques accessoires utiles",
+    className: "from-indigo-950/90 via-indigo-700/55 to-slate-950/90",
+    imageUrl: "https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&w=900&q=85",
   },
 ];
 
 
-function firstAnswer(
+function normalize(
   value: string,
 ): string {
 
+  return value
+    .normalize("NFD")
+    .replace(
+      /[\u0300-\u036f]/g,
+      "",
+    )
+    .trim()
+    .toLowerCase();
+}
+
+
+function detectIntent(
+  value: string,
+): ConversationState["intent"] {
+
   const text =
-    value
-      .trim()
-      .toLowerCase();
-
-
-  // ----------------------------------------------------------
-  // NETTOYAGE PNEU / JANTE
-  // ----------------------------------------------------------
-
-  if (
-    (
-      text.includes("nettoy") ||
-      text.includes("lav")
-    ) &&
-    (
-      text.includes("pneu") ||
-      text.includes("jante") ||
-      text.includes("roue")
-    )
-  ) {
-    return "Très bien. Voulez-vous nettoyer la jante, le flanc du pneu, ou les deux ? Aucun besoin d'identifier le véhicule pour cela.";
-  }
-
-
-  // ----------------------------------------------------------
-  // NETTOYAGE VITRES
-  // ----------------------------------------------------------
-
-  if (
-    (
-      text.includes("nettoy") ||
-      text.includes("lav")
-    ) &&
-    (
-      text.includes("vitre") ||
-      text.includes("pare-brise") ||
-      text.includes("parebrise")
-    )
-  ) {
-    return "Très bien. Est-ce pour nettoyer l'extérieur des vitres, l'intérieur, ou enlever des traces tenaces ?";
-  }
-
-
-  // ----------------------------------------------------------
-  // NETTOYAGE INTERIEUR
-  // ----------------------------------------------------------
-
-  if (
-    (
-      text.includes("nettoy") ||
-      text.includes("lav")
-    ) &&
-    (
-      text.includes("siege") ||
-      text.includes("siège") ||
-      text.includes("interieur") ||
-      text.includes("intérieur") ||
-      text.includes("tableau de bord")
-    )
-  ) {
-    return "Très bien. Que souhaitez-vous nettoyer : sièges, plastiques, tapis ou tout l'intérieur ?";
-  }
-
-
-  // ----------------------------------------------------------
-  // NETTOYAGE GENERAL
-  // ----------------------------------------------------------
+    normalize(
+      value,
+    );
 
   if (
     text.includes("nettoy") ||
-    text.includes("lav")
+    text.includes("lav") ||
+    text.includes("jante") ||
+    text.includes("vitre") ||
+    text.includes("interieur")
   ) {
-    return "Très bien. Que souhaitez-vous nettoyer : carrosserie, jantes et pneus, vitres ou intérieur ?";
+    return "clean";
   }
-
-
-  // ----------------------------------------------------------
-  // PNEU CREVE
-  // ----------------------------------------------------------
 
   if (
-    text.includes("pneu") &&
-    (
-      text.includes("crev") ||
-      text.includes("perc") ||
-      text.includes("plat")
-    )
+    text.includes("pneu") ||
+    text.includes("crev") ||
+    text.includes("gonfl")
   ) {
-    return "D'accord. Le pneu est-il simplement dégonflé, percé par un objet, ou visiblement déchiré ? Je vous proposerai la solution adaptée.";
+    return "tyre";
   }
-
-
-  // ----------------------------------------------------------
-  // LIQUIDE DE FREIN
-  // ----------------------------------------------------------
 
   if (
-    text.includes("frein") &&
-    (
-      text.includes("liquide") ||
-      text.includes("appoint") ||
-      text.includes("niveau")
-    )
+    text.includes("voyage") ||
+    text.includes("trajet") ||
+    text.includes("vacance") ||
+    text.includes("partir")
   ) {
-    return "Je peux vous aider. Avant de choisir le liquide, il faut vérifier le véhicule et comprendre pourquoi le niveau est bas. Un niveau anormalement bas peut signaler de l'usure ou une fuite.";
+    return "travel";
   }
-
-
-  // ----------------------------------------------------------
-  // ANTIGEL / REFROIDISSEMENT
-  // ----------------------------------------------------------
 
   if (
-    text.includes("antigel") ||
-    text.includes("refroid")
+    text.includes("odeur") ||
+    text.includes("sent") ||
+    text.includes("parfum")
   ) {
-    return "D'accord. Est-ce pour faire un simple appoint ou pour remplacer complètement le liquide ? Pour choisir la bonne spécification, nous identifierons ensuite le véhicule.";
+    return "smell";
   }
-
-
-  // ----------------------------------------------------------
-  // ECLAIRAGE
-  // ----------------------------------------------------------
 
   if (
-    text.includes("phare") ||
-    text.includes("ampoule") ||
-    text.includes("feu")
+    text.includes("accessoire") ||
+    text.includes("equip") ||
+    text.includes("kit")
   ) {
-    return "D'accord. Quel éclairage ne fonctionne plus : feu de croisement, feu de route, position, stop, clignotant ou autre ?";
+    return "equipment";
   }
 
-
-  // ----------------------------------------------------------
-  // ESSUIE-GLACES
-  // ----------------------------------------------------------
-
-  if (
-    text.includes("essuie")
-  ) {
-    return "Très bien. Pour trouver les bonnes dimensions et les bons adaptateurs, nous devrons identifier le véhicule.";
-  }
-
-
-  // ----------------------------------------------------------
-  // BATTERIE
-  // ----------------------------------------------------------
-
-  if (
-    text.includes("batter")
-  ) {
-    return "D'accord. Voulez-vous remplacer la batterie ou vérifier d'abord si elle est réellement en cause ?";
-  }
-
-
-  return "Expliquez-moi votre besoin en quelques mots. Je vais déterminer si un produit universel suffit ou si votre véhicule doit être identifié.";
+  return "none";
 }
+
 
 export default function QuickPurchasePage() {
 
   const [
-    request,
-    setRequest,
+    input,
+    setInput,
   ] = useState("");
 
   const [
-    submittedRequest,
-    setSubmittedRequest,
-  ] = useState("");
+    messages,
+    setMessages,
+  ] = useState<Message[]>([
+    {
+      id: 1,
+      role: "assistant",
+      text:
+        "Bonjour. Dites-moi simplement ce que vous voulez faire ou ce dont vous avez besoin.",
+    },
+  ]);
 
   const [
-    answer,
-    setAnswer,
-  ] = useState("");
+    conversation,
+    setConversation,
+  ] = useState<ConversationState>({
+    intent: "none",
+    step: 0,
+  });
+
+  const [
+    suggestions,
+    setSuggestions,
+  ] = useState<string[]>([
+    "Nettoyer mon vehicule",
+    "Mon pneu est creve",
+    "Rafraichir l'interieur",
+    "Preparer un trajet",
+  ]);
+
+  const nextId =
+    useRef(2);
+
+  const chatEnd =
+    useRef<HTMLDivElement | null>(
+      null,
+    );
+
+
+  useEffect(
+    () => {
+
+      chatEnd.current?.scrollIntoView({
+        behavior: "smooth",
+      });
+
+    },
+    [
+      messages,
+    ],
+  );
+
+
+  function addMessage(
+    role: Role,
+    text: string,
+  ) {
+
+    setMessages(
+      previous => [
+        ...previous,
+        {
+          id:
+            nextId.current++,
+          role,
+          text,
+        },
+      ],
+    );
+  }
+
+
+  function assistant(
+    text: string,
+    choices: string[] = [],
+  ) {
+
+    window.setTimeout(
+      () => {
+
+        addMessage(
+          "assistant",
+          text,
+        );
+
+        setSuggestions(
+          choices,
+        );
+
+      },
+      180,
+    );
+  }
+
+
+  function startIntent(
+    intent:
+      ConversationState["intent"],
+  ) {
+
+    if (intent === "clean") {
+
+      setConversation({
+        intent,
+        step: 1,
+      });
+
+      assistant(
+        "Que voulez-vous nettoyer en priorite ?",
+        [
+          "Carrosserie",
+          "Jantes et pneus",
+          "Vitres",
+          "Interieur",
+        ],
+      );
+
+      return;
+    }
+
+
+    if (intent === "tyre") {
+
+      setConversation({
+        intent,
+        step: 1,
+      });
+
+      assistant(
+        "Que constatez-vous sur le pneu ?",
+        [
+          "Il est simplement degonfle",
+          "Petit objet plante dedans",
+          "Crevaison sans objet visible",
+          "Flanc abime ou dechire",
+        ],
+      );
+
+      return;
+    }
+
+
+    if (intent === "travel") {
+
+      setConversation({
+        intent,
+        step: 1,
+      });
+
+      assistant(
+        "Qu'aimeriez-vous surtout prevoir pour votre trajet ?",
+        [
+          "Crevaison",
+          "Nettoyage en route",
+          "Accessoires pratiques",
+          "Petit kit complet",
+        ],
+      );
+
+      return;
+    }
+
+
+    if (intent === "smell") {
+
+      setConversation({
+        intent,
+        step: 1,
+      });
+
+      assistant(
+        "Souhaitez-vous masquer une odeur ou la traiter a la source ?",
+        [
+          "Simplement parfumer",
+          "Supprimer une mauvaise odeur",
+        ],
+      );
+
+      return;
+    }
+
+
+    if (intent === "equipment") {
+
+      setConversation({
+        intent,
+        step: 1,
+      });
+
+      assistant(
+        "Quel type d'equipement recherchez-vous ?",
+        [
+          "Depannage",
+          "Nettoyage",
+          "Rangement",
+          "Confort",
+        ],
+      );
+
+      return;
+    }
+
+
+    assistant(
+      "Je n'ai pas encore bien compris. Decrivez le besoin avec vos mots, par exemple : nettoyer mes jantes, pneu creve ou preparer un voyage.",
+    );
+  }
+
+
+  function continueConversation(
+    value: string,
+  ) {
+
+    const text =
+      normalize(
+        value,
+      );
+
+
+    if (
+      conversation.intent === "clean" &&
+      conversation.step === 1
+    ) {
+
+      setConversation({
+        intent: "clean",
+        step: 2,
+      });
+
+
+      if (
+        text.includes("jante") ||
+        text.includes("pneu")
+      ) {
+
+        assistant(
+          "Quel resultat recherchez-vous ?",
+          [
+            "Nettoyage courant",
+            "Beaucoup de poussiere de frein",
+            "Faire briller aussi les pneus",
+          ],
+        );
+
+        return;
+      }
+
+
+      if (
+        text.includes("interieur")
+      ) {
+
+        assistant(
+          "Quelle zone voulez-vous traiter ?",
+          [
+            "Plastiques",
+            "Sieges et tissus",
+            "Tapis",
+            "Tout l'interieur",
+          ],
+        );
+
+        return;
+      }
+
+
+      if (
+        text.includes("vitre")
+      ) {
+
+        assistant(
+          "Quel type de nettoyage ?",
+          [
+            "Vitres interieur/exterieur",
+            "Insectes et traces tenaces",
+          ],
+        );
+
+        return;
+      }
+
+
+      assistant(
+        "Souhaitez-vous un lavage rapide ou un nettoyage plus soigne ?",
+        [
+          "Lavage rapide",
+          "Nettoyage soigne",
+        ],
+      );
+
+      return;
+    }
+
+
+    if (
+      conversation.intent === "clean" &&
+      conversation.step === 2
+    ) {
+
+      setConversation({
+        intent: "none",
+        step: 0,
+      });
+
+      setSuggestions([]);
+
+      assistant(
+        "Pour ce besoin, je partirais sur un petit ensemble de 2 a 3 produits maximum. Je vais ensuite pouvoir vous proposer les produits disponibles au magasin, avec leur prix et leur quantite.",
+      );
+
+      return;
+    }
+
+
+    if (
+      conversation.intent === "tyre" &&
+      conversation.step === 1
+    ) {
+
+      setConversation({
+        intent: "none",
+        step: 0,
+      });
+
+      setSuggestions([]);
+
+
+      if (
+        text.includes("flanc") ||
+        text.includes("dechir")
+      ) {
+
+        assistant(
+          "Un flanc endommage ne doit pas etre repare avec une meche ou une bombe. Pour un depannage temporaire, je peux proposer un compresseur si le pneu garde encore la pression, mais le pneu devra etre controle ou remplace.",
+        );
+
+        return;
+      }
+
+
+      if (
+        text.includes("objet")
+      ) {
+
+        assistant(
+          "Pour une petite perforation dans la bande de roulement, un kit de meches et un compresseur peuvent servir de depannage temporaire. Je peux vous montrer les deux.",
+        );
+
+        return;
+      }
+
+
+      assistant(
+        "Je vous proposerais d'abord un compresseur 12 V avec manometre. Si le pneu ne tient pas la pression, on passe ensuite au kit anti-crevaison.",
+      );
+
+      return;
+    }
+
+
+    if (
+      conversation.intent === "travel" &&
+      conversation.step === 1
+    ) {
+
+      setConversation({
+        intent: "none",
+        step: 0,
+      });
+
+      setSuggestions([]);
+
+      assistant(
+        "Je vous preparerais une selection courte : uniquement les accessoires utiles pour votre choix, sans remplir inutilement le coffre.",
+      );
+
+      return;
+    }
+
+
+    if (
+      conversation.intent === "smell" &&
+      conversation.step === 1
+    ) {
+
+      setConversation({
+        intent: "none",
+        step: 0,
+      });
+
+      setSuggestions([]);
+
+      assistant(
+        text.includes("supprim")
+          ? "Pour une odeur persistante, je conseillerais d'abord un nettoyant textile ou interieur adapte, puis un neutralisant d'odeurs. Le parfum vient seulement apres."
+          : "Dans ce cas, un desodorisant simple suffit. Je pourrai vous proposer plusieurs parfums sans vous imposer un produit specifique.",
+      );
+
+      return;
+    }
+
+
+    if (
+      conversation.intent === "equipment" &&
+      conversation.step === 1
+    ) {
+
+      setConversation({
+        intent: "none",
+        step: 0,
+      });
+
+      setSuggestions([]);
+
+      assistant(
+        "Tres bien. Je vais limiter la proposition a quelques accessoires universels utiles dans cette categorie.",
+      );
+
+      return;
+    }
+
+
+    const intent =
+      detectIntent(
+        value,
+      );
+
+    startIntent(
+      intent,
+    );
+  }
+
+
+  function send(
+    value: string,
+  ) {
+
+    const clean =
+      value.trim();
+
+    if (!clean) {
+      return;
+    }
+
+    addMessage(
+      "user",
+      clean,
+    );
+
+    setInput("");
+    setSuggestions([]);
+
+    if (
+      conversation.intent === "none"
+    ) {
+
+      startIntent(
+        detectIntent(
+          clean,
+        ),
+      );
+
+      return;
+    }
+
+    continueConversation(
+      clean,
+    );
+  }
 
 
   function submit(
@@ -256,147 +637,103 @@ export default function QuickPurchasePage() {
 
     event.preventDefault();
 
-    const value =
-      request.trim();
-
-    if (!value) {
-      return;
-    }
-
-    setSubmittedRequest(
-      value,
-    );
-
-    setAnswer(
-      firstAnswer(
-        value,
-      ),
-    );
-  }
-
-
-  function chooseNeed(
-    need:
-      QuickNeed,
-  ) {
-
-    if (!need.example) {
-      setRequest("");
-      setSubmittedRequest("");
-      setAnswer(
-        "Décrivez simplement ce que vous voulez faire ou le produit que vous recherchez.",
-      );
-      return;
-    }
-
-    setRequest(
-      need.example,
-    );
-
-    setSubmittedRequest(
-      need.example,
-    );
-
-    setAnswer(
-      firstAnswer(
-        need.example,
-      ),
+    send(
+      input,
     );
   }
 
 
   return (
-    <main className="min-h-screen bg-slate-50 text-slate-950">
+    <main className="h-screen overflow-hidden bg-gradient-to-br from-slate-100 via-blue-50 to-slate-100 text-slate-950">
 
-      <div className="mx-auto max-w-6xl px-5 py-8 md:px-8">
+      <div className="mx-auto flex h-full max-w-7xl flex-col px-5 py-5">
 
-        <div className="mb-8 flex items-center justify-between gap-4">
+        <header className="flex shrink-0 items-center justify-between gap-5">
 
           <div>
-            <div className="text-sm font-semibold text-blue-700">
-              Ta Pièces Auto AI
+
+            <div className="text-sm font-bold text-blue-700">
+              Ta Pieces Auto AI
             </div>
 
-            <h1 className="mt-1 text-3xl font-bold tracking-tight">
+            <h1 className="text-2xl font-black">
               J&apos;ai besoin d&apos;un produit
             </h1>
 
-            <p className="mt-2 text-slate-600">
-              Dites simplement ce que vous voulez faire.
-              Nous vous guidons vers le bon produit.
-            </p>
           </div>
 
           <Link
             href="/showroom"
-            className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold shadow-sm hover:bg-slate-50"
+            className="rounded-xl border border-slate-300 bg-white px-5 py-3 font-semibold shadow-sm"
           >
             Retour
           </Link>
 
-        </div>
+        </header>
 
 
-        <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm md:p-8">
+        <div className="mt-5 grid min-h-0 flex-1 gap-5 lg:grid-cols-[330px_1fr]">
 
-          <form
-            onSubmit={submit}
-            className="flex flex-col gap-3 md:flex-row"
-          >
+          <aside className="hidden min-h-0 flex-col lg:flex">
 
-            <input
-              value={request}
-              onChange={
-                event =>
-                  setRequest(
-                    event.target.value,
-                  )
-              }
-              placeholder="Ex. Je veux nettoyer mon véhicule..."
-              autoFocus
-              className="min-h-14 flex-1 rounded-2xl border border-slate-300 bg-white px-5 text-base outline-none transition focus:border-blue-600 focus:ring-4 focus:ring-blue-100"
-            />
+            <div className="mb-3">
 
-            <button
-              type="submit"
-              className="min-h-14 rounded-2xl bg-blue-700 px-7 font-bold text-white transition hover:bg-blue-800"
-            >
-              Continuer
-            </button>
+              <h2 className="font-black">
+                Besoin d&apos;une idee ?
+              </h2>
 
-          </form>
+              <p className="text-sm text-slate-500">
+                Quelques situations courantes.
+              </p>
 
-
-          <div className="mt-8">
-
-            <div className="mb-4 text-sm font-semibold text-slate-600">
-              Ou choisissez un besoin courant
             </div>
 
-            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+
+            <div className="grid flex-1 grid-cols-2 gap-3">
 
               {
-                QUICK_NEEDS.map(
-                  need => (
+                INSPIRATIONS.map(
+                  item => (
 
                     <button
-                      key={need.id}
+                      key={item.id}
                       type="button"
                       onClick={
                         () =>
-                          chooseNeed(
-                            need,
+                          send(
+                            item.prompt,
                           )
                       }
-                      className="group min-h-28 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-left transition hover:border-blue-300 hover:bg-blue-50"
+                      className="group relative min-h-[150px] overflow-hidden rounded-2xl text-left text-white shadow-md transition duration-300 hover:-translate-y-1 hover:shadow-xl"
                     >
 
-                      <div className="text-2xl">
-                        {need.icon}
-                      </div>
+                      <img
+                        src={item.imageUrl}
+                        alt=""
+                        aria-hidden="true"
+                        className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                      />
 
-                      <div className="mt-3 font-semibold leading-tight group-hover:text-blue-800">
-                        {need.title}
+                      <div
+                        className={`absolute inset-0 bg-gradient-to-br ${item.className}`}
+                      />
+
+                      <div className="absolute inset-0 bg-black/10 transition group-hover:bg-black/0" />
+
+                      <div className="relative flex h-full min-h-[150px] flex-col justify-end p-5">
+
+                        <div className="mb-auto text-3xl drop-shadow">
+                          {item.icon}
+                        </div>
+
+                        <div className="text-xl font-black drop-shadow-md">
+                          {item.title}
+                        </div>
+
+                        <div className="mt-1 text-xs font-semibold text-white/80">
+                          Touchez pour commencer
+                        </div>
+
                       </div>
 
                     </button>
@@ -407,58 +744,134 @@ export default function QuickPurchasePage() {
 
             </div>
 
-          </div>
+            <div className="mt-3 rounded-2xl border border-blue-200 bg-blue-100/80 p-4 text-sm font-semibold text-blue-950 shadow-sm">
+              Ici, uniquement des produits universels : aucune identification du vehicule.
+            </div>
 
-        </section>
+          </aside>
 
 
-        {
-          answer && (
+          <section className="flex min-h-0 flex-col overflow-hidden rounded-3xl border border-blue-100 bg-white shadow-xl">
 
-            <section className="mt-6 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm md:p-8">
+            <div className="border-b border-blue-100 bg-gradient-to-r from-blue-950 via-blue-900 to-blue-700 px-6 py-4 text-white">
 
-              {
-                submittedRequest && (
+              <h2 className="font-black">
+                Assistant Ta Pieces Auto
+              </h2>
 
-                  <div className="mb-5 flex justify-end">
+              <p className="text-sm text-blue-100">
+                Expliquez votre besoin naturellement.
+              </p>
 
-                    <div className="max-w-2xl rounded-2xl rounded-br-md bg-blue-700 px-5 py-4 text-white">
-                      {submittedRequest}
+            </div>
+
+
+            <div className="min-h-0 flex-1 overflow-y-auto px-5 py-5">
+
+              <div className="space-y-4">
+
+                {
+                  messages.map(
+                    message => (
+
+                      <div
+                        key={message.id}
+                        className={
+                          message.role === "user"
+                            ? "flex justify-end"
+                            : "flex justify-start"
+                        }
+                      >
+
+                        <div
+                          className={
+                            message.role === "user"
+                              ? "max-w-[75%] rounded-2xl rounded-br-md bg-blue-700 px-5 py-3 text-white"
+                              : "max-w-[78%] rounded-2xl rounded-bl-md bg-slate-100 px-5 py-3 leading-6 text-slate-800"
+                          }
+                        >
+                          {message.text}
+                        </div>
+
+                      </div>
+
+                    ),
+                  )
+                }
+
+
+                {
+                  suggestions.length > 0 && (
+
+                    <div className="flex flex-wrap gap-2 pt-1">
+
+                      {
+                        suggestions.map(
+                          suggestion => (
+
+                            <button
+                              key={suggestion}
+                              type="button"
+                              onClick={
+                                () =>
+                                  send(
+                                    suggestion,
+                                  )
+                              }
+                              className="rounded-full border-2 border-blue-300 bg-white px-4 py-2 text-sm font-bold text-blue-950 shadow-sm transition hover:border-blue-700 hover:bg-blue-700 hover:text-white"
+                            >
+                              {suggestion}
+                            </button>
+
+                          ),
+                        )
+                      }
+
                     </div>
 
-                  </div>
+                  )
+                }
 
-                )
-              }
 
-              <div className="flex gap-4">
-
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-orange-500 font-bold text-white">
-                  AI
-                </div>
-
-                <div className="max-w-3xl rounded-2xl rounded-tl-md bg-slate-100 px-5 py-4">
-
-                  <div className="text-xs font-bold uppercase tracking-wide text-slate-500">
-                    Assistant Ta Pièces Auto
-                  </div>
-
-                  <p className="mt-2 leading-7 text-slate-800">
-                    {answer}
-                  </p>
-
-                </div>
+                <div ref={chatEnd} />
 
               </div>
 
-            </section>
-
-          )
-        }
+            </div>
 
 
-        <div className="mt-8 text-center text-sm text-slate-500">
-          Le véhicule ne sera demandé que lorsque la compatibilité du produit l&apos;exige.
+            <form
+              onSubmit={submit}
+              className="shrink-0 border-t border-blue-100 bg-slate-50 p-4"
+            >
+
+              <div className="flex gap-3">
+
+                <input
+                  value={input}
+                  onChange={
+                    event =>
+                      setInput(
+                        event.target.value,
+                      )
+                  }
+                  placeholder="Ecrivez votre reponse..."
+                  className="min-w-0 flex-1 rounded-2xl border border-slate-300 px-5 py-4 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100"
+                />
+
+                <button
+                  type="submit"
+                  className="rounded-2xl bg-gradient-to-r from-blue-800 to-blue-600 px-7 font-black text-white shadow-md transition hover:from-blue-900 hover:to-blue-700"
+                >
+                  Envoyer
+                </button>
+
+              </div>
+
+            </form>
+
+          </section>
+
         </div>
 
       </div>
