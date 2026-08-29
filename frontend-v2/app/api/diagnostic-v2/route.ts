@@ -477,11 +477,42 @@ export async function POST(
             )
           : [];
 
+      /*
+       * CHAT13 — BRIDGE KNOWLEDGE LEGACY -> WORKFLOW V2
+       *
+       * Le graphe linguistique conserve certains anciens IDs,
+       * tandis que DiagnosticEngineV2 utilise les IDs du
+       * workflow V2.
+       */
+      const bridgedDetectedEvidenceIds =
+        detectedEvidenceIds.flatMap(
+          evidenceId => {
+            switch (evidenceId) {
+              case "symptom-single-click-start":
+                return [
+                  evidenceId,
+                  "symptom-single-click",
+                ];
+
+              case "symptom-rapid-clicking-start":
+                return [
+                  evidenceId,
+                  "symptom-rapid-clicking",
+                ];
+
+              default:
+                return [
+                  evidenceId,
+                ];
+            }
+          },
+        );
+
       const initialEvidenceIds =
         Array.from(
           new Set([
             ...(body.evidenceIds ?? []),
-            ...detectedEvidenceIds,
+            ...bridgedDetectedEvidenceIds,
           ]),
         );
 

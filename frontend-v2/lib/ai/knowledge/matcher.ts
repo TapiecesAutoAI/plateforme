@@ -93,6 +93,24 @@ type TextRewriteRule = {
 const TEXT_REWRITE_RULES:
   TextRewriteRule[] = [
     /*
+     * CHAT13 — NORMALISATION CLIC UNIQUE
+     *
+     * Les utilisateurs écrivent fréquemment le nombre
+     * sous forme numérique.
+     *
+     *   "1 clic" -> "un seul clic"
+     *
+     * La formulation canonique est déjà reconnue par
+     * symptom-single-click-start dans le graphe legacy.
+     */
+    {
+      pattern:
+        /\b1\s+(?:seul\s+)?clic\b/giu,
+      replacement:
+        "un seul clic",
+    },
+
+    /*
      * ========================================================
      * DÉMARRAGE
      * ========================================================
