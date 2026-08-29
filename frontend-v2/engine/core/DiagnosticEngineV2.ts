@@ -689,10 +689,39 @@ export class DiagnosticEngineV2 {
        * Un nextActionId explicite ne doit pas reposer une
        * question dont une evidence cible est deja confirmee.
        */
+      const branchTargetEvidenceIds =
+        new Set<string>();
+
+      if (branchAction) {
+        for (
+          const option
+          of branchAction.options ?? []
+        ) {
+          for (
+            const evidenceId
+            of option.addsEvidence ?? []
+          ) {
+            branchTargetEvidenceIds.add(
+              evidenceId,
+            );
+          }
+
+          for (
+            const evidenceId
+            of option.rejectsEvidence ?? []
+          ) {
+            branchTargetEvidenceIds.add(
+              evidenceId,
+            );
+          }
+        }
+      }
+
       const branchTargetsKnown =
-        branchQuestion !== null &&
-        branchQuestion.targetEvidenceIds.length > 0 &&
-        branchQuestion.targetEvidenceIds.some(
+        branchTargetEvidenceIds.size > 0 &&
+        Array.from(
+          branchTargetEvidenceIds,
+        ).some(
           evidenceId =>
             branchConfirmedEvidenceIds.has(
               evidenceId,
@@ -1160,6 +1189,7 @@ const hasForcedBranchAction =
           decision.type === "conclude" &&
           decision.diagnostic.confidence >=
             this.options.conclusionThreshold
+          && selectedAction === null
         ) ||
         (reachedProfileLimit && decision.type === "conclude") ||
         completionAdvice.state ===
@@ -1668,7 +1698,29 @@ const hasForcedBranchAction =
       ReadonlySet<string>,
   ): boolean {
 
-    const evidenceIds =
+    /*
+       * CHAT13 — KNOWN OPTION EVIDENCE GUARD V7
+       *
+       * Les options représentent des réponses alternatives.
+       * Si une évidence positive d'une option est déjà connue,
+       * cette question est déjà résolue.
+       */
+      const hasKnownOptionEvidence =
+        (action.options ?? []).some(
+          option =>
+            (option.addsEvidence ?? []).some(
+              evidenceId =>
+                confirmedEvidenceIds.has(
+                  evidenceId,
+                ),
+            ),
+        );
+
+      if (hasKnownOptionEvidence) {
+        return false;
+      }
+
+      const evidenceIds =
       new Set<string>();
 
     for (

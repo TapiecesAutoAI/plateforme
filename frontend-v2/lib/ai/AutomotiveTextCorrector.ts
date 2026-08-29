@@ -39,6 +39,11 @@ const SAFE_CORRECTION_RULES: CorrectionRule[] = [
     replacement: "fortement",
     label: "formtement → fortement",
   },
+  {
+    pattern: /\bfortemen\b/giu,
+    replacement: "fortement",
+    label: "fortemen -> fortement",
+  },
 
   {
     pattern: /\bbattrie\b/giu,
