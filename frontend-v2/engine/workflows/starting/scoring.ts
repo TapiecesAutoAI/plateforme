@@ -1,4 +1,4 @@
-﻿import type {
+import type {
   DiagnosticEvidence,
   DiagnosticHypothesis,
 } from "../../core/sessionTypes";
@@ -87,6 +87,9 @@ const STARTING_REASONING_RULES:
       reduce: {
         "problem-starter-control-circuit":
           0.32,
+
+        "problem-engine-mechanical-lock":
+          0.58,
       },
     },
 
@@ -322,6 +325,34 @@ const STARTING_REASONING_RULES:
       },
     },
 
+    {
+      id:
+        "single-click-strong-dim-battery-priority",
+
+      ifAll: [
+        "symptom-single-click",
+        "observation-lights-dim-strongly",
+      ],
+
+      boost: {
+        "problem-weak-battery":
+          0.42,
+
+        "problem-battery-connection":
+          0.24,
+      },
+
+      reduce: {
+        "problem-starter":
+          0.46,
+
+        "problem-starter-solenoid":
+          0.30,
+
+        "problem-starter-control-circuit":
+          0.28,
+      },
+    },
     {
       id:
         "starter-normal-voltage",
@@ -861,6 +892,7 @@ export function scoreStartingHypotheses(
         : 0,
   };
 }
+
 
 
 

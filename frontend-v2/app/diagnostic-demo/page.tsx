@@ -155,7 +155,7 @@ export default function DiagnosticDemoPage() {
     textAlign: "center",
   }}
 >
-  Ta Pièces Auto AI — Démonstration
+  Ta Pièce Auto — Démonstration
 </h1>
 
 <p

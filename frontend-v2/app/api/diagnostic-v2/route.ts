@@ -19,6 +19,9 @@ import type {
 import {
   DiagnosticResponseBuilder,
 } from "../../../engine/response/DiagnosticResponseBuilder";
+import {
+  findEntitiesInText,
+} from "../../../lib/ai/knowledge/matcher";
 
 type StartRequest = {
 
@@ -36,6 +39,10 @@ type StartRequest = {
 
   evidenceIds?:
     string[];
+
+  message:
+    string;
+
 
 };
 
@@ -250,6 +257,12 @@ function parseRequest(
           body.evidenceIds,
         ),
 
+      message:
+        typeof body.message === "string"
+          ? body.message.trim()
+          : "",
+
+
     };
 
   }
@@ -382,6 +395,16 @@ function buildResponse(
       domain,
     );
 
+  /*
+   * Le builder vient de calculer et d'écrire
+   * commercialAuthorization dans la session.
+   *
+   * Sauvegarde explicite côté serveur.
+   */
+  saveSession(
+    result.session,
+  );
+
   console.log(
     "BUILT RESPONSE",
     {
@@ -444,12 +467,30 @@ export async function POST(
 
       }
 
+            // CHAT13_INITIAL_TEXT_EVIDENCE
+      const detectedEvidenceIds =
+        body.message.length > 0
+          ? findEntitiesInText(
+              body.message,
+            ).map(
+              entity => entity.id,
+            )
+          : [];
+
+      const initialEvidenceIds =
+        Array.from(
+          new Set([
+            ...(body.evidenceIds ?? []),
+            ...detectedEvidenceIds,
+          ]),
+        );
+
       const result =
         diagnosticEngine.createSession(
           body.sessionId,
           body.profile,
           body.domain,
-          body.evidenceIds,
+          initialEvidenceIds,
         );
 
       saveSession(

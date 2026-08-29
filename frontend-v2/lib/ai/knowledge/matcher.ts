@@ -1,4 +1,4 @@
-﻿import {
+import {
   normalizeText,
 } from "../conversation";
 
@@ -98,6 +98,40 @@ const TEXT_REWRITE_RULES:
      * ========================================================
      */
 
+    /*
+     * CHAT13 — NORMALISATION BAISSE ECLAIRAGE
+     *
+     * Une baisse de luminosité exprimée naturellement doit être
+     * rapprochée de l'observation canonique déjà présente dans
+     * le graphe :
+     *
+     *   observation-dim-lights
+     *
+     * Exemples couverts :
+     * - les phares diminuent
+     * - les phares diminuent fortement
+     * - les voyants faiblissent
+     * - les lumières baissent beaucoup
+     */
+    {
+      /*
+       * Intensité forte conservée pour permettre au moteur V2
+       * de distinguer une baisse forte d'une baisse non qualifiée.
+       */
+      pattern:
+        /\b(?:(?:les|mes|des) )?(?:phares|voyants|lumieres|feux)\s+(?:(?:s )?eteignent(?:\s+(?:fortement|beaucoup|nettement))?|(?:diminuent|diminue|baissent|baisse|faiblissent|faiblit)\s+(?:fortement|beaucoup|nettement))\b/g,
+      replacement:
+        "les lumieres diminuent fortement",
+    },
+    {
+      /*
+       * Baisse d'éclairage sans intensité explicitement connue.
+       */
+      pattern:
+        /\b(?:(?:les|mes|des) )?(?:phares|voyants|lumieres|feux)\s+(?:diminuent|diminue|baissent|baisse|faiblissent|faiblit)\b(?!\s+(?:fortement|beaucoup|nettement)\b)/g,
+      replacement:
+        "les lumieres diminuent",
+    },
     {
       pattern:
         /\b(?:ma |la |cette )?(?:voiture|auto|vehicule) ne tourne plus\b/g,

@@ -1,4 +1,4 @@
-﻿import type {
+import type {
   KnowledgeEntity,
   KnowledgeGraphData,
   KnowledgeRelation,
@@ -170,6 +170,22 @@ export const batteryEntities: KnowledgeEntity[] = [
   },
 
   {
+    id: "observation-lights-dim-strongly",
+    type: "observation",
+    name: "Les voyants ou les phares faiblissent fortement",
+    aliases: [
+      "les lumieres diminuent fortement",
+      "les phares diminuent fortement",
+      "les voyants diminuent fortement",
+      "les phares faiblissent fortement",
+      "les voyants faiblissent fortement",
+      "les phares baissent fortement",
+      "les lumieres baissent fortement",
+    ],
+    category: "electricite",
+  },
+
+  {
     id: "observation-dim-lights",
     type: "observation",
     name: "Les voyants ou les phares faiblissent",
@@ -177,6 +193,7 @@ export const batteryEntities: KnowledgeEntity[] = [
       "voyants faibles",
       "phares faibles",
       "les lumieres diminuent",
+      "les lumieres diminuent fortement",
       "les phares baissent",
       "le tableau de bord faiblit",
       "tout s eteint quand je demarre",

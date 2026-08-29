@@ -545,12 +545,16 @@ export function buildDiagnosticContext(
         ),
     );
 
+  /*
+   * CHAT13: confirmed facts must survive anchor-domain filtering.
+   *
+   * L'ancre sert a orienter le raisonnement et le domaine actif,
+   * mais ne doit jamais supprimer une information explicitement
+   * confirmee par le client.
+   */
   const confirmedEntities =
-    filterEntitiesByAnchor(
-      resolveEntities(
-        confirmedEntityIds,
-      ),
-      input.anchorEntity,
+    resolveEntities(
+      confirmedEntityIds,
     );
 
   if (

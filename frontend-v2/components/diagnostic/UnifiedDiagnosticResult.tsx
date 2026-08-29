@@ -2,6 +2,7 @@
 
 import PartImageGallery from "./PartImageGallery";
 import DiagnosticConfirmationCard from "./DiagnosticConfirmationCard";
+import { TpaSafetyNotice } from "@/components/legal/TpaSafetyNotice";
 
 type DiagnosticConclusion = {
   title:
@@ -307,7 +308,7 @@ export default function UnifiedDiagnosticResult({
     <section className="mt-7 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl">
       <header className="bg-slate-950 px-6 py-5 text-white">
         <p className="text-sm font-bold uppercase tracking-widest text-blue-300">
-  RǸsultat de l&apos;analyse
+  Résultat de l&apos;analyse
 </p>
       </header>
 
@@ -372,7 +373,7 @@ export default function UnifiedDiagnosticResult({
         {causalChain?.active && (
           <div className="mt-7 rounded-2xl border-2 border-rose-300 bg-rose-50 p-5">
             <p className="text-sm font-bold uppercase tracking-wide text-rose-900">
-              Chaǩne causale dǸtectǸe
+              Chaîne causale détectée
             </p>
 
             <p className="mt-2 text-sm leading-6 text-slate-700">
@@ -402,7 +403,7 @@ export default function UnifiedDiagnosticResult({
 
               <div className="rounded-xl border border-orange-200 bg-white p-4">
                 <p className="text-xs font-bold uppercase tracking-wide text-orange-700">
-                  DǸfaut secondaire
+                  Défaut secondaire
                 </p>
 
                 <div className="mt-2 flex items-start justify-between gap-3">
@@ -439,7 +440,7 @@ export default function UnifiedDiagnosticResult({
 
             <div className="mt-5">
               <p className="text-xs font-bold uppercase tracking-wide text-slate-700">
-                Ordre de rǸparation conseillǸ
+                Ordre de réparation conseillé
               </p>
 
               <ol className="mt-3 space-y-2">
@@ -470,7 +471,7 @@ export default function UnifiedDiagnosticResult({
         {!causalChain?.active && coexistence?.active && (
           <div className="mt-7 rounded-2xl border-2 border-violet-300 bg-violet-50 p-5">
             <p className="text-sm font-bold uppercase tracking-wide text-violet-900">
-              Deux pannes peuvent Ǧtre prǸsentes
+              Deux pannes peuvent être présentes
             </p>
 
             <p className="mt-2 text-sm leading-6 text-slate-700">
@@ -501,7 +502,7 @@ export default function UnifiedDiagnosticResult({
                     </div>
 
                     <p className="mt-2 text-xs text-slate-500">
-                      {candidate.supportingEvidenceCount} ǸlǸment(s) concordant(s)
+                      {candidate.supportingEvidenceCount} élément(s) concordant(s)
                     </p>
                   </div>
                 ),
@@ -510,7 +511,7 @@ export default function UnifiedDiagnosticResult({
 
             <div className="mt-5 rounded-xl border border-blue-200 bg-blue-50 p-4">
               <p className="text-xs font-bold uppercase tracking-wide text-blue-900">
-                VǸrification des deux dǸfauts
+                Vérification des deux défauts
               </p>
 
               <p className="mt-2 font-semibold leading-6 text-slate-950">
@@ -597,7 +598,7 @@ export default function UnifiedDiagnosticResult({
           conclusion.recommendedChecks.length > 0 && (
           <div className="mt-7 rounded-2xl border border-blue-200 bg-blue-50 p-5">
             <p className="text-sm font-bold uppercase tracking-wide text-blue-900">
-              VǸrification finale conseillǸe
+              Vérification finale conseillée
             </p>
 
             <p className="mt-2 text-sm text-slate-600">
@@ -634,7 +635,7 @@ export default function UnifiedDiagnosticResult({
                   }
                   className="rounded-xl bg-red-600 px-4 py-3 font-semibold text-white transition hover:bg-red-700"
                 >
-                  Test nǸgatif
+                  Test négatif
                 </button>
 
                 <button
@@ -713,7 +714,7 @@ export default function UnifiedDiagnosticResult({
         <button
           type="button"
           onClick={() => {
-            window.location.href = "/diagnostic-v2";
+            window.location.reload();
           }}
           className="mt-5 w-full rounded-2xl border-2 border-slate-300 bg-white px-6 py-4 text-lg font-bold text-slate-800 transition hover:bg-slate-100"
         >
@@ -729,9 +730,9 @@ export default function UnifiedDiagnosticResult({
             Demander un contrôle professionnel
           </button>
         )}
+        <TpaSafetyNotice context="diagnostic" />
+
       </div>
     </section>
   );
 }
-
-

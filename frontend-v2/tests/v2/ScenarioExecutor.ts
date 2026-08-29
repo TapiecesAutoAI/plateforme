@@ -423,7 +423,7 @@ export class ScenarioExecutor {
       ) {
         failures.push(
           [
-            "Aucune rǸponse exploitable pour la question.",
+            "Aucune réponse exploitable pour la question.",
             `Question : ${action.id}.`,
             `Texte : ${action.text}.`,
           ].join(
@@ -466,7 +466,7 @@ export class ScenarioExecutor {
       50
     ) {
       failures.push(
-        "Limite de sǸcuritǸ atteinte : plus de 50 questions.",
+        "Limite de sécurité atteinte : plus de 50 questions.",
       );
     }
 

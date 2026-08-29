@@ -88,7 +88,7 @@ function replay(
       )
     ) {
       failures.push(
-        `Question rǸpǸtǸe : ${action.id}.`,
+        `Question répétée : ${action.id}.`,
       );
     }
 
@@ -105,7 +105,7 @@ function replay(
     ) {
       failures.push(
         [
-          "Parcours devenu incohǸrent.",
+          "Parcours devenu incohérent.",
           `Attendu : ${expectedChoice.actionId}.`,
           `Obtenu : ${action.id}.`,
         ].join(" "),
@@ -217,7 +217,7 @@ function validateTerminal(
     actionIds.length
   ) {
     failures.push(
-      "Une mǦme question apparaǩt plusieurs fois dans le parcours.",
+      "Une même question apparaît plusieurs fois dans le parcours.",
     );
   }
 
@@ -246,7 +246,7 @@ function formatPath(
     path.length ===
     0
   ) {
-    return "(aucune rǸponse)";
+    return "(aucune réponse)";
   }
 
   return path
@@ -461,7 +461,7 @@ function printProfileResult(
   );
 
   console.log(
-    `Parcours explorǸs : ${result.exploredPaths}`,
+    `Parcours explorés : ${result.exploredPaths}`,
   );
 
   console.log(
@@ -624,7 +624,7 @@ function run() {
   );
 
   console.log(
-    `Parcours explorǸs : ${totalExplored}`,
+    `Parcours explorés : ${totalExplored}`,
   );
 
   console.log(

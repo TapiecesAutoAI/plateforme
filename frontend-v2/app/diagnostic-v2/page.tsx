@@ -1,6 +1,7 @@
-﻿"use client";
+"use client";
 
 import Image from "next/image";
+import AnimatedTpaLogo from "@/components/branding/AnimatedTpaLogo";
 import UnifiedDiagnosticResult from "@/components/diagnostic/UnifiedDiagnosticResult";
 
 import {
@@ -8,7 +9,24 @@ import {
   useRef,
   useState,
 } from "react";
+import {
+  correctAutomotiveText,
+  type AutomotiveTextCorrection,
+} from "@/lib/ai/AutomotiveTextCorrector";
 
+type DiagnosticClientVehicle = {
+  id: string;
+  vin: string | null;
+  plate?: string | null;
+  brand: string;
+  model: string;
+  year: number | null;
+  engine: string;
+  fuel?: string | null;
+  powerHp?: number | null;
+  powerKw?: number | null;
+  label: string;
+};
 type Profile =
   | "particulier"
   | "bricoleur"
@@ -328,10 +346,106 @@ export default function DiagnosticV2Page({
     ],
   );
 
+  const [
+    selectedDiagnosticVehicle,
+    setSelectedDiagnosticVehicle,
+  ] = useState<DiagnosticClientVehicle | null>(
+    null,
+  );
+
+  const [
+    clientFirstName,
+    setClientFirstName,
+  ] = useState<string | null>(null);
+
+  useEffect(() => {
+    try {
+      const storedCustomer =
+        window.sessionStorage.getItem(
+          "tapiecesauto-showroom-customer",
+        );
+
+      if (!storedCustomer) {
+        setClientFirstName(null);
+        return;
+      }
+
+      const customer =
+        JSON.parse(storedCustomer) as Record<string, unknown>;
+
+      const candidate =
+        customer.firstName ??
+        customer.firstname ??
+        customer.first_name ??
+        customer.prenom ??
+        customer.name;
+
+      if (
+        typeof candidate !== "string" ||
+        !candidate.trim()
+      ) {
+        setClientFirstName(null);
+        return;
+      }
+
+      const firstName =
+        candidate
+          .trim()
+          .split(/\s+/)[0];
+
+      setClientFirstName(
+        firstName || null,
+      );
+    } catch {
+      setClientFirstName(null);
+    }
+  }, []);
+
+  useEffect(
+    () => {
+      const storedVehicle =
+        window.sessionStorage.getItem(
+          "tapiecesauto-showroom-vehicle",
+        );
+
+      if (!storedVehicle) {
+        return;
+      }
+
+      try {
+        const parsedVehicle =
+          JSON.parse(
+            storedVehicle,
+          ) as DiagnosticClientVehicle;
+
+        if (
+          parsedVehicle &&
+          typeof parsedVehicle.brand === "string" &&
+          typeof parsedVehicle.model === "string"
+        ) {
+          setSelectedDiagnosticVehicle(
+            parsedVehicle,
+          );
+        }
+      } catch {
+        setSelectedDiagnosticVehicle(
+          null,
+        );
+      }
+    },
+    [],
+  );
+
 const [
     complaint,
     setComplaint,
   ] = useState("");
+  const [
+    pendingTextCorrection,
+    setPendingTextCorrection,
+  ] = useState<AutomotiveTextCorrection | null>(
+    null,
+  );
 
   const [
     sessionId,
@@ -427,7 +541,35 @@ const [
     null,
   );
 
-  async function startDiagnostic() {
+  async function startDiagnostic(confirmedText?: string) {
+    // CHAT13_TEXT_CORRECTION_GATE
+    const sourceText =
+      confirmedText ??
+      complaint.trim();
+
+    const textCorrection =
+      correctAutomotiveText(
+        sourceText,
+      );
+
+    if (
+      confirmedText === undefined &&
+      textCorrection.changed &&
+      textCorrection.requiresConfirmation
+    ) {
+      setPendingTextCorrection(
+        textCorrection,
+      );
+
+      return;
+    }
+
+    const diagnosticText =
+      confirmedText ??
+      textCorrection.correctedText;
+
+    setPendingTextCorrection(null);
+
     if (
       !profile ||
       !complaint.trim()
@@ -483,7 +625,7 @@ const [
                 domain,
 
                 message:
-                  complaint.trim(),
+                  diagnosticText,
               }),
           },
         );
@@ -539,16 +681,6 @@ const [
 
       const initialHistory:
         ConversationEntry[] = [
-          {
-            id:
-              createEntryId(),
-
-            role:
-              "assistant",
-
-            text:
-              "Bonjour, je suis l’assistant Ta Pièces Auto AI. Décrivez votre problème avec vos propres mots.",
-          },
 
           {
             id:
@@ -1044,9 +1176,40 @@ const [
       setLoading(false);
     }
   }
-  function resetDiagnostic() {
-    setProfile(null);
+    function confirmTextCorrection() {
+    if (!pendingTextCorrection) {
+      return;
+    }
+
+    const correctedText =
+      pendingTextCorrection.correctedText;
+
+    setComplaint(correctedText);
+    setPendingTextCorrection(null);
+
+    void startDiagnostic(
+      correctedText,
+    );
+  }
+
+  function rejectTextCorrection() {
+    if (!pendingTextCorrection) {
+      return;
+    }
+
+    setComplaint(
+      pendingTextCorrection.correctedText,
+    );
+
+    setPendingTextCorrection(
+      null,
+    );
+  }
+function resetDiagnostic() {
+
     setComplaint("");
+
+    setPendingTextCorrection(null);
     setSessionId(null);
     setAction(null);
     setConclusion(null);
@@ -1061,10 +1224,90 @@ const [
   }
 
   return (
-    <main className="min-h-screen bg-slate-100 px-5 py-10">
-      <section className="mx-auto max-w-4xl overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl">
-        <header className="bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 px-7 py-8 text-white">
-          <div className="flex flex-col items-center text-center">
+    <main className="flex min-h-screen flex-col bg-slate-100 px-3 pb-4 pt-4 sm:px-5 sm:pb-6 sm:pt-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 w-full min-w-0 overflow-x-hidden">
+
+      <header className="mx-auto mb-4 flex w-full flex-col items-center sm:mb-6">
+        <div className="scale-[0.72]">
+          <AnimatedTpaLogo />
+        </div>
+
+        <div className="-mt-8 text-center">
+          <h1 className="text-2xl font-black text-slate-950">
+            Ta Pièce Auto
+          </h1>
+
+          <p className="mt-1 text-sm font-semibold text-slate-500">
+            Diagnostic automobile intelligent
+          </p>
+        </div>
+      </header>
+
+      {selectedDiagnosticVehicle && (
+        <section className="w-full mx-auto mb-6 rounded-2xl border border-blue-200 bg-white p-5 shadow-sm">
+          <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
+
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.18em] text-blue-700">
+                Véhicule sélectionné
+              </p>
+
+              <h2 className="mt-2 text-xl font-black text-slate-950">
+                {selectedDiagnosticVehicle.brand}{" "}
+                {selectedDiagnosticVehicle.model}
+              </h2>
+
+              <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm font-semibold text-slate-600">
+
+                {selectedDiagnosticVehicle.year && (
+                  <span>
+                    {selectedDiagnosticVehicle.year}
+                  </span>
+                )}
+
+                {selectedDiagnosticVehicle.engine && (
+                  <span>
+                    {selectedDiagnosticVehicle.engine}
+                  </span>
+                )}
+
+                {selectedDiagnosticVehicle.fuel && (
+                  <span>
+                    {selectedDiagnosticVehicle.fuel}
+                  </span>
+                )}
+
+                {selectedDiagnosticVehicle.powerHp && (
+                  <span>
+                    {selectedDiagnosticVehicle.powerHp} ch
+                  </span>
+                )}
+              </div>
+
+              {selectedDiagnosticVehicle.vin && (
+                <p className="mt-3 text-xs font-semibold text-slate-500">
+                  VIN : {selectedDiagnosticVehicle.vin}
+                </p>
+              )}
+            </div>
+
+            <button
+              type="button"
+              onClick={() => {
+                window.location.href =
+                  "/client";
+              }}
+              className="rounded-xl border border-slate-300 bg-white px-5 py-3 text-sm font-black text-slate-900 transition hover:bg-slate-50"
+            >
+              Changer de véhicule
+            </button>
+
+          </div>
+        </section>
+      )}
+
+      <section className="mx-auto w-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl sm:rounded-3xl">
+        <header className="hidden">
+          <div className="hidden flex-col items-center text-center">
             <div className="flex h-32 w-32 items-center justify-center overflow-hidden rounded-3xl border border-white/20 bg-black shadow-xl">
               <Image
                 src="/zt-consult-logo.png"
@@ -1077,7 +1320,7 @@ const [
             </div>
 
  <h1 className="mt-5 text-3xl font-bold">
-  Ta Pièces Auto AI
+  Ta Pièce Auto
 </h1>
 
 <p className="mt-3 max-w-3xl text-center text-lg text-blue-100">
@@ -1091,7 +1334,7 @@ const [
 </p>          </div>
         </header>
 
-        <div className="p-7">
+        <div className="p-4 sm:p-5 md:p-7 lg:p-8 xl:p-10">
           {!profile && (
             <>
               <h2 className="text-xl font-semibold text-slate-950">
@@ -1136,20 +1379,33 @@ const [
                     )?.label
                   }
                 </span>
-
-                <button
-                  type="button"
-                  onClick={
-                    resetDiagnostic
-                  }
-                  className="text-sm font-semibold text-slate-500 hover:text-slate-900"
-                >
-                  Changer de profil
-                </button>
               </div>
 
-              <h2 className="mt-7 text-xl font-semibold text-slate-950">
-                Décrivez votre problème avec vos propres mots
+              <h2 className="mt-5 text-lg font-semibold leading-snug text-slate-950 sm:mt-6 sm:text-xl md:mt-7 md:text-2xl">
+                {(() => {
+                  const firstNamePrefix =
+                    clientFirstName
+                      ? `${clientFirstName}, `
+                      : "";
+
+                  switch (profile) {
+                    case "mecanicien-garage":
+                      return `${firstNamePrefix}décrivez les symptômes, le défaut constaté et les contrôles déjà effectués`;
+
+                    case "vendeur-pieces-auto":
+                      return `${firstNamePrefix}indiquez la demande du client, les symptômes ou la pièce recherchée`;
+
+                    case "depanneur":
+                      return `${firstNamePrefix}décrivez la panne, les symptômes constatés et les premières vérifications effectuées`;
+
+                    case "bricoleur":
+                      return `${firstNamePrefix}décrivez les symptômes constatés et ce que vous avez déjà vérifié`;
+
+                    case "particulier":
+                    default:
+                      return `${firstNamePrefix}décrivez votre problème avec vos propres mots`;
+                  }
+                })()}
               </h2>
 
               <textarea
@@ -1163,10 +1419,64 @@ const [
                     event.target.value,
                   )
                 }
+                onKeyDown={event => {
+                  if (
+                    event.key === "Enter" &&
+                    !event.shiftKey &&
+                    !event.nativeEvent.isComposing
+                  ) {
+                    event.preventDefault();
+
+                    if (
+                      !loading &&
+                      complaint.trim()
+                    ) {
+                      void startDiagnostic();
+                    }
+                  }
+                }}
                 placeholder="Exemple : Ma voiture ne démarre plus et j’entends plusieurs clics rapides…"
                 rows={5}
                 className="mt-4 w-full rounded-2xl border border-slate-300 p-4 text-slate-900 outline-none focus:border-blue-700 focus:ring-2 focus:ring-blue-100"
               />
+              {/* CHAT13_TEXT_CORRECTION_UI */}
+              {pendingTextCorrection && (
+                <div className="mt-4 rounded-2xl border border-blue-200 bg-blue-50 p-4 sm:p-5">
+                  <p className="text-sm font-semibold text-slate-700">
+                    J’ai compris :
+                  </p>
+
+                  <p className="mt-2 text-base font-semibold text-slate-950 sm:text-lg">
+                    « {pendingTextCorrection.correctedText} »
+                  </p>
+
+                  <p className="mt-3 text-sm font-medium text-slate-700">
+                    C’est bien cela ?
+                  </p>
+
+                  <div className="mt-4 flex flex-col gap-2 sm:flex-row">
+                    <button
+                      type="button"
+                      onClick={
+                        confirmTextCorrection
+                      }
+                      className="rounded-xl bg-blue-950 px-5 py-3 text-sm font-semibold text-white"
+                    >
+                      Oui
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={
+                        rejectTextCorrection
+                      }
+                      className="rounded-xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700"
+                    >
+                      Non, je corrige
+                    </button>
+                  </div>
+                </div>
+              )}
 
               <button
                 type="button"
@@ -1174,10 +1484,10 @@ const [
                   loading ||
                   !complaint.trim()
                 }
-                onClick={
-                  startDiagnostic
-                }
-                className="mt-4 rounded-xl bg-blue-950 px-6 py-3 font-semibold text-white disabled:opacity-40"
+                onClick={() => {
+                  void startDiagnostic();
+                }}
+                className="mt-4 w-full rounded-xl bg-blue-950 px-5 py-3 text-sm font-semibold text-white disabled:opacity-40 sm:w-auto sm:px-6 sm:text-base"
               >
                 Commencer le diagnostic
               </button>
@@ -1333,20 +1643,30 @@ const [
           />
         </div>
       </section>
+          <footer className="mx-auto mt-auto flex w-full flex-col gap-3 border-t border-slate-200 pt-4 sm:flex-row sm:items-end sm:justify-between sm:pt-5">
+
+        <div className="flex items-center gap-3">
+          <Image
+            src="/zt-consult-logo.png"
+            alt="Logo ZT Consult"
+            width={64}
+            height={64}
+            className="h-12 w-auto object-contain"
+          />
+        </div>
+
+        <div className="text-left text-xs text-slate-500 sm:text-right">
+          <p>
+            © 2026 Ta Pièce Auto
+          </p>
+
+          <p className="mt-1">
+            Tous droits réservés
+          </p>
+        </div>
+
+      </footer>
+
     </main>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

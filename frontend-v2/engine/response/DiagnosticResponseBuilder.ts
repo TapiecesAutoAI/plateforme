@@ -151,6 +151,24 @@ export class DiagnosticResponseBuilder {
           explanation,
         );
 
+    result.session.commercialAuthorization = {
+      decision:
+        salesRecommendation
+          .confidence
+          .decision,
+
+      partName:
+        salesRecommendation.partName,
+
+      confidence:
+        salesRecommendation
+          .confidence
+          .score,
+
+      updatedAt:
+        new Date().toISOString(),
+    };
+
     const causalChain =
       buildDiagnosticCausalChain(
         result.session.status,

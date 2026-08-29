@@ -83,6 +83,17 @@ export class NextQuestionSelector {
               item.question.id,
             ),
         )
+        // CHAT13: skip questions whose target evidence is already known
+        .filter(
+          item =>
+            item.question.targetEvidenceIds.length === 0 ||
+            !item.question.targetEvidenceIds.some(
+              evidenceId =>
+                context.confirmedEvidenceIds.has(
+                  evidenceId,
+                ),
+            ),
+        )
         .filter(
           item =>
             !answeredFamilies.has(

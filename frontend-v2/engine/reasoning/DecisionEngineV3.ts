@@ -141,16 +141,16 @@ interface DecisionThresholds {
 const PROFILE_MAXIMUM_QUESTIONS:
   Record<ReasoningProfileId, number> = {
     particulier:
-      6,
+      5,
 
     bricoleur:
-      9,
+      7,
 
     "vendeur-pieces-auto":
       8,
 
     "mecanicien-garage":
-      14,
+      15,
 
     depanneur:
       6,

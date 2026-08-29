@@ -1,9 +1,14 @@
-﻿"use client";
+"use client";
+
+import {
+  saveClientOrder,
+} from "../../lib/client";
 
 import {
   useEffect,
   useState,
 } from "react";
+import { TpaSafetyNotice } from "@/components/legal/TpaSafetyNotice";
 
 type Identification = {
   status: string;
@@ -185,6 +190,18 @@ export default function PiecePage() {
   ] =
     useState(false);
 
+  const [
+    transmittedVehicleMode,
+    setTransmittedVehicleMode,
+  ] =
+    useState(false);
+
+  const [
+    autoOfferStarted,
+    setAutoOfferStarted,
+  ] =
+    useState(false);
+
   /*
    * =========================================================
    * RECUPERATION DE LA PIECE ISSUE DU DIAGNOSTIC
@@ -230,53 +247,56 @@ export default function PiecePage() {
 
       }
 
-      if (isKnownPart) {
+      const rawVehicle =
+        window.sessionStorage.getItem(
+          "tapiecesauto-showroom-vehicle",
+        );
 
-        const rawVehicle =
-          window.sessionStorage.getItem(
-            "tapiecesauto-showroom-vehicle",
+      if (rawVehicle) {
+
+        try {
+
+          const vehicle =
+            JSON.parse(
+              rawVehicle,
+            );
+
+          setVin(
+            vehicle.vin ?? "",
           );
 
-        if (rawVehicle) {
+          setBrand(
+            vehicle.brand ?? "",
+          );
 
-          try {
+          setModel(
+            vehicle.model ?? "",
+          );
 
-            const vehicle =
-              JSON.parse(
-                rawVehicle,
-              );
+          setYear(
+            vehicle.year
+              ? String(vehicle.year)
+              : "",
+          );
 
-            setVin(
-              vehicle.vin ?? "",
-            );
+          setEngine(
+            vehicle.engine ?? "",
+          );
 
-            setBrand(
-              vehicle.brand ?? "",
-            );
+          setTransmittedVehicleMode(
+            true,
+          );
 
-            setModel(
-              vehicle.model ?? "",
-            );
-
-            setYear(
-              vehicle.year
-                ? String(vehicle.year)
-                : "",
-            );
-
-            setEngine(
-              vehicle.engine ?? "",
-            );
-
-          }
-          catch {
-
-            setError(
-              "Impossible de récupérer le véhicule sélectionné.",
-            );
-          }
         }
+        catch {
 
+          setError(
+            "Impossible de récupérer le véhicule sélectionné.",
+          );
+        }
+      }
+
+      if (isKnownPart) {
         return;
       }
 
@@ -473,7 +493,199 @@ export default function PiecePage() {
    * =========================================================
    */
 
-  async function sendToCounter() {
+    /*
+   * =========================================================
+   * AUTO-OFFRE VEHICULE DEJA CONNU
+   * =========================================================
+   *
+   * Si le diagnostic a déjà transmis le véhicule et
+   * la pièce, on évite toute nouvelle identification.
+   * TPA lance directement la recherche de compatibilité
+   * et de prix.
+   */
+
+  useEffect(
+    () => {
+
+      if (
+        !transmittedVehicleMode ||
+        knownPartMode ||
+        autoOfferStarted ||
+        loading ||
+        offer ||
+        !partName.trim()
+      ) {
+        return;
+      }
+
+      const hasVehicle =
+        Boolean(
+          vin.trim() ||
+          (
+            brand.trim() &&
+            model.trim()
+          ),
+        );
+
+      if (!hasVehicle) {
+        return;
+      }
+
+      setAutoOfferStarted(
+        true,
+      );
+
+      void findOffer();
+
+    },
+    [
+      transmittedVehicleMode,
+      knownPartMode,
+      autoOfferStarted,
+      loading,
+      offer,
+      partName,
+      vin,
+      brand,
+      model,
+      year,
+      engine,
+    ],
+  );
+
+async function createClientOrder() {
+
+    if (
+      !offer?.offer ||
+      offer.salePriceIncVat === null ||
+      !offer.canOrder
+    ) {
+      setError(
+        "Cette piï¿½ce ne peut pas ï¿½tre commandï¿½e.",
+      );
+
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+
+    try {
+
+      const sessionResponse =
+        await fetch(
+          "/api/auth/session",
+          {
+            credentials:
+              "include",
+            cache:
+              "no-store",
+          },
+        );
+
+      if (!sessionResponse.ok) {
+        throw new Error(
+          "Session client invalide.",
+        );
+      }
+
+      const session =
+        await sessionResponse.json();
+
+      if (
+        session?.authenticated !== true ||
+        typeof session.customerId !== "string"
+      ) {
+        throw new Error(
+          "Client non identifiï¿½.",
+        );
+      }
+
+      const safeQuantity =
+        Math.max(
+          1,
+          Math.floor(quantity),
+        );
+
+      const unitPrice =
+        Number(
+          offer.salePriceIncVat.toFixed(2),
+        );
+
+      const total =
+        Number(
+          (
+            unitPrice *
+            safeQuantity
+          ).toFixed(2),
+        );
+
+      saveClientOrder({
+        id:
+          "ORDER-" +
+          Date.now()
+            .toString(36)
+            .toUpperCase(),
+
+        customerId:
+          session.customerId,
+
+        vehicleId:
+          null,
+
+        createdAt:
+          new Date().toISOString(),
+
+        status:
+          "confirmed",
+
+        items: [
+          {
+            reference:
+              offer.offer.reference,
+
+            brand:
+              offer.offer.manufacturer,
+
+            label:
+              offer.offer.genericPartName,
+
+            quantity:
+              safeQuantity,
+
+            unitPriceIncVat:
+              unitPrice,
+
+            totalIncVat:
+              total,
+          },
+        ],
+
+        totalIncVat:
+          total,
+
+        invoiceNumber:
+          null,
+      });
+
+      window.location.href =
+        "/client/orders";
+    }
+    catch (error) {
+
+      setError(
+        error instanceof Error
+          ? error.message
+          : "Commande impossible.",
+      );
+    }
+    finally {
+
+      setLoading(false);
+    }
+  }
+
+async function sendToCounter() {
 
     if (
       !partName ||
@@ -561,7 +773,7 @@ export default function PiecePage() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-100 p-5 md:p-10">
+    <main className="min-h-screen bg-slate-100 p-5 md:p-10 w-full min-w-0 overflow-x-hidden">
 
       <div className="mx-auto max-w-4xl">
 
@@ -600,7 +812,9 @@ export default function PiecePage() {
         <h1 className="mt-2 text-4xl font-bold text-slate-900">
           {knownPartMode
             ? "Rechercher une pièce"
-            : "Identifier votre véhicule"}
+            : transmittedVehicleMode
+              ? "Recherche de votre pièce compatible"
+              : "Identifier votre véhicule"}
         </h1>
 
         {
@@ -680,7 +894,8 @@ export default function PiecePage() {
           </section>
         )}
 
-        {!knownPartMode && (
+        {!knownPartMode &&
+          !transmittedVehicleMode && (
           <>
             <section className="mt-6 rounded-3xl bg-white p-7 shadow-xl">
 
@@ -914,17 +1129,20 @@ export default function PiecePage() {
 
               </div>
 
+              <TpaSafetyNotice context="purchase" />
+
+
               <button
                 type="button"
                 disabled={
                   loading
                 }
                 onClick={
-                  sendToCounter
+                  createClientOrder
                 }
                 className="mt-6 w-full rounded-2xl bg-blue-700 px-6 py-4 text-lg font-bold text-white"
               >
-                Envoyer la demande au comptoir
+                Commander
               </button>
 
             </section>
@@ -1008,5 +1226,10 @@ export default function PiecePage() {
     </main>
   );
 }
+
+
+
+
+
 
 

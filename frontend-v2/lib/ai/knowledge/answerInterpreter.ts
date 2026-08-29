@@ -704,18 +704,6 @@ function applySelectedOption(
 
   for (
     const entityId
-    of supportedEntities
-  ) {
-    confirmEntity(
-      entityId,
-      confirmedEntityIds,
-      rejectedEntityIds,
-      unknownEntityIds,
-    );
-  }
-
-  for (
-    const entityId
     of rejectedEntities
   ) {
     rejectEntity(

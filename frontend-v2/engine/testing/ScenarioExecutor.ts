@@ -460,8 +460,7 @@ export class ScenarioExecutor {
 
         break;
       }
-
-      steps.push({
+steps.push({
         index:
           steps.length +
           1,

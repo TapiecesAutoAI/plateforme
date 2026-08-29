@@ -1,5 +1,10 @@
 "use client";
 
+import {
+  createShowroomKioskSession,
+  buildTpaUiProfile,
+} from "../../lib/session";
+
 import AnimatedTpaLogo from "../../components/branding/AnimatedTpaLogo";
 
 
@@ -188,6 +193,20 @@ function getNextCustomerId(
 }
 
 export default function ShowroomPage() {
+
+  const tpaSession =
+    createShowroomKioskSession({
+      deviceId:
+        "SHOWROOM-LOB-01",
+
+      storeId:
+        "LOB-01",
+    });
+
+  const tpaUi =
+    buildTpaUiProfile(
+      tpaSession,
+    );
 
   const router =
     useRouter();
@@ -1935,7 +1954,7 @@ export default function ShowroomPage() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-100 text-slate-950">
+    <main className="min-h-screen bg-slate-100 text-slate-950 w-full min-w-0 overflow-x-hidden">
 
       {screen === "attract" && (
 
@@ -1949,6 +1968,27 @@ export default function ShowroomPage() {
           }
           className="relative min-h-screen w-full overflow-hidden bg-gradient-to-br from-blue-950 via-slate-950 to-blue-800 text-white"
         >
+
+          {/* IDENTIFICATION BORNE TPA */}
+          <div className="absolute right-6 top-6 z-30">
+
+            <div className="rounded-2xl border border-white/15 bg-slate-950/55 px-5 py-3 text-right shadow-xl backdrop-blur-md">
+
+              <div className="text-sm font-black tracking-[0.18em] text-white">
+                BORNE TPA
+              </div>
+
+              <div className="mt-1 text-xs font-bold tracking-[0.14em] text-blue-200">
+                ESPACE AUTOMOBILE
+              </div>
+
+              <div className="mt-1 text-[10px] font-semibold text-slate-400">
+                {tpaSession.deviceId}
+              </div>
+
+            </div>
+
+          </div>
 
           {/* CONTENU PRINCIPAL CENTRE */}
           <div className="mx-auto flex min-h-screen w-full max-w-7xl flex-col items-center text-center">
@@ -1966,6 +2006,94 @@ export default function ShowroomPage() {
               Votre véhicule. Votre diagnostic. Votre pièce.
             </p>
 
+
+            {/* BANDEAU MARQUES BORNE TPA */}
+            <div className="mt-[14vh] w-full overflow-hidden">
+
+              <div className="relative w-full overflow-hidden border-y border-white/10 bg-white/[0.04] py-5">
+
+                <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-blue-950 to-transparent" />
+
+                <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-blue-900 to-transparent" />
+
+                <div className="tpa-showroom-marquee flex w-max items-center">
+
+                  {
+                    [
+                      ["CASTROL", "/brands/showroom/castrol.svg"],
+                      ["ARDECA", "/brands/showroom/ardeca.svg"],
+                      ["BARDAHL", "/brands/showroom/bardahl.png"],
+                      ["VARTA", "/brands/showroom/varta.jpg"],
+                      ["KNECHT", "/brands/showroom/knecht.jpg"],
+                      ["FACOM", "/brands/showroom/facom.jpg"],
+                      ["BETA", "/brands/showroom/beta.jpg"],
+
+                      ["CASTROL", "/brands/showroom/castrol.svg"],
+                      ["ARDECA", "/brands/showroom/ardeca.svg"],
+                      ["BARDAHL", "/brands/showroom/bardahl.png"],
+                      ["VARTA", "/brands/showroom/varta.jpg"],
+                      ["KNECHT", "/brands/showroom/knecht.jpg"],
+                      ["FACOM", "/brands/showroom/facom.jpg"],
+                      ["BETA", "/brands/showroom/beta.jpg"],
+                    ].map(
+                      (
+                        brand,
+                        index,
+                      ) => (
+
+                        <div
+                          key={`${brand[0]}-${index}`}
+                          className="flex h-28 min-w-[250px] items-center justify-center px-5"
+                        >
+
+                          <div className="flex h-24 w-[225px] items-center justify-center overflow-hidden rounded-2xl bg-white px-2 py-2 shadow-xl ring-1 ring-black/10">
+
+                          <img
+                            src={brand[1]}
+                            alt={brand[0]}
+                            draggable={false}
+                            className={
+  brand[0] === "BARDAHL"
+    ? "h-[88px] w-[215px] object-contain scale-[2.15]"
+    : brand[0] === "FACOM"
+      ? "h-[88px] w-[215px] object-contain scale-[2.25]"
+      : "h-[88px] w-[215px] object-contain scale-[1.10]"
+}
+                            onError={
+                              event => {
+
+                                event.currentTarget.style.display =
+                                  "none";
+
+                                const fallback =
+                                  event.currentTarget
+                                    .nextElementSibling as HTMLElement | null;
+
+                                if (fallback) {
+                                  fallback.style.display =
+                                    "block";
+                                }
+                              }
+                            }
+                          />
+
+                          <span className="hidden whitespace-nowrap text-xl font-black tracking-wide text-slate-900">
+                            {brand[0]}
+                          </span>
+
+                          </div>
+
+                        </div>
+
+                      ),
+                    )
+                  }
+
+                </div>
+
+              </div>
+
+            </div>
 
             {/* ESPACE FLEXIBLE */}
             <div className="flex-1" />
@@ -1985,8 +2113,8 @@ export default function ShowroomPage() {
           </div>
 
 
-          {/* LOGO PERSONNEL - UNIQUEMENT PAGE D'ACCUEIL */}
-          <div className="absolute bottom-6 right-6">
+          {/* LOGO ZT CONSULT - BORNE SHOWROOM */}
+          <div className="absolute bottom-6 right-6 z-30">
 
             <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-2xl bg-black shadow-xl ring-1 ring-white/20">
 
@@ -2004,6 +2132,35 @@ export default function ShowroomPage() {
 
       )}
 
+      <style jsx global>{`
+        @keyframes tpaShowroomMarquee {
+          from {
+            transform: translateX(0);
+          }
+
+          to {
+            transform: translateX(-50%);
+          }
+        }
+
+        .tpa-showroom-marquee {
+          animation:
+            tpaShowroomMarquee
+            32s
+            linear
+            infinite;
+          will-change:
+            transform;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .tpa-showroom-marquee {
+            animation:
+              none;
+          }
+        }
+      `}</style>
+
       {screen !== "attract" && (
 
         <div className="min-h-screen p-8">
@@ -2019,7 +2176,7 @@ export default function ShowroomPage() {
                 </p>
 
                 <p className="text-sm text-slate-500">
-                  Borne showroom
+                  Espace automobile
                 </p>
 
               </div>

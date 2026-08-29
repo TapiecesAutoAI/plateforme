@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useRouter } from "next/navigation";
 
@@ -8,7 +8,7 @@ export default function DiagnosticResultDemoPage() {
   const router = useRouter();
 
   return (
-    <main className="min-h-screen bg-slate-100 px-4 py-8 sm:px-6 sm:py-12">
+    <main className="min-h-screen bg-slate-100 px-4 py-8 sm:px-6 sm:py-12 w-full min-w-0 overflow-x-hidden">
       <DiagnosisResultCard
         title="Démarreur"
         confidence={91}

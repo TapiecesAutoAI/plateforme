@@ -1,4 +1,4 @@
-﻿import type {
+import type {
   KnowledgeEntity,
   KnowledgeGraphData,
   KnowledgeRelation,
@@ -211,6 +211,19 @@ export const starterEntities: KnowledgeEntity[] = [
       "bruit de demarreur apres demarrage",
       "le demarreur ne se coupe pas",
     ],
+  },
+
+  {
+    id: "observation-full-lights",
+    type: "observation",
+    name: "Les voyants et les phares restent normaux pendant la tentative de démarrage",
+    aliases: [
+      "les phares restent normaux",
+      "les voyants restent normaux",
+      "les phares ne faiblissent pas",
+      "les voyants ne faiblissent pas",
+    ],
+    category: "demarrage",
   },
 
   {
@@ -523,6 +536,35 @@ export const starterRelations: KnowledgeRelation[] = [
     to: "symptom-starter-intermittent",
     type: "produces",
     weight: 0.78,
+  },
+
+  {
+    id: "rel-starter-full-lights-general",
+    from: "problem-starter",
+    to: "observation-full-lights",
+    type: "supports",
+    weight: 0.62,
+  },
+  {
+    id: "rel-solenoid-full-lights-general",
+    from: "problem-starter-solenoid",
+    to: "observation-full-lights",
+    type: "supports",
+    weight: 0.58,
+  },
+  {
+    id: "rel-relay-full-lights-general",
+    from: "problem-starter-relay",
+    to: "observation-full-lights",
+    type: "supports",
+    weight: 0.52,
+  },
+  {
+    id: "rel-control-circuit-full-lights-general",
+    from: "problem-starter-control-circuit",
+    to: "observation-full-lights",
+    type: "supports",
+    weight: 0.52,
   },
 
   {

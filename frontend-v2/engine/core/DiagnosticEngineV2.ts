@@ -167,7 +167,7 @@ const DEFAULT_OPTIONS:
  * Nouveau pipeline de diagnostic.
  *
  * Il conserve les sessions et Knowledge Packs historiques comme couche
- * d'entrǸe, puis les convertit vers engine/model avant d'exǸcuter le
+ * d'entrée, puis les convertit vers engine/model avant d'exécuter le
  * ReasoningEngine V2.
  *
  * L'ancien DiagnosticEngine reste intact pendant la migration.
@@ -338,7 +338,7 @@ export class DiagnosticEngineV2 {
 
     if (!session.vehicle.vin) {
       throw new Error(
-        "Impossible de valider la compatibilitǸ sans VIN.",
+        "Impossible de valider la compatibilité sans VIN.",
       );
     }
 
@@ -560,14 +560,10 @@ export class DiagnosticEngineV2 {
       null;
 
     const requestedNextActionId =
-      domain === "starting"
-        ? null
-        : (
-            profileAwareNextActionId ??
-            option.nextActionId ??
-            action.nextActionId ??
-            null
-          );
+      profileAwareNextActionId ??
+      option.nextActionId ??
+      action.nextActionId ??
+      null;
 
     /*
      * TRANSMISSION DIRECT NEXT-ACTION FAMILY LOCK
@@ -670,8 +666,42 @@ export class DiagnosticEngineV2 {
             session.currentActionId,
         ) ?? null;
 
+      const branchQuestion =
+        branchAction
+          ? Array.from(
+              conversion.source.questions ?? [],
+            ).find(
+              question =>
+                question.id ===
+                branchAction.id,
+            ) ?? null
+          : null;
+
+      const branchConfirmedEvidenceIds =
+        new Set(
+          conversion.source
+            .confirmedEvidenceIds ?? [],
+        );
+
+      /*
+       * CHAT13 — DIRECT NEXT-ACTION KNOWN-EVIDENCE GUARD
+       *
+       * Un nextActionId explicite ne doit pas reposer une
+       * question dont une evidence cible est deja confirmee.
+       */
+      const branchTargetsKnown =
+        branchQuestion !== null &&
+        branchQuestion.targetEvidenceIds.length > 0 &&
+        branchQuestion.targetEvidenceIds.some(
+          evidenceId =>
+            branchConfirmedEvidenceIds.has(
+              evidenceId,
+            ),
+        );
+
       if (
         branchAction &&
+        !branchTargetsKnown &&
         !session.completedActionIds.includes(
           branchAction.id,
         ) &&
@@ -689,13 +719,7 @@ export class DiagnosticEngineV2 {
           branchAction;
 
         selectedQuestion =
-          Array.from(
-            conversion.source.questions ?? [],
-          ).find(
-            question =>
-              question.id ===
-              branchAction.id,
-          ) ?? null;
+          branchQuestion;
       }
     }
 
@@ -821,8 +845,7 @@ export class DiagnosticEngineV2 {
     const topConfidence =
       decision.probabilities[0]
         ?.probability ?? 0;
-
-    const hasForcedBranchAction =
+const hasForcedBranchAction =
       session.currentActionId !== null &&
       selectedAction !== null &&
       selectedAction.id ===
@@ -897,10 +920,24 @@ export class DiagnosticEngineV2 {
       },
     );
 
+    const profile =
+      session.profile as
+        DiagnosticProfile;
+
+    const profileSettings =
+      this.profileStrategy.getStrategy(
+        profile,
+      );
+
+    const reachedProfileLimit =
+      session.actionResults.length >=
+        profileSettings.maximumQuestions;
+
     let confirmationV2Applied =
       false;
 
     if (
+      !reachedProfileLimit &&
       !hasForcedBranchAction &&
       confirmationV2Result.shouldConfirm &&
       confirmationV2Result.selectedCandidate
@@ -938,6 +975,7 @@ export class DiagnosticEngineV2 {
     }
 
     const confirmationDecision =
+      !reachedProfileLimit &&
       !hasForcedBranchAction &&
       !confirmationV2Applied &&
       topConfidence >= 0.70 &&
@@ -1017,22 +1055,10 @@ export class DiagnosticEngineV2 {
           (
             confirmationV2Applied
               ? "Confirmation V2 prioritaire."
-              : "Confirmation dǸsactivǸe."
+              : "Confirmation désactivée."
           ),
       },
     );
-    const profile =
-      session.profile as
-        DiagnosticProfile;
-
-    const profileSettings =
-      this.profileStrategy.getStrategy(
-        profile,
-      );
-
-    const reachedProfileLimit =
-      session.actionResults.length >=
-        profileSettings.maximumQuestions;
     if (
       reachedProfileLimit &&
       selectedAction
@@ -1321,45 +1347,16 @@ export class DiagnosticEngineV2 {
       probabilities[1] ??
       null;
 
-    if (
-      !top ||
-      session.profile !==
-        "particulier"
-    ) {
-
+    if (!top) {
       return {
-
-        available:
-          false,
-
-        recommended:
-          false,
-
-        confidence:
-          top?.probability ??
-          0,
-
-        confidencePercentage:
-          Math.round(
-            (
-              top?.probability ??
-              0
-            ) * 100,
-          ),
-
-        hypothesisId:
-          top?.hypothesis.id ??
-          null,
-
-        hypothesisLabel:
-          top?.hypothesis.name ??
-          null,
-
-        message:
-          "",
-
+        available: false,
+        recommended: false,
+        confidence: 0,
+        confidencePercentage: 0,
+        hypothesisId: null,
+        hypothesisLabel: null,
+        message: "",
       };
-
     }
 
     const confidence =
@@ -1367,6 +1364,11 @@ export class DiagnosticEngineV2 {
         top.probability,
         0,
       );
+
+    const reliabilityThreshold =
+      session.profile === "particulier"
+        ? 0.70
+        : 0.90;
 
     const secondConfidence =
       this.normalizeUnit(
@@ -1406,12 +1408,12 @@ export class DiagnosticEngineV2 {
 
     const recommended =
       available &&
-      confidence >= 0.76 &&
+      confidence >= reliabilityThreshold &&
       lead >= 0.12;
 
     const message =
       recommended
-        ? "Nous pensons avoir probablement trouvǸ la panne. Vous pouvez arrǦter les questions maintenant ou continuer le diagnostic."
+        ? "Nous pensons avoir probablement trouvé la panne. Vous pouvez arrêter les questions maintenant ou continuer le diagnostic."
         : available
           ? "Une panne probable est déjà identifiée. Quelques questions supplémentaires peuvent encore améliorer la fiabilité du diagnostic."
           : "";
@@ -2465,6 +2467,32 @@ export class DiagnosticEngineV2 {
         activeHypothesisIds,
 
         eliminatedHypothesisIds,
+
+        progress: {
+          answeredQuestionCount:
+            session.completedActionIds.length,
+
+          maximumQuestionCount:
+            this.profileStrategy
+              .getStrategy(
+                session.profile as
+                  DiagnosticProfile,
+              )
+              .maximumQuestions,
+
+          currentQuestionId:
+            session.currentActionId ??
+            null,
+
+          failureBranch:
+            "unknown",
+
+          answeredQuestionFamilies:
+            new Set<string>(),
+
+          unavailableCapabilities:
+            new Set<string>(),
+        },
 
       },
 
@@ -3719,7 +3747,7 @@ export class DiagnosticEngineV2 {
     ) {
 
       throw new RangeError(
-        "maximumAlternativeCount doit Ǧtre un entier positif ou nul.",
+        "maximumAlternativeCount doit être un entier positif ou nul.",
       );
 
     }
@@ -3732,7 +3760,7 @@ export class DiagnosticEngineV2 {
     ) {
 
       throw new RangeError(
-        "maximumParticulierQuestions doit Ǧtre un entier strictement positif.",
+        "maximumParticulierQuestions doit être un entier strictement positif.",
       );
 
     }
@@ -3754,7 +3782,7 @@ export class DiagnosticEngineV2 {
     ) {
 
       throw new RangeError(
-        `${name} doit Ǧtre un nombre fini strictement positif.`,
+        `${name} doit être un nombre fini strictement positif.`,
       );
 
     }
@@ -3775,7 +3803,7 @@ export class DiagnosticEngineV2 {
     ) {
 
       throw new RangeError(
-        `${name} doit Ǧtre un nombre fini compris entre 0 et 1.`,
+        `${name} doit être un nombre fini compris entre 0 et 1.`,
       );
 
     }

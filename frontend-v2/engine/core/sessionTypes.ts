@@ -87,6 +87,22 @@ export type DiagnosticConclusion = {
   possibleParts: string[];
 };
 
+export type DiagnosticCommercialAuthorization = {
+  decision:
+    | "purchase-recommended"
+    | "verification-required"
+    | "purchase-not-recommended";
+
+  partName:
+    string | null;
+
+  confidence:
+    number;
+
+  updatedAt:
+    string;
+};
+
 export type DiagnosticSession = {
   id: string;
 
@@ -113,6 +129,9 @@ export type DiagnosticSession = {
   pendingAction: DiagnosticAction | null;
 
   conclusion: DiagnosticConclusion | null;
+
+  commercialAuthorization:
+    DiagnosticCommercialAuthorization | null;
 
   createdAt: string;
 
@@ -173,6 +192,9 @@ export function createDiagnosticSession(
       null,
 
     conclusion:
+      null,
+
+    commercialAuthorization:
       null,
 
     createdAt:

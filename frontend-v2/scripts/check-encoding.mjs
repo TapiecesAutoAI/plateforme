@@ -223,6 +223,41 @@ function containsMojibake(
   }
 
 
+  /*
+   * Additional mojibake code points observed
+   * in historical project corruption.
+   *
+   * Numeric construction keeps corrupted
+   * Unicode out of this checker source.
+   *
+   * U+01F8
+   * U+01E6
+   * U+01E9
+   */
+  const knownCorruptedCodePoints =
+    new Set([
+      0x01f8,
+      0x01e6,
+      0x01e9,
+    ]);
+
+  for (
+    const character
+    of line
+  ) {
+
+    if (
+      knownCorruptedCodePoints.has(
+        character.codePointAt(
+          0,
+        ),
+      )
+    ) {
+      return true;
+    }
+  }
+
+
   return false;
 }
 

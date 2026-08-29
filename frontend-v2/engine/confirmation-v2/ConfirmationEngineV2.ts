@@ -158,9 +158,7 @@ export class ConfirmationEngineV2 {
       );
 
     if (
-      confidence >= 0.95 &&
-      result.bestQuestion ===
-        null
+      confidence >= 0.95
     ) {
       return this.emptyResult(
         confidence,
@@ -388,6 +386,92 @@ export class ConfirmationEngineV2 {
 
   const id =
     question.id.toLowerCase();
+
+  /*
+   * BOOSTER / JUMP-START SEMANTIC FAMILY
+   *
+   * Une fois qu'une question booster a été répondue,
+   * les autres variantes de la même vérification
+   * ne doivent plus consommer une question.
+   */
+  const boosterQuestionIds =
+    new Set<string>([
+      "starting-jump-test",
+      "starting-booster-sound",
+      "starting-booster-availability",
+      "starting-booster-test",
+      "starting-booster-retest",
+    ]);
+
+  const boosterAlreadyAnswered =
+    [...boosterQuestionIds].some(
+      completedQuestionId =>
+        completed.has(
+          completedQuestionId,
+        ),
+    );
+
+  if (
+    boosterAlreadyAnswered &&
+    (
+      boosterQuestionIds.has(
+        question.id,
+      ) ||
+      id.includes("booster") ||
+      id.includes("jump")
+    )
+  ) {
+    return true;
+  }
+  /*
+   * IMMOBILIZER SEMANTIC FAMILY
+   *
+   * If immobilizer evidence is already known, another
+   * immobilizer/key/lock question must not consume
+   * an additional diagnostic question.
+   */
+  const immobilizerAlreadyKnown =
+    context.confirmedEvidenceIds.has(
+      "observation-immobilizer-warning",
+    ) ||
+    context.rejectedEvidenceIds.has(
+      "observation-immobilizer-warning",
+    ) ||
+    context.progress
+      ?.answeredQuestionFamilies
+      ?.has("immobilizer") === true;
+
+  const normalizedQuestionText =
+    question.text
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(
+        /[\u0300-\u036f]/g,
+        "",
+      );
+
+  if (
+    immobilizerAlreadyKnown &&
+    (
+      id.includes("immobilizer") ||
+      id.includes("antivol") ||
+      id.includes("antidemarrage") ||
+      normalizedQuestionText.includes(
+        "antidemarrage",
+      ) ||
+      normalizedQuestionText.includes(
+        "antivol",
+      ) ||
+      normalizedQuestionText.includes(
+        "voyant de cle",
+      ) ||
+      normalizedQuestionText.includes(
+        "cadenas",
+      )
+    )
+  ) {
+    return true;
+  }
 
   if (
     completed.has("starting-lights") &&

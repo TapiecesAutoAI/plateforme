@@ -553,7 +553,7 @@ export default function ChatInterface() {
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
           <h2 className="text-2xl font-bold text-gray-900">
-  Ta Pièces Auto AI
+  Ta Pièce Auto
 </h2>
 
 <p className="mt-2 text-base font-medium text-gray-700">

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import {
   useCallback,
@@ -363,7 +363,7 @@ export default function CounterPage() {
 
 
   return (
-    <main className="min-h-screen bg-slate-100 p-6 md:p-10">
+    <main className="min-h-screen bg-slate-100 p-6 md:p-10 w-full min-w-0 overflow-x-hidden">
 
       <div className="mx-auto max-w-7xl">
 

@@ -1,4 +1,4 @@
-﻿import type {
+import type {
   KnowledgeQuestionTemplate,
 } from "./types";
 
@@ -580,7 +580,7 @@ export const startingQuestions:
             "Les voyants et les phares restent normaux pendant la tentative de démarrage.",
 
           addsEvidence: [
-            "observation-full-lights-single-click",
+            "observation-full-lights",
           ],
 
           supports: [
@@ -588,11 +588,8 @@ export const startingQuestions:
             "problem-starter-solenoid",
             "problem-starter-relay",
             "problem-starter-control-circuit",
-          ],
-
-          rejects: [
-            "problem-weak-battery",
-          ],
+            "problem-battery-connection",
+          ]
         },
 
         {

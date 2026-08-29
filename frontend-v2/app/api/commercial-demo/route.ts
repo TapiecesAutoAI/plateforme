@@ -1,6 +1,10 @@
-﻿import {
+import {
   NextResponse,
 } from "next/server";
+
+import {
+  diagnosticSessionStore,
+} from "../../../engine/core";
 
 import {
   VehicleIdentificationEngine,
@@ -8,6 +12,7 @@ import {
 
 import {
   DiagnosticCommercialBridge,
+  DiagnosticPartResolver,
 } from "../../../engine/commerce";
 
 import {
@@ -19,6 +24,9 @@ const vehicleEngine =
 
 const commerce =
   new DiagnosticCommercialBridge();
+
+const diagnosticPartResolver =
+  new DiagnosticPartResolver();
 
 const orders =
   new OrderEngine();
@@ -91,20 +99,133 @@ export async function POST(
       },
     );
   }
-
   /*
-   * MVP :
-   * le diagnostic a déjà identifié
-   * la pièce générique.
+   * La pièce commerciale vient maintenant
+   * du résultat diagnostic TPA transmis
+   * par le client appelant.
    *
-   * Pour le moment :
-   * Alternateur.
-   *
-   * Plus tard cette valeur viendra
-   * directement de la session diagnostic.
+   * Ordre de résolution :
+   * 1. partRecommendation.primaryPart
+   * 2. salesRecommendation
+   * 3. conclusion.possibleParts
    */
+  /*
+   * Source de vérité commerciale :
+   * uniquement la session Diagnostic V2
+   * conservée côté serveur.
+   */
+  const sessionId =
+    typeof body.sessionId === "string"
+      ? body.sessionId.trim()
+      : "";
+
+  if (!sessionId) {
+    return NextResponse.json(
+      {
+        ok: false,
+
+        identification,
+
+        error:
+          "sessionId est obligatoire pour une offre ou une commande.",
+      },
+      {
+        status: 400,
+      },
+    );
+  }
+
+  const diagnosticSession =
+    diagnosticSessionStore.get(
+      sessionId,
+    );
+
+  if (!diagnosticSession) {
+    return NextResponse.json(
+      {
+        ok: false,
+
+        identification,
+
+        sessionId,
+
+        error:
+          "Session de diagnostic introuvable.",
+      },
+      {
+        status: 404,
+      },
+    );
+  }
+
+    /*
+   * Autorité commerciale canonique.
+   *
+   * conclusion.possibleParts reste une donnée
+   * diagnostique et ne constitue jamais une
+   * autorisation d'achat.
+   */
+  const commercialAuthorization =
+    diagnosticSession
+      .commercialAuthorization;
+
+  if (
+    !commercialAuthorization ||
+    commercialAuthorization.decision !==
+      "purchase-recommended" ||
+    !commercialAuthorization.partName
+  ) {
+    return NextResponse.json(
+      {
+        ok: false,
+
+        identification,
+
+        diagnosticSessionId:
+          diagnosticSession.id,
+
+        commercialAuthorization:
+          commercialAuthorization ??
+          null,
+
+        error:
+          "Le diagnostic n'autorise pas encore l'achat.",
+      },
+      {
+        status: 409,
+      },
+    );
+  }
+
+  const diagnosticPart =
+    diagnosticPartResolver.resolve({
+      salesRecommendation: {
+        partName:
+          commercialAuthorization
+            .partName,
+      },
+    });
+
   const diagnosticPartName =
-    "Alternateur";
+    diagnosticPart.partName;
+
+  if (!diagnosticPartName) {
+    return NextResponse.json(
+      {
+        ok: false,
+
+        identification,
+
+        diagnosticPart,
+
+        error:
+          "Aucune pièce exploitable dans le résultat diagnostic.",
+      },
+      {
+        status: 400,
+      },
+    );
+  }
 
   /*
    * Compatibilité simulée.
@@ -130,6 +251,9 @@ export async function POST(
     return NextResponse.json({
       ok: true,
       identification,
+      diagnosticSessionId:
+        diagnosticSession?.id ?? null,
+      diagnosticPart,
       offer,
     });
   }
@@ -181,6 +305,9 @@ export async function POST(
     return NextResponse.json({
       ok: true,
       identification,
+      diagnosticSessionId:
+        diagnosticSession?.id ?? null,
+      diagnosticPart,
       offer,
       order,
     });

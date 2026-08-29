@@ -24,3 +24,98 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* CHAT13 RESPONSIVE GLOBAL START */
+
+/*
+ * Protection générale multi-écrans :
+ * téléphone / tablette / PC / grands écrans.
+ */
+
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  min-width: 0;
+}
+
+main {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+main > *,
+section,
+article,
+form {
+  min-width: 0;
+  max-width: 100%;
+}
+
+img,
+video,
+canvas {
+  max-width: 100%;
+  height: auto;
+}
+
+svg {
+  max-width: 100%;
+}
+
+input,
+textarea,
+select {
+  max-width: 100%;
+}
+
+textarea {
+  width: 100%;
+}
+
+pre {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  max-width: 100%;
+}
+
+/*
+ * Les tableaux restent consultables sur téléphone
+ * plutôt que de sortir de l'écran.
+ */
+@media (max-width: 767px) {
+  table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  input,
+  textarea,
+  select {
+    font-size: 16px;
+  }
+}
+
+/*
+ * Empêche les grosses largeurs arbitraires
+ * de dépasser physiquement l'écran.
+ */
+@media (max-width: 639px) {
+  main [class*="w-["],
+  main [class*="min-w-["],
+  main [class*="max-w-["] {
+    max-width: 100%;
+  }
+}
+
+/* CHAT13 RESPONSIVE GLOBAL END */

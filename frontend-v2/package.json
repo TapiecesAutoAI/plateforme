@@ -14,7 +14,8 @@
         "verify": "npm run encoding:check && npm run lint && npm run typecheck && npm run test && npm run scenarios && npm run autopilot:starting && npm run autopilot:charging && npm run build",
         "autopilot:starting": "tsx ./tests/v2/StartingDiagnosticAutopilot.ts",
         "autopilot:charging": "tsx ./tests/v2/ChargingDiagnosticAutopilot.ts",
-        "encoding:check": "node ./scripts/check-encoding.mjs"
+        "encoding:check": "node ./scripts/check-encoding.mjs",
+        "scenarios:profiles": "tsx ./engine/testing/ProfileScenarioRunner.ts"
     },
     "dependencies": {
         "next": "16.2.10",

@@ -620,6 +620,38 @@ export class ProbabilityEngine {
         exponential;
     }
 
+    // TPA SOFTMAX TRACE
+    console.log(
+      "TPA SOFTMAX TRACE",
+      {
+        temperature,
+        maximumScore,
+        exponentialTotal,
+        candidates:
+          candidates.map(
+            assessment => ({
+              id:
+                assessment.hypothesis.id,
+              adjustedScore:
+                assessment.adjustedScore,
+              centeredScore:
+                assessment.adjustedScore -
+                maximumScore,
+              exponential:
+                exponentials.get(
+                  assessment.hypothesis.id,
+                ) ?? 0,
+              probability:
+                (
+                  exponentials.get(
+                    assessment.hypothesis.id,
+                  ) ?? 0
+                ) /
+                exponentialTotal,
+            }),
+          ),
+      },
+    );
     if (
       !Number.isFinite(
         exponentialTotal,

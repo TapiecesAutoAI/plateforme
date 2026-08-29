@@ -82,7 +82,7 @@ const STOP_ENGINE = {
   decisiveLead: 0.20,
   weakAlternativeThreshold: 0.10,
   minimumUsefulGain: 0.03,
-  hardQuestionLimit: 7,
+
 } as const;
 
 function shouldStopEarly(
@@ -94,12 +94,6 @@ function shouldStopEarly(
   }[],
   answeredQuestionCount: number,
 ): boolean {
-  if (
-    answeredQuestionCount >=
-    STOP_ENGINE.hardQuestionLimit
-  ) {
-    return true;
-  }
 
   if (
     confidence >=

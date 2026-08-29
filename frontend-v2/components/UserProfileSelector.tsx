@@ -142,7 +142,7 @@ export default function UserProfileSelector({
         </div>
 
         <h1 className="mt-6 text-3xl font-bold tracking-tight sm:text-4xl">
-          Ta Pièces Auto AI
+          Ta Pièce Auto
         </h1>
 
         <p className="mx-auto mt-4 max-w-2xl text-lg leading-8 text-blue-100">

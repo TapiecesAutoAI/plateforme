@@ -644,7 +644,7 @@ export default function QuickPurchasePage() {
 
 
   return (
-    <main className="h-screen overflow-hidden bg-gradient-to-br from-slate-100 via-blue-50 to-slate-100 text-slate-950">
+    <main className="h-screen overflow-hidden bg-gradient-to-br from-slate-100 via-blue-50 to-slate-100 text-slate-950 w-full min-w-0 overflow-x-hidden">
 
       <div className="mx-auto flex h-full max-w-7xl flex-col px-5 py-5">
 

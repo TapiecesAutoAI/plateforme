@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 type VerificationResult =
   | "positive"
@@ -33,7 +33,7 @@ export default function DiagnosticConfirmationCard({
   const verificationUnavailable =
     verificationResult === "not-tested";
 
-  function identifyVehicle() {
+  function viewPartPrice() {
 
     const target =
       partName
@@ -64,7 +64,7 @@ export default function DiagnosticConfirmationCard({
         </h3>
 
         <p className="mt-2 text-sm leading-6 text-slate-700">
-          Le contrôle demandé a été enregistré. Le résultat reste à confirmer avec l'identification du véhicule avant toute commande définitive.
+          Le contrôle demandé a été enregistré, mais aucune pièce précise n'est encore identifiée. Poursuivez le diagnostic avant toute commande.
         </p>
 
         <div className="mt-5 flex items-center justify-between rounded-xl bg-white p-4">
@@ -83,11 +83,23 @@ export default function DiagnosticConfirmationCard({
           <button
             type="button"
             onClick={
-              identifyVehicle
+              viewPartPrice
             }
             className="mt-5 w-full rounded-xl bg-blue-950 px-5 py-3 font-semibold text-white hover:bg-slate-950"
           >
-            Identifier mon véhicule
+            Voir le prix de la pièce
+          </button>
+        )}
+
+        {!partName && onContinue && (
+          <button
+            type="button"
+            onClick={
+              onContinue
+            }
+            className="mt-5 w-full rounded-xl bg-blue-700 px-5 py-3 font-semibold text-white hover:bg-blue-800"
+          >
+            Continuer le diagnostic
           </button>
         )}
 
@@ -132,11 +144,11 @@ export default function DiagnosticConfirmationCard({
           <button
             type="button"
             onClick={
-              identifyVehicle
+              viewPartPrice
             }
             className="mt-5 w-full rounded-xl bg-blue-950 px-5 py-3 font-semibold text-white hover:bg-slate-950"
           >
-            Identifier mon véhicule
+            Voir le prix de la pièce
           </button>
         )}
 
@@ -174,9 +186,9 @@ export default function DiagnosticConfirmationCard({
       </div>
 
       {/*
-       * Si le moteur possède déjà une pièce avec
-       * une confiance élevée, on peut identifier
-       * le véhicule.
+       * Si le diagnostic possède déjà une pièce avec
+       * une confiance élevée, on peut consulter
+       * son prix.
        *
        * La vente définitive restera bloquée par
        * la compatibilité / le comptoir.
@@ -186,15 +198,19 @@ export default function DiagnosticConfirmationCard({
         <button
           type="button"
           onClick={
-            identifyVehicle
+            viewPartPrice
           }
           className="mt-5 w-full rounded-xl bg-blue-950 px-5 py-3 font-semibold text-white hover:bg-slate-950"
         >
-          Identifier mon véhicule
+          Voir le prix de la pièce
         </button>
       )}
 
-      {onContinue && confidence < 85 && (
+      {onContinue &&
+        (
+          confidence < 85 ||
+          !partName
+        ) && (
         <button
           type="button"
           onClick={
@@ -209,3 +225,5 @@ export default function DiagnosticConfirmationCard({
     </div>
   );
 }
+
+

@@ -430,7 +430,7 @@ for (const profile of profiles) {
           20
         ) {
           firstAnomalies.push(
-            `${pathText(path)} | complete-diagnosis non exǸcutǸ`,
+            `${pathText(path)} | complete-diagnosis non exécuté`,
           );
         }
       }

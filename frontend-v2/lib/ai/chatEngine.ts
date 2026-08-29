@@ -1,4 +1,4 @@
-﻿import type {
+import type {
   ChatMessage,
 } from "./conversation";
 
@@ -61,6 +61,10 @@ import {
 import {
   selectNextQuestion,
 } from "./questionEngine";
+
+import {
+  detectUserSkillProfile,
+} from "./userProfile";
 
 function normalizeMessageText(
   value: string,
@@ -588,6 +592,18 @@ export function buildConversationEngine(
       activeMessages,
     );
 
+  const userProfile =
+    detectUserSkillProfile(
+      activeMessages,
+    );
+
+  const maximumQuestions =
+    userProfile.level === "professional"
+      ? 10
+      : userProfile.level === "amateur"
+        ? 7
+        : 5;
+
   /*
    * Seuls les vrais messages libres sont transmis
    * au matcher.
@@ -682,10 +698,107 @@ export function buildConversationEngine(
    * Le scoring engine recalcule ensuite leur probabilité
    * selon la force et la spécificité des observations.
    */
+  const debugStartingIds =
+    new Set([
+      "problem-weak-battery",
+      "problem-battery-internal-failure",
+      "problem-battery-connection",
+      "problem-starter",
+      "problem-starter-solenoid",
+      "problem-starter-relay",
+      "problem-starter-control-circuit",
+    ]);
+
+  console.log(
+    "\n=== TPA DEBUG AVANT RESCORE ===",
+  );
+
+  for (
+    const hypothesis
+    of graphHypotheses
+  ) {
+    if (
+      debugStartingIds.has(
+        hypothesis.id,
+      )
+    ) {
+      console.log({
+        id: hypothesis.id,
+        probability:
+          hypothesis.probability,
+        evidenceFor:
+          hypothesis.evidenceFor.map(
+            (evidence) => ({
+              entityId:
+                evidence.entityId,
+              label:
+                evidence.label,
+              weight:
+                evidence.weight,
+              source:
+                evidence.source,
+            }),
+          ),
+        evidenceAgainst:
+          hypothesis.evidenceAgainst.map(
+            (evidence) => ({
+              entityId:
+                evidence.entityId,
+              label:
+                evidence.label,
+              weight:
+                evidence.weight,
+              source:
+                evidence.source,
+            }),
+          ),
+      });
+    }
+  }
+
   state.hypotheses =
     rescoreHypotheses(
       graphHypotheses,
     );
+
+  console.log(
+    "\n=== TPA DEBUG APRES RESCORE ===",
+  );
+
+  for (
+    const hypothesis
+    of state.hypotheses
+  ) {
+    if (
+      debugStartingIds.has(
+        hypothesis.id,
+      )
+    ) {
+      console.log({
+        id: hypothesis.id,
+        probability:
+          hypothesis.probability,
+        evidenceFor:
+          hypothesis.evidenceFor.map(
+            (evidence) => ({
+              entityId:
+                evidence.entityId,
+              weight:
+                evidence.weight,
+            }),
+          ),
+        evidenceAgainst:
+          hypothesis.evidenceAgainst.map(
+            (evidence) => ({
+              entityId:
+                evidence.entityId,
+              weight:
+                evidence.weight,
+            }),
+          ),
+      });
+    }
+  }
 
   memory.snapshotHypotheses(
     state.hypotheses,
@@ -696,8 +809,24 @@ export function buildConversationEngine(
       interpreted.unansweredQuestionId,
     );
 
+  const unansweredTargetAlreadyConfirmed =
+    unansweredQuestion !== null &&
+    context.confirmedEntityIds.includes(
+      unansweredQuestion.targetEntityId,
+    );
+
+  /*
+   * CHAT13: do not repeat a pending question whose target is already confirmed
+   *
+   * A free-text message can contain useful diagnostic information
+   * without being recognized as the structured answer to the
+   * currently displayed question. If that message nevertheless
+   * confirms the entity targeted by the pending question, asking
+   * the same information again would be redundant.
+   */
   if (
-    unansweredQuestion
+    unansweredQuestion &&
+    !unansweredTargetAlreadyConfirmed
   ) {
     memory.setPendingQuestion(
       unansweredQuestion.id,
@@ -740,6 +869,7 @@ export function buildConversationEngine(
       context.confirmedEntities,
       state.askedQuestions,
       chiefComplaint,
+      userProfile,
     );
 
   const diagnosticDecision =
@@ -758,6 +888,8 @@ export function buildConversationEngine(
 
       rejectedEntityIds:
         context.rejectedEntityIds,
+
+      maximumQuestions,
     });
 
   state.nextQuestion =

@@ -43,12 +43,174 @@ describe(
     );
 
     it(
+      "extracts Golf VII 1.6 TDI",
+      () => {
+
+        const result =
+          parseVehicleFromText(
+            "Je veux de l'huile pour ma Golf 7 1.6 TDI",
+          );
+
+        expect(
+          result.make,
+        ).toBe(
+          "Volkswagen",
+        );
+
+        expect(
+          result.model,
+        ).toBe(
+          "Golf",
+        );
+
+        expect(
+          result.generation,
+        ).toBe(
+          "VII",
+        );
+
+        expect(
+          result.engineName,
+        ).toBe(
+          "1.6 TDI",
+        );
+      },
+    );
+
+    it(
+      "tolerates Golf VII 16 TDI without decimal point",
+      () => {
+
+        const result =
+          parseVehicleFromText(
+            "je veux de l'huile pour ma golf 7 16 tdi",
+          );
+
+        expect(
+          result.make,
+        ).toBe(
+          "Volkswagen",
+        );
+
+        expect(
+          result.model,
+        ).toBe(
+          "Golf",
+        );
+
+        expect(
+          result.generation,
+        ).toBe(
+          "VII",
+        );
+
+        expect(
+          result.engineName,
+        ).toBe(
+          "1.6 TDI",
+        );
+      },
+    );
+
+    it(
+      "tolerates customer typo Golf VII 16 RDI",
+      () => {
+
+        const result =
+          parseVehicleFromText(
+            "je veux de l'huile pour ma golf 7 16 rdi",
+          );
+
+        expect(
+          result.make,
+        ).toBe(
+          "Volkswagen",
+        );
+
+        expect(
+          result.model,
+        ).toBe(
+          "Golf",
+        );
+
+        expect(
+          result.generation,
+        ).toBe(
+          "VII",
+        );
+
+        expect(
+          result.engineName,
+        ).toBe(
+          "1.6 TDI",
+        );
+      },
+    );
+    it(
+      "extracts Golf VIII",
+      () => {
+
+        const result =
+          parseVehicleFromText(
+            "Volkswagen Golf VIII 2.0 TDI",
+          );
+
+        expect(
+          result.make,
+        ).toBe(
+          "Volkswagen",
+        );
+
+        expect(
+          result.model,
+        ).toBe(
+          "Golf",
+        );
+
+        expect(
+          result.generation,
+        ).toBe(
+          "VIII",
+        );
+
+        expect(
+          result.engineName,
+        ).toBe(
+          "2.0 TDI",
+        );
+      },
+    );
+
+    it(
       "extracts Opel 1.3 Multijet",
       () => {
 
         const result =
           parseVehicleFromText(
             "Je veux faire une distribution d'une Opel 1.3 Multijet",
+          );
+
+        expect(
+          result.make,
+        ).toBe(
+          "Opel",
+        );
+
+        expect(
+          result.engineName,
+        ).toBe(
+          "1.3 Multijet",
+        );
+      },
+    );
+
+    it(
+      "normalizes Opel 1.3 CDTI as Multijet family",
+      () => {
+
+        const result =
+          parseVehicleFromText(
+            "Opel Corsa 1.3 CDTI",
           );
 
         expect(

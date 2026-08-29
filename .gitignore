@@ -12,3 +12,5 @@ encoding-backup-*/
 # Obsolete local frontend implementation
 /frontend/*
 !/frontend/README.md
+.vercel
+.env*

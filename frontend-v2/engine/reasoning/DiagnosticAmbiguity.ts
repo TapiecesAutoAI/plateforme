@@ -106,8 +106,8 @@ export function buildDiagnosticAmbiguity(
     );
 
   /*
-   * Le second diagnostic doit reprǸsenter
-   * au moins 20 % de probabilitǸ.
+   * Le second diagnostic doit représenter
+   * au moins 20 % de probabilité.
    */
   if (
     secondProbability < 0.25

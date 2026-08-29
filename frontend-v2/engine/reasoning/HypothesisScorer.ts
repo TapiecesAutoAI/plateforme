@@ -1,4 +1,4 @@
-﻿import type {
+import type {
   KnowledgePackage,
 } from "../knowledge";
 
@@ -64,7 +64,50 @@ const COMBINATION_RULES:
       },
     },
 
-    {
+        {
+      id:
+        "single-click-strong-dim-battery-priority",
+
+      ifAll: [
+        "symptom-single-click",
+        "observation-lights-dim-strongly",
+      ],
+
+      /*
+       * Un clic unique peut indiquer un démarreur,
+       * mais une forte chute des phares indique surtout
+       * une chute de tension sous charge.
+       *
+       * Tant qu'un booster ou une mesure de tension
+       * n'a pas confirmé le démarreur, batterie /
+       * connexion restent prioritaires.
+       */
+      boost: {
+        "problem-weak-battery":
+          1.65,
+
+        "problem-battery-internal-failure":
+          1.30,
+
+        "problem-battery-connection":
+          1.40,
+      },
+
+      reduce: {
+        "problem-starter":
+          0.52,
+
+        "problem-starter-solenoid":
+          0.62,
+
+        "problem-starter-control-circuit":
+          0.68,
+
+        "problem-engine-mechanical-lock":
+          0.70,
+      },
+    },
+{
       id:
         "weak-battery-strong-pattern",
 
@@ -362,8 +405,7 @@ function applyCombinationRules(
             ),
         ),
     );
-
-  if (
+if (
     activeRules.length ===
     0
   ) {
