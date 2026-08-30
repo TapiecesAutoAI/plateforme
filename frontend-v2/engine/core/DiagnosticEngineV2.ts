@@ -1088,9 +1088,16 @@ const hasForcedBranchAction =
           ),
       },
     );
+    const selectedActionIsExplicitWorkflowContinuation =
+      selectedAction !== null &&
+      session.currentActionId !== null &&
+      selectedAction.id ===
+        session.currentActionId;
+
     if (
       reachedProfileLimit &&
-      selectedAction
+      selectedAction &&
+      !selectedActionIsExplicitWorkflowContinuation
     ) {
       const selectedActionType =
         this.convertActionType(
@@ -1174,6 +1181,37 @@ const hasForcedBranchAction =
       };
     }
 
+    /*
+     * CHAT14 — PENDING EXPLICIT WORKFLOW ACTION GUARD
+     *
+     * Une branche explicite demandee par le workflow reste
+     * prioritaire sur une conclusion automatique tant que
+     * l'action existe, est autorisee, compatible et non terminee.
+     */
+    const pendingExplicitWorkflowAction =
+      session.currentActionId
+        ? knowledge.actions.find(
+            action =>
+              action.id ===
+              session.currentActionId,
+          ) ?? null
+        : null;
+
+    const hasPendingExplicitWorkflowAction =
+      pendingExplicitWorkflowAction !== null &&
+      !session.completedActionIds.includes(
+        pendingExplicitWorkflowAction.id,
+      ) &&
+      this.isAllowedForProfile(
+        session.profile as DiagnosticProfile,
+        pendingExplicitWorkflowAction,
+      ) &&
+      this.isTransmissionActionCompatible(
+        session,
+        knowledge,
+        pendingExplicitWorkflowAction,
+      );
+
     const hasForcedCurrentAction =
       session.currentActionId !== null &&
       selectedAction !== null &&
@@ -1184,6 +1222,7 @@ const hasForcedBranchAction =
       decision.diagnostic.hypothesis &&
       !mustContinueWithConfirmationV2 &&
       !hasForcedCurrentAction &&
+      !hasPendingExplicitWorkflowAction &&
       (
         (
           decision.type === "conclude" &&
@@ -1264,7 +1303,8 @@ const hasForcedBranchAction =
       if (
         hasUsableHypothesis &&
         decision.type === "conclude" &&
-        !mustContinueWithConfirmationV2
+        !mustContinueWithConfirmationV2 &&
+        !hasPendingExplicitWorkflowAction
       ) {
 
         this.completeSession(
