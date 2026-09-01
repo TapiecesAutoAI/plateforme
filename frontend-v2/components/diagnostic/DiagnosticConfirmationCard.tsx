@@ -7,7 +7,7 @@ type VerificationResult =
   | null;
 
 type Props = {
-  confidence: number;
+  confidence: number | null;
 
   verificationResult?:
     VerificationResult;
@@ -74,7 +74,7 @@ export default function DiagnosticConfirmationCard({
           </span>
 
           <span className="text-2xl font-bold text-emerald-700">
-            {confidence}%
+            {confidence === null ? "À confirmer" : `${confidence}%`}
           </span>
 
         </div>
@@ -135,12 +135,12 @@ export default function DiagnosticConfirmationCard({
           </span>
 
           <span className="text-2xl font-bold text-slate-950">
-            {confidence}%
+            {confidence === null ? "À confirmer" : `${confidence}%`}
           </span>
 
         </div>
 
-        {partName && confidence >= 85 && (
+        {partName && confidence !== null && confidence >= 85 && (
           <button
             type="button"
             onClick={
@@ -180,7 +180,7 @@ export default function DiagnosticConfirmationCard({
         </span>
 
         <span className="text-2xl font-bold text-slate-950">
-          {confidence}%
+          {confidence === null ? "À confirmer" : `${confidence}%`}
         </span>
 
       </div>
@@ -194,7 +194,7 @@ export default function DiagnosticConfirmationCard({
        * la compatibilité / le comptoir.
        */}
 
-      {partName && confidence >= 85 && (
+      {partName && confidence !== null && confidence >= 85 && (
         <button
           type="button"
           onClick={
@@ -208,8 +208,7 @@ export default function DiagnosticConfirmationCard({
 
       {onContinue &&
         (
-          confidence < 85 ||
-          !partName
+          confidence === null || confidence < 85 || !partName
         ) && (
         <button
           type="button"

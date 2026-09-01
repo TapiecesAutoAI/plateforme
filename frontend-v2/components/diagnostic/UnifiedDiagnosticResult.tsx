@@ -682,9 +682,7 @@ export default function UnifiedDiagnosticResult({
           </div>
         )}
 <DiagnosticConfirmationCard
-          confidence={
-            diagnosticConfidence
-          }
+          confidence={conclusion ? diagnosticConfidence : null}
 
           verificationResult={
             verificationResult
