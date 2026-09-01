@@ -328,6 +328,54 @@ export class DiagnosticEngineV2 {
 
   }
 
+  public confirmUserTextEvidence(
+    session:
+      LegacyDiagnosticSession,
+
+    domain:
+      KnowledgeDomain,
+
+    evidenceId:
+      string,
+  ): DiagnosticEngineV2Step {
+
+    const knowledge =
+      this.loader.loadDomain(
+        domain,
+      );
+
+    const definition =
+      knowledge.evidences.find(
+        evidence =>
+          evidence.id === evidenceId,
+      );
+
+    if (!definition) {
+      throw new Error(
+        `Evidence inconnue pour le domaine "${domain}" : "${evidenceId}".`,
+      );
+    }
+
+    const now =
+      new Date().toISOString();
+
+    this.addConfirmedEvidence(
+      session,
+      knowledge,
+      evidenceId,
+      "user-text",
+      now,
+    );
+
+    session.updatedAt =
+      now;
+
+    return this.evaluate(
+      session,
+      knowledge,
+    );
+  }
+
   public confirmVinCompatibility(
     session:
       LegacyDiagnosticSession,
