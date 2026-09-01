@@ -93,7 +93,7 @@ describe(
         ).toBe(201);
 
         const session =
-          diagnosticSessionStore.get(
+          await diagnosticSessionStore.get(
             sessionId,
           );
 
@@ -138,7 +138,7 @@ describe(
           typeof store.save ===
           "function"
         ) {
-          store.save(
+          await store.save(
             storedSession,
           );
         }
@@ -184,7 +184,7 @@ describe(
         ).toBe(200);
 
         const updatedSession =
-          diagnosticSessionStore.get(
+          await diagnosticSessionStore.get(
             sessionId,
           );
 

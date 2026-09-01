@@ -181,12 +181,12 @@ const semanticComplaintProvider =
     },
   );
 
-function saveSession(
+async function saveSession(
   session:
     DiagnosticSession,
-): void {
+): Promise<void> {
 
-  diagnosticSessionStore.save(
+  await diagnosticSessionStore.save(
     session,
   );
 
@@ -482,7 +482,7 @@ function parseRequest(
 
 }
 
-function buildResponse(
+async function buildResponse(
   result:
     ReturnType<
       DiagnosticEngineV2["createSession"]
@@ -543,7 +543,7 @@ function buildResponse(
    *
    * Sauvegarde explicite côté serveur.
    */
-  saveSession(
+  await saveSession(
     result.session,
   );
 
@@ -586,7 +586,7 @@ export async function POST(
     ) {
 
       const existingSession =
-        diagnosticSessionStore.get(
+        await diagnosticSessionStore.get(
           body.sessionId,
         );
 
@@ -649,7 +649,7 @@ export async function POST(
               items: [],
             };
 
-      pendingComplaintClarificationStore.save(
+      await pendingComplaintClarificationStore.save(
         body.sessionId,
         internalClarification,
       );
@@ -660,7 +660,7 @@ export async function POST(
         );
 
       const pendingClarification =
-        pendingComplaintClarificationStore.get(
+        await pendingComplaintClarificationStore.get(
           body.sessionId,
         );
 
@@ -693,12 +693,12 @@ export async function POST(
           initialEvidenceIds,
         );
 
-      saveSession(
+      await saveSession(
         result.session,
       );
 
       const diagnosticResponse =
-        buildResponse(
+        await buildResponse(
           result,
           body.domain,
         );
@@ -720,7 +720,7 @@ export async function POST(
     }
 
     const session =
-      diagnosticSessionStore.get(
+      await diagnosticSessionStore.get(
         body.sessionId,
       );
 
@@ -748,7 +748,7 @@ export async function POST(
     ) {
 
       const pending =
-        pendingComplaintClarificationStore.get(
+        await pendingComplaintClarificationStore.get(
           body.sessionId,
         );
 
@@ -822,12 +822,12 @@ export async function POST(
           );
       }
 
-      saveSession(
+      await saveSession(
         result.session,
       );
 
       const updated =
-        pendingComplaintClarificationStore.update(
+        await pendingComplaintClarificationStore.update(
           body.sessionId,
           resolution.remainingClarification,
         );
@@ -846,7 +846,7 @@ export async function POST(
       }
 
       const nextPending =
-        pendingComplaintClarificationStore.get(
+        await pendingComplaintClarificationStore.get(
           body.sessionId,
         );
 
@@ -857,10 +857,10 @@ export async function POST(
 
       return NextResponse.json(
         {
-          ...buildResponse(
+          ...(await buildResponse(
             result,
             body.domain,
-          ),
+          )),
 
           clarification: {
             ...nextClarification,
@@ -886,12 +886,12 @@ export async function POST(
           body.value,
         );
 
-      saveSession(
+      await saveSession(
         result.session,
       );
 
       return NextResponse.json(
-        buildResponse(
+        await buildResponse(
           result,
           body.domain,
         ),
@@ -912,12 +912,12 @@ export async function POST(
           body.optionId,
         );
 
-      saveSession(
+      await saveSession(
         result.session,
       );
 
       return NextResponse.json(
-        buildResponse(
+        await buildResponse(
           result,
           body.domain,
         ),
@@ -931,12 +931,12 @@ export async function POST(
         body.domain,
       );
 
-    saveSession(
+    await saveSession(
       result.session,
     );
 
     return NextResponse.json(
-      buildResponse(
+      await buildResponse(
         result,
         body.domain,
       ),

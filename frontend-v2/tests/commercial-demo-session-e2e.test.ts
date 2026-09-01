@@ -43,8 +43,8 @@ describe(
   () => {
 
     beforeEach(
-      () => {
-        diagnosticSessionStore.clear();
+      async () => {
+        await diagnosticSessionStore.clear();
       },
     );
 
@@ -133,7 +133,7 @@ describe(
             new Date().toISOString(),
         };
 
-        diagnosticSessionStore.save(
+        await diagnosticSessionStore.save(
           session,
         );
 
@@ -248,7 +248,7 @@ describe(
             new Date().toISOString(),
         };
 
-        diagnosticSessionStore.save(
+        await diagnosticSessionStore.save(
           session,
         );
 

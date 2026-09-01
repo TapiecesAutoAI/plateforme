@@ -136,7 +136,7 @@ export async function POST(
   }
 
   const diagnosticSession =
-    diagnosticSessionStore.get(
+    await diagnosticSessionStore.get(
       sessionId,
     );
 

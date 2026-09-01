@@ -1,4 +1,4 @@
-﻿import {
+import {
   describe,
   expect,
   it,
@@ -61,7 +61,7 @@ describe(
         ).toBe(201);
 
         const session =
-          diagnosticSessionStore.get(
+          await diagnosticSessionStore.get(
             sessionId,
           );
 
@@ -77,7 +77,7 @@ describe(
         session.vehicle.vinValidated =
           false;
 
-        diagnosticSessionStore.save(
+        await diagnosticSessionStore.save(
           session,
         );
 
@@ -118,7 +118,7 @@ describe(
         );
 
         const updatedSession =
-          diagnosticSessionStore.get(
+          await diagnosticSessionStore.get(
             sessionId,
           );
 

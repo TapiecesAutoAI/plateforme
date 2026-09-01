@@ -14,12 +14,12 @@ describe(
 
     it(
       "creates an opaque token for a pending clarification",
-      () => {
+      async () => {
 
         const store =
           new PendingComplaintClarificationStore();
 
-        store.save(
+        await store.save(
           "token-session",
           {
             required: true,
@@ -38,7 +38,7 @@ describe(
         );
 
         const record =
-          store.get(
+          await store.get(
             "token-session",
           );
 
@@ -56,12 +56,12 @@ describe(
 
     it(
       "rotates the token when moving to the next clarification",
-      () => {
+      async () => {
 
         const store =
           new PendingComplaintClarificationStore();
 
-        store.save(
+        await store.save(
           "rotate-session",
           {
             required: true,
@@ -89,14 +89,16 @@ describe(
         );
 
         const firstToken =
-          store.get(
-            "rotate-session",
+          (
+            await store.get(
+              "rotate-session",
+            )
           )?.clarificationToken;
 
         expect(firstToken).toBeTruthy();
 
         const updated =
-          store.update(
+          await store.update(
             "rotate-session",
             {
               required: true,
@@ -117,8 +119,10 @@ describe(
         expect(updated).toBe(true);
 
         const secondToken =
-          store.get(
-            "rotate-session",
+          (
+            await store.get(
+              "rotate-session",
+            )
           )?.clarificationToken;
 
         expect(secondToken).toBeTruthy();
@@ -133,12 +137,12 @@ describe(
 
     it(
       "removes the token with the record when clarification is complete",
-      () => {
+      async () => {
 
         const store =
           new PendingComplaintClarificationStore();
 
-        store.save(
+        await store.save(
           "complete-session",
           {
             required: true,
@@ -157,12 +161,14 @@ describe(
         );
 
         expect(
-          store.get(
-            "complete-session",
+          (
+            await store.get(
+              "complete-session",
+            )
           )?.clarificationToken,
         ).toBeTruthy();
 
-        store.update(
+        await store.update(
           "complete-session",
           {
             required: false,
@@ -171,7 +177,7 @@ describe(
         );
 
         expect(
-          store.get(
+          await store.get(
             "complete-session",
           ),
         ).toBeNull();

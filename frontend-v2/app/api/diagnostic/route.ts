@@ -1,4 +1,4 @@
-﻿import {
+import {
   NextResponse,
 } from "next/server";
 
@@ -68,10 +68,11 @@ const partRecommendationEngine =
 const salesEngine =
   new SalesEngine();
 
-function saveSession(
-  session: DiagnosticSession,
-): void {
-  diagnosticSessionStore.save(
+async function saveSession(
+  session:
+    DiagnosticSession,
+): Promise<void> {
+  await diagnosticSessionStore.save(
     session,
   );
 }
@@ -131,7 +132,7 @@ export async function POST(
           body.message ?? "",
         );
 
-      saveSession(
+      await saveSession(
         result.session,
       );
 
@@ -148,7 +149,7 @@ export async function POST(
       "answer"
     ) {
       const session =
-        diagnosticSessionStore.get(
+        await diagnosticSessionStore.get(
           body.sessionId,
         );
 
@@ -175,7 +176,7 @@ export async function POST(
           body.optionId,
         );
 
-      saveSession(
+      await saveSession(
         result.session,
       );
 

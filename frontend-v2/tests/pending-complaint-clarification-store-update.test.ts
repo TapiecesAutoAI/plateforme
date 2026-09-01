@@ -14,12 +14,12 @@ describe(
 
     it(
       "updates an existing pending clarification",
-      () => {
+      async () => {
 
         const store =
           new PendingComplaintClarificationStore();
 
-        store.save(
+        await store.save(
           "session-update",
           {
             required: true,
@@ -47,7 +47,7 @@ describe(
         );
 
         const updated =
-          store.update(
+          await store.update(
             "session-update",
             {
               required: true,
@@ -68,14 +68,18 @@ describe(
         expect(updated).toBe(true);
 
         expect(
-          store.get(
+          (
+            await store.get(
             "session-update",
+            )
           )?.clarification.items,
         ).toHaveLength(1);
 
         expect(
-          store.get(
+          (
+            await store.get(
             "session-update",
+            )
           )?.clarification
             .items[0]
             ?.evidenceIds,
@@ -87,12 +91,12 @@ describe(
 
     it(
       "consumes the pending record when no clarification remains",
-      () => {
+      async () => {
 
         const store =
           new PendingComplaintClarificationStore();
 
-        store.save(
+        await store.save(
           "session-consume",
           {
             required: true,
@@ -111,7 +115,7 @@ describe(
         );
 
         const updated =
-          store.update(
+          await store.update(
             "session-consume",
             {
               required: false,
@@ -122,7 +126,7 @@ describe(
         expect(updated).toBe(true);
 
         expect(
-          store.has(
+          await store.has(
             "session-consume",
           ),
         ).toBe(false);
@@ -131,13 +135,13 @@ describe(
 
     it(
       "refuses to update a missing pending session",
-      () => {
+      async () => {
 
         const store =
           new PendingComplaintClarificationStore();
 
         const updated =
-          store.update(
+          await store.update(
             "missing-session",
             {
               required: true,
@@ -158,7 +162,7 @@ describe(
         expect(updated).toBe(false);
 
         expect(
-          store.has(
+          await store.has(
             "missing-session",
           ),
         ).toBe(false);

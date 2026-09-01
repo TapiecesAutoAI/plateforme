@@ -47,8 +47,8 @@ describe(
   () => {
 
     beforeEach(
-      () => {
-        diagnosticSessionStore.clear();
+      async () => {
+        await diagnosticSessionStore.clear();
       },
     );
 
@@ -277,12 +277,12 @@ describe(
         // SERVER SESSION PERSISTENCE
         // ====================================================
 
-        diagnosticSessionStore.save(
+        await diagnosticSessionStore.save(
           session,
         );
 
         const storedSession =
-          diagnosticSessionStore.get(
+          await diagnosticSessionStore.get(
             session.id,
           );
 

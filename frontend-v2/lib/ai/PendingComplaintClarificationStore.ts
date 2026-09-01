@@ -1,3 +1,7 @@
+import {
+  Redis,
+} from "@upstash/redis";
+
 import type {
   ComplaintClarificationResult,
 } from "./ComplaintClarificationBuilder";
@@ -16,6 +20,35 @@ export type PendingComplaintClarification = {
     string;
 };
 
+const CLARIFICATION_TTL_SECONDS =
+  24 * 60 * 60;
+
+const CLARIFICATION_KEY_PREFIX =
+  "tpa:clarification:";
+
+function usePersistentStore():
+  boolean {
+  return (
+    process.env.NODE_ENV ===
+      "production"
+  );
+}
+
+function getRedis():
+  Redis {
+
+  if (
+    !process.env.UPSTASH_REDIS_REST_URL ||
+    !process.env.UPSTASH_REDIS_REST_TOKEN
+  ) {
+    throw new Error(
+      "TPA Redis persistence is not configured.",
+    );
+  }
+
+  return Redis.fromEnv();
+}
+
 export class PendingComplaintClarificationStore {
 
   private readonly records =
@@ -24,50 +57,67 @@ export class PendingComplaintClarificationStore {
       PendingComplaintClarification
     >();
 
-  save(
+  async save(
     sessionId:
       string,
     clarification:
       ComplaintClarificationResult,
-  ): void {
+  ): Promise<void> {
 
     if (
       !clarification.required ||
       clarification.items.length === 0
     ) {
-      this.records.delete(
+      await this.clear(
         sessionId,
       );
 
       return;
     }
 
-    this.records.set(
-      sessionId,
-      {
+    const record:
+      PendingComplaintClarification =
+        {
+          sessionId,
+
+          clarification,
+
+          createdAt:
+            Date.now(),
+
+          clarificationToken:
+            crypto.randomUUID(),
+        };
+
+    if (!usePersistentStore()) {
+      this.records.set(
         sessionId,
+        record,
+      );
 
-        clarification,
+      return;
+    }
 
-        createdAt:
-          Date.now(),
-
-        clarificationToken:
-          crypto.randomUUID(),
+    await getRedis().set(
+      `${CLARIFICATION_KEY_PREFIX}${sessionId}`,
+      record,
+      {
+        ex:
+          CLARIFICATION_TTL_SECONDS,
       },
     );
   }
 
-  update(
+  async update(
     sessionId:
       string,
 
     clarification:
       ComplaintClarificationResult,
-  ): boolean {
+  ): Promise<boolean> {
 
     const existing =
-      this.records.get(
+      await this.get(
         sessionId,
       );
 
@@ -79,58 +129,101 @@ export class PendingComplaintClarificationStore {
       !clarification.required ||
       clarification.items.length === 0
     ) {
-      this.records.delete(
+      await this.clear(
         sessionId,
       );
 
       return true;
     }
 
-    this.records.set(
-      sessionId,
+    const record:
+      PendingComplaintClarification =
+        {
+          ...existing,
+
+          clarification,
+
+          clarificationToken:
+            crypto.randomUUID(),
+        };
+
+    if (!usePersistentStore()) {
+      this.records.set(
+        sessionId,
+        record,
+      );
+
+      return true;
+    }
+
+    await getRedis().set(
+      `${CLARIFICATION_KEY_PREFIX}${sessionId}`,
+      record,
       {
-        ...existing,
-
-        clarification,
-
-        clarificationToken:
-          crypto.randomUUID(),
+        ex:
+          CLARIFICATION_TTL_SECONDS,
       },
     );
 
     return true;
   }
 
-  get(
+  async get(
     sessionId:
       string,
-  ): PendingComplaintClarification | null {
+  ): Promise<
+    PendingComplaintClarification | null
+  > {
 
-    return (
-      this.records.get(
+    if (!usePersistentStore()) {
+      return (
+        this.records.get(
+          sessionId,
+        ) ?? null
+      );
+    }
+
+    return await getRedis().get<
+      PendingComplaintClarification
+    >(
+      `${CLARIFICATION_KEY_PREFIX}${sessionId}`,
+    );
+  }
+
+  async has(
+    sessionId:
+      string,
+  ): Promise<boolean> {
+
+    if (!usePersistentStore()) {
+      return this.records.has(
         sessionId,
-      ) ??
-      null
-    );
+      );
+    }
+
+    const exists =
+      await getRedis().exists(
+        `${CLARIFICATION_KEY_PREFIX}${sessionId}`,
+      );
+
+    return exists > 0;
   }
 
-  has(
+  async clear(
     sessionId:
       string,
-  ): boolean {
+  ): Promise<void> {
 
-    return this.records.has(
-      sessionId,
-    );
-  }
+    if (!usePersistentStore()) {
+      this.records.delete(
+        sessionId,
+      );
 
-  clear(
-    sessionId:
-      string,
-  ): void {
+      return;
+    }
 
-    this.records.delete(
-      sessionId,
+    await getRedis().del(
+      `${CLARIFICATION_KEY_PREFIX}${sessionId}`,
     );
   }
 }

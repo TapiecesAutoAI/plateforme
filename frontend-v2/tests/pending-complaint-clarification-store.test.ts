@@ -26,9 +26,9 @@ describe(
 
     it(
       "stores required clarification by server session id",
-      () => {
+      async () => {
 
-        store.save(
+        await store.save(
           "session-1",
           {
             required:
@@ -51,7 +51,7 @@ describe(
         );
 
         const pending =
-          store.get(
+          await store.get(
             "session-1",
           );
 
@@ -78,9 +78,9 @@ describe(
 
     it(
       "does not store a clarification that is not required",
-      () => {
+      async () => {
 
-        store.save(
+        await store.save(
           "session-2",
           {
             required:
@@ -91,7 +91,7 @@ describe(
         );
 
         expect(
-          store.has(
+          await store.has(
             "session-2",
           ),
         ).toBe(false);
@@ -100,9 +100,9 @@ describe(
 
     it(
       "replaces pending clarification for the same session",
-      () => {
+      async () => {
 
-        store.save(
+        await store.save(
           "session-3",
           {
             required:
@@ -124,7 +124,7 @@ describe(
           },
         );
 
-        store.save(
+        await store.save(
           "session-3",
           {
             required:
@@ -147,10 +147,11 @@ describe(
         );
 
         expect(
-          store.get(
-            "session-3",
-          )
-            ?.clarification
+          (
+            await store.get(
+              "session-3",
+            )
+          )?.clarification
             .items[0]
             ?.evidenceIds,
         ).toEqual([
@@ -161,9 +162,9 @@ describe(
 
     it(
       "clears pending clarification explicitly",
-      () => {
+      async () => {
 
-        store.save(
+        await store.save(
           "session-4",
           {
             required:
@@ -185,12 +186,12 @@ describe(
           },
         );
 
-        store.clear(
+        await store.clear(
           "session-4",
         );
 
         expect(
-          store.get(
+          await store.get(
             "session-4",
           ),
         ).toBeNull();
@@ -199,9 +200,9 @@ describe(
 
     it(
       "keeps sessions isolated",
-      () => {
+      async () => {
 
-        store.save(
+        await store.save(
           "session-a",
           {
             required:
@@ -223,7 +224,7 @@ describe(
           },
         );
 
-        store.save(
+        await store.save(
           "session-b",
           {
             required:
@@ -246,10 +247,11 @@ describe(
         );
 
         expect(
-          store.get(
-            "session-a",
-          )
-            ?.clarification
+          (
+            await store.get(
+              "session-a",
+            )
+          )?.clarification
             .items[0]
             ?.evidenceIds,
         ).toEqual([
@@ -257,10 +259,11 @@ describe(
         ]);
 
         expect(
-          store.get(
-            "session-b",
-          )
-            ?.clarification
+          (
+            await store.get(
+              "session-b",
+            )
+          )?.clarification
             .items[0]
             ?.evidenceIds,
         ).toEqual([
