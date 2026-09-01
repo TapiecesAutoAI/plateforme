@@ -20,8 +20,40 @@ import {
   DiagnosticResponseBuilder,
 } from "../../../engine/response/DiagnosticResponseBuilder";
 import {
-  findEntitiesInText,
-} from "../../../lib/ai/knowledge/matcher";
+  understandAutomotiveComplaint,
+} from "../../../lib/ai/ComplaintUnderstandingOrchestrator";
+
+import {
+  buildComplaintClarification,
+} from "../../../lib/ai/ComplaintClarificationBuilder";
+
+import {
+  presentComplaintClarification,
+} from "../../../lib/ai/ComplaintClarificationPresenter";
+import {
+  resolveComplaintClarification,
+} from "../../../lib/ai/ComplaintClarificationResolver";
+
+
+import {
+  pendingComplaintClarificationStore,
+} from "../../../lib/ai/PendingComplaintClarificationStore";
+
+import {
+  DisabledSemanticComplaintProvider,
+} from "../../../lib/ai/SemanticComplaintProvider";
+
+import {
+  SafeSemanticComplaintProvider,
+} from "../../../lib/ai/SafeSemanticComplaintProvider";
+
+import {
+  isCanonicalEvidenceId,
+} from "../../../engine/evidence/CanonicalEvidenceRegistry";
+
+import type {
+  CanonicalEvidenceId,
+} from "../../../engine/evidence/CanonicalEvidenceRegistry";
 
 type StartRequest = {
 
@@ -41,6 +73,12 @@ type StartRequest = {
     string[];
 
   message:
+    string;
+
+  originalMessage:
+    string;
+
+  deterministicMessage:
     string;
 
 
@@ -85,6 +123,29 @@ type AnswerValueRequest = {
 };
 
 
+type ResolveClarificationRequest = {
+
+  command:
+    "resolve-clarification";
+
+  sessionId:
+    string;
+
+  domain:
+    KnowledgeDomain;
+
+
+  clarificationToken:
+    string;
+
+  choice:
+    | "confirm"
+    | "reject"
+    | "first"
+    | "second"
+    | "unsure";
+};
+
 type EvaluateRequest = {
 
   command:
@@ -102,6 +163,7 @@ type DiagnosticV2Request =
   | StartRequest
   | AnswerRequest
   | AnswerValueRequest
+  | ResolveClarificationRequest
   | EvaluateRequest;
 
 const diagnosticEngine =
@@ -109,6 +171,15 @@ const diagnosticEngine =
 
 const diagnosticResponseBuilder =
   new DiagnosticResponseBuilder();
+
+const semanticComplaintProvider =
+  new SafeSemanticComplaintProvider(
+    new DisabledSemanticComplaintProvider(),
+    {
+      timeoutMs:
+        2_000,
+    },
+  );
 
 function saveSession(
   session:
@@ -160,7 +231,7 @@ function requireString(
 function parseEvidenceIds(
   value:
     unknown,
-): string[] {
+): CanonicalEvidenceId[] {
 
   if (value === undefined) {
     return [];
@@ -175,7 +246,7 @@ function parseEvidenceIds(
   }
 
   const evidenceIds:
-    string[] = [];
+    CanonicalEvidenceId[] = [];
 
   for (
     const item
@@ -193,18 +264,34 @@ function parseEvidenceIds(
 
     }
 
+    const evidenceId =
+      item.trim();
+
+    if (
+      !isCanonicalEvidenceId(
+        evidenceId,
+      )
+    ) {
+
+      throw new RequestValidationError(
+        `Evidence ID non canonique : "${evidenceId}".`,
+      );
+
+    }
+
     evidenceIds.push(
-      item.trim(),
+      evidenceId,
     );
 
   }
 
   return [
-    ...new Set(evidenceIds),
+    ...new Set(
+      evidenceIds,
+    ),
   ];
 
 }
-
 function parseRequest(
   body:
     unknown,
@@ -235,6 +322,43 @@ function parseRequest(
       body.domain,
       "domain",
     ) as KnowledgeDomain;
+  if (
+    command ===
+      "resolve-clarification"
+  ) {
+
+    const choice =
+      requireString(
+        body.choice,
+        "choice",
+      );
+
+    if (
+      choice !== "confirm" &&
+      choice !== "reject" &&
+      choice !== "first" &&
+      choice !== "second" &&
+      choice !== "unsure"
+    ) {
+      throw new RequestValidationError(
+        `Choix de clarification invalide : "${choice}".`,
+      );
+    }
+
+    return {
+      command,
+      sessionId,
+      domain,
+      clarificationToken:
+        requireString(
+          body.clarificationToken,
+          "clarificationToken",
+        ),
+
+      choice,
+    };
+  }
+
 
   if (command === "start") {
 
@@ -261,6 +385,24 @@ function parseRequest(
         typeof body.message === "string"
           ? body.message.trim()
           : "",
+
+      originalMessage:
+        typeof body.originalMessage === "string"
+          ? body.originalMessage.trim()
+          : (
+              typeof body.message === "string"
+                ? body.message.trim()
+                : ""
+            ),
+
+      deterministicMessage:
+        typeof body.deterministicMessage === "string"
+          ? body.deterministicMessage.trim()
+          : (
+              typeof body.message === "string"
+                ? body.message.trim()
+                : ""
+            ),
 
 
     };
@@ -467,52 +609,79 @@ export async function POST(
 
       }
 
-            // CHAT13_INITIAL_TEXT_EVIDENCE
-      const detectedEvidenceIds =
-        body.message.length > 0
-          ? findEntitiesInText(
-              body.message,
-            ).map(
-              entity => entity.id,
+            const semanticResponse =
+        body.originalMessage.length > 0
+          ? await semanticComplaintProvider
+              .interpretComplaint({
+                originalText:
+                  body.originalMessage,
+              })
+          : {
+              evidences: [],
+            };
+
+      const complaintUnderstanding =
+        body.deterministicMessage.length > 0 ||
+        body.originalMessage.length > 0
+          ? understandAutomotiveComplaint({
+              originalText:
+                body.originalMessage,
+
+              deterministicText:
+                body.deterministicMessage,
+
+              semanticResponse,
+            })
+          : null;
+
+      const internalClarification =
+        complaintUnderstanding
+          ? buildComplaintClarification(
+              complaintUnderstanding
+                .admission,
+              complaintUnderstanding
+                .conflictGuard,
             )
-          : [];
+          : {
+              required:
+                false,
 
-      /*
-       * CHAT13 — BRIDGE KNOWLEDGE LEGACY -> WORKFLOW V2
-       *
-       * Le graphe linguistique conserve certains anciens IDs,
-       * tandis que DiagnosticEngineV2 utilise les IDs du
-       * workflow V2.
-       */
-      const bridgedDetectedEvidenceIds =
-        detectedEvidenceIds.flatMap(
-          evidenceId => {
-            switch (evidenceId) {
-              case "symptom-single-click-start":
-                return [
-                  evidenceId,
-                  "symptom-single-click",
-                ];
+              items: [],
+            };
 
-              case "symptom-rapid-clicking-start":
-                return [
-                  evidenceId,
-                  "symptom-rapid-clicking",
-                ];
+      pendingComplaintClarificationStore.save(
+        body.sessionId,
+        internalClarification,
+      );
 
-              default:
-                return [
-                  evidenceId,
-                ];
-            }
-          },
+      const clarification =
+        presentComplaintClarification(
+          internalClarification,
         );
+
+      const pendingClarification =
+        pendingComplaintClarificationStore.get(
+          body.sessionId,
+        );
+
+      const clarificationResponse =
+        {
+          ...clarification,
+
+          clarificationToken:
+            pendingClarification
+              ?.clarificationToken ?? null,
+        };
 
       const initialEvidenceIds =
         Array.from(
           new Set([
             ...(body.evidenceIds ?? []),
-            ...bridgedDetectedEvidenceIds,
+            ...(
+              complaintUnderstanding
+                ?.conflictGuard
+                .admittedEvidenceIds ?? []
+            ),
           ]),
         );
 
@@ -528,11 +697,18 @@ export async function POST(
         result.session,
       );
 
-      return NextResponse.json(
+      const diagnosticResponse =
         buildResponse(
           result,
           body.domain,
-        ),
+        );
+
+      return NextResponse.json(
+        {
+          ...diagnosticResponse,
+
+          clarification: clarificationResponse,
+        },
         {
 
           status:
@@ -566,6 +742,137 @@ export async function POST(
       );
 
     }
+    if (
+      body.command ===
+        "resolve-clarification"
+    ) {
+
+      const pending =
+        pendingComplaintClarificationStore.get(
+          body.sessionId,
+        );
+
+      if (!pending) {
+        return NextResponse.json(
+          {
+            error:
+              "Aucune clarification en attente pour cette session.",
+          },
+          {
+            status:
+              409,
+          },
+        );
+      }
+
+      if (
+        pending.clarificationToken !==
+          body.clarificationToken
+      ) {
+        return NextResponse.json(
+          {
+            error:
+              "Jeton de clarification invalide ou deja utilise.",
+          },
+          {
+            status:
+              409,
+          },
+        );
+      }
+
+      let resolution;
+
+      try {
+        resolution =
+          resolveComplaintClarification(
+            pending.clarification,
+            body.choice,
+          );
+      } catch (error) {
+        return NextResponse.json(
+          {
+            error:
+              error instanceof Error
+                ? error.message
+                : "Resolution de clarification invalide.",
+          },
+          {
+            status:
+              400,
+          },
+        );
+      }
+
+      let result =
+        diagnosticEngine.evaluateSession(
+          session,
+          body.domain,
+        );
+
+      for (
+        const evidenceId of
+          resolution.confirmedEvidenceIds
+      ) {
+        result =
+          diagnosticEngine.confirmUserTextEvidence(
+            result.session,
+            body.domain,
+            evidenceId,
+          );
+      }
+
+      saveSession(
+        result.session,
+      );
+
+      const updated =
+        pendingComplaintClarificationStore.update(
+          body.sessionId,
+          resolution.remainingClarification,
+        );
+
+      if (!updated) {
+        return NextResponse.json(
+          {
+            error:
+              "Etat de clarification introuvable.",
+          },
+          {
+            status:
+              409,
+          },
+        );
+      }
+
+      const nextPending =
+        pendingComplaintClarificationStore.get(
+          body.sessionId,
+        );
+
+      const nextClarification =
+        presentComplaintClarification(
+          resolution.remainingClarification,
+        );
+
+      return NextResponse.json(
+        {
+          ...buildResponse(
+            result,
+            body.domain,
+          ),
+
+          clarification: {
+            ...nextClarification,
+
+            clarificationToken:
+              nextPending
+                ?.clarificationToken ?? null,
+          },
+        },
+      );
+    }
+
 
     if (
       body.command === "answer-value"
