@@ -189,6 +189,39 @@ type DiagnosticCausalChain = {
 
   message: string;
 };
+type ComplaintClarificationChoice =
+  | "confirm"
+  | "reject"
+  | "first"
+  | "second"
+  | "unsure";
+
+type ComplaintClarificationItem = {
+  kind:
+    | "evidence-confirmation"
+    | "evidence-conflict";
+
+  evidenceIds:
+    string[];
+
+  labels:
+    string[];
+
+  prompt:
+    string;
+};
+
+type ComplaintClarificationState = {
+  required:
+    boolean;
+
+  items:
+    ComplaintClarificationItem[];
+
+  clarificationToken:
+    string | null;
+};
+
 type DiagnosticResponse = {
   causalChain: DiagnosticCausalChain | null;
   session: {
@@ -209,6 +242,9 @@ type DiagnosticResponse = {
   error?: string;
   ambiguity: DiagnosticAmbiguity | null;
   coexistence: DiagnosticCoexistence | null;
+
+  clarification?:
+    ComplaintClarificationState;
 };
 
 type ConversationEntry = {
@@ -446,6 +482,12 @@ const [
   ] = useState<AutomotiveTextCorrection | null>(
     null,
   );
+  const [
+    clarification,
+    setClarification,
+  ] = useState<ComplaintClarificationState | null>(
+    null,
+  );
 
   const [
     sessionId,
@@ -541,11 +583,18 @@ const [
     null,
   );
 
-  async function startDiagnostic(confirmedText?: string) {
+  async function startDiagnostic(
+    confirmedText?: string,
+    originalTextOverride?: string,
+  ) {
     // CHAT13_TEXT_CORRECTION_GATE
+    const originalText =
+      originalTextOverride ??
+      complaint.trim();
+
     const sourceText =
       confirmedText ??
-      complaint.trim();
+      originalText;
 
     const textCorrection =
       correctAutomotiveText(
@@ -626,6 +675,12 @@ const [
 
                 message:
                   diagnosticText,
+
+                originalMessage:
+                  originalText,
+
+                deterministicMessage:
+                  diagnosticText,
               }),
           },
         );
@@ -647,8 +702,19 @@ const [
         newSessionId,
       );
 
+      const nextClarification =
+        data.clarification?.required
+          ? data.clarification
+          : null;
+
+      setClarification(
+        nextClarification,
+      );
+
       setAction(
-        data.action,
+        nextClarification
+          ? null
+          : data.action,
       );
 
       setConclusion(
@@ -695,8 +761,31 @@ const [
         ];
 
       if (
+        nextClarification
+      ) {
+
+        const clarificationItem =
+          nextClarification.items[0];
+
+        if (
+          clarificationItem
+        ) {
+          initialHistory.push({
+            id:
+              createEntryId(),
+
+            role:
+              "assistant",
+
+            text:
+              clarificationItem.prompt,
+          });
+        }
+
+      } else if (
         data.action
       ) {
+
         initialHistory.push({
           id:
             createEntryId(),
@@ -724,6 +813,198 @@ const [
       setLoading(false);
     }
   }
+  async function resolveClarification(
+    choice:
+      ComplaintClarificationChoice,
+
+    displayText:
+      string,
+  ) {
+
+    if (
+      !sessionId ||
+      !clarification ||
+      !clarification.clarificationToken
+    ) {
+      return;
+    }
+
+    const token =
+      clarification.clarificationToken;
+
+    setLoading(true);
+    setError(null);
+
+    setHistory(
+      currentHistory => [
+        ...currentHistory,
+
+        {
+          id:
+            createEntryId(),
+
+          role:
+            "user",
+
+          text:
+            displayText,
+        },
+      ],
+    );
+
+    try {
+
+      const response =
+        await fetch(
+          "/api/diagnostic-v2",
+          {
+            method:
+              "POST",
+
+            headers: {
+              "Content-Type":
+                "application/json",
+            },
+
+            body:
+              JSON.stringify({
+                command:
+                  "resolve-clarification",
+
+                sessionId,
+
+                domain:
+                  "starting",
+
+                clarificationToken:
+                  token,
+
+                choice,
+              }),
+          },
+        );
+
+      const data =
+        await response.json() as
+          DiagnosticResponse;
+
+      if (
+        !response.ok
+      ) {
+        throw new Error(
+          data.error ??
+            "Impossible d'enregistrer la clarification.",
+        );
+      }
+
+      const nextClarification =
+        data.clarification?.required
+          ? data.clarification
+          : null;
+
+      setClarification(
+        nextClarification,
+      );
+
+      setAction(
+        nextClarification
+          ? null
+          : data.action,
+      );
+
+      setConclusion(
+        data.session.conclusion,
+      );
+
+      setExplanation(
+        data.explanation,
+      );
+
+      setPartRecommendation(
+        data.partRecommendation,
+      );
+
+      setSalesRecommendation(
+        data.salesRecommendation,
+      );
+
+      setAmbiguity(
+        data.ambiguity ?? null,
+      );
+
+      setCoexistence(
+        data.coexistence ?? null,
+      );
+
+      setCausalChain(
+        data.causalChain ?? null,
+      );
+
+      setHistory(
+        currentHistory => {
+
+          const nextHistory =
+            [...currentHistory];
+
+          if (
+            nextClarification
+          ) {
+
+            const nextItem =
+              nextClarification.items[0];
+
+            if (
+              nextItem
+            ) {
+              nextHistory.push({
+                id:
+                  createEntryId(),
+
+                role:
+                  "assistant",
+
+                text:
+                  nextItem.prompt,
+              });
+            }
+
+            return nextHistory;
+          }
+
+          if (
+            data.action
+          ) {
+            nextHistory.push({
+              id:
+                createEntryId(),
+
+              role:
+                "assistant",
+
+              text:
+                data.action.text,
+            });
+          }
+
+          return nextHistory;
+        },
+      );
+
+    } catch (
+      currentError
+    ) {
+
+      setError(
+        currentError instanceof Error
+          ? currentError.message
+          : "Erreur inconnue.",
+      );
+
+    } finally {
+      setLoading(false);
+    }
+  }
+
 
   async function answerQuestion(
     option: ActionOption,
@@ -1181,6 +1462,9 @@ const [
       return;
     }
 
+    const originalText =
+      complaint.trim();
+
     const correctedText =
       pendingTextCorrection.correctedText;
 
@@ -1189,6 +1473,7 @@ const [
 
     void startDiagnostic(
       correctedText,
+      originalText,
     );
   }
 
@@ -1210,6 +1495,7 @@ function resetDiagnostic() {
     setComplaint("");
 
     setPendingTextCorrection(null);
+    setClarification(null);
     setSessionId(null);
     setAction(null);
     setConclusion(null);
@@ -1551,7 +1837,137 @@ function resetDiagnostic() {
             </>
           )}
 
-          {sessionId &&
+                    {sessionId &&
+            clarification &&
+            clarification.items[0] && (
+
+            <div className="mt-6 grid gap-3">
+
+              {clarification.items[0].kind ===
+                "evidence-confirmation" && (
+                <>
+                  <button
+                    type="button"
+                    disabled={
+                      loading
+                    }
+                    onClick={() =>
+                      resolveClarification(
+                        "confirm",
+                        "Oui",
+                      )
+                    }
+                    className="rounded-2xl border border-slate-200 px-5 py-4 text-left font-medium text-slate-800 transition hover:border-blue-700 hover:bg-blue-50 disabled:opacity-50"
+                  >
+                    Oui
+                  </button>
+
+                  <button
+                    type="button"
+                    disabled={
+                      loading
+                    }
+                    onClick={() =>
+                      resolveClarification(
+                        "reject",
+                        "Non",
+                      )
+                    }
+                    className="rounded-2xl border border-slate-200 px-5 py-4 text-left font-medium text-slate-800 transition hover:border-blue-700 hover:bg-blue-50 disabled:opacity-50"
+                  >
+                    Non
+                  </button>
+
+                  <button
+                    type="button"
+                    disabled={
+                      loading
+                    }
+                    onClick={() =>
+                      resolveClarification(
+                        "unsure",
+                        "Je ne sais pas",
+                      )
+                    }
+                    className="rounded-2xl border border-slate-200 px-5 py-4 text-left font-medium text-slate-800 transition hover:border-blue-700 hover:bg-blue-50 disabled:opacity-50"
+                  >
+                    Je ne sais pas
+                  </button>
+                </>
+              )}
+
+              {clarification.items[0].kind ===
+                "evidence-conflict" && (
+                <>
+
+                  {clarification.items[0]
+                    .labels[0] && (
+                    <button
+                      type="button"
+                      disabled={
+                        loading
+                      }
+                      onClick={() =>
+                        resolveClarification(
+                          "first",
+                          clarification.items[0]
+                            .labels[0],
+                        )
+                      }
+                      className="rounded-2xl border border-slate-200 px-5 py-4 text-left font-medium text-slate-800 transition hover:border-blue-700 hover:bg-blue-50 disabled:opacity-50"
+                    >
+                      {
+                        clarification.items[0]
+                          .labels[0]
+                      }
+                    </button>
+                  )}
+
+                  {clarification.items[0]
+                    .labels[1] && (
+                    <button
+                      type="button"
+                      disabled={
+                        loading
+                      }
+                      onClick={() =>
+                        resolveClarification(
+                          "second",
+                          clarification.items[0]
+                            .labels[1],
+                        )
+                      }
+                      className="rounded-2xl border border-slate-200 px-5 py-4 text-left font-medium text-slate-800 transition hover:border-blue-700 hover:bg-blue-50 disabled:opacity-50"
+                    >
+                      {
+                        clarification.items[0]
+                          .labels[1]
+                      }
+                    </button>
+                  )}
+
+                  <button
+                    type="button"
+                    disabled={
+                      loading
+                    }
+                    onClick={() =>
+                      resolveClarification(
+                        "unsure",
+                        "Je ne sais pas",
+                      )
+                    }
+                    className="rounded-2xl border border-slate-200 px-5 py-4 text-left font-medium text-slate-800 transition hover:border-blue-700 hover:bg-blue-50 disabled:opacity-50"
+                  >
+                    Je ne sais pas
+                  </button>
+                </>
+              )}
+
+            </div>
+          )}
+{sessionId &&
+            !clarification &&
             action && (
             <div className="mt-6 grid gap-3">
               {action.options?.map(
@@ -1580,6 +1996,7 @@ function resetDiagnostic() {
             </div>
           )}
           {sessionId &&
+            !clarification &&
             explanation &&
             !action && (
             <UnifiedDiagnosticResult
