@@ -215,12 +215,14 @@
                             "value":  "Les éclairages restent normaux.",
                             "addsEvidence":  [
                                                  "observation-lights-stay-normal"
-                                             ]
+                                             ],
+                            "nextActionId":  "starting-check-battery-terminals"
                         },
                         {
                             "id":  "unsure",
                             "label":  "Je ne sais pas",
-                            "value":  "La variation n\u0027est pas connue."
+                            "value":  "La variation n\u0027est pas connue.",
+                            "nextActionId":  "starting-check-battery-terminals"
                         }
                     ],
         "requiredEvidence":  [
@@ -678,7 +680,8 @@
                                              ],
                             "rejectsEvidence":  [
                                                     "observation-battery-terminals-good"
-                                                ]
+                                                ],
+                            "nextActionId":  "starting-terminal-correction-result"
                         },
                         {
                             "id":  "good",
@@ -689,12 +692,14 @@
                                              ],
                             "rejectsEvidence":  [
                                                     "observation-battery-terminals-bad"
-                                                ]
+                                                ],
+                            "nextActionId":  "starting-booster-availability"
                         },
                         {
                             "id":  "unsure",
                             "label":  "Je ne sais pas",
-                            "value":  "L\u0027état des bornes est inconnu."
+                            "value":  "L\u0027état des bornes est inconnu.",
+                            "nextActionId":  "starting-booster-availability"
                         }
                     ]
     },

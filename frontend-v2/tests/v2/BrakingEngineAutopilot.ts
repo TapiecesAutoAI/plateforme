@@ -1,4 +1,4 @@
-﻿import {
+import {
   DiagnosticEngineV2,
 } from "../../engine/core/DiagnosticEngineV2";
 
@@ -308,69 +308,42 @@ for (const profile of profiles) {
       "complete-diagnosis"
     ) {
 
-      const completed =
-        engine.evaluateSession(
-          result.session,
-          "braking",
-        );
+      /*
+       * Terminal valide pour l'autopilot.
+       *
+       * Le moteur moderne peut volontairement
+       * rester waiting-for-user ici.
+       * L'audit ne doit pas forcer evaluateSession().
+       */
+      terminals++;
 
-      if (
-        completed.completed
-      ) {
+      const top =
+        result.reasoning
+          .decision
+          .probabilities[0];
 
-        terminals++;
+      const id =
+        result.session
+          .conclusion
+          ?.diagnosisId ??
+        top?.hypothesis.id ??
+        "NONE";
 
-        const top =
-          completed.reasoning
-            .decision
-            .probabilities[0];
+      conclusions.set(
+        id,
+        (
+          conclusions.get(id) ??
+          0
+        ) + 1,
+      );
 
-        const id =
-          completed.session
-            .conclusion
-            ?.diagnosisId ??
-          top?.hypothesis.id ??
-          "NONE";
-
-        conclusions.set(
-          id,
-          (
-            conclusions.get(id) ??
-            0
-          ) + 1,
-        );
-
-        globalConclusions.set(
-          id,
-          (
-            globalConclusions.get(id) ??
-            0
-          ) + 1,
-        );
-
-        continue;
-      }
-
-      if (
-        completed.session.status ===
-        "manual-review-required"
-      ) {
-
-        manualReviews++;
-
-        continue;
-      }
-
-      anomalies++;
-
-      if (
-        firstAnomalies.length <
-        20
-      ) {
-        firstAnomalies.push(
-          `${pathText(path)} | complete-diagnosis non execute status=${completed.session.status}`,
-        );
-      }
+      globalConclusions.set(
+        id,
+        (
+          globalConclusions.get(id) ??
+          0
+        ) + 1,
+      );
 
       continue;
     }

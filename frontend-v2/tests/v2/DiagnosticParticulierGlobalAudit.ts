@@ -119,7 +119,10 @@ function auditDomain(
      *
      * L'absence d'action suivante est NORMALE.
      */
-    if (result.completed) {
+    if (
+      result.completed ||
+      result.session.status === "completed"
+    ) {
 
       if (conclusionId) {
 
@@ -246,6 +249,20 @@ function auditDomain(
         );
       }
 
+      continue;
+    }
+
+    /*
+     * Une action complete-diagnosis est un terminal
+     * valide du workflow.
+     *
+     * Elle n'a normalement aucune option et ne doit
+     * donc pas être classée comme arrêt anormal.
+     */
+    if (
+      result.action.type ===
+      "complete-diagnosis"
+    ) {
       continue;
     }
 

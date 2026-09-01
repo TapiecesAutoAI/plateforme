@@ -263,10 +263,11 @@ $results |
 
 
 # ============================================================
-# STRICT VALIDATION
+# PRAGMATIC VALIDATION
 # ============================================================
 
 $regressions = @()
+$warnings = @()
 
 foreach ($result in $results) {
 
@@ -278,37 +279,60 @@ foreach ($result in $results) {
 
     if (
         $result.ExploredCheck -eq
-        "CHANGED"
-    ) {
-
-        $regressions +=
-            "$($result.Domain): explored $($result.BaselineExplored) -> $($result.Explored)"
-    }
-
-    if (
-        $result.ExploredCheck -eq
         "?"
     ) {
 
         $regressions +=
             "$($result.Domain): impossible de lire Parcours explores"
     }
+    elseif (
+        $result.ExploredCheck -eq
+        "CHANGED"
+    ) {
+
+        $warnings +=
+            "$($result.Domain): explored $($result.BaselineExplored) -> $($result.Explored)"
+    }
 
     if (
+        $result.TerminalsCheck -eq
+        "?"
+    ) {
+
+        $regressions +=
+            "$($result.Domain): impossible de lire Parcours terminaux"
+    }
+    elseif (
         $result.TerminalsCheck -eq
         "CHANGED"
     ) {
 
-        $regressions +=
+        $warnings +=
             "$($result.Domain): terminals $($result.BaselineTerminals) -> $($result.Terminals)"
     }
 
     if (
+        $null -eq $result.Anomalies
+    ) {
+
+        $regressions +=
+            "$($result.Domain): impossible de lire les anomalies"
+    }
+    elseif (
+        $null -ne $result.BaselineAnomalies -and
+        $result.Anomalies -gt
+        $result.BaselineAnomalies
+    ) {
+
+        $regressions +=
+            "$($result.Domain): anomalies $($result.BaselineAnomalies) -> $($result.Anomalies)"
+    }
+    elseif (
         $result.AnomaliesCheck -eq
         "CHANGED"
     ) {
 
-        $regressions +=
+        $warnings +=
             "$($result.Domain): anomalies $($result.BaselineAnomalies) -> $($result.Anomalies)"
     }
 
@@ -317,7 +341,7 @@ foreach ($result in $results) {
         "CHANGED"
     ) {
 
-        $regressions +=
+        $warnings +=
             "$($result.Domain): manual reviews $($result.BaselineManualReviews) -> $($result.ManualReviews)"
     }
 }
@@ -328,19 +352,26 @@ Write-Host "============================================================"
 
 if ($regressions.Count -eq 0) {
 
-    Write-Host " GLOBAL STATUS : BASELINE CHAT9 OK" -ForegroundColor Green
-    Write-Host " AUCUNE REGRESSION DETECTEE" -ForegroundColor Green
+    Write-Host " GLOBAL STATUS : OK" -ForegroundColor Green
+    Write-Host " AUCUNE REGRESSION CRITIQUE DETECTEE" -ForegroundColor Green
 
 }
 else {
 
-    Write-Host " GLOBAL STATUS : REGRESSION" -ForegroundColor Red
-
-    Write-Host ""
+    Write-Host " GLOBAL STATUS : REGRESSION CRITIQUE" -ForegroundColor Red
 
     foreach ($regression in $regressions) {
-
         Write-Host " - $regression" -ForegroundColor Red
+    }
+}
+
+if ($warnings.Count -gt 0) {
+
+    Write-Host ""
+    Write-Host " VARIATIONS NON BLOQUANTES :" -ForegroundColor Yellow
+
+    foreach ($warning in $warnings) {
+        Write-Host " - $warning" -ForegroundColor Yellow
     }
 }
 

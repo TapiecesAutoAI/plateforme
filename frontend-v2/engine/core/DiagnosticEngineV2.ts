@@ -3112,40 +3112,69 @@ const hasForcedBranchAction =
           requiredIds.length
         : 0;
 
-    const answeredQuestionCount =
-      reasoning.context
-        .completedQuestionIds
-        .size;
+    /*
+     * diagnostic.confidence contient deja le classement
+     * calcule a partir des preuves par le moteur.
+     *
+     * completeSession ne doit donc ni recompter les preuves,
+     * ni augmenter la confiance parce qu'un nombre de
+     * questions a ete atteint.
+     *
+     * Une limite UX n'est pas une preuve diagnostique.
+     */
+    void supportCoverage;
+    void contradictionCoverage;
+    void requiredCoverage;
+    void rejectedRequiredCoverage;
+    void confirmedSupporting;
 
-    const confirmationCompleted =
-      answeredQuestionCount >= 5;
+    const hasConfirmatoryObservation =
+  supportingIds.some(
+    evidenceId =>
+      evidenceId.startsWith(
+        "observation-",
+      ) &&
+      confirmedEvidenceIds.has(
+        evidenceId,
+      ),
+  );
 
-    const evidenceAdjustment =
-      supportCoverage *
-        0.08 +
-      requiredCoverage *
-        0.08 -
-      contradictionCoverage *
-        0.18 -
-      rejectedRequiredCoverage *
-        0.25;
+/*
+ * Les symptomes orientent le classement,
+ * mais ne suffisent pas seuls a justifier
+ * une forte certitude diagnostique.
+ */
+const symptomOnlyConfidenceCap =
+  0.74;
 
-    const confirmationBonus =
-      confirmationCompleted &&
-      confirmedSupporting > 0
-        ? 0.02
-        : 0;
-
-    const rawRecalculatedConfidence =
-      Math.min(
-        0.99,
-        Math.max(
-          0,
-          diagnostic.confidence +
-            evidenceAdjustment +
-            confirmationBonus,
-        ),
+const rawRecalculatedConfidence =
+  Math.min(
+    0.99,
+    Math.max(
+      0,
+      hasConfirmatoryObservation
+        ? diagnostic.confidence
+        : Math.min(
+            diagnostic.confidence,
+            symptomOnlyConfidenceCap,
+          ),
+    ),
+  );
+    const starterConfirmed =
+      confirmedEvidenceIds.has(
+        "observation-jump-start-fails",
+      ) ||
+      confirmedEvidenceIds.has(
+        "observation-booster-single-click",
+      ) ||
+      confirmedEvidenceIds.has(
+        "observation-booster-no-change",
       );
+
+    const requiresStarterConfirmation =
+      hypothesis.id ===
+        "problem-starter" &&
+      !starterConfirmed;
 
     const starterControlCircuitConfirmed =
       confirmedEvidenceIds.has(
@@ -3158,12 +3187,17 @@ const hasForcedBranchAction =
       !starterControlCircuitConfirmed;
 
     const recalculatedConfidence =
-      requiresStarterControlConfirmation
+      requiresStarterConfirmation
         ? Math.min(
             rawRecalculatedConfidence,
-            0.85,
+            symptomOnlyConfidenceCap,
           )
-        : rawRecalculatedConfidence;
+        : requiresStarterControlConfirmation
+          ? Math.min(
+              rawRecalculatedConfidence,
+              0.85,
+            )
+          : rawRecalculatedConfidence;
 
     const conclusion:
       DiagnosticConclusion = {
