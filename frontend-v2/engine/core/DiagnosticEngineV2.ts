@@ -1207,27 +1207,6 @@ const hasForcedBranchAction =
       selectedAction !==
         null;
 
-    if (
-      selectedAction?.type ===
-        "complete-diagnosis"
-    ) {
-      this.completeSession(
-        session,
-        knowledge,
-        reasoning,
-      );
-
-      return {
-        session,
-        action:
-          null,
-        completed:
-          session.status === "completed",
-        reasoning,
-        stopSuggestion,
-        completionAdvice,
-      };
-    }
 
     /*
      * CHAT14 — PENDING EXPLICIT WORKFLOW ACTION GUARD
@@ -1259,6 +1238,29 @@ const hasForcedBranchAction =
         knowledge,
         pendingExplicitWorkflowAction,
       );
+
+    if (
+      selectedAction?.type ===
+        "complete-diagnosis" &&
+      !hasPendingExplicitWorkflowAction
+    ) {
+      this.completeSession(
+        session,
+        knowledge,
+        reasoning,
+      );
+
+      return {
+        session,
+        action:
+          null,
+        completed:
+          session.status === "completed",
+        reasoning,
+        stopSuggestion,
+        completionAdvice,
+      };
+    }
 
     const hasForcedCurrentAction =
       session.currentActionId !== null &&
