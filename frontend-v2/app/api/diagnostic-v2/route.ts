@@ -44,6 +44,10 @@ import {
 } from "../../../lib/ai/SemanticComplaintProvider";
 
 import {
+  OpenAISemanticComplaintProvider,
+} from "../../../lib/ai/OpenAISemanticComplaintProvider";
+
+import {
   SafeSemanticComplaintProvider,
 } from "../../../lib/ai/SafeSemanticComplaintProvider";
 
@@ -172,12 +176,21 @@ const diagnosticEngine =
 const diagnosticResponseBuilder =
   new DiagnosticResponseBuilder();
 
+const rawSemanticComplaintProvider =
+  process.env.OPENAI_API_KEY?.trim()
+    ? new OpenAISemanticComplaintProvider({
+        model:
+          process.env.OPENAI_SEMANTIC_MODEL?.trim() ||
+          "gpt-5.6-luna",
+      })
+    : new DisabledSemanticComplaintProvider();
+
 const semanticComplaintProvider =
   new SafeSemanticComplaintProvider(
-    new DisabledSemanticComplaintProvider(),
+    rawSemanticComplaintProvider,
     {
       timeoutMs:
-        2_000,
+        6_000,
     },
   );
 
