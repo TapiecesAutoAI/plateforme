@@ -1,4 +1,4 @@
-﻿import type {
+import type {
   DiagnosticAction,
 } from "../core/actionTypes";
 
@@ -26,6 +26,10 @@ export type KnowledgeRuleEffect =
   | "support"
   | "contradict";
 
+export type KnowledgeRuleConfirmationStrength =
+  | "indicative"
+  | "confirmatory";
+
 export type KnowledgeRule = {
   id: string;
   evidenceId: string;
@@ -33,6 +37,8 @@ export type KnowledgeRule = {
   hypothesisId: string;
   effect: KnowledgeRuleEffect;
   weight: number;
+  confirmationStrength?:
+    KnowledgeRuleConfirmationStrength;
 };
 
 export type KnowledgePart = {

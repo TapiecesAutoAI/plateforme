@@ -1144,8 +1144,7 @@ const hasForcedBranchAction =
 
     if (
       reachedProfileLimit &&
-      selectedAction &&
-      !selectedActionIsExplicitWorkflowContinuation
+      selectedAction
     ) {
       const selectedActionType =
         this.convertActionType(
@@ -1162,6 +1161,12 @@ const hasForcedBranchAction =
           null;
 
         selectedAction =
+          null;
+
+        session.pendingAction =
+          null;
+
+        session.currentActionId =
           null;
       }
     }
@@ -1352,7 +1357,10 @@ const hasForcedBranchAction =
 
       if (
         hasUsableHypothesis &&
-        decision.type === "conclude" &&
+        (
+          decision.type === "conclude" ||
+          reachedProfileLimit
+        ) &&
         !mustContinueWithConfirmationV2 &&
         !hasPendingExplicitWorkflowAction
       ) {
@@ -3179,15 +3187,18 @@ const hasForcedBranchAction =
     void confirmedSupporting;
 
     const hasConfirmatoryObservation =
-  supportingIds.some(
-    evidenceId =>
-      evidenceId.startsWith(
-        "observation-",
-      ) &&
-      confirmedEvidenceIds.has(
-        evidenceId,
-      ),
-  );
+      knowledge.rules.some(
+        rule =>
+          rule.hypothesisId ===
+            hypothesis.id &&
+          rule.effect ===
+            "support" &&
+          rule.confirmationStrength ===
+            "confirmatory" &&
+          confirmedEvidenceIds.has(
+            rule.evidenceId,
+          ),
+      );
 
 /*
  * Les symptomes orientent le classement,
