@@ -70,6 +70,12 @@ export async function GET(
     role:
       session.role,
 
+    accessRole:
+      session.accessRole,
+
+    organizationId:
+      session.organizationId ?? null,
+
     displayName:
       session.displayName ??
       null,

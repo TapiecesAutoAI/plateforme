@@ -1,3 +1,5 @@
+import type { TpaAccessRole } from "../auth/TpaAccessControl";
+
 import {
   permissionsForRole,
 } from "./TpaRolePolicy";
@@ -24,6 +26,12 @@ export type AuthenticatedSessionInput = {
 
   accountType:
     TpaAccountType;
+
+  accessRole?:
+    TpaAccessRole;
+
+  organizationId?:
+    string;
 
   displayName?: string;
 
@@ -99,6 +107,12 @@ export function resolveAuthenticatedTpaSession(
       ),
 
     role,
+
+    accessRole:
+      input.accessRole,
+
+    organizationId:
+      input.organizationId,
 
     permissions:
       permissionsForRole(

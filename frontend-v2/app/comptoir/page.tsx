@@ -6,12 +6,15 @@ import {
   useState,
 } from "react";
 
+import ChangePasswordButton from "./ChangePasswordButton";
+
 type TicketStatus =
   | "waiting"
   | "called"
   | "in-service"
   | "completed"
-  | "cancelled";
+  | "cancelled"
+  | "no-show";
 
 type Ticket = {
 
@@ -31,6 +34,9 @@ type Ticket = {
     string | null;
 
   completedAt:
+    string | null;
+
+  noShowAt?:
     string | null;
 
   status:
@@ -90,7 +96,16 @@ type Ticket = {
   terminalId:
     string;
 
+  branchCode?:
+    string | null;
+
+  terminalCode?:
+    string | null;
+
   sellerId:
+    string | null;
+
+  sellerName:
     string | null;
 };
 
@@ -164,6 +179,15 @@ function statusLabel(
 
 export default function CounterPage() {
 
+  const [sellerIdentity, setSellerIdentity] = useState<{
+    customerId: string;
+    displayName: string;
+    branchCode: string | null;
+    organizationId: string;
+    organizationName: string;
+    logoUrl: string | null;
+  } | null>(null);
+
   const [
     tickets,
     setTickets,
@@ -171,6 +195,11 @@ export default function CounterPage() {
     useState<
       Ticket[]
     >([]);
+
+  const [
+    quickRequests,
+    setQuickRequests,
+  ] = useState<any[]>([]);
 
   const [
     loading,
@@ -189,6 +218,81 @@ export default function CounterPage() {
       null
     >(null);
 
+
+  useEffect(() => {
+    let active = true;
+
+    async function loadSellerIdentity() {
+      const response = await fetch("/api/comptoir/context", {
+        credentials: "include",
+        cache: "no-store",
+      });
+
+      if (!response.ok) return;
+
+      const data = await response.json();
+
+      if (
+        active &&
+        data.ok === true &&
+        typeof data.seller?.customerId === "string" &&
+        typeof data.organization?.organizationId === "string"
+      ) {
+        setSellerIdentity({
+          customerId: data.seller.customerId,
+          displayName:
+            typeof data.seller.displayName === "string"
+              ? data.seller.displayName
+              : "Vendeur",
+          branchCode:
+            typeof data.seller.branchCode === "string"
+              ? data.seller.branchCode
+              : null,
+          organizationId: data.organization.organizationId,
+          organizationName:
+            typeof data.organization.name === "string"
+              ? data.organization.name
+              : "Magasin",
+          logoUrl:
+            typeof data.organization.logoUrl === "string"
+              ? data.organization.logoUrl
+              : null,
+        });
+      }
+    }
+
+    void loadSellerIdentity();
+
+    const refreshSellerIdentity = () => {
+      void loadSellerIdentity();
+    };
+
+    const refreshSellerIdentityWhenVisible = () => {
+      if (document.visibilityState === "visible") {
+        void loadSellerIdentity();
+      }
+    };
+
+    window.addEventListener("focus", refreshSellerIdentity);
+    document.addEventListener(
+      "visibilitychange",
+      refreshSellerIdentityWhenVisible,
+    );
+
+    return () => {
+      active = false;
+
+      window.removeEventListener(
+        "focus",
+        refreshSellerIdentity,
+      );
+
+      document.removeEventListener(
+        "visibilitychange",
+        refreshSellerIdentityWhenVisible,
+      );
+    };
+  }, []);
 
   const loadTickets =
     useCallback(
@@ -222,6 +326,28 @@ export default function CounterPage() {
           setTickets(
             data.tickets,
           );
+
+          const quickResponse =
+            await fetch(
+              "/api/achat-rapide/counter-request",
+              {
+                cache: "no-store",
+                credentials: "include",
+              },
+            );
+
+          const quickData =
+            await quickResponse.json();
+
+          if (
+            quickResponse.ok &&
+            quickData.ok === true &&
+            Array.isArray(quickData.requests)
+          ) {
+            setQuickRequests(
+              quickData.requests,
+            );
+          }
 
           setError(
             null,
@@ -308,7 +434,7 @@ export default function CounterPage() {
                 status,
 
                 sellerId:
-                  "VENDEUR-DEMO-01",
+                  sellerIdentity?.customerId ?? "",
               }),
           },
         );
@@ -320,6 +446,17 @@ export default function CounterPage() {
         !response.ok ||
         !data.ok
       ) {
+
+        if (
+          data.error ===
+          "TICKET_ALREADY_CLAIMED"
+        ) {
+          throw new Error(
+            data.sellerName
+              ? `Client déjà pris par ${data.sellerName}.`
+              : "Client déjà pris par un autre vendeur.",
+          );
+        }
 
         throw new Error(
           data.error ??
@@ -353,12 +490,13 @@ export default function CounterPage() {
   const active =
     tickets.filter(
       ticket =>
-        ticket.status ===
-          "waiting" ||
-        ticket.status ===
-          "called" ||
-        ticket.status ===
-          "in-service",
+        ticket.sellerId === sellerIdentity?.customerId &&
+        (ticket.status === "called" ||
+          ticket.status === "in-service" ||
+          (ticket.status === "no-show" &&
+            !!ticket.noShowAt &&
+            Date.now() - new Date(ticket.noShowAt).getTime() <
+              5 * 60 * 1000)),
     );
 
 
@@ -371,15 +509,55 @@ export default function CounterPage() {
 
           <div>
 
-            <p className="text-sm font-black uppercase tracking-[0.2em] text-blue-700">
-              TaPiecesAuto
-            </p>
+
 
             <h1 className="mt-2 text-4xl font-black text-slate-950">
               Comptoir vendeur
             </h1>
 
-            <p className="mt-2 text-slate-600">
+            <div className="mt-4 flex items-center gap-4">
+
+              <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-white shadow ring-1 ring-slate-200">
+
+                {sellerIdentity?.logoUrl ? (
+                  <img
+                    src={sellerIdentity.logoUrl}
+                    alt={sellerIdentity.organizationName}
+                    className="h-full w-full object-contain p-2"
+                  />
+                ) : (
+                  <span className="text-lg font-black text-blue-800">
+                    {sellerIdentity?.organizationName
+                      ?.slice(0, 2)
+                      .toUpperCase() ?? "TP"}
+                  </span>
+                )}
+
+              </div>
+
+              <div>
+                <p className="text-xl font-black text-slate-950">
+                  {sellerIdentity?.displayName ?? "Vendeur"}
+                  {sellerIdentity?.branchCode
+                    ? ` · ${sellerIdentity.branchCode}`
+                    : ""}
+                </p>
+
+                <p className="font-bold text-blue-700">
+                  {sellerIdentity?.organizationName ?? "Chargement du magasin..."}
+                </p>
+
+                <a
+                  href="/comptoir/profil"
+                  className="mt-3 inline-flex rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-bold text-slate-700 shadow-sm hover:bg-slate-50"
+                >
+                  Mon profil
+                </a>
+              </div>
+
+            </div>
+
+            <p className="mt-4 text-slate-600">
               Les clients envoyés depuis la borne apparaissent automatiquement.
             </p>
 
@@ -437,6 +615,80 @@ export default function CounterPage() {
         )}
 
 
+        {quickRequests.length > 0 && (
+          <section className="mt-8">
+            <div className="mb-4">
+              <h2 className="text-2xl font-black text-slate-950">
+                Demandes Achat rapide
+              </h2>
+              <p className="text-sm text-slate-500">
+                Commandes et demandes d'explications envoyées par les clients.
+              </p>
+            </div>
+
+            <div className="grid gap-6 lg:grid-cols-2">
+              {quickRequests.map(request => (
+                <article
+                  key={request.id}
+                  className="overflow-hidden rounded-3xl bg-white shadow-xl"
+                >
+                  <div className="flex items-center justify-between border-b p-6">
+                    <div>
+                      <p className="text-sm font-bold uppercase tracking-wide text-blue-700">
+                        {request.type === "order"
+                          ? "Commande"
+                          : "Demande d'explications"}
+                      </p>
+
+                      <p className="mt-1 font-black text-slate-950">
+                        {request.id}
+                      </p>
+                    </div>
+
+                    <p className="text-xl font-black text-blue-950">
+                      {Number(request.total).toFixed(2)} €
+                    </p>
+                  </div>
+
+                  <div className="space-y-4 p-6">
+                    {Array.isArray(request.items) &&
+                      request.items.map((item: any) => (
+                        <div
+                          key={`${request.id}-${item.productId}`}
+                          className="flex justify-between gap-4 border-b border-slate-100 pb-3 last:border-0"
+                        >
+                          <div>
+                            <p className="font-bold text-slate-950">
+                              {item.name}
+                            </p>
+                            <p className="text-sm text-slate-500">
+                              Réf. {item.supplierCode}
+                            </p>
+                          </div>
+
+                          <div className="text-right">
+                            <p className="font-bold">
+                              Qté {item.quantity}
+                            </p>
+                            <p className="text-sm text-slate-500">
+                              {item.unitPrice == null
+                                ? "Prix à confirmer"
+                                : `${Number(item.unitPrice).toFixed(2)} €`}
+                            </p>
+                          </div>
+                        </div>
+                      ))}
+
+                    <p className="text-xs text-slate-400">
+                      Client : {request.customerId}
+                    </p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
+
         <div className="mt-8 grid gap-6 lg:grid-cols-2">
 
           {active.map(
@@ -446,7 +698,7 @@ export default function CounterPage() {
                 key={
                   ticket.id
                 }
-                className="overflow-hidden rounded-3xl bg-white shadow-xl"
+                className={ticket.status === "no-show" ? "overflow-hidden rounded-3xl bg-amber-200 shadow-xl ring-2 ring-amber-400" : "overflow-hidden rounded-3xl bg-white shadow-xl"}
               >
 
                 <div className="flex items-center justify-between border-b p-6">
@@ -479,18 +731,39 @@ export default function CounterPage() {
                         new Date(
                           ticket.createdAt,
                         )
-                          .toLocaleTimeString(
+                          .toLocaleString(
                             "fr-BE",
                             {
+                              day:
+                                "2-digit",
+                              month:
+                                "2-digit",
+                              year:
+                                "numeric",
                               hour:
                                 "2-digit",
-
                               minute:
                                 "2-digit",
                             },
                           )
+                          .replace(",", " ·")
                       }
                     </p>
+
+                    {
+                      (
+                        ticket.branchCode ||
+                        ticket.terminalCode
+                      ) && (
+                        <p className="mt-1 text-sm font-medium text-slate-600">
+                          {
+                            ticket.terminalCode
+                              ? `Borne ${ticket.terminalCode}`
+                              : ""
+                          }
+                        </p>
+                      )
+                    }
 
                   </div>
 
@@ -583,22 +856,55 @@ export default function CounterPage() {
                     {ticket.status ===
                       "called" && (
 
-                      <button
-                        type="button"
-                        onClick={
-                          () =>
-                            void updateStatus(
-                              ticket,
-                              "in-service",
-                            )
-                        }
-                        className="w-full rounded-2xl bg-blue-700 px-6 py-4 text-lg font-black text-white"
-                      >
-                        Prendre en charge
-                      </button>
+                      ticket.sellerId ===
+                      sellerIdentity?.customerId ? (
+
+                        <>
+                        <button
+                          type="button"
+                          onClick={
+                            () =>
+                              void updateStatus(
+                                ticket,
+                                "in-service",
+                              )
+                          }
+                          className="w-full rounded-2xl bg-blue-700 px-6 py-4 text-lg font-black text-white"
+                        >
+                          Prendre en charge
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => void updateStatus(ticket, "no-show")}
+                          className="mt-3 w-full rounded-2xl bg-amber-200 px-6 py-4 text-lg font-black text-amber-900"
+                        >
+                          Client plus là
+                        </button>
+                        </>
+
+                      ) : (
+
+                        <div className="mb-3 rounded-xl bg-amber-50 px-4 py-3 text-center font-black text-amber-800">
+                          Appelé par{" "}
+                          {ticket.sellerName ??
+                            "un autre vendeur"}
+                        </div>
+
+                      )
 
                     )}
 
+
+                    {ticket.status ===
+                      "in-service" &&
+                      ticket.sellerName && (
+
+                      <div className="mb-3 rounded-xl bg-blue-50 px-4 py-3 text-center font-black text-blue-800">
+                        Pris par {ticket.sellerName}
+                      </div>
+
+                    )}
 
                     {ticket.status ===
                       "in-service" && (
@@ -617,6 +923,12 @@ export default function CounterPage() {
                         Terminer
                       </button>
 
+                    )}
+
+                    {ticket.status === "no-show" && (
+                      <button type="button" onClick={() => void updateStatus(ticket, "called")} className="w-full rounded-2xl bg-amber-600 px-6 py-4 text-lg font-black text-white">
+                        Reprendre
+                      </button>
                     )}
 
                   </div>

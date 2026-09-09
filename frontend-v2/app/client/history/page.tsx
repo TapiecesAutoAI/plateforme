@@ -9,7 +9,6 @@ import {
 import Link from "next/link";
 
 import {
-  getClientWorkspaceByCustomerId,
   type ClientWorkspace,
 } from "../../../lib/client";
 
@@ -104,10 +103,29 @@ export default function ClientHistoryPage() {
             return;
           }
 
-          const currentWorkspace =
-            getClientWorkspaceByCustomerId(
-              session.customerId,
+          const workspaceResponse =
+            await fetch(
+              "/api/client/workspace",
+              {
+                method: "GET",
+                credentials: "include",
+                cache: "no-store",
+              },
             );
+
+          if (!workspaceResponse.ok) {
+            throw new Error(
+              "CLIENT_WORKSPACE_LOAD_FAILED",
+            );
+          }
+
+          const workspacePayload =
+            await workspaceResponse.json();
+
+          const currentWorkspace =
+            workspacePayload?.ok === true
+              ? workspacePayload.workspace ?? null
+              : null;
 
           if (active) {
 
@@ -295,7 +313,7 @@ export default function ClientHistoryPage() {
             <div>
 
               <p className="text-sm font-bold uppercase tracking-wide text-slate-400">
-                TaPiecesAuto AI
+                TaPieceAuto AI
               </p>
 
               <h1 className="mt-1 text-3xl font-black text-slate-950">

@@ -1,4 +1,4 @@
-﻿import type {
+import type {
   CampaignInteractionRecord,
   CommercialPartRecord,
   CounterTicketRecord,
@@ -12,7 +12,7 @@
   VehicleRecord,
 } from "./dataTypes";
 
-export type TaPiecesAutoDataSnapshot = {
+export type TaPieceAutoDataSnapshot = {
   customers: CustomerRecord[];
   vehicles: VehicleRecord[];
   diagnostics: DiagnosticRecord[];
@@ -314,7 +314,7 @@ export class TaPiecesAutoDataStore {
   }
 
   snapshot():
-    TaPiecesAutoDataSnapshot {
+    TaPieceAutoDataSnapshot {
 
     return {
       customers: [

@@ -1,4 +1,4 @@
-﻿import {
+import {
   TaPiecesAutoDataStore,
 } from "./TaPiecesAutoDataStore";
 

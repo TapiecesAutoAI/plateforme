@@ -10,9 +10,7 @@ import {
 } from "next/navigation";
 
 import {
-  getClientWorkspaceByCustomerId,
-  getClientGarageVehicles,
-  removeClientGarageVehicle,
+
   prepareClientDiagnostic,
   prepareClientKnownPart,
   type ClientWorkspace,
@@ -125,10 +123,43 @@ export default function ClientVehiclesPage() {
             return;
           }
 
-          const clientWorkspace =
-            getClientWorkspaceByCustomerId(
-              session.customerId,
+          const workspaceResponse =
+            await fetch(
+              "/api/client/workspace",
+              {
+                method:
+                  "GET",
+
+                credentials:
+                  "include",
+
+                cache:
+                  "no-store",
+              },
             );
+
+          if (!workspaceResponse.ok) {
+
+            if (active) {
+              setWorkspace(
+                null,
+              );
+
+              setLoading(
+                false,
+              );
+            }
+
+            return;
+          }
+
+          const workspacePayload =
+            await workspaceResponse.json();
+
+          const clientWorkspace =
+            workspacePayload?.ok === true
+              ? workspacePayload.workspace ?? null
+              : null;
 
           if (!clientWorkspace) {
             if (active) {
@@ -144,10 +175,37 @@ export default function ClientVehiclesPage() {
             return;
           }
 
-          const garageVehicles =
-            getClientGarageVehicles(
-              session.customerId,
+          const vehiclesResponse =
+            await fetch(
+              "/api/client/vehicles",
+              {
+                method:
+                  "GET",
+
+                credentials:
+                  "include",
+
+                cache:
+                  "no-store",
+              },
             );
+
+          if (!vehiclesResponse.ok) {
+            throw new Error(
+              "VEHICLES_LOAD_FAILED",
+            );
+          }
+
+          const vehiclesPayload =
+            await vehiclesResponse.json();
+
+          const garageVehicles =
+            vehiclesPayload?.ok === true &&
+            Array.isArray(
+              vehiclesPayload.vehicles,
+            )
+              ? vehiclesPayload.vehicles
+              : [];
 
           if (active) {
             setWorkspace(
@@ -194,15 +252,40 @@ export default function ClientVehiclesPage() {
   );
 
 
-  function refreshGarage() {
+  async function refreshGarage() {
     if (!workspace) {
       return;
     }
 
-    const next =
-      getClientGarageVehicles(
-        workspace.customer.id,
+    const response =
+      await fetch(
+        "/api/client/vehicles",
+        {
+          method:
+            "GET",
+
+          credentials:
+            "include",
+
+          cache:
+            "no-store",
+        },
       );
+
+    if (!response.ok) {
+      return;
+    }
+
+    const payload =
+      await response.json();
+
+    const next =
+      payload?.ok === true &&
+      Array.isArray(
+        payload.vehicles,
+      )
+        ? payload.vehicles
+        : [];
 
     setVehicles(
       next,
@@ -211,9 +294,12 @@ export default function ClientVehiclesPage() {
     if (
       selectedVehicleId &&
       !next.some(
-        vehicle =>
+        (
+          vehicle:
+            ClientGarageVehicle,
+        ) =>
           vehicle.id ===
-          selectedVehicleId,
+            selectedVehicleId,
       )
     ) {
       setSelectedVehicleId(
@@ -296,32 +382,65 @@ export default function ClientVehiclesPage() {
   }
 
 
-  function deleteVehicle(
+  const [
+    vehiclePendingDelete,
+    setVehiclePendingDelete,
+  ] =
+    useState<ClientGarageVehicle | null>(
+      null,
+    );
+
+  const [
+    deletingVehicle,
+    setDeletingVehicle,
+  ] =
+    useState(false);
+
+  const [
+    deleteVehicleError,
+    setDeleteVehicleError,
+  ] =
+    useState<string | null>(null);
+
+  async function deleteVehicle(
     vehicle:
       ClientGarageVehicle,
   ) {
     if (!workspace) {
       return;
     }
+    setDeletingVehicle(true);
+    setDeleteVehicleError(null);
 
-    const confirmed =
-      window.confirm(
-        `Supprimer ${
-          vehicle.label ??
-          `${vehicle.brand ?? ""} ${vehicle.model ?? ""}`.trim()
-        } de votre garage ?`,
+    const response =
+      await fetch(
+        `/api/client/vehicles?id=${
+          encodeURIComponent(
+            vehicle.id,
+          )
+        }`,
+        {
+          method:
+            "DELETE",
+
+          credentials:
+            "include",
+        },
       );
 
-    if (!confirmed) {
+    if (!response.ok) {
+      setDeleteVehicleError(
+        "Impossible de supprimer le vehicule.",
+      );
+      setDeletingVehicle(false);
       return;
     }
 
-    removeClientGarageVehicle(
-      workspace.customer.id,
-      vehicle.id,
-    );
+    await refreshGarage();
 
-    refreshGarage();
+    setDeletingVehicle(false);
+    setVehiclePendingDelete(null);
+    setDeleteVehicleError(null);
   }
 
 
@@ -560,7 +679,10 @@ export default function ClientVehiclesPage() {
                             event => {
                               event.stopPropagation();
 
-                              deleteVehicle(
+                              setDeleteVehicleError(
+                                null,
+                              );
+                              setVehiclePendingDelete(
                                 vehicle,
                               );
                             }
@@ -705,6 +827,103 @@ export default function ClientVehiclesPage() {
 
       </div>
 
-    </main>
+
+      {vehiclePendingDelete && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/50 px-4"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="delete-vehicle-title"
+          onMouseDown={event => {
+            if (
+              event.target ===
+                event.currentTarget &&
+              !deletingVehicle
+            ) {
+              setVehiclePendingDelete(
+                null,
+              );
+              setDeleteVehicleError(
+                null,
+              );
+            }
+          }}
+        >
+          <div className="w-full max-w-md rounded-3xl border border-slate-200 bg-white p-6 shadow-2xl sm:p-8">
+            <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-red-50 text-2xl font-black text-red-600">
+              !
+            </div>
+
+            <h2
+              id="delete-vehicle-title"
+              className="text-2xl font-black text-slate-950"
+            >
+              Supprimer ce vehicule ?
+            </h2>
+
+            <p className="mt-3 text-base font-semibold leading-6 text-slate-600">
+              Vous allez retirer
+              {" "}
+              <strong className="text-slate-950">
+                {vehiclePendingDelete.label ??
+                  `${
+                    vehiclePendingDelete.brand ??
+                    ""
+                  } ${
+                    vehiclePendingDelete.model ??
+                    ""
+                  }`.trim()}
+              </strong>
+              {" "}
+              de votre garage.
+            </p>
+
+            <p className="mt-2 text-sm font-semibold text-slate-500">
+              Cette action retire le vehicule de votre compte TPA.
+            </p>
+
+            {deleteVehicleError && (
+              <div className="mt-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 font-bold text-red-700">
+                {deleteVehicleError}
+              </div>
+            )}
+
+            <div className="mt-7 grid grid-cols-2 gap-3">
+              <button
+                type="button"
+                disabled={deletingVehicle}
+                onClick={() => {
+                  setVehiclePendingDelete(
+                    null,
+                  );
+                  setDeleteVehicleError(
+                    null,
+                  );
+                }}
+                className="rounded-xl border border-slate-300 bg-white px-4 py-3 font-black text-slate-900 disabled:opacity-50"
+              >
+                Annuler
+              </button>
+
+              <button
+                type="button"
+                disabled={deletingVehicle}
+                onClick={() => {
+                  void deleteVehicle(
+                    vehiclePendingDelete,
+                  );
+                }}
+                className="rounded-xl bg-red-600 px-4 py-3 font-black text-white hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {deletingVehicle
+                  ? "Suppression..."
+                  : "Oui, supprimer"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+</main>
   );
 }

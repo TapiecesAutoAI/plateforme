@@ -1,4 +1,4 @@
-﻿export * from "./dataTypes";
+export * from "./dataTypes";
 export * from "./TaPiecesAutoDataStore";
 export * from "./DataEventCollector";
 export * from "./InstallationFeedback";

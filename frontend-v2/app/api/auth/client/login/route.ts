@@ -12,8 +12,15 @@ import {
 } from "../../../../../lib/session";
 
 import {
-  resolveCustomerIdByLoginEmail,
-} from "../../../../../lib/client/ClientIdentityResolver";
+  findClientAccountByEmail,
+  findClientAccountByUserCode,
+  markClientLogin,
+  verifyClientPassword,
+} from "../../../../../lib/client/ClientAccountStore";
+
+import {
+  getCentralCustomer,
+} from "../../../../../lib/client/CentralCustomerStore";
 
 
 function sign(
@@ -39,24 +46,12 @@ export async function POST(
     NextRequest,
 ) {
 
-  const expectedEmail =
-    process.env
-      .TPA_TEST_CLIENT_EMAIL;
-
-  const expectedPassword =
-    process.env
-      .TPA_TEST_CLIENT_PASSWORD;
-
   const sessionSecret =
     process.env
       .TPA_SESSION_SECRET;
 
 
-  if (
-    !expectedEmail ||
-    !expectedPassword ||
-    !sessionSecret
-  ) {
+  if (!sessionSecret) {
 
     return NextResponse.json(
       {
@@ -103,57 +98,234 @@ export async function POST(
       .toLowerCase();
 
 
-  if (
-    normalizedEmail !==
-      expectedEmail
-        .trim()
-        .toLowerCase() ||
-    body.password !==
-      expectedPassword
-  ) {
-
-    return NextResponse.json(
-      {
-        ok:
-          false,
-      },
-      {
-        status:
-          401,
-      },
-    );
-  }
-
-
-  const customerId =
-    resolveCustomerIdByLoginEmail(
-      normalizedEmail,
+  const redisConfigured =
+    Boolean(
+      process.env
+        .UPSTASH_REDIS_REST_URL
+        ?.trim(),
+    ) &&
+    Boolean(
+      process.env
+        .UPSTASH_REDIS_REST_TOKEN
+        ?.trim(),
     );
 
-  if (!customerId) {
-    return NextResponse.json(
-      {
-        ok: false,
-      },
-      {
-        status: 403,
-      },
-    );
+  let customerId:
+    string;
+
+  let displayName:
+    string;
+
+  let accountRole:
+    | "client"
+    | "seller"
+    | "wholesaler_admin"
+    | "super_admin" =
+      "client";
+
+  let organizationId:
+    string | undefined;
+
+
+  if (redisConfigured) {
+
+    const account =
+      normalizedEmail.includes("@")
+        ? await findClientAccountByEmail(
+            normalizedEmail,
+          )
+        : await findClientAccountByUserCode(
+            normalizedEmail,
+          );
+
+    if (
+      !account ||
+      account.status !== "active"
+    ) {
+
+      return NextResponse.json(
+        {
+          ok:
+            false,
+        },
+        {
+          status:
+            401,
+        },
+      );
+    }
+
+
+    const passwordIsValid =
+      await verifyClientPassword(
+        body.password,
+        account,
+      );
+
+    if (!passwordIsValid) {
+
+      return NextResponse.json(
+        {
+          ok:
+            false,
+        },
+        {
+          status:
+            401,
+        },
+      );
+    }
+
+
+    customerId =
+      account.customerId;
+
+    switch (account.role) {
+      case "seller":
+        accountRole = "seller";
+        break;
+
+      case "wholesaler_admin":
+        accountRole = "wholesaler_admin";
+        break;
+
+      case "super_admin":
+      case "admin":
+        accountRole = "super_admin";
+        break;
+
+      default:
+        accountRole = "client";
+        break;
+    }
+
+    organizationId =
+      account.organizationId?.trim() ||
+      undefined;
+
+    if (
+      (
+        accountRole === "seller" ||
+        accountRole === "wholesaler_admin"
+      ) &&
+      !organizationId
+    ) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error:
+            "ACCOUNT_ORGANIZATION_REQUIRED",
+        },
+        {
+          status: 403,
+        },
+      );
+    }
+
+    const customer =
+      await getCentralCustomer(
+        customerId,
+      );
+
+    if (!customer) {
+
+      return NextResponse.json(
+        {
+          ok:
+            false,
+        },
+        {
+          status:
+            403,
+        },
+      );
+    }
+
+    displayName =
+      `${customer.firstName} ${customer.lastName}`.trim();
+
+  } else {
+
+    if (
+      process.env.NODE_ENV ===
+      "production"
+    ) {
+
+      return NextResponse.json(
+        {
+          error:
+            "Client authentication is not configured.",
+        },
+        {
+          status:
+            503,
+        },
+      );
+    }
+
+
+    const testEmail =
+      process.env
+        .TPA_TEST_CLIENT_EMAIL
+        ?.trim()
+        .toLowerCase();
+
+    const testPassword =
+      process.env
+        .TPA_TEST_CLIENT_PASSWORD;
+
+    if (
+      !testEmail ||
+      !testPassword ||
+      normalizedEmail !==
+        testEmail ||
+      body.password !==
+        testPassword
+    ) {
+
+      return NextResponse.json(
+        {
+          ok:
+            false,
+        },
+        {
+          status:
+            401,
+        },
+      );
+    }
+
+    customerId =
+      "C2";
+
+    displayName =
+      "Client TPA";
   }
 
 
   const session =
     resolveAuthenticatedTpaSession({
       userId:
-        "client-test-001",
+        customerId,
 
       customerId,
 
       accountType:
-        "customer",
+        accountRole === "seller"
+          ? "seller"
+          : (
+              accountRole === "wholesaler_admin" ||
+              accountRole === "super_admin"
+            )
+            ? "administrator"
+            : "customer",
 
-      displayName:
-        "Client TPA",
+      accessRole:
+        accountRole,
+
+      organizationId,
+
+      displayName,
     });
 
 
@@ -189,6 +361,12 @@ export async function POST(
 
       role:
         session.role,
+
+      accessRole:
+        session.accessRole,
+
+      organizationId:
+        session.organizationId,
     });
 
 
@@ -214,6 +392,12 @@ export async function POST(
     },
   );
 
+
+  if (redisConfigured) {
+    await markClientLogin(
+      customerId,
+    );
+  }
 
   return response;
 }

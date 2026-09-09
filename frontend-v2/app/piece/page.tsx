@@ -721,15 +721,47 @@ async function sendToCounter() {
                 command:
                   "send-to-counter",
 
+                origin:
+                  knownPartMode
+                    ? "known-part"
+                    : transmittedVehicleMode
+                      ? "diagnostic"
+                      : "direct",
+
                 partName,
 
                 quantity,
 
-                storeId:
-                  "GROSSISTE-DEMO",
+                ...(() => {
+                  const rawContext =
+                    window.sessionStorage.getItem(
+                      "tapiecesauto-showroom-context",
+                    );
 
-                terminalId:
-                  "BORNE-01",
+                  if (!rawContext) {
+                    return {};
+                  }
+
+                  try {
+                    const context =
+                      JSON.parse(rawContext);
+
+                    return {
+                      customer:
+                        context.customer ?? null,
+                      profile:
+                        context.profile ?? "",
+                      storeId:
+                        context.storeId ?? "",
+                      branchId:
+                        context.branchId ?? "",
+                      terminalId:
+                        context.terminalId ?? "",
+                    };
+                  } catch {
+                    return {};
+                  }
+                })(),
 
                 ...vehiclePayload,
               }),
@@ -780,7 +812,7 @@ async function sendToCounter() {
         <div className="flex items-start justify-between gap-6">
 
           <p className="text-sm font-bold uppercase tracking-widest text-blue-700">
-            TaPiecesAuto AI
+            TaPieceAuto AI
           </p>
 
           <button

@@ -13,11 +13,6 @@ import ClientVehicleForm, {
   type ClientVehicleFormValue,
 } from "../../../../components/client/ClientVehicleForm";
 
-import {
-  addClientGarageVehicle,
-} from "../../../../lib/client";
-
-
 export default function NewClientVehiclePage() {
 
   const router =
@@ -114,7 +109,7 @@ export default function NewClientVehiclePage() {
   );
 
 
-  function saveVehicle(
+  async function saveVehicle(
     value:
       ClientVehicleFormValue,
   ) {
@@ -123,9 +118,6 @@ export default function NewClientVehiclePage() {
       return;
     }
 
-    const id =
-      `VEH-${Date.now()}`;
-
     const year =
       value.year
         ? Number(
@@ -133,57 +125,60 @@ export default function NewClientVehiclePage() {
           )
         : undefined;
 
-    const label =
-      [
-        value.brand,
-        value.model,
-        value.year,
-        value.engine,
-      ]
-        .filter(
-          Boolean,
-        )
-        .join(
-          " ",
+    try {
+      const response =
+        await fetch(
+          "/api/client/vehicles",
+          {
+            method:
+              "POST",
+
+            credentials:
+              "include",
+
+            headers: {
+              "Content-Type":
+                "application/json",
+            },
+
+            body:
+              JSON.stringify({
+                vin:
+                  value.vin ||
+                  undefined,
+
+                brand:
+                  value.brand,
+
+                model:
+                  value.model,
+
+                year,
+
+                engine:
+                  value.engine ||
+                  undefined,
+              }),
+          },
         );
 
-    const result =
-      addClientGarageVehicle(
-        customerId,
-        {
-          id,
+      if (!response.ok) {
+        window.alert(
+          "Impossible d'ajouter le véhicule.",
+        );
 
-          vin:
-            value.vin ||
-            undefined,
+        return;
+      }
 
-          brand:
-            value.brand,
-
-          model:
-            value.model,
-
-          year,
-
-          engine:
-            value.engine ||
-            undefined,
-
-          label,
-        },
+      router.push(
+        "/client/vehicles",
       );
-
-    if (!result) {
+    }
+    catch {
       window.alert(
         "Impossible d'ajouter le véhicule.",
       );
-
-      return;
     }
-
-    router.push(
-      "/client/vehicles",
-    );
   }
 
 
@@ -201,7 +196,7 @@ export default function NewClientVehiclePage() {
   return (
     <ClientVehicleForm
       title="Ajouter un véhicule"
-      subtitle="Ajoutez un véhicule à votre garage TaPiecesAuto."
+      subtitle="Ajoutez un véhicule à votre garage TaPieceAuto."
       submitLabel="Ajouter au garage"
       onSubmit={
         saveVehicle

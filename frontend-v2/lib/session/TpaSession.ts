@@ -1,3 +1,5 @@
+import type { TpaAccessRole } from "../auth/TpaAccessControl";
+
 export type TpaChannel =
   | "showroom-kiosk"
   | "customer-web"
@@ -50,6 +52,12 @@ export type TpaSession = {
 
   role:
     TpaRole;
+
+  accessRole?:
+    TpaAccessRole;
+
+  organizationId?:
+    string;
 
   permissions:
     TpaPermission[];

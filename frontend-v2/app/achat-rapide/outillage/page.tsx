@@ -1599,7 +1599,7 @@ export default function ToolsQuickPurchasePage() {
           <div>
 
             <div className="text-sm font-bold text-blue-700">
-              Ta Pieces Auto AI
+              Ta Piece Auto AI
             </div>
 
             <h1 className="text-2xl font-black">
@@ -1711,7 +1711,7 @@ export default function ToolsQuickPurchasePage() {
             <div className="border-b border-blue-100 bg-gradient-to-r from-blue-950 via-blue-900 to-blue-700 px-6 py-4 text-white">
 
               <h2 className="font-black">
-                Assistant Ta Pieces Auto
+                Assistant Ta Piece Auto
               </h2>
 
               <p className="text-sm text-blue-100">

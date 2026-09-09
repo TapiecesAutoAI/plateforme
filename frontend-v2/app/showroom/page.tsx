@@ -37,6 +37,7 @@ import {
 
 import {
   useRouter,
+  useSearchParams,
 } from "next/navigation";
 import {
   DEMO_CUSTOMERS,
@@ -44,6 +45,7 @@ import {
 import {
   collectData,
 } from "../../lib/data/collectData";
+
 
 type Screen =
   | "attract"
@@ -54,6 +56,7 @@ type Screen =
   | "profile"
   | "action"
   | "pickup"
+  | "counter"
   | "accessories"
   | "ticket";
 
@@ -194,13 +197,34 @@ function getNextCustomerId(
 
 export default function ShowroomPage() {
 
+  const searchParams =
+    useSearchParams();
+
+  const showroomOrganizationId =
+    searchParams
+      .get("organizationId")
+      ?.trim() ?? "";
+
+  const showroomBranchId =
+    searchParams
+      .get("branchId")
+      ?.trim() ?? "";
+
+  const showroomTerminalCode =
+    searchParams
+      .get("terminalCode")
+      ?.trim()
+      .toUpperCase() ?? "";
+
   const tpaSession =
     createShowroomKioskSession({
       deviceId:
-        "SHOWROOM-LOB-01",
+        showroomTerminalCode ||
+        "SHOWROOM-UNCONFIGURED",
 
       storeId:
-        "LOB-01",
+        showroomBranchId ||
+        "SHOWROOM-UNCONFIGURED",
     });
 
   const tpaUi =
@@ -210,6 +234,26 @@ export default function ShowroomPage() {
 
   const router =
     useRouter();
+
+  const [
+    showroomTerminalId,
+    setShowroomTerminalId,
+  ] =
+    useState<string | null>(
+      null,
+    );
+
+  const [showroomBranchName, setShowroomBranchName] = useState<string>("");
+  const [showroomPrinterName, setShowroomPrinterName] = useState<string>("");
+  const [showroomPrinterPath, setShowroomPrinterPath] = useState<string>("");
+
+  const [
+    terminalAvailable,
+    setTerminalAvailable,
+  ] =
+    useState<boolean | null>(
+      null,
+    );
 
   const [
     screen,
@@ -444,6 +488,105 @@ export default function ShowroomPage() {
 
   useEffect(
     () => {
+      let active = true;
+
+      async function loadTerminal() {
+        try {
+          const response =
+            await fetch(
+              `/api/showroom/terminal?organizationId=${encodeURIComponent(showroomOrganizationId)}&branchId=${encodeURIComponent(showroomBranchId)}&terminalCode=${encodeURIComponent(showroomTerminalCode)}`,
+              {
+                cache: "no-store",
+              },
+            );
+
+          if (!active) {
+            return;
+          }
+
+          if (!response.ok) {
+            setShowroomTerminalId(
+              null,
+            );
+            setTerminalAvailable(
+              false,
+            );
+            setScreen("attract");
+            return;
+          }
+
+          const data =
+            await response.json();
+
+          if (
+            !data.ok ||
+            !data.terminal?.terminalId
+          ) {
+            setShowroomTerminalId(
+              null,
+            );
+            setTerminalAvailable(
+              false,
+            );
+            setScreen("attract");
+            return;
+          }
+
+          setShowroomTerminalId(
+            data.terminal.terminalId,
+          );
+
+          setShowroomBranchName(
+            String(data.branch?.name ?? ""),
+          );
+          setShowroomPrinterName(String(data.terminal?.printerName ?? ""));
+          setShowroomPrinterPath(String(data.terminal?.printerPath ?? ""));
+          setTerminalAvailable(
+            true,
+          );
+        } catch {
+          if (!active) {
+            return;
+          }
+
+          setShowroomTerminalId(
+            null,
+          );
+          setTerminalAvailable(
+            false,
+          );
+          setScreen("attract");
+        }
+      }
+
+      void loadTerminal();
+
+      const interval =
+        window.setInterval(
+          () => {
+            void loadTerminal();
+          },
+          10000,
+        );
+
+      return () => {
+        active = false;
+
+        window.clearInterval(
+          interval,
+        );
+      };
+    },
+    [
+      showroomOrganizationId,
+      showroomBranchId,
+      showroomTerminalCode,
+    ],
+  );
+
+
+  useEffect(
+    () => {
 
       const existing =
         loadCustomers();
@@ -524,7 +667,11 @@ export default function ShowroomPage() {
         );
 
     },
-    [],
+    [
+      showroomOrganizationId,
+      showroomBranchId,
+      showroomTerminalCode,
+    ],
   );
 
 
@@ -543,6 +690,7 @@ export default function ShowroomPage() {
       void vehicleDataProvider
         .getModels(
           brand,
+          year,
         )
         .then(
           setVehicleModelOptions,
@@ -571,10 +719,7 @@ export default function ShowroomPage() {
       }
 
       void vehicleDataProvider
-        .getYears(
-          brand,
-          model,
-        )
+        .getYears(brand)
         .then(
           setVehicleYearOptions,
         );
@@ -818,6 +963,19 @@ export default function ShowroomPage() {
     setError(null);
   }
 
+  function printTicketAndEndSession() {
+    window.setTimeout(() => {
+
+      window.sessionStorage.removeItem("tapiecesauto-showroom-customer");
+      window.sessionStorage.removeItem("tapiecesauto-showroom-vehicle");
+      window.sessionStorage.removeItem("tapiecesauto-showroom-profile");
+      window.sessionStorage.removeItem("tapiecesauto-piece-flow");
+      window.sessionStorage.removeItem("tapiecesauto-showroom-context");
+
+      window.location.replace(window.location.href);
+    }, 3000);
+  }
+
   function createCustomer() {
 
     resetError();
@@ -893,10 +1051,13 @@ export default function ShowroomPage() {
         newCustomer,
 
       storeId:
-        "GROSSISTE-DEMO",
+        showroomOrganizationId,
+
+      branchId:
+        showroomBranchId,
 
       terminalId:
-        "BORNE-01",
+        showroomTerminalId,
     });
 
     setScreen(
@@ -904,7 +1065,7 @@ export default function ShowroomPage() {
     );
   }
 
-  function loginExisting() {
+  async function loginExisting() {
 
     resetError();
 
@@ -920,6 +1081,124 @@ export default function ShowroomPage() {
       );
 
       return;
+    }
+
+    /*
+     * CLIENT CENTRAL REDIS
+     *
+     * Priorité :
+     * - email
+     * - téléphone
+     * - customerId
+     *
+     * Le fallback local reste temporairement
+     * disponible pour les anciennes données
+     * showroom et la recherche par nom.
+     */
+    try {
+
+      const response =
+        await fetch(
+          "/api/showroom/customer",
+          {
+            method:
+              "POST",
+
+            headers: {
+              "Content-Type":
+                "application/json",
+            },
+
+            body:
+              JSON.stringify({
+                search,
+              }),
+          },
+        );
+
+      if (response.ok) {
+
+        const data =
+          await response.json();
+
+        const record:
+          CustomerRecord =
+            data.record;
+
+        setCustomer(
+          record.customer,
+        );
+
+        setVehicles(
+          record.vehicles,
+        );
+
+        setProfile(
+          record.customer.profile ??
+          null,
+        );
+
+        void collectData({
+          action:
+            "save-customer",
+
+          customer:
+            record.customer,
+
+          profile:
+            record.customer.profile,
+
+          storeId:
+            showroomOrganizationId,
+
+          branchId:
+            showroomBranchId,
+
+          terminalId:
+            showroomTerminalId,
+        });
+
+        void collectData({
+          action:
+            "event",
+
+          eventType:
+            "customer-login",
+
+          customerId:
+            record.customer.id,
+
+          channel:
+            "showroom",
+
+          storeId:
+            showroomOrganizationId,
+
+          branchId:
+            showroomBranchId,
+
+          terminalId:
+            showroomTerminalId,
+
+          metadata: {
+            loginMethod:
+              "central-customer",
+          },
+        });
+
+        setScreen(
+          "vehicle",
+        );
+
+        return;
+      }
+
+    } catch {
+
+      /*
+       * Le fallback local ci-dessous
+       * reste disponible.
+       */
     }
 
     const normalizedSearch =
@@ -1054,10 +1333,13 @@ export default function ShowroomPage() {
         match.customer.profile,
 
       storeId:
-        "GROSSISTE-DEMO",
+        showroomOrganizationId,
+
+      branchId:
+        showroomBranchId,
 
       terminalId:
-        "BORNE-01",
+        showroomTerminalId,
     });
 
     void collectData({
@@ -1074,14 +1356,17 @@ export default function ShowroomPage() {
         "showroom",
 
       storeId:
-        "GROSSISTE-DEMO",
+        showroomOrganizationId,
+
+      branchId:
+        showroomBranchId,
 
       terminalId:
-        "BORNE-01",
+        showroomTerminalId,
 
       metadata: {
         loginMethod:
-          "id-phone-email-name",
+          "local-fallback",
       },
     });
 
@@ -1243,10 +1528,13 @@ export default function ShowroomPage() {
         "showroom",
 
       storeId:
-        "GROSSISTE-DEMO",
+        showroomOrganizationId,
+
+      branchId:
+        showroomBranchId,
 
       terminalId:
-        "BORNE-01",
+        showroomTerminalId,
     });
 
     if (
@@ -1450,10 +1738,13 @@ export default function ShowroomPage() {
         savedVehicle,
 
       storeId:
-        "GROSSISTE-DEMO",
+        showroomOrganizationId,
+
+      branchId:
+        showroomBranchId,
 
       terminalId:
-        "BORNE-01",
+        showroomTerminalId,
     });
 
     if (customer) {
@@ -1524,10 +1815,13 @@ export default function ShowroomPage() {
         "showroom",
 
       storeId:
-        "GROSSISTE-DEMO",
+        showroomOrganizationId,
+
+      branchId:
+        showroomBranchId,
 
       terminalId:
-        "BORNE-01",
+        showroomTerminalId,
     });
 
     if (
@@ -1605,10 +1899,13 @@ export default function ShowroomPage() {
           selected,
 
         storeId:
-          "GROSSISTE-DEMO",
+          showroomOrganizationId,
+
+        branchId:
+          showroomBranchId,
 
         terminalId:
-          "BORNE-01",
+          showroomTerminalId,
       });
     }
 
@@ -1629,10 +1926,13 @@ export default function ShowroomPage() {
         "showroom",
 
       storeId:
-        "GROSSISTE-DEMO",
+        showroomOrganizationId,
+
+      branchId:
+        showroomBranchId,
 
       terminalId:
-        "BORNE-01",
+        showroomTerminalId,
 
       metadata: {
         profile:
@@ -1661,6 +1961,9 @@ export default function ShowroomPage() {
         customer,
         vehicle,
         profile,
+        storeId: showroomOrganizationId,
+        branchId: showroomBranchId,
+        terminalId: showroomTerminalId,
       }),
     );
   }
@@ -1686,10 +1989,13 @@ export default function ShowroomPage() {
         "showroom",
 
       storeId:
-        "GROSSISTE-DEMO",
+        showroomOrganizationId,
+
+      branchId:
+        showroomBranchId,
 
       terminalId:
-        "BORNE-01",
+        showroomTerminalId,
 
       metadata: {
         profile:
@@ -1794,10 +2100,13 @@ export default function ShowroomPage() {
         "showroom",
 
       storeId:
-        "GROSSISTE-DEMO",
+        showroomOrganizationId,
+
+      branchId:
+        showroomBranchId,
 
       terminalId:
-        "BORNE-01",
+        showroomTerminalId,
 
       metadata: {
         profile,
@@ -1810,6 +2119,80 @@ export default function ShowroomPage() {
       "/piece?source=showroom&mode=known-part",
     );
   }
+  async function anonymousCounterTicket() {
+
+    setError(null);
+
+    try {
+
+      const response =
+        await fetch(
+          "/api/showroom/counter",
+          {
+            method:
+              "POST",
+
+            headers: {
+              "Content-Type":
+                "application/json",
+            },
+
+            body:
+              JSON.stringify({
+                action:
+                  "create",
+
+                reason:
+                  "general-information",
+
+                storeId:
+                  showroomOrganizationId,
+
+                branchId:
+                  showroomBranchId,
+
+                terminalId:
+                  showroomTerminalId,
+              }),
+          },
+        );
+
+      const data =
+        await response.json();
+
+      if (
+        !response.ok ||
+        !data.ok
+      ) {
+
+        throw new Error(
+          data.error ??
+          "Impossible de créer le ticket.",
+        );
+      }
+
+      setTicketNumber(
+        data.ticket.number,
+      );
+
+      setScreen(
+        "counter",
+      );
+
+      printTicketAndEndSession();
+
+    } catch (
+      exception
+    ) {
+
+      setError(
+        exception instanceof Error
+          ? exception.message
+          : "Erreur lors de la création du ticket.",
+      );
+    }
+  }
+
   async function counterTicket() {
 
     if (
@@ -1853,10 +2236,13 @@ export default function ShowroomPage() {
                 profile,
 
                 storeId:
-                  "GROSSISTE-DEMO",
+                  showroomOrganizationId,
+
+                branchId:
+                  showroomBranchId,
 
                 terminalId:
-                  "BORNE-01",
+                  showroomTerminalId,
 
                 reason:
                   "counter-request",
@@ -1899,10 +2285,13 @@ export default function ShowroomPage() {
           "showroom",
 
         storeId:
-          "GROSSISTE-DEMO",
+          showroomOrganizationId,
+
+        branchId:
+          showroomBranchId,
 
         terminalId:
-          "BORNE-01",
+          showroomTerminalId,
 
         metadata: {
           ticketNumber:
@@ -1918,6 +2307,8 @@ export default function ShowroomPage() {
       setScreen(
         "ticket",
       );
+
+      printTicketAndEndSession();
 
     } catch (
       exception
@@ -1954,17 +2345,46 @@ export default function ShowroomPage() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-100 text-slate-950 w-full min-w-0 overflow-x-hidden">
+    <main data-tpa-showroom="true" className="min-h-screen bg-slate-100 text-slate-950 w-full min-w-0 overflow-x-hidden">
 
-      {screen === "attract" && (
+      {terminalAvailable === false ? (
+        <div className="flex min-h-screen w-full items-center justify-center bg-gradient-to-br from-slate-950 via-blue-950 to-slate-950 px-6 text-white">
+          <div className="w-full max-w-xl rounded-3xl border border-white/15 bg-white/10 p-10 text-center shadow-2xl backdrop-blur-md">
+            <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full border border-white/20 bg-white/10 text-3xl font-black">
+              !
+            </div>
+
+            <h1 className="mt-7 text-4xl font-black">
+              Borne indisponible
+            </h1>
+
+            <p className="mt-4 text-lg leading-7 text-slate-300">
+              Cette borne est actuellement désactivée.
+            </p>
+
+            <p className="mt-2 text-sm text-slate-400">
+              Veuillez vous adresser à un vendeur.
+            </p>
+
+            {showroomTerminalCode ? (
+              <p className="mt-8 text-sm font-black tracking-[0.18em] text-blue-300">
+                {showroomTerminalCode}
+              </p>
+            ) : null}
+          </div>
+        </div>
+      ) : screen === "attract" && (
 
         <button
           type="button"
           onClick={
-            () =>
-              setScreen(
-                "identity",
-              )
+            () => {
+              if (!showroomTerminalId) {
+                return;
+              }
+
+              setScreen("identity");
+            }
           }
           className="relative min-h-screen w-full overflow-hidden bg-gradient-to-br from-blue-950 via-slate-950 to-blue-800 text-white"
         >
@@ -1979,7 +2399,7 @@ export default function ShowroomPage() {
               </div>
 
               <div className="mt-1 text-xs font-bold tracking-[0.14em] text-blue-200">
-                ESPACE AUTOMOBILE
+                {showroomBranchName || "ESPACE AUTOMOBILE"}
               </div>
 
               <div className="mt-1 text-[10px] font-semibold text-slate-400">
@@ -1999,7 +2419,7 @@ export default function ShowroomPage() {
             </div>
 
             <h1 className="mt-7 w-full text-center text-6xl font-black tracking-tight">
-              TaPiecesAuto
+              TaPieceAuto
             </h1>
 
             <p className="mt-4 w-full text-center text-2xl text-blue-200">
@@ -2052,13 +2472,21 @@ export default function ShowroomPage() {
                             src={brand[1]}
                             alt={brand[0]}
                             draggable={false}
-                            className={
-  brand[0] === "BARDAHL"
-    ? "h-[88px] w-[215px] object-contain scale-[2.15]"
-    : brand[0] === "FACOM"
-      ? "h-[88px] w-[215px] object-contain scale-[2.25]"
-      : "h-[88px] w-[215px] object-contain scale-[1.10]"
-}
+                            className="h-[88px] w-[215px] object-contain"
+                            style={{
+                              transform:
+                                brand[0] === "CASTROL"
+                                  ? "scale(0.85)"
+                                  : brand[0] === "BARDAHL"
+                                  ? "scale(0.80)"
+                                  : brand[0] === "KNECHT"
+                                  ? "scale(0.50)"
+                                  : brand[0] === "FACOM"
+                                  ? "scale(1.25)"
+                                  : brand[0] === "BETA"
+                                  ? "scale(0.80)"
+                                  : "scale(1.10)",
+                            }}
                             onError={
                               event => {
 
@@ -2104,7 +2532,9 @@ export default function ShowroomPage() {
 
               <div className="w-full max-w-xl rounded-full bg-white px-10 py-5 text-center text-2xl font-bold text-blue-950 shadow-2xl transition duration-300 hover:scale-[1.03]">
 
-                Touchez l&apos;écran pour commencer
+                {showroomTerminalId
+                  ? "Touchez l'écran pour commencer"
+                  : "Connexion à la borne..."}
 
               </div>
 
@@ -2172,7 +2602,7 @@ export default function ShowroomPage() {
               <div>
 
                 <p className="font-black text-blue-700">
-                  TaPiecesAuto
+                  TaPieceAuto
                 </p>
 
                 <p className="text-sm text-slate-500">
@@ -2303,7 +2733,7 @@ export default function ShowroomPage() {
                         onClick={
                           () =>
                             router.push(
-                              "/achat-rapide",
+                              "/achat-rapide?from=showroom",
                             )
                         }
                         className="group relative min-h-[185px] overflow-hidden rounded-3xl border-2 border-blue-200 bg-gradient-to-br from-blue-50 via-white to-blue-100 p-6 text-left shadow transition hover:-translate-y-1 hover:border-blue-400 hover:shadow-xl"
@@ -2416,7 +2846,38 @@ export default function ShowroomPage() {
                   </div>
 
 
-                                    <div className="md:col-span-2 mt-16 flex justify-center">
+                                    <div className="md:col-span-2 mt-10 flex justify-center">
+
+                    <button
+                      type="button"
+                      onClick={
+                        () =>
+                          void anonymousCounterTicket()
+                      }
+                      className="group w-full max-w-xl rounded-3xl border-2 border-amber-200 bg-white px-8 py-6 text-center shadow transition hover:-translate-y-1 hover:border-amber-400 hover:shadow-xl"
+                    >
+
+                      <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-100 text-2xl">
+                        👤
+                      </div>
+
+                      <p className="mt-4 text-xs font-black uppercase tracking-widest text-amber-700">
+                        Sans identification
+                      </p>
+
+                      <h2 className="mt-2 text-2xl font-black text-slate-950">
+                        Parler à un vendeur
+                      </h2>
+
+                      <p className="mx-auto mt-2 max-w-md text-sm text-slate-600">
+                        Prenez un numéro sans créer de compte. Un vendeur vous appellera au comptoir.
+                      </p>
+
+                    </button>
+
+                  </div>
+
+                  <div className="md:col-span-2 mt-16 flex justify-center">
 
                     <button
                       type="button"
@@ -2454,6 +2915,42 @@ export default function ShowroomPage() {
               </section>
             )}
 
+
+            {screen === "counter" && (
+
+              <section className="mx-auto max-w-3xl rounded-3xl bg-white p-10 text-center shadow-2xl">
+
+                <p className="text-sm font-black uppercase tracking-widest text-amber-700">
+                  Demande au comptoir
+                </p>
+
+                <h1 className="mt-4 text-4xl font-black text-slate-950">
+                  Votre numéro
+                </h1>
+
+                <p className="mt-6 text-8xl font-black text-blue-950">
+                  {ticketNumber}
+                </p>
+
+                <p className="mt-6 text-xl text-slate-600">
+                  Un vendeur va vous appeler au comptoir.
+                </p>
+
+                <p className="mt-2 text-sm text-slate-500">
+                  Aucune identification n'est nécessaire.
+                </p>
+
+                <button
+                  type="button"
+                  onClick={home}
+                  className="mt-8 rounded-2xl bg-blue-950 px-8 py-4 text-lg font-bold text-white"
+                >
+                  Terminer
+                </button>
+
+              </section>
+
+            )}
 
             {screen === "existing" && (
 
@@ -3042,7 +3539,7 @@ export default function ShowroomPage() {
                                   <div className="flex flex-col justify-between gap-2 sm:flex-row">
 
                                     <p className="font-black text-slate-800">
-                                      Historique TaPiecesAuto
+                                      Historique TaPieceAuto
                                     </p>
 
                                     <p className="text-sm text-slate-500">
@@ -3898,7 +4395,7 @@ export default function ShowroomPage() {
                     </h2>
 
                     <p className="mt-4 text-blue-100">
-                      Lancer le diagnostic TaPiecesAuto.
+                      Lancer le diagnostic TaPieceAuto.
                     </p>
                   </button>
 
@@ -4087,7 +4584,7 @@ export default function ShowroomPage() {
 
 
                 <div className="mt-8 rounded-2xl border border-blue-200 bg-blue-50 p-5 text-center text-sm font-semibold text-blue-950">
-                  Pour un produit dépendant du véhicule, TaPiecesAuto pourra proposer une vérification de compatibilité avant l'achat.
+                  Pour un produit dépendant du véhicule, TaPieceAuto pourra proposer une vérification de compatibilité avant l'achat.
                 </div>
 
               </section>
@@ -4136,7 +4633,7 @@ export default function ShowroomPage() {
                   </h2>
 
                   <p className="mx-auto mt-4 max-w-md text-center text-lg leading-7 text-slate-600">
-                    Vous allez fermer cette session client et revenir à l'accueil de TaPiecesAuto.
+                    Vous allez fermer cette session client et revenir à l'accueil de TaPieceAuto.
                   </p>
 
                   <div className="mt-5 rounded-2xl bg-blue-50 p-4 text-center text-sm font-semibold text-blue-950">
@@ -4191,7 +4688,6 @@ export default function ShowroomPage() {
     </main>
   );
 }
-
 
 
 

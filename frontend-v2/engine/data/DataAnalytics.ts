@@ -1,5 +1,5 @@
-﻿import type {
-  TaPiecesAutoDataSnapshot,
+import type {
+  TaPieceAutoDataSnapshot,
 } from "./TaPiecesAutoDataStore";
 
 export type ResolutionStats = {
@@ -12,7 +12,7 @@ export type ResolutionStats = {
 };
 
 export function calculateResolutionStats(
-  data: TaPiecesAutoDataSnapshot,
+  data: TaPieceAutoDataSnapshot,
 ): ResolutionStats {
 
   const feedback =
@@ -72,7 +72,7 @@ export function calculateResolutionStats(
 }
 
 export function getTopSoldParts(
-  data: TaPiecesAutoDataSnapshot,
+  data: TaPieceAutoDataSnapshot,
 ) {
 
   const counts =
@@ -127,7 +127,7 @@ export function getTopSoldParts(
 }
 
 export function getDiagnosticConversionRate(
-  data: TaPiecesAutoDataSnapshot,
+  data: TaPieceAutoDataSnapshot,
 ) {
 
   const completed =

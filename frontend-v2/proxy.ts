@@ -23,6 +23,7 @@ export function proxy(
     pathname === "/" ||
     pathname === "/login" ||
     pathname === "/access" ||
+    pathname === "/showroom" ||
     pathname === "/client/login" ||
     pathname.startsWith(
       "/api/access",
@@ -31,10 +32,28 @@ export function proxy(
       "/api/auth/client/login",
     ) ||
     pathname.startsWith(
+      "/api/auth/client/register",
+    ) ||
+    pathname.startsWith(
       "/api/auth/session",
     ) ||
     pathname.startsWith(
+      "/api/client/workspace",
+    ) ||
+    pathname.startsWith(
+      "/api/client/profile",
+    ) ||
+    pathname.startsWith(
+      "/api/vehicle-catalogue",
+    ) ||
+    pathname.startsWith(
+      "/api/client/vehicles",
+    ) ||
+    pathname.startsWith(
       "/api/showroom/counter",
+    ) ||
+    pathname.startsWith(
+      "/api/showroom/terminal",
     ) ||
     pathname.startsWith(
       "/api/diagnostic-v2",
@@ -47,6 +66,9 @@ export function proxy(
     ) ||
     pathname.startsWith(
       "/media/",
+    ) ||
+    pathname.startsWith(
+      "/catalog/guy-gerard/images/",
     ) ||
     pathname.startsWith(
       "/parts/",
@@ -149,6 +171,35 @@ export function proxy(
 
   /*
    * =========================================================
+   * CLIENT TPA - ACHAT RAPIDE
+   * =========================================================
+   *
+   * Le client connecté peut accéder aux achats rapides,
+   * fluides et outillage avec sa session TPA.
+   */
+
+  if (
+    pathname === "/achat-rapide" ||
+    pathname === "/api/achat-rapide/counter-request" ||
+    pathname.startsWith(
+      "/achat-rapide/",
+    )
+  ) {
+
+    const clientSession =
+      request.cookies.get(
+        "tpa_session",
+      );
+
+    if (
+      clientSession?.value
+    ) {
+      return NextResponse.next();
+    }
+  }
+
+  /*
+   * =========================================================
    * CLIENT TPA - PARCOURS
    * =========================================================
    *
@@ -208,6 +259,22 @@ export function proxy(
    * Conservée temporairement pour les zones qui ne sont
    * pas encore migrées vers les nouvelles sessions TPA.
    */
+
+  if (
+    pathname === "/super-admin" ||
+    pathname.startsWith("/super-admin/") ||
+    pathname === "/grossiste" ||
+    pathname.startsWith("/grossiste/") ||
+    pathname === "/comptoir" ||
+    pathname.startsWith("/comptoir/") ||
+      pathname === "/api/comptoir" ||
+      pathname.startsWith("/api/comptoir/") ||
+    pathname === "/api/grossiste" ||
+    pathname.startsWith("/api/grossiste/") ||
+    pathname === "/api/auth/logout"
+  ) {
+    return NextResponse.next();
+  }
 
   const accessToken =
     process.env

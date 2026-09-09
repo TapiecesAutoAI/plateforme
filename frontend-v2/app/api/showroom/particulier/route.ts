@@ -1,4 +1,4 @@
-﻿import {
+import {
   NextResponse,
 } from "next/server";
 
@@ -13,6 +13,15 @@ import {
 import {
   CounterHandoffEngine,
 } from "../../../../engine/sales";
+
+import {
+  saveCounterTicket,
+  type CounterTicket,
+} from "../../../../lib/counter/CounterTicketStore";
+
+import {
+  allocateCounterTicketNumber,
+} from "../../../../lib/organization/OrganizationStore";
 
 const vehicleEngine =
   new VehicleIdentificationEngine();
@@ -160,6 +169,13 @@ export async function POST(
     "send-to-counter"
   ) {
 
+    const origin =
+      body.origin === "known-part" ||
+      body.origin === "diagnostic" ||
+      body.origin === "direct"
+        ? body.origin
+        : "direct";
+
     const offer =
       commerce.createOffer(
         partName,
@@ -256,6 +272,145 @@ export async function POST(
           vehicle.vin,
       });
 
+    let ticket:
+      CounterTicket | null =
+      null;
+
+    const hasShowroomContext =
+      Boolean(
+        body.storeId &&
+        body.branchId &&
+        body.terminalId &&
+        body.customer,
+      );
+
+    if (hasShowroomContext) {
+      const ticketNumber =
+        await allocateCounterTicketNumber();
+
+      const reason =
+        origin === "known-part"
+          ? "parts-order"
+          : origin === "diagnostic"
+            ? "diagnostic"
+            : "counter-request";
+
+      ticket = {
+        id:
+          "CT-" +
+          Date.now()
+            .toString(36)
+            .toUpperCase(),
+
+        number:
+          ticketNumber,
+
+        createdAt:
+          new Date().toISOString(),
+
+        calledAt:
+          null,
+
+        startedAt:
+          null,
+
+        completedAt:
+          null,
+
+        status:
+          "waiting",
+
+        customer: {
+          id:
+            String(
+              body.customer?.id ?? "",
+            ),
+
+          firstName:
+            String(
+              body.customer?.firstName ?? "",
+            ),
+
+          lastName:
+            String(
+              body.customer?.lastName ?? "",
+            ),
+
+          phone:
+            String(
+              body.customer?.phone ?? "",
+            ),
+
+          email:
+            String(
+              body.customer?.email ?? "",
+            ),
+        },
+
+        vehicle: {
+          id:
+            String(
+              body.vehicleId ?? "",
+            ),
+
+          vin:
+            vehicle.vin
+              ? String(vehicle.vin)
+              : null,
+
+          brand:
+            String(
+              vehicle.brand ?? "",
+            ),
+
+          model:
+            String(
+              vehicle.model ?? "",
+            ),
+
+          year:
+            vehicle.year
+              ? Number(vehicle.year)
+              : null,
+
+          engine:
+            String(
+              vehicle.engine ?? "",
+            ),
+
+          label:
+            vehicleDescription,
+        },
+
+        profile:
+          String(
+            body.profile ??
+            "particulier",
+          ),
+
+        reason,
+
+        storeId:
+          String(body.storeId),
+
+        branchId:
+          String(body.branchId),
+
+        terminalId:
+          String(body.terminalId),
+
+        sellerId:
+          null,
+
+        sellerName:
+          null,
+      };
+
+      await saveCounterTicket(
+        ticket,
+      );
+    }
+
     return NextResponse.json({
       ok: true,
 
@@ -263,7 +418,12 @@ export async function POST(
 
       offer,
 
-      handoff,
+      handoff: {
+        ...handoff,
+        origin,
+      },
+
+      ticket,
     });
   }
 

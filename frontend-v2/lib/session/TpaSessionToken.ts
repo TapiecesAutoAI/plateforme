@@ -104,6 +104,36 @@ export function verifyTpaSessionToken(
       return null;
     }
 
+    if (
+      parsed.accessRole !== undefined &&
+      parsed.accessRole !== "client" &&
+      parsed.accessRole !== "seller" &&
+      parsed.accessRole !== "wholesaler_admin" &&
+      parsed.accessRole !== "super_admin"
+    ) {
+      return null;
+    }
+
+    if (
+      (
+        parsed.accessRole === "seller" ||
+        parsed.accessRole === "wholesaler_admin"
+      ) &&
+      (
+        typeof parsed.organizationId !== "string" ||
+        parsed.organizationId.trim().length === 0
+      )
+    ) {
+      return null;
+    }
+
+    if (
+      parsed.organizationId !== undefined &&
+      typeof parsed.organizationId !== "string"
+    ) {
+      return null;
+    }
+
     return parsed as TpaSession;
   } catch {
     return null;

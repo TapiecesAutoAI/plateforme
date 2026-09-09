@@ -276,7 +276,7 @@ export default function ClientOrdersPage() {
               </h2>
 
               <p className="mx-auto mt-3 max-w-xl text-slate-600">
-                Vos futures commandes TaPiecesAuto apparaîtront ici dès qu'un achat sera confirmé.
+                Vos futures commandes TaPieceAuto apparaîtront ici dès qu'un achat sera confirmé.
               </p>
 
               <button

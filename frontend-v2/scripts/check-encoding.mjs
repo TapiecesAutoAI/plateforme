@@ -224,6 +224,72 @@ function containsMojibake(
 
 
   /*
+   * Detect Windows-1252 mojibake sequences
+   * beginning with U+00E2.
+   *
+   * Examples historically observed:
+   * euro sign, minus sign, curly quotes,
+   * apostrophes, dashes and ellipsis.
+   *
+   * A legitimate French "â" is not rejected
+   * unless followed by a typical CP1252
+   * mojibake continuation character.
+   */
+  const e2 =
+    String.fromCodePoint(
+      0x00e2,
+    );
+
+  const suspiciousAfterE2 =
+    new Set([
+      0x20ac,
+      0x201a,
+      0x0192,
+      0x201e,
+      0x2026,
+      0x2020,
+      0x2021,
+      0x02c6,
+      0x2030,
+      0x0160,
+      0x2039,
+      0x0152,
+      0x017d,
+      0x2018,
+      0x2019,
+      0x201c,
+      0x201d,
+      0x2022,
+      0x2013,
+      0x2014,
+      0x02dc,
+      0x2122,
+      0x0161,
+      0x203a,
+      0x0153,
+      0x017e,
+      0x0178,
+    ]);
+
+  for (
+    let i = 0;
+    i < line.length - 1;
+    i++
+  ) {
+
+    if (
+      line[i] === e2 &&
+      suspiciousAfterE2.has(
+        line.codePointAt(
+          i + 1,
+        ),
+      )
+    ) {
+      return true;
+    }
+  }
+
+  /*
    * Additional mojibake code points observed
    * in historical project corruption.
    *

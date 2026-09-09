@@ -10,7 +10,6 @@ import {
 } from "next/navigation";
 
 import {
-  getClientWorkspaceByCustomerId,
   prepareClientDiagnostic,
   prepareClientKnownPart,
   type ClientWorkspace,
@@ -208,10 +207,28 @@ export default function ClientPage() {
             return;
           }
 
-          const result =
-            getClientWorkspaceByCustomerId(
-              session.customerId,
+          const workspaceResponse =
+            await fetch(
+              "/api/client/workspace",
+              {
+                method: "GET",
+                cache: "no-store",
+              },
             );
+
+          if (!workspaceResponse.ok) {
+            throw new Error(
+              "CLIENT_WORKSPACE_LOAD_FAILED",
+            );
+          }
+
+          const workspacePayload =
+            await workspaceResponse.json();
+
+          const result =
+            workspacePayload?.ok === true
+              ? workspacePayload.workspace ?? null
+              : null;
 
           if (active) {
             setWorkspace(result);
@@ -280,6 +297,9 @@ export default function ClientPage() {
       getSelectedVehicle();
 
     if (!selected) {
+      router.push(
+        "/client/vehicles/new",
+      );
       return;
     }
 
@@ -380,7 +400,7 @@ export default function ClientPage() {
           <div>
 
             <div className="text-[20px] font-black leading-none text-[#1c4fe0]">
-              TaPiecesAuto
+              TaPieceAuto
             </div>
 
             <div className="mt-2 text-[14px] text-slate-600">
@@ -391,26 +411,6 @@ export default function ClientPage() {
 
 
           <div className="flex gap-4">
-
-            <button
-              type="button"
-              onClick={
-                () =>
-                  router.push(
-                    "/login",
-                  )
-              }
-              className="rounded-xl border border-slate-300 bg-white px-7 py-4 text-[16px] font-black shadow-sm"
-            >
-              ← Sortie
-            </button>
-
-            <button
-              type="button"
-              className="rounded-xl bg-[#10265f] px-7 py-4 text-[16px] font-black text-white shadow-sm"
-            >
-              ⌂ Accueil
-            </button>
 
           </div>
 
@@ -473,6 +473,7 @@ export default function ClientPage() {
 
             <button
               type="button"
+              onClick={() => router.push("/client/profile")}
               className="font-semibold text-[#1b4fd8]"
             >
               ♙ Mon profil
@@ -491,7 +492,7 @@ export default function ClientPage() {
           </h2>
 
           <p className="mt-3 text-[18px] text-slate-600">
-            Accédez rapidement à tous les services TaPiecesAuto.
+            Accédez rapidement à tous les services TaPieceAuto.
           </p>
 
         </section>
@@ -513,7 +514,7 @@ export default function ClientPage() {
             </h3>
 
             <p className="mt-4 max-w-[360px] text-[17px] leading-7 text-blue-100">
-              Lancer le diagnostic TaPiecesAuto
+              Lancer le diagnostic TaPieceAuto
               <br />
               avec mon véhicule.
             </p>
@@ -556,7 +557,37 @@ export default function ClientPage() {
           </button>
 
 
-          
+          <button
+            type="button"
+            onClick={() =>
+              router.push(
+                "/achat-rapide?from=client",
+              )
+            }
+            className="group min-h-[285px] rounded-[28px] border border-amber-200 bg-white p-8 text-left shadow-lg transition hover:-translate-y-1"
+          >
+
+            <div className="text-[42px]">
+              ⚡
+            </div>
+
+            <h3 className="mt-8 text-[31px] font-black">
+              Achats rapides
+            </h3>
+
+            <p className="mt-4 max-w-[360px] text-[17px] leading-7 text-slate-600">
+              Lubrifiants, fluides,
+              <br />
+              outillage et produits courants.
+            </p>
+
+            <div className="mt-7 flex justify-end">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full border border-amber-300 text-2xl">
+                →
+              </div>
+            </div>
+
+          </button>
 
         </section>
 
@@ -677,6 +708,11 @@ export default function ClientPage() {
 
               <button
                 type="button"
+                onClick={() =>
+                  router.push(
+                    "/client/vehicles/new",
+                  )
+                }
                 className="flex min-h-[190px] flex-col items-center justify-center rounded-2xl border-2 border-dashed border-blue-200 bg-blue-50/20 text-[#1b4fd8]"
               >
 
@@ -782,6 +818,11 @@ export default function ClientPage() {
 
           <button
             type="button"
+            onClick={() =>
+              router.push(
+                "/achat-rapide/outillage",
+              )
+            }
             className="flex min-h-[120px] items-center gap-6 px-7 text-left"
           >
             <div className="text-[#10265f]">
@@ -805,7 +846,7 @@ export default function ClientPage() {
 
 
         <footer className="py-7 text-center text-[13px] text-slate-500">
-          TaPiecesAuto © 2026 — Tous droits réservés
+          TaPieceAuto © 2026 — Tous droits réservés
         </footer>
 
       </div>

@@ -1,13 +1,21 @@
-﻿import {
+import {
+  NextRequest,
   NextResponse,
 } from "next/server";
+
+import { getCentralCustomer } from "../../../../lib/client/CentralCustomerStore";
+import { getClientAccount } from "../../../../lib/client/ClientAccountStore";
+import { acquireCounterAssignmentLock, listCounterTickets, releaseCounterAssignmentLock, saveCounterTicket } from "../../../../lib/counter/CounterTicketStore";
+import { allocateCounterTicketNumber, getOrganization } from "../../../../lib/organization/OrganizationStore";
+import { verifyTpaSessionToken } from "../../../../lib/session/TpaSessionToken";
 
 type TicketStatus =
   | "waiting"
   | "called"
   | "in-service"
   | "completed"
-  | "cancelled";
+  | "cancelled"
+  | "no-show";
 
 type CounterTicket = {
   id: string;
@@ -17,6 +25,7 @@ type CounterTicket = {
   calledAt: string | null;
   startedAt: string | null;
   completedAt: string | null;
+  noShowAt?: string | null;
 
   status: TicketStatus;
 
@@ -39,48 +48,199 @@ type CounterTicket = {
   };
 
   profile: string;
+  reason: string;
 
   storeId: string;
+  branchId?: string;
   terminalId: string;
 
   sellerId: string | null;
+  sellerName: string | null;
 };
 
-type CounterState = {
-  sequence: number;
-  tickets: CounterTicket[];
-};
+export async function GET(
+  request: NextRequest,
+) {
 
-declare global {
-  var __tapiecesautoCounterState:
-    CounterState | undefined;
-}
+  const allTickets = await listCounterTickets();
 
-function getState(): CounterState {
+  const token =
+    request.cookies.get(
+      "tpa_session",
+    )?.value;
 
-  if (!globalThis.__tapiecesautoCounterState) {
+  const secret =
+    process.env
+      .TPA_SESSION_SECRET;
 
-    globalThis.__tapiecesautoCounterState = {
-      sequence: 0,
-      tickets: [],
-    };
+  if (
+    !token ||
+    !secret
+  ) {
+    return NextResponse.json(
+      {
+        ok: false,
+        error: "SELLER_REQUIRED",
+      },
+      {
+        status: 401,
+      },
+    );
   }
 
-  return globalThis.__tapiecesautoCounterState;
-}
+  const session =
+    verifyTpaSessionToken(
+      token,
+      secret,
+    );
 
-export async function GET() {
+  if (
+    !session ||
+    session.accessRole !==
+      "seller" ||
+    !session.customerId
+  ) {
+    return NextResponse.json(
+      {
+        ok: false,
+        error: "SELLER_REQUIRED",
+      },
+      {
+        status: 403,
+      },
+    );
+  }
 
-  const state = getState();
+  const account =
+    await getClientAccount(
+      session.customerId,
+    );
+
+  const assignment =
+    account
+      ?.sellerBranchAssignment;
+
+  const allowedBranchIds =
+    new Set(
+      [
+        assignment
+          ?.primaryBranchId,
+        ...(
+          assignment
+            ?.allowedBranchIds ??
+          []
+        ),
+      ].filter(
+        (
+          branchId,
+        ): branchId is string =>
+          Boolean(branchId),
+      ),
+    );
+
+  const sellerAlreadyBusy =
+    allTickets.some(
+      ticket =>
+        ticket.sellerId === session.customerId &&
+        (ticket.status === "called" ||
+          ticket.status === "in-service"),
+    );
+
+  if (!sellerAlreadyBusy) {
+    const scope = session.organizationId ?? "counter-global";
+    const lockToken = await acquireCounterAssignmentLock(scope);
+
+    if (lockToken) {
+      try {
+        const freshTickets = await listCounterTickets();
+        const stillBusy = freshTickets.some(
+          ticket =>
+            ticket.sellerId === session.customerId &&
+            (ticket.status === "called" ||
+              ticket.status === "in-service"),
+        );
+
+        if (!stillBusy) {
+          const nextTicket = freshTickets.find(
+            ticket =>
+              ticket.status === "waiting" &&
+              (!ticket.branchId || allowedBranchIds.has(ticket.branchId)),
+          );
+
+          if (nextTicket) {
+            const seller = await getCentralCustomer(session.customerId);
+            const sellerName = seller
+              ? `${seller.firstName} ${seller.lastName}`.trim()
+              : session.displayName ?? "Vendeur";
+            const assignedTicket = {
+              ...nextTicket,
+              status: "called" as const,
+              sellerId: session.customerId,
+              sellerName,
+              calledAt: new Date().toISOString(),
+              noShowAt: null,
+            };
+
+            await saveCounterTicket(assignedTicket);
+            Object.assign(nextTicket, assignedTicket);
+          }
+        }
+      } finally {
+        await releaseCounterAssignmentLock(scope, lockToken);
+      }
+    }
+  }
+
+  const tickets =
+    allTickets.filter(
+      (ticket) =>
+        !ticket.branchId ||
+        allowedBranchIds.has(
+          ticket.branchId,
+        ),
+    );
+
+  const organization =
+    session.organizationId
+      ? await getOrganization(
+          session.organizationId,
+        )
+      : null;
+
+  const enrichedTickets =
+    tickets.map((ticket) => {
+      const branch =
+        organization?.branches?.find(
+          (candidate) =>
+            candidate.branchId ===
+            ticket.branchId,
+        );
+
+      const terminal =
+        branch?.terminals?.find(
+          (candidate) =>
+            candidate.terminalId ===
+            ticket.terminalId,
+        );
+
+      return {
+        ...ticket,
+        reason: ticket.reason ?? "counter-request",
+        branchCode:
+          branch?.branchCode ?? null,
+        terminalCode:
+          terminal?.deviceCode ?? null,
+      };
+    });
 
   return NextResponse.json({
     ok: true,
-    tickets: state.tickets,
+    tickets: enrichedTickets,
   });
 }
 
 export async function POST(
-  request: Request,
+  request: NextRequest,
 ) {
 
   const body =
@@ -90,18 +250,21 @@ export async function POST(
     String(
       body.action ?? "",
     );
-
-  const state =
-    getState();
-
   if (
     action ===
     "create"
   ) {
 
+    const isAnonymous =
+      body.reason ===
+      "general-information";
+
     if (
-      !body.customer ||
-      !body.vehicle
+      !isAnonymous &&
+      (
+        !body.customer ||
+        !body.vehicle
+      )
     ) {
 
       return NextResponse.json(
@@ -116,7 +279,7 @@ export async function POST(
       );
     }
 
-    state.sequence += 1;
+    const ticketNumber = await allocateCounterTicketNumber();
 
     const ticket:
       CounterTicket = {
@@ -127,14 +290,7 @@ export async function POST(
           .toString(36)
           .toUpperCase(),
 
-      number:
-        "A" +
-        String(
-          state.sequence,
-        ).padStart(
-          3,
-          "0",
-        ),
+      number: ticketNumber,
 
       createdAt:
         new Date()
@@ -155,75 +311,83 @@ export async function POST(
       customer: {
         id:
           String(
-            body.customer.id ?? "",
+            body.customer?.id ?? "",
           ),
 
         firstName:
           String(
-            body.customer.firstName ?? "",
+            body.customer?.firstName ?? "",
           ),
 
         lastName:
           String(
-            body.customer.lastName ?? "",
+            body.customer?.lastName ?? "",
           ),
 
         phone:
           String(
-            body.customer.phone ?? "",
+            body.customer?.phone ?? "",
           ),
 
         email:
           String(
-            body.customer.email ?? "",
+            body.customer?.email ?? "",
           ),
       },
 
       vehicle: {
         id:
           String(
-            body.vehicle.id ?? "",
+            body.vehicle?.id ?? "",
           ),
 
         vin:
-          body.vehicle.vin
+          body.vehicle?.vin
             ? String(
-                body.vehicle.vin,
+                body.vehicle?.vin,
               )
             : null,
 
         brand:
           String(
-            body.vehicle.brand ?? "",
+            body.vehicle?.brand ?? "",
           ),
 
         model:
           String(
-            body.vehicle.model ?? "",
+            body.vehicle?.model ?? "",
           ),
 
         year:
-          body.vehicle.year
+          body.vehicle?.year
             ? Number(
-                body.vehicle.year,
+                body.vehicle?.year,
               )
             : null,
 
         engine:
           String(
-            body.vehicle.engine ?? "",
+            body.vehicle?.engine ?? "",
           ),
 
         label:
           String(
-            body.vehicle.label ?? "",
+            body.vehicle?.label ?? "",
           ),
       },
 
       profile:
+        isAnonymous
+          ? "anonymous"
+          : String(
+              body.profile ??
+              "particulier",
+            ),
+
+      reason:
         String(
-          body.profile ??
-          "particulier",
+          body.reason ??
+          "counter-request",
         ),
 
       storeId:
@@ -231,6 +395,11 @@ export async function POST(
           body.storeId ??
           "GROSSISTE-DEMO",
         ),
+
+      branchId:
+        body.branchId
+          ? String(body.branchId)
+          : undefined,
 
       terminalId:
         String(
@@ -240,11 +409,12 @@ export async function POST(
 
       sellerId:
         null,
-    };
 
-    state.tickets.push(
-      ticket,
-    );
+      sellerName:
+        null,
+
+    };
+    await saveCounterTicket(ticket);
 
     return NextResponse.json({
       ok: true,
@@ -256,38 +426,86 @@ export async function POST(
     action ===
     "status"
   ) {
+    const secret =
+      process.env.TPA_SESSION_SECRET;
 
-    const index =
-      state.tickets
-        .findIndex(
-          ticket =>
-            ticket.id ===
-              body.ticketId ||
-            ticket.number ===
-              body.ticketId,
-        );
-
-    if (
-      index < 0
-    ) {
-
+    if (!secret) {
       return NextResponse.json(
         {
           ok: false,
           error:
-            "TICKET_NOT_FOUND",
+            "SESSION_NOT_CONFIGURED",
         },
         {
-          status: 404,
+          status: 503,
         },
       );
     }
 
+    const token =
+      request.cookies
+        .get("tpa_session")
+        ?.value;
+
+    if (!token) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error:
+            "UNAUTHENTICATED",
+        },
+        {
+          status: 401,
+        },
+      );
+    }
+
+    const session =
+      verifyTpaSessionToken(
+        token,
+        secret,
+      );
+
+    if (
+      !session ||
+      session.accessRole !==
+        "seller" ||
+      !session.customerId
+    ) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error:
+            "SELLER_REQUIRED",
+        },
+        {
+          status: 403,
+        },
+      );
+    }
+
+    const sellerId =
+      session.customerId;
+
+    const seller =
+      await getCentralCustomer(
+        sellerId,
+      );
+
+    const sellerName =
+      seller
+        ? `${seller.firstName} ${seller.lastName}`.trim()
+        : session.displayName ??
+          "Vendeur";
+
     const current =
-      state.tickets[index];
+      (await listCounterTickets()).find(
+        (ticket) =>
+          ticket.id === body.ticketId ||
+          ticket.number === body.ticketId,
+      );
 
     if (!current) {
-
       return NextResponse.json(
         {
           ok: false,
@@ -304,6 +522,141 @@ export async function POST(
       body.status as
         TicketStatus;
 
+    const allowedStatuses:
+      TicketStatus[] = [
+        "waiting",
+        "called",
+        "in-service",
+        "completed",
+        "cancelled",
+        "no-show",
+      ];
+
+    if (
+      !allowedStatuses.includes(
+        status,
+      )
+    ) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error:
+            "INVALID_STATUS",
+        },
+        {
+          status: 400,
+        },
+      );
+    }
+
+    if (
+      (
+        status ===
+          "called" ||
+        status ===
+          "in-service"
+      ) &&
+      current.sellerId &&
+      current.sellerId !==
+        sellerId
+    ) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error:
+            "TICKET_ALREADY_CLAIMED",
+          sellerId:
+            current.sellerId,
+          sellerName:
+            current.sellerName,
+        },
+        {
+          status: 409,
+        },
+      );
+    }
+
+    if (
+      status ===
+        "completed" &&
+      current.sellerId !==
+        sellerId
+    ) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error:
+            "TICKET_NOT_OWNED_BY_SELLER",
+        },
+        {
+          status: 409,
+        },
+      );
+    }
+
+    if (
+      status ===
+        "called" &&
+      current.status !==
+        "waiting" &&
+      current.status !==
+        "no-show"
+    ) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error:
+            "INVALID_TICKET_TRANSITION",
+        },
+        {
+          status: 409,
+        },
+      );
+    }
+
+    if (
+      status ===
+        "in-service" &&
+      current.status !==
+        "called"
+    ) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error:
+            "INVALID_TICKET_TRANSITION",
+        },
+        {
+          status: 409,
+        },
+      );
+    }
+
+    if (
+      status ===
+        "completed" &&
+      current.status !==
+        "in-service"
+    ) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error:
+            "INVALID_TICKET_TRANSITION",
+        },
+        {
+          status: 409,
+        },
+      );
+    }
+
+    if (
+      status === "no-show" &&
+      (current.status !== "called" || current.sellerId !== sellerId)
+    ) {
+      return NextResponse.json({ ok: false, error: "INVALID_TICKET_TRANSITION" }, { status: 409 });
+    }
+
     const timestamp =
       new Date()
         .toISOString();
@@ -315,8 +668,24 @@ export async function POST(
       status,
 
       sellerId:
-        body.sellerId ??
-        current.sellerId,
+        status ===
+          "called" ||
+        status ===
+          "in-service" ||
+        status ===
+          "completed"
+          ? sellerId
+          : current.sellerId,
+
+      sellerName:
+        status ===
+          "called" ||
+        status ===
+          "in-service" ||
+        status ===
+          "completed"
+          ? sellerName
+          : current.sellerName,
 
       calledAt:
         status ===
@@ -335,17 +704,22 @@ export async function POST(
         "completed"
           ? timestamp
           : current.completedAt,
+
+      noShowAt:
+        status === "no-show"
+          ? timestamp
+          : status === "called"
+            ? null
+            : current.noShowAt,
     };
 
-    state.tickets[index] =
-      updated;
+    await saveCounterTicket(updated);
 
     return NextResponse.json({
       ok: true,
       ticket: updated,
     });
   }
-
   return NextResponse.json(
     {
       ok: false,

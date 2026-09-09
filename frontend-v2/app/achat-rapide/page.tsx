@@ -8,6 +8,12 @@ import {
 } from "react";
 
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+
+import {
+  searchGuyGerardCatalog,
+  type GuyGerardProduct,
+} from "../../data/guy-gerard/GuyGerardCatalog";
 
 
 type Role =
@@ -154,6 +160,13 @@ function detectIntent(
 
 export default function QuickPurchasePage() {
 
+  const searchParams = useSearchParams();
+
+  const returnHref =
+    searchParams.get("from") === "showroom"
+      ? "/showroom"
+      : "/client";
+
   const [
     input,
     setInput,
@@ -189,12 +202,183 @@ export default function QuickPurchasePage() {
     "Preparer un trajet",
   ]);
 
+  const [
+    catalogProducts,
+    setCatalogProducts,
+  ] = useState<GuyGerardProduct[]>([]);
+
+  const [
+    cartItems,
+    setCartItems,
+  ] = useState<
+    {
+      product: GuyGerardProduct;
+      quantity: number;
+    }[]
+  >([]);
+
+  const [
+    counterNotice,
+    setCounterNotice,
+  ] = useState("");
+
+  const lastCatalogQuery =
+    useRef("");
+
   const nextId =
     useRef(2);
 
   const chatEnd =
     useRef<HTMLDivElement | null>(
       null,
+    );
+
+  function addToCart(
+    product: GuyGerardProduct,
+  ) {
+    setCartItems(current => {
+      const existing =
+        current.find(
+          item =>
+            item.product.id ===
+            product.id,
+        );
+
+      if (existing) {
+        return current.map(item =>
+          item.product.id === product.id
+            ? {
+                ...item,
+                quantity:
+                  item.quantity + 1,
+              }
+            : item,
+        );
+      }
+
+      return [
+        ...current,
+        {
+          product,
+          quantity: 1,
+        },
+      ];
+    });
+  }
+
+  function changeCartQuantity(
+    productId: string,
+    delta: number,
+  ) {
+    setCartItems(current =>
+      current
+        .map(item =>
+          item.product.id === productId
+            ? {
+                ...item,
+                quantity:
+                  item.quantity + delta,
+              }
+            : item,
+        )
+        .filter(
+          item =>
+            item.quantity > 0,
+        ),
+    );
+  }
+
+  function removeFromCart(
+    productId: string,
+  ) {
+    setCartItems(current =>
+      current.filter(
+        item =>
+          item.product.id !== productId,
+      ),
+    );
+  }
+
+  async function sendCartToCounter(
+    type: "order" | "advice",
+  ) {
+    if (cartItems.length === 0) {
+      return;
+    }
+
+    try {
+      const response =
+        await fetch(
+          "/api/achat-rapide/counter-request",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type":
+                "application/json",
+            },
+            body: JSON.stringify({
+              type,
+              items:
+                cartItems.map(item => ({
+                  productId:
+                    item.product.id,
+                  supplierCode:
+                    item.product.supplier_code,
+                  name:
+                    item.product.name_fr ||
+                    item.product.product_name,
+                  unitPrice:
+                    item.product.effective_price,
+                  quantity:
+                    item.quantity,
+                })),
+            }),
+          },
+        );
+
+      const result =
+        await response.json();
+
+      if (
+        !response.ok ||
+        !result.ok
+      ) {
+        const message =
+          `Erreur comptoir : ${result.error ?? response.status}`;
+
+        setCounterNotice(message);
+        assistant(message);
+        return;
+      }
+
+      const message =
+        type === "order"
+          ? `Commande envoyée au comptoir. Référence ${result.request.id}.`
+          : `Demande d'explications envoyée au comptoir. Référence ${result.request.id}.`;
+
+      setCounterNotice(message);
+      assistant(message);
+    } catch {
+      assistant(
+        "Impossible de contacter le comptoir.",
+      );
+    }
+  }
+
+  const cartQuantity =
+    cartItems.reduce(
+      (sum, item) =>
+        sum + item.quantity,
+      0,
+    );
+
+  const cartTotal =
+    cartItems.reduce(
+      (sum, item) =>
+        sum +
+        (item.product.effective_price ?? 0) *
+          item.quantity,
+      0,
     );
 
 
@@ -592,7 +776,7 @@ export default function QuickPurchasePage() {
   }
 
 
-  function send(
+  async function send(
     value: string,
   ) {
 
@@ -610,6 +794,196 @@ export default function QuickPurchasePage() {
 
     setInput("");
     setSuggestions([]);
+
+    const command =
+      normalize(clean);
+
+    const showPrevious =
+      command === "montre" ||
+      command === "montre moi" ||
+      command === "montre-moi" ||
+      command === "affiche" ||
+      command === "affiche moi" ||
+      command === "voir les produits" ||
+      command === "voir";
+
+    let catalogQuery =
+      showPrevious &&
+      lastCatalogQuery.current
+        ? lastCatalogQuery.current
+        : clean;
+
+    let aiUnderstood =
+      false;
+
+    if (!showPrevious) {
+
+      try {
+
+        const response =
+          await fetch(
+            "/api/achat-rapide/interpret",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type":
+                  "application/json",
+              },
+              body:
+                JSON.stringify({
+                  text: clean,
+                }),
+            },
+          );
+
+        if (response.ok) {
+
+          const data =
+            await response.json();
+
+          const interpretation =
+            data?.interpretation;
+
+          if (
+            interpretation?.understood === true &&
+            interpretation.confidence >= 0.5
+          ) {
+
+            const canonicalParts = [
+              interpretation.normalizedQuery,
+              interpretation.category,
+              interpretation.target,
+              interpretation.action,
+              interpretation.effect,
+              interpretation.productType,
+              ...(Array.isArray(
+                interpretation.keywords,
+              )
+                ? interpretation.keywords
+                : []),
+            ]
+              .filter(Boolean)
+              .map(String);
+
+            catalogQuery =
+              Array.from(
+                new Set(
+                  canonicalParts,
+                ),
+              )
+                .join(" ");
+
+            aiUnderstood =
+              true;
+          }
+        }
+
+      } catch {
+
+        aiUnderstood =
+          false;
+      }
+    }
+
+    const foundProducts =
+      searchGuyGerardCatalog(
+        catalogQuery,
+        6,
+      );
+
+    if (
+      showPrevious &&
+      lastCatalogQuery.current &&
+      foundProducts.length > 0
+    ) {
+
+      setCatalogProducts(
+        foundProducts,
+      );
+
+      assistant(
+        `Voici les produits Guy Gérard correspondant à "${lastCatalogQuery.current}".`,
+      );
+
+      return;
+    }
+
+    if (
+      aiUnderstood &&
+      foundProducts.length > 0
+    ) {
+
+      lastCatalogQuery.current =
+        catalogQuery;
+
+      setCatalogProducts(
+        foundProducts,
+      );
+
+      assistant(
+        `J'ai trouvé ${foundProducts.length} produit${foundProducts.length > 1 ? "s" : ""} Guy Gérard correspondant à votre demande.`,
+      );
+
+      return;
+    }
+
+    if (
+      !aiUnderstood &&
+      foundProducts.length > 0
+    ) {
+
+      const significantTerms =
+        normalize(clean)
+          .split(/\s+/)
+          .filter(
+            term =>
+              term.length >= 4,
+          );
+
+      const hasDirectProductMatch =
+        foundProducts.some(
+          product => {
+
+            const searchable =
+              normalize(
+                [
+                  product.product_name,
+                  product.name_fr,
+                  product.attributes,
+                  product.description,
+                  product.section,
+                ]
+                  .filter(Boolean)
+                  .join(" "),
+              );
+
+            return significantTerms.some(
+              term =>
+                searchable.includes(
+                  term,
+                ),
+            );
+          },
+        );
+
+      if (hasDirectProductMatch) {
+
+        lastCatalogQuery.current =
+          clean;
+
+        setCatalogProducts(
+          foundProducts,
+        );
+
+        assistant(
+        `J'ai trouvé ${foundProducts.length} produit${foundProducts.length > 1 ? "s" : ""} Guy Gérard correspondant à votre demande.`,
+        );
+
+        return;
+      }
+    }
+
+    setCatalogProducts([]);
 
     if (
       conversation.intent === "none"
@@ -653,7 +1027,7 @@ export default function QuickPurchasePage() {
           <div>
 
             <div className="text-sm font-bold text-blue-700">
-              Ta Pieces Auto AI
+              Ta Piece Auto AI
             </div>
 
             <h1 className="text-2xl font-black">
@@ -663,7 +1037,7 @@ export default function QuickPurchasePage() {
           </div>
 
           <Link
-            href="/showroom"
+            href={returnHref}
             className="rounded-xl border border-slate-300 bg-white px-5 py-3 font-semibold shadow-sm"
           >
             Retour
@@ -756,7 +1130,7 @@ export default function QuickPurchasePage() {
             <div className="border-b border-blue-100 bg-gradient-to-r from-blue-950 via-blue-900 to-blue-700 px-6 py-4 text-white">
 
               <h2 className="font-black">
-                Assistant Ta Pieces Auto
+                Assistant Ta Piece Auto
               </h2>
 
               <p className="text-sm text-blue-100">
@@ -796,6 +1170,282 @@ export default function QuickPurchasePage() {
                       </div>
 
                     ),
+                  )
+                }
+
+
+                {
+                  catalogProducts.length > 0 && (
+
+                    <div id="tpa-catalog-products" className="grid gap-4 pt-2 sm:grid-cols-2 xl:grid-cols-3">
+
+                      {
+                        catalogProducts.map(
+                          product => (
+
+                            <article
+                              key={product.id}
+                              className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"
+                            >
+
+                              {
+                                product.image_path && (
+                                  <div className="flex h-56 items-center justify-center bg-white p-5">
+                                    <img
+                                      src={product.image_path}
+                                      alt={
+                                        product.name_fr ||
+                                        product.product_name
+                                      }
+                                      className="block max-h-full max-w-[180px] object-contain"
+                                      loading="lazy"
+                                    />
+                                  </div>
+                                )
+                              }
+
+                              <div className="border-t border-slate-100 p-4">
+
+                                <div className="text-[15px] font-black leading-5 text-slate-950">
+                                  {
+                                    product.name_fr ||
+                                    product.product_name
+                                  }
+                                </div>
+
+                                <div className="mt-2 text-xs font-bold text-slate-500">
+                                  Réf. {product.supplier_code}
+                                </div>
+
+                                {
+                                  product.attributes && (
+                                    <div className="mt-2 line-clamp-2 text-xs leading-5 text-slate-600">
+                                      {product.attributes}
+                                    </div>
+                                  )
+                                }
+
+                                <div className="mt-4 flex items-center justify-between gap-3">
+
+                                  <span className="text-lg font-black text-blue-800">
+                                    {
+                                      product.effective_price !== null
+                                        ? `${product.effective_price
+                                            .toFixed(2)
+                                            .replace(".", ",")} €`
+                          : "Prix à confirmer"
+                                    }
+                                  </span>
+
+                                  <span className="rounded-full bg-slate-100 px-3 py-1 text-[11px] font-bold text-slate-600">
+                                    Guy Gérard
+                                  </span>
+
+                                </div>
+
+                                <button
+                                  type="button"
+                                  onClick={() => addToCart(product)}
+                                  className="mt-4 w-full rounded-xl bg-blue-800 px-4 py-3 text-sm font-black text-white hover:bg-blue-900"
+                                >
+                                  Ajouter au panier
+                                </button>
+
+                              </div>
+
+                            </article>
+
+                          ),
+                        )
+                      }
+
+                    </div>
+
+                  )
+                }
+
+
+                {
+                  cartItems.length > 0 && (
+
+                    <div className="mt-6 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+
+                      <div className="flex items-center justify-between gap-4">
+
+                        <div className="text-lg font-black text-slate-950">
+                          Panier ({cartQuantity})
+                        </div>
+
+                        <div className="text-2xl font-black text-blue-800">
+                          {cartTotal
+                            .toFixed(2)
+                            .replace(".", ",")} €
+                        </div>
+
+                      </div>
+
+                      <div className="mt-4 space-y-3">
+
+                        {
+                          cartItems.map(
+                            item => (
+
+                              <div
+                                key={item.product.id}
+                                className="flex items-center gap-3 rounded-2xl border border-slate-200 p-3"
+                              >
+
+                                {
+                                  item.product.image_path && (
+                                    <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl bg-white">
+                                      <img
+                                        src={item.product.image_path}
+                                        alt={
+                                          item.product.name_fr ||
+                                          item.product.product_name
+                                        }
+                                        className="max-h-14 max-w-14 object-contain"
+                                      />
+                                    </div>
+                                  )
+                                }
+
+                                <div className="min-w-0 flex-1">
+
+                                  <div className="truncate text-sm font-black text-slate-950">
+                                    {
+                                      item.product.name_fr ||
+                                      item.product.product_name
+                                    }
+                                  </div>
+
+                                  <div className="mt-1 text-xs font-bold text-slate-500">
+                                    Réf. {item.product.supplier_code}
+                                  </div>
+
+                                </div>
+
+                                <div className="flex items-center gap-2">
+
+                                  <button
+                                    type="button"
+                                    onClick={() =>
+                                      changeCartQuantity(
+                                        item.product.id,
+                                        -1,
+                                      )
+                                    }
+                                    className="h-9 w-9 rounded-full border border-slate-300 text-lg font-black"
+                                  >
+                                    −
+                                  </button>
+
+                                  <span className="min-w-7 text-center font-black">
+                                    {item.quantity}
+                                  </span>
+
+                                  <button
+                                    type="button"
+                                    onClick={() =>
+                                      changeCartQuantity(
+                                        item.product.id,
+                                        1,
+                                      )
+                                    }
+                                    className="h-9 w-9 rounded-full border border-slate-300 text-lg font-black"
+                                  >
+                                    +
+                                  </button>
+
+                                </div>
+
+                                <button
+                                  type="button"
+                                  onClick={() =>
+                                    removeFromCart(
+                                      item.product.id,
+                                    )
+                                  }
+                                  className="rounded-lg px-2 py-2 text-xs font-bold text-red-700"
+                                >
+                                  Supprimer
+                                </button>
+
+                              </div>
+
+                            ),
+                          )
+                        }
+
+                      </div>
+
+                      <div className="mt-5 border-t border-slate-200 pt-4">
+
+                        <div className="flex items-center justify-between">
+
+                          <span className="font-black text-slate-950">
+                            Total
+                          </span>
+
+                          <span className="text-xl font-black text-blue-800">
+                            {cartTotal
+                              .toFixed(2)
+                              .replace(".", ",")} €
+                          </span>
+
+                        </div>
+
+                        <div className="mt-5 grid gap-3 sm:grid-cols-2">
+
+                          <button
+                            type="button"
+                            onClick={() => {
+                              document
+                                .getElementById("tpa-catalog-products")
+                                ?.scrollIntoView({
+                                  behavior: "smooth",
+                                  block: "start",
+                                });
+                            }}
+                            className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-black text-slate-800 hover:bg-slate-50"
+                          >
+                            Poursuivre mes achats
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={() =>
+                              void sendCartToCounter("order")
+                            }
+                            className="rounded-xl bg-blue-800 px-4 py-3 text-sm font-black text-white hover:bg-blue-900"
+                          >
+                            Envoyer au comptoir
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={() =>
+                              void sendCartToCounter("advice")
+                            }
+                            className="rounded-xl border-2 border-blue-800 px-4 py-3 text-sm font-black text-blue-800 hover:bg-blue-50 sm:col-span-2"
+                          >
+                            Besoin d'explications au comptoir
+                          </button>
+
+                          {
+                            counterNotice && (
+                              <div className="rounded-xl bg-slate-100 px-4 py-3 text-sm font-black text-slate-800 sm:col-span-2">
+                                {counterNotice}
+                              </div>
+                            )
+                          }
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
                   )
                 }
 
