@@ -129,6 +129,16 @@ export async function POST(
 
   if (redisConfigured) {
 
+    const redisHost = (() => {
+      try {
+        return new URL(process.env.UPSTASH_REDIS_REST_URL ?? "").hostname;
+      } catch {
+        return "invalid-url";
+      }
+    })();
+
+    console.log("[TPA-AUTH-REDIS]", { redisHost });
+
     const account =
       normalizedEmail.includes("@")
         ? await findClientAccountByEmail(
