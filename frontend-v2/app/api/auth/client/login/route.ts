@@ -138,6 +138,7 @@ export async function POST(
             normalizedEmail,
           );
 
+    console.log("[TPA-AUTH-DIAG]", { userCode: normalizedEmail, accountFound: Boolean(account), status: account?.status ?? null });
     if (
       !account ||
       account.status !== "active"
@@ -162,6 +163,7 @@ export async function POST(
         account,
       );
 
+    console.log("[TPA-AUTH-DIAG]", { userCode: normalizedEmail, passwordValid: passwordIsValid });
     if (!passwordIsValid) {
 
       return NextResponse.json(
