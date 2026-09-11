@@ -110,6 +110,21 @@ export default function SellerPage() {
   const [tpaPopup, setTpaPopup] =
     useState("");
 
+  const [showPasswordReset, setShowPasswordReset] =
+    useState(false);
+
+  const [newPassword, setNewPassword] =
+    useState("");
+
+  const [confirmPassword, setConfirmPassword] =
+    useState("");
+
+  const [resettingPassword, setResettingPassword] =
+    useState(false);
+
+  const [passwordMessage, setPasswordMessage] =
+    useState("");
+
   useEffect(() => {
     async function load() {
       try {
@@ -378,6 +393,72 @@ export default function SellerPage() {
     });
   }
 
+  async function resetSellerPassword() {
+    if (!seller) {
+      return;
+    }
+
+    setPasswordMessage("");
+
+    if (newPassword.length < 8) {
+      setPasswordMessage(
+        "Minimum 8 caractères.",
+      );
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      setPasswordMessage(
+        "Les deux mots de passe ne correspondent pas.",
+      );
+      return;
+    }
+
+    setResettingPassword(true);
+
+    try {
+      const response = await fetch(
+        "/api/grossiste/sellers",
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            customerId: seller.customerId,
+            newPassword,
+          }),
+        },
+      );
+
+      const data = await response.json()
+        .catch(() => null);
+
+      if (!response.ok || !data?.ok) {
+        throw new Error(
+          data?.error === "PASSWORD_TOO_SHORT"
+            ? "Mot de passe trop court."
+            : "Réinitialisation impossible.",
+        );
+      }
+
+      setNewPassword("");
+      setConfirmPassword("");
+      setShowPasswordReset(false);
+      setPasswordMessage(
+        "Mot de passe réinitialisé.",
+      );
+    } catch (error) {
+      setPasswordMessage(
+        error instanceof Error
+          ? error.message
+          : "Réinitialisation impossible.",
+      );
+    } finally {
+      setResettingPassword(false);
+    }
+  }
+
   async function save() {
     if (!seller) {
       return;
@@ -618,6 +699,88 @@ export default function SellerPage() {
                 <div className="mt-1 text-[11px] font-bold text-blue-300">
                   Permanent
                 </div>
+
+              <div className="rounded-2xl border border-amber-400/30 bg-amber-500/10 p-4">
+                <div className="text-xs font-black uppercase tracking-wider text-amber-300">
+                  Sécurité
+                </div>
+
+                <div className="mt-1 font-black text-white">
+                  Mot de passe
+                </div>
+
+                {!showPasswordReset ? (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowPasswordReset(true);
+                      setPasswordMessage("");
+                    }}
+                    className="mt-3 rounded-xl bg-amber-500 px-4 py-2 text-sm font-black text-[#061b31] transition hover:bg-amber-400"
+                  >
+                    Réinitialiser le mot de passe
+                  </button>
+                ) : (
+                  <div className="mt-3 space-y-3">
+                    <input
+                      type="password"
+                      value={newPassword}
+                      onChange={(event) =>
+                        setNewPassword(event.target.value)
+                      }
+                      autoComplete="new-password"
+                      placeholder="Nouveau mot de passe"
+                      className="w-full rounded-xl border border-amber-300/30 bg-[#071d31] px-4 py-3 font-bold text-white"
+                    />
+
+                    <input
+                      type="password"
+                      value={confirmPassword}
+                      onChange={(event) =>
+                        setConfirmPassword(event.target.value)
+                      }
+                      autoComplete="new-password"
+                      placeholder="Confirmer le mot de passe"
+                      className="w-full rounded-xl border border-amber-300/30 bg-[#071d31] px-4 py-3 font-bold text-white"
+                    />
+
+                    <div className="flex gap-2">
+                      <button
+                        type="button"
+                        disabled={resettingPassword}
+                        onClick={() =>
+                          void resetSellerPassword()
+                        }
+                        className="rounded-xl bg-amber-500 px-4 py-2 text-sm font-black text-[#061b31] disabled:opacity-50"
+                      >
+                        {resettingPassword
+                          ? "Réinitialisation..."
+                          : "Confirmer"}
+                      </button>
+
+                      <button
+                        type="button"
+                        disabled={resettingPassword}
+                        onClick={() => {
+                          setShowPasswordReset(false);
+                          setNewPassword("");
+                          setConfirmPassword("");
+                          setPasswordMessage("");
+                        }}
+                        className="rounded-xl border border-white/20 px-4 py-2 text-sm font-bold text-white"
+                      >
+                        Annuler
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {passwordMessage ? (
+                  <div className="mt-3 text-sm font-bold text-amber-200">
+                    {passwordMessage}
+                  </div>
+                ) : null}
+              </div>
               </div>
             </div>
           </section>

@@ -518,6 +518,7 @@ export async function PATCH(
         !body.identity ||
         typeof body.identity !== "object"
       )
+      && typeof body.newPassword !== "string"
     )
   ) {
     return NextResponse.json(
@@ -551,6 +552,45 @@ export async function PATCH(
         status: 404,
       },
     );
+  }
+
+  if (typeof body.newPassword === "string") {
+    const newPassword =
+      body.newPassword.trim();
+
+    if (newPassword.length < 8) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error: "PASSWORD_TOO_SHORT",
+        },
+        {
+          status: 400,
+        },
+      );
+    }
+
+    const passwordData =
+      await hashClientPassword(
+        newPassword,
+      );
+
+    await saveClientAccount({
+      ...seller,
+      passwordHash:
+        passwordData.hash,
+      passwordSalt:
+        passwordData.salt,
+      passwordAlgorithm:
+        "scrypt-v1",
+      updatedAt:
+        new Date().toISOString(),
+    });
+
+    return NextResponse.json({
+      ok: true,
+      passwordReset: true,
+    });
   }
 
   const identity =
