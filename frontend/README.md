@@ -1,41 +1,36 @@
-# FRONTEND
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Rôle
+## Getting Started
 
-Le frontend est l'interface visible par l'utilisateur.
+First, run the development server:
 
-Il permet au client de :
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-- décrire son problème automobile ;
-- identifier son véhicule ;
-- rechercher une pièce ;
-- discuter avec l'assistant IA ;
-- consulter les recommandations ;
-- réserver une pièce.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Principe
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-Le frontend affiche les informations et collecte les actions de l'utilisateur.
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-Il ne décide jamais seul si une pièce est compatible.
+## Learn More
 
-Toutes les décisions importantes sont validées par le backend et le moteur IA.
+To learn more about Next.js, take a look at the following resources:
 
-## Première version
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-La première version comprendra :
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-- une page d'accueil ;
-- un formulaire d'identification du véhicule ;
-- une interface de conversation ;
-- une page de résultats ;
-- un récapitulatif de réservation.
+## Deploy on Vercel
 
-## Évolutions futures
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Le frontend pourra ensuite être adapté pour :
-
-- les téléphones mobiles ;
-- les tablettes ;
-- les bornes en magasin ;
-- les applications mobiles.
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

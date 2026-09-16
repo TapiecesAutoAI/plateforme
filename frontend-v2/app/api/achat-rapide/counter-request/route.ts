@@ -143,10 +143,12 @@ export async function POST(
       session?.channel === "customer-web"
     );
 
+  const isSellerSession = session?.accessRole === "seller" && Boolean(session.organizationId);
+
   if (
     !session ||
     !session.customerId ||
-    !isClientSession
+    (!isClientSession && !isSellerSession)
   ) {
     return NextResponse.json(
       {

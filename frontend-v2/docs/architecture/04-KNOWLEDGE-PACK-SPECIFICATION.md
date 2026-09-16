@@ -1,4 +1,4 @@
-# TaPiecesAuto AI
+# TaPieceAuto AI
 
 # 04 — KNOWLEDGE PACK SPECIFICATION
 

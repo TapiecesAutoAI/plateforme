@@ -12,7 +12,8 @@ import {
 import GrossisteOrganizationView
   from "./GrossisteOrganizationView";
 
-export default async function GrossisteOrganisationPage() {
+export default async function GrossisteOrganisationPage({ searchParams }: { searchParams: Promise<{ organizationId?: string }> }) {
+  const { organizationId } = await searchParams;
   const secret =
     process.env.TPA_SESSION_SECRET;
 
@@ -42,13 +43,6 @@ export default async function GrossisteOrganisationPage() {
     redirect("/login");
   }
 
-  if (
-    session.accessRole ===
-    "super_admin"
-  ) {
-    redirect("/super-admin");
-  }
-
   if (session.accessRole === "seller") {
     redirect("/comptoir");
   }
@@ -56,18 +50,22 @@ export default async function GrossisteOrganisationPage() {
   if (session.accessRole === "client") {
     redirect("/client");
   }
-
-  if (
-    session.accessRole !==
-      "wholesaler_admin" ||
-    !session.organizationId
-  ) {
+  if (session.accessRole !== "wholesaler_admin" && session.accessRole !== "super_admin") {
     redirect("/login");
+  }
+
+  const targetOrganizationId =
+    session.accessRole === "super_admin"
+      ? organizationId
+      : session.organizationId;
+
+  if (!targetOrganizationId) {
+    redirect(session.accessRole === "super_admin" ? "/super-admin" : "/login");
   }
 
   const organization =
     await getOrganization(
-      session.organizationId,
+      targetOrganizationId,
     );
 
   if (!organization) {
@@ -75,6 +73,6 @@ export default async function GrossisteOrganisationPage() {
   }
 
   return (
-    <GrossisteOrganizationView />
+    <GrossisteOrganizationView organizationId={targetOrganizationId} />
   );
 }

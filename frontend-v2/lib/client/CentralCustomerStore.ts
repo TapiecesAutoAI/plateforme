@@ -64,6 +64,7 @@ export type CustomerProfile = {
 };
 export type CentralCustomer = {
   customerId: string;
+  photoUrl?: string;
   firstName: string;
   lastName: string;
   phone: string;

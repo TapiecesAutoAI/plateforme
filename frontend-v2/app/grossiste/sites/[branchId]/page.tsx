@@ -7,6 +7,7 @@ import {
 
 import {
   useParams,
+  useSearchParams,
 } from "next/navigation";
 
 type Branch = {
@@ -49,6 +50,9 @@ type Branch = {
 
 export default function BranchPage() {
   const params = useParams();
+  const searchParams = useSearchParams();
+  const organizationId = searchParams.get("organizationId") ?? "";
+  const interventionQuery = organizationId ? `?organizationId=${encodeURIComponent(organizationId)}&mode=super-admin` : "";
 
   const branchId =
     typeof params.branchId === "string"
@@ -72,7 +76,7 @@ export default function BranchPage() {
       try {
         const response =
           await fetch(
-            "/api/grossiste/branches",
+            organizationId ? `/api/grossiste/branches?organizationId=${encodeURIComponent(organizationId)}` : "/api/grossiste/branches",
             {
               cache: "no-store",
             },
@@ -245,7 +249,7 @@ export default function BranchPage() {
     return (
       <main className="min-h-screen bg-[#061b31] px-6 py-10 text-white">
         <a
-          href="/grossiste/organisation"
+          href={`/grossiste/organisation${interventionQuery}`}
           className="font-bold text-blue-300"
         >
           ← Retour
@@ -287,7 +291,7 @@ export default function BranchPage() {
         <div className="pr-40">
 
           <a
-            href="/grossiste/organisation"
+            href={`/grossiste/organisation${interventionQuery}`}
             className="inline-flex rounded-xl border border-blue-300/30 bg-white/5 px-4 py-2 font-bold text-blue-100 transition hover:bg-white/10"
           >
             ← Retour
@@ -559,7 +563,7 @@ export default function BranchPage() {
           <div className="mt-5 grid gap-4 md:grid-cols-3">
 
             <a
-              href={`/grossiste/sites/${branch.branchId}/equipe/nouveau`}
+              href={`/grossiste/sites/${branch.branchId}/equipe/nouveau${interventionQuery}`}
               className="rounded-2xl border border-cyan-400/40 bg-cyan-500/10 p-5 transition hover:bg-cyan-500/20"
             >
               <div className="text-lg font-black">
@@ -572,7 +576,7 @@ export default function BranchPage() {
             </a>
 
             <a
-              href={`/grossiste/sites/${branch.branchId}/comptoirs`}
+              href={`/grossiste/sites/${branch.branchId}/comptoirs${interventionQuery}`}
               className="rounded-2xl border border-blue-400/40 bg-blue-500/10 p-5 transition hover:bg-blue-500/20"
             >
               <div className="text-lg font-black">
@@ -589,7 +593,7 @@ export default function BranchPage() {
             </a>
 
             <a
-              href={`/grossiste/sites/${branch.branchId}/bornes`}
+              href={`/grossiste/sites/${branch.branchId}/bornes${interventionQuery}`}
               className="rounded-2xl border border-violet-400/40 bg-violet-500/10 p-5 transition hover:bg-violet-500/20"
             >
               <div className="text-lg font-black">

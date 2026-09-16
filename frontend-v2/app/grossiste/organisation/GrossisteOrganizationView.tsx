@@ -6,11 +6,13 @@ import {
   useMemo,
   useState,
 } from "react";
+import { useSearchParams } from "next/navigation";
 
 type Branch = {
   branchId: string;
   branchCode?: string;
   name: string;
+  photoUrl?: string;
   status: "active" | "disabled";
   phone?: string;
   email?: string;
@@ -52,6 +54,7 @@ type Branch = {
 
 type Seller = {
   customerId: string;
+  photoUrl?: string;
   firstName?: string;
   lastName?: string;
   loginEmail: string;
@@ -89,6 +92,7 @@ type BranchResponse = {
   organizationId?: string;
 
   organizationName?: string;
+  storePhotoUrl?: string | null;
   branches?: Branch[];
 };
 
@@ -134,7 +138,7 @@ function staffRoleLabel(
   customRoleLabel?: string,
 ) {
   if (role === "custom") {
-    return (
+  return (
       customRoleLabel?.trim() ||
       "Autre fonction"
     );
@@ -151,6 +155,14 @@ function staffRoleLabel(
   return "Livreur";
 }
 
+function peoplePhotoSrc(photoUrl: string | undefined, organizationId: string | undefined) {
+  if (!photoUrl) return "";
+  if (!photoUrl.startsWith("tpa/organizations/")) return photoUrl;
+
+  return `/api/grossiste/private-photo?organizationId=${encodeURIComponent(
+    organizationId ?? "",
+  )}&pathname=${encodeURIComponent(photoUrl)}`;
+}
 function sellerName(
   seller: Seller,
 ) {
@@ -325,7 +337,12 @@ function branchDisplayName(
   return `Succursale de ${match[1].trim()}`;
 }
 
-export default function GrossisteOrganizationView() {
+export default function GrossisteOrganizationView({ organizationId }: { organizationId?: string }) {
+  const searchParams = useSearchParams();
+  const isSuperAdminMode = searchParams.get("mode") === "super-admin";
+  const interventionQuery = organizationId && isSuperAdminMode
+    ? `?organizationId=${encodeURIComponent(organizationId)}&mode=super-admin`
+    : "";
   const [mode, setMode] =
     useState<ViewMode>(
       "organigramme",
@@ -334,6 +351,8 @@ export default function GrossisteOrganizationView() {
   const [organizationName, setOrganizationName] =
     useState("GROSSISTE");
 
+
+  const [storePhotoUrl, setStorePhotoUrl] = useState<string | null>(null);
 
   const [branches, setBranches] =
     useState<Branch[]>([]);
@@ -361,14 +380,14 @@ export default function GrossisteOrganizationView() {
           sellerResponse,
         ] = await Promise.all([
           fetch(
-            "/api/grossiste/branches",
+            organizationId ? `/api/grossiste/branches?organizationId=${encodeURIComponent(organizationId)}` : "/api/grossiste/branches",
             {
               method: "GET",
               cache: "no-store",
             },
           ),
           fetch(
-            "/api/grossiste/sellers",
+            organizationId ? `/api/grossiste/sellers?organizationId=${encodeURIComponent(organizationId)}` : "/api/grossiste/sellers",
             {
               method: "GET",
               cache: "no-store",
@@ -396,6 +415,8 @@ export default function GrossisteOrganizationView() {
           "GROSSISTE",
         );
 
+
+        setStorePhotoUrl(branchData.storePhotoUrl ?? null);
 
         setBranches(
           branchData.branches ?? [],
@@ -439,6 +460,137 @@ export default function GrossisteOrganizationView() {
 
 
 
+  const uploadOrganizationPhoto = useCallback(
+    async (file: File) => {
+      if (!file.type.startsWith("image/")) {
+        throw new Error("Veuillez sélectionner une image.");
+      }
+      if (file.size > 8 * 1024 * 1024) {
+        throw new Error("La photo ne peut pas dépasser 8 Mo.");
+      }
+
+      const formData = new FormData();
+      formData.append("file", file);
+      if (organizationId) {
+        formData.append("organizationId", organizationId);
+      }
+
+      const response = await fetch(
+        "/api/grossiste/organization-photo",
+        {
+          method: "POST",
+          body: formData,
+        },
+      );
+
+      const data = await response.json();
+
+      if (!response.ok || !data.ok || !data.url) {
+        throw new Error(
+          data.error || "Upload de la photo impossible.",
+        );
+      }
+
+      setStorePhotoUrl(data.url);
+    },
+    [organizationId],
+  );
+
+  const uploadBranchPhoto = useCallback(
+    async (
+      branchId: string,
+      file: File,
+    ) => {
+      if (!file.type.startsWith("image/")) {
+        throw new Error(
+          "Veuillez sélectionner une image.",
+        );
+      }
+      if (file.size > 8 * 1024 * 1024) {
+        throw new Error(
+          "La photo ne peut pas dépasser 8 Mo.",
+        );
+      }
+      const formData = new FormData();
+      formData.append(
+        "file",
+        file,
+      );
+      formData.append(
+        "branchId",
+        branchId,
+      );
+      if (organizationId) {
+        formData.append(
+          "organizationId",
+          organizationId,
+        );
+      }
+      const uploadResponse =
+        await fetch(
+          "/api/grossiste/branch-photo",
+          {
+            method: "POST",
+            body: formData,
+          },
+        );
+      const uploadData =
+        await uploadResponse.json();
+      if (
+        !uploadResponse.ok ||
+        !uploadData.ok ||
+        !uploadData.url
+      ) {
+        throw new Error(
+          uploadData.error ||
+          "Upload de la photo impossible.",
+        );
+      }
+      const patchResponse =
+        await fetch(
+          organizationId
+            ? `/api/grossiste/branches?organizationId=${encodeURIComponent(organizationId)}`
+            : "/api/grossiste/branches",
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type":
+                "application/json",
+            },
+            body: JSON.stringify({
+              branchId,
+              photoUrl:
+                uploadData.url,
+            }),
+          },
+        );
+      const patchData =
+        await patchResponse.json();
+      if (
+        !patchResponse.ok ||
+        !patchData.ok
+      ) {
+        throw new Error(
+          patchData.error ||
+          "Enregistrement de la photo impossible.",
+        );
+      }
+      setBranches(
+        (currentBranches) =>
+          currentBranches.map(
+            (branch) =>
+              branch.branchId === branchId
+                ? {
+                    ...branch,
+                    photoUrl:
+                      uploadData.url,
+                  }
+                : branch,
+          ),
+      );
+    },
+    [organizationId],
+  );
   const activeCounters =
     useMemo(
       () =>
@@ -518,8 +670,16 @@ export default function GrossisteOrganizationView() {
     );
   }
 
+
+
   return (
-    <main className="min-h-screen bg-[#061d35] text-white">
+    <main
+      className={
+        isSuperAdminMode
+          ? "min-h-screen bg-gradient-to-br from-red-950 via-red-900 to-red-700 text-white"
+          : "min-h-screen bg-[#061d35] text-white"
+      }
+    >
       <div className="flex min-h-screen">
 
         {/* SIDEBAR */}
@@ -539,7 +699,7 @@ export default function GrossisteOrganizationView() {
           <nav className="flex-1 space-y-1 px-3 py-7 text-[15px] font-semibold text-blue-100">
 
             <a
-              href="/grossiste"
+              href={`/grossiste${interventionQuery}`}
               className="flex items-center gap-3 rounded-xl px-4 py-3 hover:bg-white/5"
             >
               <NavIcon>⌂</NavIcon>
@@ -547,7 +707,7 @@ export default function GrossisteOrganizationView() {
             </a>
 
             <a
-              href="/grossiste/organisation"
+              href={`/grossiste/organisation${interventionQuery}`}
               aria-current="page"
               className="flex items-center gap-3 rounded-xl bg-blue-600 px-4 py-3 text-white shadow-lg shadow-blue-950/40"
             >
@@ -766,11 +926,21 @@ export default function GrossisteOrganizationView() {
                 <div className="mx-auto max-w-[470px] rounded-2xl border border-blue-400/50 bg-[#0b2b49] p-5 shadow-2xl shadow-slate-950/30">
 
                   <div className="flex items-center gap-5">
-                    <img
-                      src={SITE_PHOTOS[0]}
-                      alt=""
-                      className="h-24 w-24 shrink-0 rounded-full border-4 border-white object-cover"
-                    />
+                    <label className="group relative h-24 w-24 shrink-0 cursor-pointer" title={storePhotoUrl ? "Changer la photo du grossiste" : "Ajouter une photo au grossiste"}>
+                      <img src={storePhotoUrl || SITE_PHOTOS[0]} alt={`Photo de ${organizationName}`} className="h-24 w-24 rounded-full border-4 border-white object-cover" />
+                      <span className="absolute inset-0 flex items-center justify-center rounded-full bg-black/0 text-xl opacity-0 transition group-hover:bg-black/40 group-hover:opacity-100">📷</span>
+                      <input type="file" accept="image/jpeg,image/png,image/webp" className="hidden" onChange={async (event) => {
+                        const file = event.target.files?.[0];
+                        event.target.value = "";
+                        if (!file) return;
+                        try {
+                          setError("");
+                          await uploadOrganizationPhoto(file);
+                        } catch (caught) {
+                          setError(caught instanceof Error ? caught.message : "Upload de la photo impossible.");
+                        }
+                      }} />
+                    </label>
 
                     <div className="min-w-0 flex-1">
                       <div className="flex flex-wrap items-center gap-3">
@@ -944,8 +1114,13 @@ export default function GrossisteOrganizationView() {
                           >
                             <div className="flex items-start gap-3">
                               <div className="flex shrink-0 flex-col items-center gap-2">
+                                <label
+                                  className="group relative block cursor-pointer"
+                                  title={branch.photoUrl ? "Changer la photo du magasin" : "Ajouter une photo au magasin"}
+                                >
                                 <img
                                   src={
+                                    branch.photoUrl ||
                                     SITE_PHOTOS[
                                       branchIndex %
                                         SITE_PHOTOS.length
@@ -954,6 +1129,66 @@ export default function GrossisteOrganizationView() {
                                   alt=""
                                   className="h-20 w-20 rounded-full border-2 border-white object-cover"
                                 />
+
+
+  <span className="pointer-events-none absolute inset-0 flex items-center justify-center rounded-full bg-black/50 text-lg opacity-0 transition group-hover:opacity-100">
+
+    📷
+
+  </span>
+
+
+  <input
+
+    type="file"
+
+    accept="image/jpeg,image/png,image/webp"
+
+    className="hidden"
+
+    onChange={
+
+      async (event) => {
+
+        const file = event.target.files?.[0];
+
+
+
+        event.target.value = '';
+
+
+
+        if (!file) return;
+
+
+
+        try {
+
+          setError('');
+
+          await uploadBranchPhoto(branch.branchId, file);
+
+        } catch (caught) {
+
+          setError(
+
+            caught instanceof Error
+
+              ? caught.message
+
+              : "Upload de la photo impossible.",
+
+          );
+
+        }
+
+      }
+
+    }
+
+  />
+
+</label>
 
                                 {branch.branchCode ? (
                                   <span className="rounded-lg bg-cyan-400/15 px-2 py-1 text-xs font-black tracking-wider text-cyan-200">
@@ -998,7 +1233,7 @@ export default function GrossisteOrganizationView() {
                               </div>
 
                               <a
-                                href={`/grossiste/sites/${branch.branchId}`}
+                                href={`/grossiste/sites/${branch.branchId}${interventionQuery}`}
                                 title="Gérer le site"
                                 aria-label="Gérer le site"
                                 className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/10 font-black transition hover:bg-white/20"
@@ -1049,12 +1284,11 @@ export default function GrossisteOrganizationView() {
 
                             {supervisor ? (
                               <a
-                                href={`/grossiste/vendeurs/${supervisor.customerId}`}
+                                href={`/grossiste/vendeurs/${supervisor.customerId}${interventionQuery}`}
                                 className="flex items-center gap-3 rounded-xl border border-blue-400/40 bg-[#eef6fb] p-3 text-slate-900 transition hover:bg-white"
                               >
                                 <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-blue-600 text-xs font-black text-white">
-                                  {`${supervisor.firstName?.charAt(0) ?? ""}${supervisor.lastName?.charAt(0) ?? ""}` ||
-                                    "?"}
+                                  {supervisor.photoUrl ? (<img src={peoplePhotoSrc(supervisor.photoUrl, organizationId)} alt={sellerName(supervisor)} className="h-full w-full rounded-full object-cover" />) : (`${supervisor.firstName?.charAt(0) ?? ""}${supervisor.lastName?.charAt(0) ?? ""}` || "?")}
                                 </div>
 
                                 <div className="min-w-0">
@@ -1097,12 +1331,11 @@ export default function GrossisteOrganizationView() {
                                   <div className="space-y-2">
                                     {deputy ? (
                                       <a
-                                        href={`/grossiste/vendeurs/${deputy.customerId}`}
+                                        href={`/grossiste/vendeurs/${deputy.customerId}${interventionQuery}`}
                                         className="flex items-center gap-2 rounded-xl border border-sky-300 bg-sky-100 p-2 text-slate-900 transition hover:bg-sky-50"
                                       >
                                         <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-sky-500 text-[10px] font-black text-white">
-                                          {`${deputy.firstName?.charAt(0) ?? ""}${deputy.lastName?.charAt(0) ?? ""}` ||
-                                            "?"}
+                                          {deputy.photoUrl ? (<img src={peoplePhotoSrc(deputy.photoUrl, organizationId)} alt={sellerName(deputy)} className="h-full w-full rounded-full object-cover" />) : (`${deputy.firstName?.charAt(0) ?? ""}${deputy.lastName?.charAt(0) ?? ""}` || "?")}
                                         </div>
 
                                         <div className="min-w-0">
@@ -1125,12 +1358,15 @@ export default function GrossisteOrganizationView() {
                                           key={
                                             seller.customerId
                                           }
-                                          href={`/grossiste/vendeurs/${seller.customerId}`}
+                                          href={`/grossiste/vendeurs/${seller.customerId}${interventionQuery}`}
                                           className="flex items-center gap-2 rounded-xl bg-[#eef6fb] p-2 text-slate-900 transition hover:bg-white"
                                         >
                                           <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-slate-200 text-[10px] font-black text-slate-600">
-                                            {`${seller.firstName?.charAt(0) ?? ""}${seller.lastName?.charAt(0) ?? ""}` ||
-                                              "?"}
+                                            {seller.photoUrl ? (
+                                              <img src={peoplePhotoSrc(seller.photoUrl, organizationId)} alt={sellerName(seller)} className="h-full w-full rounded-full object-cover" />
+                                            ) : (
+                                              `${seller.firstName?.charAt(0) ?? ""}${seller.lastName?.charAt(0) ?? ""}` || "?"
+                                            )}
                                           </div>
 
                                           <div className="min-w-0">
@@ -1154,7 +1390,7 @@ export default function GrossisteOrganizationView() {
                                         Aucun vendeur
                                       </div>
                                     ) : null}
-                                  </div>
+</div>
                                 </div>
 
                                 {/* EQUIPE */}
@@ -1172,14 +1408,12 @@ export default function GrossisteOrganizationView() {
                                           key={
                                             staff.staffId
                                           }
-                                          href={`/grossiste/sites/${branch.branchId}/equipe/${staff.staffId}`}
+                                          href={`/grossiste/sites/${branch.branchId}/equipe/${staff.staffId}${interventionQuery}`}
                                           className="flex items-center gap-2 rounded-xl bg-white p-2 text-slate-900 transition hover:bg-slate-100"
                                         >
                                           {staff.photoUrl ? (
                                             <img
-                                              src={
-                                                staff.photoUrl
-                                              }
+                                              src={peoplePhotoSrc(staff.photoUrl, organizationId)}
                                               alt=""
                                               className="h-9 w-9 shrink-0 rounded-full object-cover"
                                             />
@@ -1216,7 +1450,7 @@ export default function GrossisteOrganizationView() {
                                         Aucun membre
                                       </div>
                                     ) : null}
-                                  </div>
+</div>
                                 </div>
 
                               </div>
@@ -1395,7 +1629,7 @@ export default function GrossisteOrganizationView() {
                             </div>
 
                             <a
-                              href={`/grossiste/sites/${branch.branchId}`}
+                              href={`/grossiste/sites/${branch.branchId}${interventionQuery}`}
                               className="flex items-center justify-center rounded-xl bg-amber-500 px-3 py-2 text-xs font-black text-slate-950 transition hover:bg-amber-400"
                             >
                               Gérer
@@ -1416,10 +1650,11 @@ export default function GrossisteOrganizationView() {
                                   </h3>
 
                                   <a
-                                    href="/grossiste/vendeurs/nouveau"
-                                    className="text-xs font-black text-blue-300 hover:text-blue-200"
+                                    href={`/grossiste/vendeurs/nouveau${interventionQuery}`}
+                                    className="flex h-9 items-center justify-center gap-1.5 rounded-lg border border-dashed border-blue-300/50 bg-blue-500/10 px-2.5 text-center text-[10px] font-black text-blue-200 hover:bg-blue-500/20"
                                   >
-                                    ＋ Ajouter
+                                    <span className="text-base">+</span>
+                                    AJOUTER UN VENDEUR
                                   </a>
                                 </div>
 
@@ -1486,8 +1721,11 @@ export default function GrossisteOrganizationView() {
                                             className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-slate-300 bg-slate-200 text-xs font-black text-slate-600"
                                             aria-label="Aucune photo vendeur"
                                           >
-                                            {`${seller.firstName?.charAt(0) ?? ""}${seller.lastName?.charAt(0) ?? ""}` ||
-                                              "?"}
+                                            {seller.photoUrl ? (
+                                              <img src={peoplePhotoSrc(seller.photoUrl, organizationId)} alt={sellerName(seller)} className="h-full w-full rounded-full object-cover" />
+                                            ) : (
+                                              `${seller.firstName?.charAt(0) ?? ""}${seller.lastName?.charAt(0) ?? ""}` || "?"
+                                            )}
                                           </div>
 
                                           <div className="min-w-0 flex-1">
@@ -1522,7 +1760,7 @@ export default function GrossisteOrganizationView() {
                                           </div>
 
                                           <a
-                                            href={`/grossiste/vendeurs/${seller.customerId}`}
+                                            href={`/grossiste/vendeurs/${seller.customerId}${interventionQuery}`}
                                             className="ml-auto shrink-0 rounded-lg bg-amber-500 px-3 py-2 text-[10px] font-black text-slate-950 hover:bg-amber-400"
                                           >
                                             Modifier
@@ -1548,10 +1786,11 @@ export default function GrossisteOrganizationView() {
                                   </h3>
 
                                   <a
-                                    href={`/grossiste/sites/${branch.branchId}/equipe/nouveau`}
-                                    className="text-xs font-black text-cyan-300 hover:text-cyan-200"
+                                    href={`/grossiste/sites/${branch.branchId}/equipe/nouveau${interventionQuery}`}
+                                    className="flex h-9 items-center justify-center gap-1.5 rounded-lg border border-dashed border-cyan-300/50 bg-cyan-500/10 px-2.5 text-center text-[10px] font-black text-cyan-200 hover:bg-cyan-500/20"
                                   >
-                                    ＋ Ajouter
+                                    <span className="text-base">+</span>
+                                    AJOUTER DU PERSONNEL
                                   </a>
                                 </div>
 
@@ -1567,9 +1806,7 @@ export default function GrossisteOrganizationView() {
                                       >
                                         {staff.photoUrl ? (
                                           <img
-                                            src={
-                                              staff.photoUrl
-                                            }
+                                            src={peoplePhotoSrc(staff.photoUrl, organizationId)}
                                             alt=""
                                             className="h-11 w-11 shrink-0 rounded-full object-cover"
                                           />
@@ -1613,7 +1850,7 @@ export default function GrossisteOrganizationView() {
                                         </div>
 
                                         <a
-                                          href={`/grossiste/sites/${branch.branchId}/equipe/${staff.staffId}`}
+                                          href={`/grossiste/sites/${branch.branchId}/equipe/${staff.staffId}${interventionQuery}`}
                                           className="ml-auto shrink-0 rounded-lg bg-amber-500 px-3 py-2 text-[10px] font-black text-slate-950 hover:bg-amber-400"
                                         >
                                           Modifier
@@ -1647,6 +1884,29 @@ export default function GrossisteOrganizationView() {
                   </div>
                 ) : null}
 
+              </div>
+            ) : null}
+            {mode === "organigramme" && branches.length ? (
+              <div className="mt-8 grid grid-cols-6 gap-2">
+                {branches.map((branch) => (
+                  <div key={branch.branchId} className="contents">
+                    <a
+                      href={`/grossiste/vendeurs/nouveau${interventionQuery}`}
+                      className="flex h-11 items-center justify-center gap-2 rounded-lg border border-dashed border-blue-300/50 bg-blue-500/10 px-3 text-center text-[11px] font-black text-blue-200 hover:bg-blue-500/20"
+                    >
+                      <span className="text-base">+</span>
+                      AJOUTER UN VENDEUR
+                    </a>
+
+                    <a
+                      href={`/grossiste/sites/${branch.branchId}/equipe/nouveau${interventionQuery}`}
+                      className="flex h-11 items-center justify-center gap-2 rounded-lg border border-dashed border-cyan-300/50 bg-cyan-500/10 px-3 text-center text-[11px] font-black text-cyan-200 hover:bg-cyan-500/20"
+                    >
+                      <span className="text-base">+</span>
+                      AJOUTER DU PERSONNEL
+                    </a>
+                  </div>
+                ))}
               </div>
             ) : null}
             <div className="mt-6 flex items-center justify-between rounded-xl bg-blue-300/10 px-6 py-4 text-sm font-semibold text-blue-100">

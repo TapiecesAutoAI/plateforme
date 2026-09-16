@@ -97,6 +97,21 @@ export default function GrossisteSellersPanel() {
   const [savingSettingsId, setSavingSettingsId] =
     useState<string | null>(null);
 
+  const [resetPasswordSellerId, setResetPasswordSellerId] =
+    useState<string | null>(null);
+
+  const [resetPassword, setResetPassword] =
+    useState("");
+
+  const [resetPasswordConfirm, setResetPasswordConfirm] =
+    useState("");
+
+  const [resetPasswordSaving, setResetPasswordSaving] =
+    useState(false);
+
+  const [resetPasswordMessage, setResetPasswordMessage] =
+    useState("");
+
   function toggleSellerSetting(
     customerId: string,
     group: "capabilities" | "permissions",
@@ -201,6 +216,77 @@ export default function GrossisteSellersPanel() {
       }),
     );
   }
+  async function resetSellerPassword(
+    customerId: string,
+  ) {
+    setResetPasswordMessage("");
+    setError("");
+
+    if (resetPassword.length < 8) {
+      setResetPasswordMessage(
+        "Le mot de passe doit contenir au moins 8 caractères.",
+      );
+      return;
+    }
+
+    if (resetPassword !== resetPasswordConfirm) {
+      setResetPasswordMessage(
+        "Les deux mots de passe ne correspondent pas.",
+      );
+      return;
+    }
+
+    setResetPasswordSaving(true);
+
+    try {
+      const response =
+        await fetch(
+          "/api/grossiste/sellers",
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type":
+                "application/json",
+            },
+            body: JSON.stringify({
+              customerId,
+              newPassword:
+                resetPassword,
+            }),
+          },
+        );
+
+      const data =
+        await response.json()
+          .catch(() => null);
+
+      if (!response.ok) {
+        throw new Error(
+          data?.error === "PASSWORD_TOO_SHORT"
+            ? "Mot de passe trop court."
+            : "Réinitialisation impossible.",
+        );
+      }
+
+      setResetPassword("");
+      setResetPasswordConfirm("");
+      setResetPasswordSellerId(null);
+      setResetPasswordMessage("");
+
+      alert(
+        "Mot de passe réinitialisé avec succès.",
+      );
+    } catch (resetError) {
+      setResetPasswordMessage(
+        resetError instanceof Error
+          ? resetError.message
+          : "Réinitialisation impossible.",
+      );
+    } finally {
+      setResetPasswordSaving(false);
+    }
+  }
+
   async function saveSellerSettings(
     seller: Seller,
   ) {
@@ -629,6 +715,91 @@ export default function GrossisteSellersPanel() {
                 >
                   Compétences & autorisations
                 </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (resetPasswordSellerId === seller.customerId) {
+                      setResetPasswordSellerId(null);
+                      setResetPassword("");
+                      setResetPasswordConfirm("");
+                      setResetPasswordMessage("");
+                    } else {
+                      setResetPasswordSellerId(seller.customerId);
+                      setResetPassword("");
+                      setResetPasswordConfirm("");
+                      setResetPasswordMessage("");
+                    }
+                  }}
+                  className="mt-2 w-full rounded-xl border border-amber-400/30 bg-amber-500/10 px-4 py-2 text-sm font-black text-amber-100 transition hover:bg-amber-500/20"
+                >
+                  Réinitialiser le mot de passe
+                </button>
+
+                {resetPasswordSellerId === seller.customerId ? (
+                  <div className="mt-3 rounded-xl border border-amber-400/20 bg-slate-950/50 p-4">
+                    <p className="text-sm font-black text-white">
+                      Nouveau mot de passe
+                    </p>
+
+                    <input
+                      type="password"
+                      value={resetPassword}
+                      onChange={(event) =>
+                        setResetPassword(event.target.value)
+                      }
+                      autoComplete="new-password"
+                      placeholder="Minimum 8 caractères"
+                      className="mt-3 w-full rounded-xl border border-white/10 bg-slate-900 px-3 py-2 text-white outline-none focus:border-amber-400/50"
+                    />
+
+                    <input
+                      type="password"
+                      value={resetPasswordConfirm}
+                      onChange={(event) =>
+                        setResetPasswordConfirm(event.target.value)
+                      }
+                      autoComplete="new-password"
+                      placeholder="Confirmer le mot de passe"
+                      className="mt-2 w-full rounded-xl border border-white/10 bg-slate-900 px-3 py-2 text-white outline-none focus:border-amber-400/50"
+                    />
+
+                    {resetPasswordMessage ? (
+                      <p className="mt-2 text-sm font-bold text-red-300">
+                        {resetPasswordMessage}
+                      </p>
+                    ) : null}
+
+                    <div className="mt-3 flex gap-2">
+                      <button
+                        type="button"
+                        disabled={resetPasswordSaving}
+                        onClick={() =>
+                          void resetSellerPassword(seller.customerId)
+                        }
+                        className="flex-1 rounded-xl bg-amber-500 px-3 py-2 text-sm font-black text-slate-950 transition hover:bg-amber-400 disabled:opacity-50"
+                      >
+                        {resetPasswordSaving
+                          ? "Réinitialisation..."
+                          : "Confirmer"}
+                      </button>
+
+                      <button
+                        type="button"
+                        disabled={resetPasswordSaving}
+                        onClick={() => {
+                          setResetPasswordSellerId(null);
+                          setResetPassword("");
+                          setResetPasswordConfirm("");
+                          setResetPasswordMessage("");
+                        }}
+                        className="rounded-xl border border-white/10 px-3 py-2 text-sm font-bold text-blue-100"
+                      >
+                        Annuler
+                      </button>
+                    </div>
+                  </div>
+                ) : null}
 
                 {editingSellerId === seller.customerId ? (
                   <div className="mt-4 rounded-xl border border-white/10 bg-slate-950/50 p-4">

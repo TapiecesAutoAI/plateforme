@@ -18,6 +18,7 @@ import {
 
 import {
   assertPermission,
+  canAccessOrganization,
 } from "../../../../../lib/auth/TpaAccessControl";
 
 function normalizeStatus(
@@ -53,12 +54,14 @@ async function getAuthorizedOrganization(
       secret,
     );
 
-  if (
-    !session ||
-    session.accessRole !==
-      "wholesaler_admin" ||
-    !session.organizationId
-  ) {
+  if (!session || (session.accessRole !== "wholesaler_admin" && session.accessRole !== "super_admin")) {
+    return null;
+  }
+
+  const requestedOrganizationId = request.nextUrl.searchParams.get("organizationId") ?? undefined;
+  const targetOrganizationId = session.accessRole === "super_admin" ? requestedOrganizationId : session.organizationId;
+
+  if (!targetOrganizationId || !canAccessOrganization({ role: session.accessRole, organizationId: session.organizationId }, targetOrganizationId)) {
     return null;
   }
 
@@ -69,7 +72,7 @@ async function getAuthorizedOrganization(
 
   const organization =
     await getOrganization(
-      session.organizationId,
+      targetOrganizationId,
     );
 
   if (!organization) {

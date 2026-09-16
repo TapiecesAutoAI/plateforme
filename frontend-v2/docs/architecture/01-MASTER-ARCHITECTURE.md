@@ -1,4 +1,4 @@
-\# TaPiecesAuto AI
+\# TaPieceAuto AI
 
 
 
@@ -10,7 +10,7 @@
 
 \*\*Statut :\*\* Document fondateur
 
-\*\*Projet :\*\* TaPiecesAuto AI
+\*\*Projet :\*\* TaPieceAuto AI
 
 \*\*Architecture cible :\*\* Moteur expert automobile déterministe
 
@@ -26,7 +26,7 @@
 
 
 
-Ce document constitue la référence architecturale officielle du projet TaPiecesAuto AI.
+Ce document constitue la référence architecturale officielle du projet TaPieceAuto AI.
 
 
 
@@ -66,15 +66,15 @@ Toute évolution importante du projet doit respecter ce document ou faire l’ob
 
 
 
-TaPiecesAuto AI n’est pas un simple chatbot.
+TaPieceAuto AI n’est pas un simple chatbot.
 
 
 
-TaPiecesAuto AI n’est pas un moteur de recherche généraliste.
+TaPieceAuto AI n’est pas un moteur de recherche généraliste.
 
 
 
-TaPiecesAuto AI est un moteur de raisonnement automobile capable d’identifier la pièce probablement responsable d’un problème avec :
+TaPieceAuto AI est un moteur de raisonnement automobile capable d’identifier la pièce probablement responsable d’un problème avec :
 
 
 
@@ -368,7 +368,7 @@ Interface Next.js
 
 &#x20;   ↓
 
-API TaPiecesAuto
+API TaPieceAuto
 
 &#x20;   ↓
 

@@ -1,10 +1,10 @@
-﻿# TaPiecesAuto AI
+# TaPieceAuto AI
 
 # 02 — RUNTIME MAP
 
 **Version :** 1.0
 **Statut :** Référence d'exécution
-**Projet :** TaPiecesAuto AI
+**Projet :** TaPieceAuto AI
 **Dernière mise à jour :** 30 juillet 2026
 
 ---
@@ -41,13 +41,13 @@ Knowledge
         │
         ▼
 Réponse@'
-# TaPiecesAuto AI
+# TaPieceAuto AI
 
 # 02 — RUNTIME MAP
 
 **Version :** 1.0
 **Statut :** Référence d'exécution
-**Projet :** TaPiecesAuto AI
+**Projet :** TaPieceAuto AI
 
 ---
 

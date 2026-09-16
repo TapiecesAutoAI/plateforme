@@ -9,6 +9,7 @@ import {
 import {
   usePathname,
   useRouter,
+  useSearchParams,
 } from "next/navigation";
 
 type SessionIdentity = {
@@ -71,10 +72,14 @@ export default function TpaLogoutButton() {
   const pathname =
     usePathname();
 
+  const searchParams = useSearchParams();
+
   const router =
     useRouter();
 
-  const menuRef =
+    const isSuperAdminMode = searchParams.get("mode") === "super-admin";
+
+const menuRef =
     useRef<HTMLDivElement | null>(
       null,
     );
@@ -193,6 +198,7 @@ export default function TpaLogoutButton() {
   }, [menuOpen]);
 
   if (
+    pathname === "/comptoir" ||
     pathname === "/login" ||
     pathname.startsWith(
       "/login/",
@@ -211,31 +217,27 @@ export default function TpaLogoutButton() {
   }
 
   async function logout() {
-    if (loading) {
-      return;
-    }
-
+    if (loading) return;
     setLoading(true);
-
     try {
-      await fetch(
-        "/api/auth/logout",
-        {
-          method: "POST",
-        },
-      );
-    } finally {
-      setIdentity(null);
-      setMenuOpen(false);
-      setConfirmOpen(false);
-
-      window.location.replace(
-        "/login",
-      );
-    }
+      const response = await fetch("/api/auth/logout", { method: "POST" });
+      if (!response.ok) {
+        const data = await response.json();
+        window.alert(data.error === "ACTIVE_TICKET_BLOCKS_PRESENCE" ? "Traitez d’abord le ticket appelé ou en cours avant de quitter le poste." : "Sortie non confirmée. Réessayez.");
+        return;
+      }
+      setIdentity(null); setMenuOpen(false); setConfirmOpen(false);
+      window.location.replace("/login");
+    } catch { window.alert("Sortie non confirmée. Vérifiez la connexion."); }
+    finally { setLoading(false); }
   }
 
   function openProfile() {
+    if (isSuperAdminMode) {
+      setMenuOpen(false);
+      router.push("/super-admin");
+      return;
+    }
     setMenuOpen(false);
 
     if (!identity) {
@@ -287,8 +289,7 @@ export default function TpaLogoutButton() {
           type="button"
           onClick={() =>
             setMenuOpen(
-              (current) =>
-                !current,
+              (current) => !current,
             )
           }
           aria-expanded={menuOpen}
@@ -296,10 +297,10 @@ export default function TpaLogoutButton() {
           className="flex h-12 items-center justify-center gap-2 rounded-full border border-white/20 bg-slate-950 px-4 text-sm font-black text-white shadow-xl backdrop-blur transition hover:bg-slate-800"
         >
           <span>
-            {initials(
-              identity.displayName,
-            )}
-          </span>
+  {isSuperAdminMode
+    ? "ZT"
+    : initials(identity.displayName)}
+</span>
 
           <span
             aria-hidden="true"
@@ -315,21 +316,19 @@ export default function TpaLogoutButton() {
 
         {menuOpen ? (
           <div className="absolute right-0 mt-3 w-72 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
+
             <div className="border-b border-slate-200 px-5 py-4">
               <p className="truncate font-black text-slate-950">
-                {
-                  identity.displayName
-                }
+                {isSuperAdminMode ? "Zeki TURKKAN" : identity.displayName}
               </p>
 
               <p className="mt-1 text-sm font-bold text-blue-700">
-                {roleLabel(
-                  identity.role,
-                )}
+                {isSuperAdminMode ? "Super Admin TPA" : roleLabel(identity.role)}
               </p>
             </div>
 
             <div className="p-2">
+
               <button
                 type="button"
                 onClick={openProfile}
@@ -343,9 +342,7 @@ export default function TpaLogoutButton() {
                   type="button"
                   onClick={() => {
                     setMenuOpen(false);
-                    router.push(
-                      "/comptoir/rh",
-                    );
+                    router.push("/comptoir/rh");
                   }}
                   className="flex w-full rounded-xl px-4 py-3 text-left text-sm font-bold text-slate-800 transition hover:bg-slate-100"
                 >
@@ -353,35 +350,44 @@ export default function TpaLogoutButton() {
                 </button>
               ) : null}
 
+              {isSuperAdminMode ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMenuOpen(false);
+                    router.push("/super-admin");
+                  }}
+                  className="flex w-full rounded-xl px-4 py-3 text-left text-sm font-black text-red-700 transition hover:bg-red-50"
+                >
+                  Quitter Admin Magasin et revenir au Super Admin TPA
+                </button>
+              ) : null}
+
               <button
                 type="button"
                 onClick={() => {
-                  setMenuOpen(
-                    false,
-                  );
+                  setMenuOpen(false);
                 }}
                 className="flex w-full rounded-xl px-4 py-3 text-left text-sm font-bold text-slate-800 transition hover:bg-slate-100"
               >
                 Paramètres du compte
               </button>
+
             </div>
 
             <div className="border-t border-slate-200 p-2">
               <button
                 type="button"
                 onClick={() => {
-                  setMenuOpen(
-                    false,
-                  );
-                  setConfirmOpen(
-                    true,
-                  );
+                  setMenuOpen(false);
+                  setConfirmOpen(true);
                 }}
                 className="flex w-full rounded-xl px-4 py-3 text-left text-sm font-black text-red-700 transition hover:bg-red-50"
               >
                 Déconnexion
               </button>
             </div>
+
           </div>
         ) : null}
       </div>

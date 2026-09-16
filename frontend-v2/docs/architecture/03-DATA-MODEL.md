@@ -1,17 +1,17 @@
-# TaPiecesAuto AI
+# TaPieceAuto AI
 
 # 03 — DATA MODEL
 
-**Version :** 1.0  
-**Statut :** Spécification fondatrice  
-**Projet :** TaPiecesAuto AI  
-**Dernière mise à jour :** 30 juillet 2026  
+**Version :** 1.0
+**Statut :** Spécification fondatrice
+**Projet :** TaPieceAuto AI
+**Dernière mise à jour :** 30 juillet 2026
 
 ---
 
 # 1. Objet du document
 
-Ce document définit le modèle métier officiel de TaPiecesAuto AI.
+Ce document définit le modèle métier officiel de TaPieceAuto AI.
 
 Il fixe le vocabulaire commun utilisé par :
 
@@ -1787,8 +1787,8 @@ Cette structure constitue une cible architecturale, pas encore une instruction d
 
 # 55. ADR-004 — Un modèle métier canonique unique
 
-**Statut :** Accepté  
-**Date :** 30 juillet 2026  
+**Statut :** Accepté
+**Date :** 30 juillet 2026
 
 ## Contexte
 

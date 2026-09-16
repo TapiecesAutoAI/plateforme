@@ -1,4 +1,4 @@
-# TaPiecesAuto AI
+# TaPieceAuto AI
 
 # 05 — REASONING ENGINE
 

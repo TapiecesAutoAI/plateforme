@@ -76,6 +76,9 @@ export async function GET(request: NextRequest) {
     seller: {
       customerId: customer.customerId,
       displayName,
+      firstName: customer.firstName,
+      userCode: account?.userCode ?? null,
+      permissions: account?.sellerCounterSettings?.permissions ?? null,
       branchCode:
         primaryBranch?.branchCode ?? null,
     },

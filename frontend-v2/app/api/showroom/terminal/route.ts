@@ -122,6 +122,8 @@ export async function GET(
     branch: {
       branchId:
         branch.branchId,
+      branchCode:
+        branch.branchCode ?? null,
       name:
         branch.name,
     },

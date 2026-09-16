@@ -1,5 +1,7 @@
 "use client";
 
+import { useCounterWorkspace } from "../../components/counter/CounterWorkspace";
+
 import Image from "next/image";
 import AnimatedTpaLogo from "@/components/branding/AnimatedTpaLogo";
 import UnifiedDiagnosticResult from "@/components/diagnostic/UnifiedDiagnosticResult";
@@ -41,6 +43,7 @@ type ActionOption = {
 
 type DiagnosticAction = {
   id: string;
+  type?: "ask-question" | "request-observation" | "request-measurement" | "request-photo" | "request-video" | "request-obd-code" | "request-vin" | "show-diagram" | "recommend-test" | "show-warning" | "complete-diagnosis";
   text: string;
   options?: ActionOption[];
 };
@@ -341,6 +344,7 @@ export default function DiagnosticV2Page({
 }: {
   initialProfile?: Profile | null;
 } = {}) {
+  const isCounter = useCounterWorkspace();
   const pageEndRef =
     useRef<HTMLDivElement | null>(
       null,
@@ -354,7 +358,7 @@ export default function DiagnosticV2Page({
   useEffect(
     () => {
 
-      if (initialProfile) {
+      if (isCounter || initialProfile) {
         return;
       }
 
@@ -379,6 +383,7 @@ export default function DiagnosticV2Page({
     },
     [
       initialProfile,
+      isCounter,
     ],
   );
 
@@ -395,6 +400,7 @@ export default function DiagnosticV2Page({
   ] = useState<string | null>(null);
 
   useEffect(() => {
+    if (isCounter) return;
     try {
       const storedCustomer =
         window.sessionStorage.getItem(
@@ -435,10 +441,11 @@ export default function DiagnosticV2Page({
     } catch {
       setClientFirstName(null);
     }
-  }, []);
+  }, [isCounter]);
 
   useEffect(
     () => {
+      if (isCounter) return;
       const storedVehicle =
         window.sessionStorage.getItem(
           "tapiecesauto-showroom-vehicle",
@@ -469,9 +476,52 @@ export default function DiagnosticV2Page({
         );
       }
     },
-    [],
+    [isCounter],
   );
 
+  useEffect(() => {
+    if (!isCounter) return;
+
+    let cancelled = false;
+
+    async function loadCounterVehicle() {
+      try {
+        const counterResponse =
+          await fetch(
+            "/api/showroom/counter?mode=active-ticket",
+            {
+              cache: "no-store",
+            },
+          );
+
+        if (!counterResponse.ok) {
+          return;
+        }
+
+        const counterData = await counterResponse.json() as {
+          activeTicket?: {
+            vehicle: DiagnosticClientVehicle;
+          } | null;
+        };
+
+        if (!cancelled) {
+          setSelectedDiagnosticVehicle(
+            counterData.activeTicket?.vehicle ?? null,
+          );
+        }
+      } catch {
+        if (!cancelled) {
+          setSelectedDiagnosticVehicle(null);
+        }
+      }
+    }
+
+    void loadCounterVehicle();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [isCounter]);
 const [
     complaint,
     setComplaint,
@@ -502,6 +552,8 @@ const [
   ] = useState<DiagnosticAction | null>(
     null,
   );
+
+  const [vinValue, setVinValue] = useState("");
 
   const [
     conclusion,
@@ -1150,6 +1202,94 @@ const [
     }
   }
 
+  async function answerVinValue() {
+    const normalizedVin = vinValue.trim().toUpperCase();
+
+    if (
+      !sessionId ||
+      !action ||
+      action.type !== "request-vin" ||
+      !normalizedVin
+    ) {
+      return;
+    }
+
+    const currentAction = action;
+
+    setLoading(true);
+    setError(null);
+
+    setHistory(
+      (currentHistory) => [
+        ...currentHistory,
+        {
+          id: createEntryId(),
+          role: "user",
+          text: normalizedVin,
+        },
+      ],
+    );
+
+    try {
+      const response = await fetch(
+        "/api/diagnostic-v2",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            command: "answer-value",
+            sessionId,
+            domain: "starting",
+            actionId: currentAction.id,
+            value: normalizedVin,
+          }),
+        },
+      );
+
+      const data =
+        await response.json() as DiagnosticResponse;
+
+      if (!response.ok) {
+        throw new Error(
+          data.error ??
+          "Impossible d'enregistrer le VIN.",
+        );
+      }
+
+      setVinValue("");
+      setAction(data.action);
+      setConclusion(data.session.conclusion);
+      setExplanation(data.explanation);
+      setPartRecommendation(data.partRecommendation);
+      setSalesRecommendation(data.salesRecommendation);
+      setAmbiguity(data.ambiguity ?? null);
+      setCoexistence(data.coexistence ?? null);
+      setCausalChain(data.causalChain ?? null);
+
+      if (data.action) {
+        setHistory(
+          (currentHistory) => [
+            ...currentHistory,
+            {
+              id: createEntryId(),
+              role: "assistant",
+              text: data.action?.text ?? "",
+            },
+          ],
+        );
+      }
+    } catch (currentError) {
+      setError(
+        currentError instanceof Error
+          ? currentError.message
+          : "Erreur inconnue.",
+      );
+    } finally {
+      setLoading(false);
+    }
+  }
   useEffect(
     () => {
       const timeoutId =
@@ -1512,21 +1652,47 @@ function resetDiagnostic() {
   return (
     <main className="flex min-h-screen flex-col bg-slate-100 px-3 pb-4 pt-4 sm:px-5 sm:pb-6 sm:pt-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 w-full min-w-0 overflow-x-hidden">
 
-      <header className="mx-auto mb-4 flex w-full flex-col items-center sm:mb-6">
-        <div className="scale-[0.72]">
-          <AnimatedTpaLogo />
-        </div>
+      {isCounter ? (
+        <header className="mx-auto mb-4 flex w-full items-center justify-between rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm sm:mb-6">
+          <div>
+            <p className="text-xs font-black uppercase tracking-[0.18em] text-blue-700">
+              Comptoir
+            </p>
+            <h1 className="mt-1 text-2xl font-black text-slate-950">
+              Diagnostic
+            </h1>
+            <p className="mt-1 text-sm font-semibold text-slate-500">
+              Diagnostic automobile intelligent
+            </p>
+          </div>
 
-        <div className="-mt-8 text-center">
-          <h1 className="text-2xl font-black text-slate-950">
-            Ta Pièce Auto
-          </h1>
+          <button
+            type="button"
+            onClick={() => {
+              window.location.href = "/comptoir";
+            }}
+            className="rounded-xl border border-slate-300 bg-white px-5 py-3 text-sm font-black text-slate-900 transition hover:bg-slate-50"
+          >
+            Retour au comptoir
+          </button>
+        </header>
+      ) : (
+        <header className="mx-auto mb-4 flex w-full flex-col items-center sm:mb-6">
+          <div className="scale-[0.72]">
+            <AnimatedTpaLogo />
+          </div>
 
-          <p className="mt-1 text-sm font-semibold text-slate-500">
-            Diagnostic automobile intelligent
-          </p>
-        </div>
-      </header>
+          <div className="-mt-8 text-center">
+            <h1 className="text-2xl font-black text-slate-950">
+              {"Ta Pi\u00e8ce Auto"}
+            </h1>
+
+            <p className="mt-1 text-sm font-semibold text-slate-500">
+              Diagnostic automobile intelligent
+            </p>
+          </div>
+        </header>
+      )}
 
       {selectedDiagnosticVehicle && (
         <section className="w-full mx-auto mb-6 rounded-2xl border border-blue-200 bg-white p-5 shadow-sm">
@@ -1580,7 +1746,7 @@ function resetDiagnostic() {
               type="button"
               onClick={() => {
                 window.location.href =
-                  "/client";
+                  isCounter ? "/comptoir" : "/client";
               }}
               className="rounded-xl border border-slate-300 bg-white px-5 py-3 text-sm font-black text-slate-900 transition hover:bg-slate-50"
             >
@@ -1591,7 +1757,53 @@ function resetDiagnostic() {
         </section>
       )}
 
-      <section className="mx-auto w-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl sm:rounded-3xl">
+      {isCounter &&
+  (!selectedDiagnosticVehicle ||
+    !selectedDiagnosticVehicle.vin) && (
+    <section className="mx-auto mb-6 w-full rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div className="min-w-0 flex-1">
+          <p className="text-xs font-black uppercase tracking-[0.18em] text-blue-700">
+            {"Identification v\u00e9hicule"}
+          </p>
+
+          <h2 className="mt-1 text-xl font-black text-slate-950">
+            {"Encoder le VIN"}
+          </h2>
+
+          <p className="mt-1 text-sm font-semibold text-slate-500">
+            {"Pour un client ou un v\u00e9hicule non identifi\u00e9."}
+          </p>
+        </div>
+
+        <div className="w-full sm:max-w-md">
+          <input
+            type="text"
+            value={vinValue}
+            onChange={(event) =>
+              setVinValue(
+                event.target.value
+                  .toUpperCase()
+                  .replace(/[^A-Z0-9]/g, "")
+                  .slice(0, 17),
+              )
+            }
+            placeholder="VIN - 17 caracteres"
+            autoCapitalize="characters"
+            autoComplete="off"
+            spellCheck={false}
+            maxLength={17}
+            className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 font-mono text-base font-bold uppercase tracking-wider text-slate-900 outline-none transition focus:border-blue-700 focus:ring-2 focus:ring-blue-100"
+          />
+
+          <p className="mt-2 text-xs font-semibold text-slate-400">
+            {vinValue.length}/17
+          </p>
+        </div>
+      </div>
+    </section>
+  )}
+<section className="mx-auto w-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl sm:rounded-3xl">
         <header className="hidden">
           <div className="hidden flex-col items-center text-center">
             <div className="flex h-32 w-32 items-center justify-center overflow-hidden rounded-3xl border border-white/20 bg-black shadow-xl">
@@ -1970,28 +2182,67 @@ function resetDiagnostic() {
             !clarification &&
             action && (
             <div className="mt-6 grid gap-3">
-              {action.options?.map(
-                (option) => (
-                  <button
-                    key={
-                      option.id
+              {action.type === "request-vin" ? (
+                <>
+                  <input
+                    type="text"
+                    value={vinValue}
+                    onChange={(event) =>
+                      setVinValue(event.target.value)
                     }
+                    onKeyDown={(event) => {
+                      if (
+                        event.key === "Enter" &&
+                        !loading &&
+                        vinValue.trim()
+                      ) {
+                        void answerVinValue();
+                      }
+                    }}
+                    placeholder="Encoder le VIN"
+                    autoCapitalize="characters"
+                    autoComplete="off"
+                    spellCheck={false}
+                    className="rounded-2xl border border-slate-200 px-5 py-4 font-medium uppercase text-slate-800 outline-none transition focus:border-blue-700 focus:ring-2 focus:ring-blue-100"
+                  />
+                  <button
                     type="button"
                     disabled={
-                      loading
+                      loading ||
+                      !vinValue.trim()
                     }
                     onClick={() =>
-                      answerQuestion(
-                        option,
-                      )
+                      void answerVinValue()
                     }
-                    className="rounded-2xl border border-slate-200 px-5 py-4 text-left font-medium text-slate-800 transition hover:border-blue-700 hover:bg-blue-50 disabled:opacity-50"
+                    className="rounded-2xl border border-blue-700 bg-blue-700 px-5 py-4 font-semibold text-white transition hover:bg-blue-800 disabled:opacity-50"
                   >
-                    {
-                      option.label
-                    }
+                    Valider le VIN
                   </button>
-                ),
+                </>
+              ) : (
+                action.options?.map(
+                  (option) => (
+                    <button
+                      key={
+                        option.id
+                      }
+                      type="button"
+                      disabled={
+                        loading
+                      }
+                      onClick={() =>
+                        answerQuestion(
+                          option,
+                        )
+                      }
+                      className="rounded-2xl border border-slate-200 px-5 py-4 text-left font-medium text-slate-800 transition hover:border-blue-700 hover:bg-blue-50 disabled:opacity-50"
+                    >
+                      {
+                        option.label
+                      }
+                    </button>
+                  ),
+                )
               )}
             </div>
           )}

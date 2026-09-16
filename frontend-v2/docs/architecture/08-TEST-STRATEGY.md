@@ -1,4 +1,4 @@
-# TaPiecesAuto AI
+# TaPieceAuto AI
 
 # 08 — TEST STRATEGY
 

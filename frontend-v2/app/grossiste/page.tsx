@@ -5,7 +5,8 @@ import {
   verifyTpaSessionToken,
 } from "../../lib/session/TpaSessionToken";
 
-export default async function GrossistePage() {
+export default async function GrossistePage({ searchParams }: { searchParams: Promise<{ organizationId?: string; mode?: string }> }) {
+  const { organizationId, mode } = await searchParams;
   const secret =
     process.env.TPA_SESSION_SECRET;
 
@@ -34,12 +35,14 @@ export default async function GrossistePage() {
   if (!session) {
     redirect("/login");
   }
-
   if (
     session.accessRole ===
     "super_admin"
   ) {
-    redirect("/super-admin");
+    if (!organizationId) {
+      redirect("/super-admin");
+    }
+    redirect(`/grossiste/organisation?organizationId=${encodeURIComponent(organizationId)}&mode=${encodeURIComponent(mode ?? "super-admin")}`);
   }
 
   if (

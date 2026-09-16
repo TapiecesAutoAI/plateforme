@@ -1,9 +1,13 @@
 "use client";
 
+import { Suspense } from "react";
+
 import {
   useEffect,
   useState,
 } from "react";
+
+import { useSearchParams } from "next/navigation";
 
 type Branch = {
   branchId: string;
@@ -77,7 +81,10 @@ const defaultPermissions: Permissions = {
         deputySupervisor: false,
 };
 
-export default function NewSellerPage() {
+function NewSellerPageContent() {
+  const searchParams = useSearchParams();
+  const organizationId = searchParams.get("organizationId") ?? "";
+  const interventionQuery = organizationId ? `?organizationId=${encodeURIComponent(organizationId)}&mode=super-admin` : "";
   const [branches, setBranches] =
     useState<Branch[]>([]);
 
@@ -91,6 +98,27 @@ export default function NewSellerPage() {
     useState("");
 
   const [phone, setPhone] =
+    useState("");
+
+  const [jobTitle, setJobTitle] =
+    useState("");
+
+  const [employmentStartDate, setEmploymentStartDate] =
+    useState("");
+
+  const [familyStatus, setFamilyStatus] =
+    useState("");
+
+  const [bankAccountHolder, setBankAccountHolder] =
+    useState("");
+
+  const [iban, setIban] =
+    useState("");
+
+  const [emergencyContactName, setEmergencyContactName] =
+    useState("");
+
+  const [emergencyContactPhone, setEmergencyContactPhone] =
     useState("");
 
   const [primaryBranchId, setPrimaryBranchId] =
@@ -128,7 +156,7 @@ export default function NewSellerPage() {
       try {
         const response =
           await fetch(
-            "/api/grossiste/branches",
+            organizationId ? `/api/grossiste/branches?organizationId=${encodeURIComponent(organizationId)}` : "/api/grossiste/branches",
             {
               cache: "no-store",
             },
@@ -254,7 +282,7 @@ export default function NewSellerPage() {
     try {
       const createResponse =
         await fetch(
-          "/api/grossiste/sellers",
+          organizationId ? `/api/grossiste/sellers?organizationId=${encodeURIComponent(organizationId)}` : "/api/grossiste/sellers",
           {
             method: "POST",
             headers: {
@@ -313,7 +341,7 @@ export default function NewSellerPage() {
 
       const patchResponse =
         await fetch(
-          "/api/grossiste/sellers",
+          organizationId ? `/api/grossiste/sellers?organizationId=${encodeURIComponent(organizationId)}` : "/api/grossiste/sellers",
           {
             method: "PATCH",
             headers: {
@@ -331,6 +359,15 @@ export default function NewSellerPage() {
               sellerCounterSettings: {
                 capabilities,
                 permissions,
+              },
+              sellerHrProfile: {
+                jobTitle,
+                employmentStartDate,
+                familyStatus,
+                bankAccountHolder,
+                iban,
+                emergencyContactName,
+                emergencyContactPhone,
               },
             }),
           },
@@ -379,7 +416,7 @@ export default function NewSellerPage() {
 
           <div className="pr-40">
             <a
-              href="/grossiste/organisation"
+              href={`/grossiste/organisation${interventionQuery}`}
               className="inline-flex rounded-xl border border-blue-300/30 bg-white/5 px-4 py-2 font-bold text-blue-100 transition hover:bg-white/10"
             >
               ← Organisation
@@ -441,14 +478,14 @@ export default function NewSellerPage() {
             <div className="mt-7 flex flex-wrap gap-3">
 
               <a
-                href={`/grossiste/vendeurs/${created.customerId}`}
+                href={`/grossiste/vendeurs/${created.customerId}${interventionQuery}`}
                 className="rounded-xl bg-blue-600 px-6 py-3 font-black text-white transition hover:bg-blue-500"
               >
                 Ouvrir la fiche vendeur
               </a>
 
               <a
-                href="/grossiste/organisation"
+                href={`/grossiste/organisation${interventionQuery}`}
                 className="rounded-xl border border-white/20 bg-white/5 px-6 py-3 font-black text-white transition hover:bg-white/10"
               >
                 Retour Organisation
@@ -470,7 +507,7 @@ export default function NewSellerPage() {
         <div className="pr-40">
 
           <a
-            href="/grossiste/organisation"
+            href={`/grossiste/organisation${interventionQuery}`}
             className="inline-flex rounded-xl border border-blue-300/30 bg-white/5 px-4 py-2 font-bold text-blue-100 transition hover:bg-white/10"
           >
             ← Organisation
@@ -572,6 +609,97 @@ export default function NewSellerPage() {
 
           </section>
 
+          <details className="group rounded-3xl border border-cyan-400/30 bg-cyan-500/10 p-6 shadow-xl">
+            <summary className="flex cursor-pointer list-none items-center justify-between select-none">
+              <div>
+                <div className="text-sm font-black uppercase tracking-wider text-cyan-300">INFORMATIONS RH</div>
+                <div className="mt-1 text-lg font-black">Données personnelles et administratives</div>
+              </div>
+              <span className="text-2xl font-black text-cyan-300 transition-transform group-open:rotate-180">⌄</span>
+            </summary>
+
+            <div className="mt-5 grid gap-4 sm:grid-cols-2">
+
+              <label className="block">
+                <span className="text-sm font-bold text-cyan-200">
+                  Fonction
+                </span>
+                <input
+                  value={jobTitle}
+                  onChange={(event) => setJobTitle(event.target.value)}
+                  className="mt-2 w-full rounded-xl border border-cyan-300/30 bg-[#071d31] px-4 py-3 font-bold text-white"
+                />
+              </label>
+
+              <label className="block">
+                <span className="text-sm font-bold text-cyan-200">
+                  Date d'engagement
+                </span>
+                <input
+                  type="date"
+                  value={employmentStartDate}
+                  onChange={(event) => setEmploymentStartDate(event.target.value)}
+                  className="mt-2 w-full rounded-xl border border-cyan-300/30 bg-[#071d31] px-4 py-3 font-bold text-white"
+                />
+              </label>
+
+              <label className="block">
+                <span className="text-sm font-bold text-cyan-200">
+                  Situation familiale
+                </span>
+                <input
+                  value={familyStatus}
+                  onChange={(event) => setFamilyStatus(event.target.value)}
+                  className="mt-2 w-full rounded-xl border border-cyan-300/30 bg-[#071d31] px-4 py-3 font-bold text-white"
+                />
+              </label>
+
+              <label className="block">
+                <span className="text-sm font-bold text-cyan-200">
+                  Titulaire du compte bancaire
+                </span>
+                <input
+                  value={bankAccountHolder}
+                  onChange={(event) => setBankAccountHolder(event.target.value)}
+                  className="mt-2 w-full rounded-xl border border-cyan-300/30 bg-[#071d31] px-4 py-3 font-bold text-white"
+                />
+              </label>
+
+              <label className="block sm:col-span-2">
+                <span className="text-sm font-bold text-cyan-200">
+                  IBAN
+                </span>
+                <input
+                  value={iban}
+                  onChange={(event) => setIban(event.target.value)}
+                  className="mt-2 w-full rounded-xl border border-cyan-300/30 bg-[#071d31] px-4 py-3 font-bold text-white"
+                />
+              </label>
+
+              <label className="block">
+                <span className="text-sm font-bold text-cyan-200">
+                  Contact d'urgence
+                </span>
+                <input
+                  value={emergencyContactName}
+                  onChange={(event) => setEmergencyContactName(event.target.value)}
+                  className="mt-2 w-full rounded-xl border border-cyan-300/30 bg-[#071d31] px-4 py-3 font-bold text-white"
+                />
+              </label>
+
+              <label className="block">
+                <span className="text-sm font-bold text-cyan-200">
+                  Téléphone d'urgence
+                </span>
+                <input
+                  value={emergencyContactPhone}
+                  onChange={(event) => setEmergencyContactPhone(event.target.value)}
+                  className="mt-2 w-full rounded-xl border border-cyan-300/30 bg-[#071d31] px-4 py-3 font-bold text-white"
+                />
+              </label>
+
+            </div>
+          </details>
           <section className="rounded-3xl border border-emerald-400/30 bg-emerald-500/10 p-6 shadow-xl">
 
             <div className="text-sm font-black uppercase tracking-wider text-emerald-300">
@@ -766,4 +894,7 @@ export default function NewSellerPage() {
       </div>
     </main>
   );
+}
+export default function NewSellerPage() {
+  return <Suspense fallback={null}><NewSellerPageContent /></Suspense>;
 }

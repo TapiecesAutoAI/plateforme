@@ -41,11 +41,22 @@ export type SellerCounterSettings = {
   permissions: SellerCounterPermissions;
 };
 
+export type SellerHrProfile = {
+  jobTitle?: string;
+  employmentStartDate?: string;
+  iban?: string;
+  bankAccountHolder?: string;
+  familyStatus?: string;
+  emergencyContactName?: string;
+  emergencyContactPhone?: string;
+};
+
 export type ClientAccount = {
   customerId: string;
   role?: ClientAccountRole;
   organizationId?: string;
   sellerCounterSettings?: SellerCounterSettings;
+  sellerHrProfile?: SellerHrProfile;
 
   sellerBranchAssignment?: {
     primaryBranchId?: string;

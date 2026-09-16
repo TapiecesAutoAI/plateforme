@@ -69,6 +69,15 @@ export default async function OrganizationPage({ params }: PageProps) {
             </span>
           </div>
 
+          <div className="mt-8">
+            <a
+              href={`/grossiste?organizationId=${encodeURIComponent(organization.organizationId)}&mode=super-admin`}
+              className="inline-flex rounded-xl bg-amber-500 px-5 py-3 text-sm font-black text-slate-950 transition hover:bg-amber-400"
+            >
+              INTERVENIR SUR CETTE ORGANISATION
+            </a>
+          </div>
+
           <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
 
             <div className="rounded-2xl border border-white/10 bg-slate-950/30 p-5">

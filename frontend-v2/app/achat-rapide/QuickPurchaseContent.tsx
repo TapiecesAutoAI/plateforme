@@ -1,5 +1,7 @@
 "use client";
 
+import { useCounterWorkspace } from "../../components/counter/CounterWorkspace";
+
 import {
   FormEvent,
   useEffect,
@@ -159,12 +161,23 @@ function detectIntent(
 
 
 export default function QuickPurchaseContent() {
+  const isCounter = useCounterWorkspace();
 
   const searchParams = useSearchParams();
 
-  const returnHref =
-    searchParams.get("from") === "showroom"
-      ? "/showroom"
+  const showroomOrganizationId = searchParams.get("organizationId")?.trim() ?? "";
+  const showroomBranchId = searchParams.get("branchId")?.trim() ?? "";
+  const showroomTerminalCode = searchParams.get("terminalCode")?.trim() ?? "";
+
+  const showroomReturnHref =
+    showroomOrganizationId && showroomBranchId && showroomTerminalCode
+      ? `/showroom?organizationId=${encodeURIComponent(showroomOrganizationId)}&branchId=${encodeURIComponent(showroomBranchId)}&terminalCode=${encodeURIComponent(showroomTerminalCode)}`
+      : "/showroom";
+
+  const returnHref = isCounter
+    ? "/comptoir"
+    : searchParams.get("from") === "showroom"
+      ? showroomReturnHref
       : "/client";
 
   const [

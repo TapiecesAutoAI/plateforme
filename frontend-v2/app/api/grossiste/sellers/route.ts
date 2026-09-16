@@ -14,6 +14,7 @@ import {
 
 import {
   assertPermission,
+  canAccessOrganization,
   canCreateAccountInOrganization,
 } from "../../../../lib/auth/TpaAccessControl";
 
@@ -87,20 +88,15 @@ export async function GET(
       request,
     );
 
-  if (
-    !session ||
-    session.accessRole !==
-      "wholesaler_admin" ||
-    !session.organizationId
-  ) {
-    return NextResponse.json(
-      {
-        ok: false,
-      },
-      {
-        status: 403,
-      },
-    );
+  if (!session || (session.accessRole !== "wholesaler_admin" && session.accessRole !== "super_admin")) {
+    return NextResponse.json({ ok: false }, { status: 403 });
+  }
+
+  const requestedOrganizationId = request.nextUrl.searchParams.get("organizationId") ?? undefined;
+  const targetOrganizationId = session.accessRole === "super_admin" ? requestedOrganizationId : session.organizationId;
+
+  if (!targetOrganizationId || !canAccessOrganization({ role: session.accessRole, organizationId: targetOrganizationId }, targetOrganizationId)) {
+    return NextResponse.json({ ok: false }, { status: 403 });
   }
 
   assertPermission(
@@ -109,9 +105,7 @@ export async function GET(
   );
 
   const accounts =
-    await listOrganizationAccounts(
-      session.organizationId,
-    );
+    await listOrganizationAccounts(targetOrganizationId);
 
   const sellers =
     accounts.filter(
@@ -150,12 +144,16 @@ export async function GET(
 
   return NextResponse.json({
     ok: true,
-    organizationId:
-      session.organizationId,
+    organizationId: targetOrganizationId,
     sellers: sellers.map(
       (seller) => ({
         customerId:
           seller.customerId,
+
+        photoUrl:
+          customerById.get(
+            seller.customerId,
+          )?.photoUrl,
 
         firstName:
           customerById.get(
@@ -178,7 +176,13 @@ export async function GET(
         lastLoginAt:
           seller.lastLoginAt,
 
-        sellerBranchAssignment:
+                phone: customerById.get(seller.customerId)?.phone,
+        personalEmail: customerById.get(seller.customerId)?.email,
+        birthDate: customerById.get(seller.customerId)?.profile?.birthDate,
+        address: customerById.get(seller.customerId)?.profile?.address ?? null,
+        sellerHrProfile: seller.sellerHrProfile ?? {},
+
+sellerBranchAssignment:
           seller.sellerBranchAssignment ?? {
             primaryBranchId: undefined,
             allowedBranchIds: [],
@@ -216,20 +220,14 @@ export async function POST(
       request,
     );
 
-  if (
-    !session ||
-    session.accessRole !==
-      "wholesaler_admin" ||
-    !session.organizationId
-  ) {
-    return NextResponse.json(
-      {
-        ok: false,
-      },
-      {
-        status: 403,
-      },
-    );
+  if (!session || (session.accessRole !== "wholesaler_admin" && session.accessRole !== "super_admin")) {
+    return NextResponse.json({ ok: false }, { status: 403 });
+  }
+
+  const requestedOrganizationId = request.nextUrl.searchParams.get("organizationId") ?? undefined;
+  const targetOrganizationId = session.accessRole === "super_admin" ? requestedOrganizationId : session.organizationId;
+  if (!targetOrganizationId || !canAccessOrganization({ role: session.accessRole, organizationId: targetOrganizationId }, targetOrganizationId)) {
+    return NextResponse.json({ ok: false }, { status: 403 });
   }
 
   assertPermission(
@@ -243,10 +241,10 @@ export async function POST(
         role:
           session.accessRole,
         organizationId:
-          session.organizationId,
+          targetOrganizationId,
       },
       "seller",
-      session.organizationId,
+      targetOrganizationId,
     )
   ) {
     return NextResponse.json(
@@ -418,7 +416,7 @@ export async function POST(
       "seller",
 
     organizationId:
-      session.organizationId,
+      targetOrganizationId,
 
     loginEmail:
       email,
@@ -459,7 +457,7 @@ export async function POST(
         email,
       userCode,
       organizationId:
-        session.organizationId,
+        targetOrganizationId,
       role:
         "seller",
     },
@@ -476,21 +474,14 @@ export async function PATCH(
       request,
     );
 
-  if (
-    !session ||
-    session.accessRole !==
-      "wholesaler_admin" ||
-    !session.organizationId
-  ) {
-    return NextResponse.json(
-      {
-        ok: false,
-        error: "FORBIDDEN",
-      },
-      {
-        status: 403,
-      },
-    );
+  if (!session || (session.accessRole !== "wholesaler_admin" && session.accessRole !== "super_admin")) {
+    return NextResponse.json({ ok: false, error: "FORBIDDEN" }, { status: 403 });
+  }
+
+  const requestedOrganizationId = request.nextUrl.searchParams.get("organizationId") ?? undefined;
+  const targetOrganizationId = session.accessRole === "super_admin" ? requestedOrganizationId : session.organizationId;
+  if (!targetOrganizationId || !canAccessOrganization({ role: session.accessRole, organizationId: targetOrganizationId }, targetOrganizationId)) {
+    return NextResponse.json({ ok: false, error: "FORBIDDEN" }, { status: 403 });
   }
 
   assertPermission(
@@ -541,7 +532,7 @@ export async function PATCH(
     !seller ||
     seller.role !== "seller" ||
     seller.organizationId !==
-      session.organizationId
+      targetOrganizationId
   ) {
     return NextResponse.json(
       {
@@ -646,6 +637,10 @@ export async function PATCH(
 
     await saveCentralCustomer({
       ...customer,
+      photoUrl:
+        typeof identity.photoUrl === "string"
+          ? identity.photoUrl.trim() || undefined
+          : customer.photoUrl,
       firstName,
       lastName,
       updatedAt:
@@ -701,7 +696,7 @@ export async function PATCH(
 
   const organization =
     await getOrganization(
-      session.organizationId,
+      targetOrganizationId,
     );
 
   if (!organization) {
@@ -825,7 +820,7 @@ export async function PATCH(
   ) {
     const organizationAccounts =
       await listOrganizationAccounts(
-        session.organizationId,
+        targetOrganizationId,
       );
 
     const otherBranchSellers =
@@ -912,11 +907,51 @@ export async function PATCH(
     }
   }
 
+  const incomingHr =
+    body.sellerHrProfile &&
+    typeof body.sellerHrProfile === "object"
+      ? body.sellerHrProfile
+      : null;
+
+  const sellerHrProfile =
+    incomingHr
+      ? {
+          jobTitle:
+            typeof incomingHr.jobTitle === "string"
+              ? incomingHr.jobTitle.trim()
+              : seller.sellerHrProfile?.jobTitle,
+          employmentStartDate:
+            typeof incomingHr.employmentStartDate === "string"
+              ? incomingHr.employmentStartDate.trim()
+              : seller.sellerHrProfile?.employmentStartDate,
+          iban:
+            typeof incomingHr.iban === "string"
+              ? incomingHr.iban.trim()
+              : seller.sellerHrProfile?.iban,
+          bankAccountHolder:
+            typeof incomingHr.bankAccountHolder === "string"
+              ? incomingHr.bankAccountHolder.trim()
+              : seller.sellerHrProfile?.bankAccountHolder,
+          familyStatus:
+            typeof incomingHr.familyStatus === "string"
+              ? incomingHr.familyStatus.trim()
+              : seller.sellerHrProfile?.familyStatus,
+          emergencyContactName:
+            typeof incomingHr.emergencyContactName === "string"
+              ? incomingHr.emergencyContactName.trim()
+              : seller.sellerHrProfile?.emergencyContactName,
+          emergencyContactPhone:
+            typeof incomingHr.emergencyContactPhone === "string"
+              ? incomingHr.emergencyContactPhone.trim()
+              : seller.sellerHrProfile?.emergencyContactPhone,
+        }
+      : seller.sellerHrProfile;
   const updated =
     await saveClientAccount({
       ...seller,
       sellerCounterSettings,
       sellerBranchAssignment,
+      sellerHrProfile,
       updatedAt:
         new Date().toISOString(),
     });

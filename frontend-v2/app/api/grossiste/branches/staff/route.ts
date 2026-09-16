@@ -13,6 +13,7 @@ import {
 
 import {
   assertPermission,
+  canAccessOrganization,
 } from "../../../../../lib/auth/TpaAccessControl";
 
 import {
@@ -87,20 +88,14 @@ export async function POST(
       request,
     );
 
-  if (
-    !session ||
-    session.accessRole !==
-      "wholesaler_admin" ||
-    !session.organizationId
-  ) {
-    return NextResponse.json(
-      {
-        ok: false,
-      },
-      {
-        status: 403,
-      },
-    );
+  if (!session || (session.accessRole !== "wholesaler_admin" && session.accessRole !== "super_admin")) {
+    return NextResponse.json({ ok: false }, { status: 403 });
+  }
+
+  const requestedOrganizationId = request.nextUrl.searchParams.get("organizationId") ?? undefined;
+  const targetOrganizationId = session.accessRole === "super_admin" ? requestedOrganizationId : session.organizationId;
+  if (!targetOrganizationId || !canAccessOrganization({ role: session.accessRole, organizationId: session.organizationId }, targetOrganizationId)) {
+    return NextResponse.json({ ok: false }, { status: 403 });
   }
 
   assertPermission(
@@ -110,7 +105,7 @@ export async function POST(
 
   const organization =
     await getOrganization(
-      session.organizationId,
+      targetOrganizationId,
     );
 
   if (!organization) {
@@ -206,6 +201,9 @@ export async function POST(
 
     firstName,
     lastName,
+    photoUrl:
+      text(body.photoUrl) || undefined,
+
     role,
 
     customRoleLabel:
@@ -224,6 +222,19 @@ export async function POST(
 
     status:
       "active",
+
+    hrProfile: {
+      jobTitle: text(body.jobTitle) || undefined,
+      employmentStartDate: text(body.employmentStartDate) || undefined,
+      familyStatus: text(body.familyStatus) || undefined,
+      bankAccountHolder: text(body.bankAccountHolder) || undefined,
+      iban: text(body.iban) || undefined,
+      emergencyContactName: text(body.emergencyContactName) || undefined,
+      emergencyContactPhone: text(body.emergencyContactPhone) || undefined,
+    },
+    assignments: Array.isArray(body.assignments)
+      ? body.assignments.filter((item: unknown) => typeof item === "string")
+      : [],
   };
 
   const updatedBranches =
@@ -263,20 +274,14 @@ export async function PATCH(
       request,
     );
 
-  if (
-    !session ||
-    session.accessRole !==
-      "wholesaler_admin" ||
-    !session.organizationId
-  ) {
-    return NextResponse.json(
-      {
-        ok: false,
-      },
-      {
-        status: 403,
-      },
-    );
+  if (!session || (session.accessRole !== "wholesaler_admin" && session.accessRole !== "super_admin")) {
+    return NextResponse.json({ ok: false }, { status: 403 });
+  }
+
+  const requestedOrganizationId = request.nextUrl.searchParams.get("organizationId") ?? undefined;
+  const targetOrganizationId = session.accessRole === "super_admin" ? requestedOrganizationId : session.organizationId;
+  if (!targetOrganizationId || !canAccessOrganization({ role: session.accessRole, organizationId: session.organizationId }, targetOrganizationId)) {
+    return NextResponse.json({ ok: false }, { status: 403 });
   }
 
   assertPermission(
@@ -286,7 +291,7 @@ export async function PATCH(
 
   const organization =
     await getOrganization(
-      session.organizationId,
+      targetOrganizationId,
     );
 
   if (!organization) {
@@ -440,6 +445,11 @@ export async function PATCH(
 
     firstName,
     lastName,
+    photoUrl:
+      body.photoUrl === undefined
+        ? current.photoUrl
+        : text(body.photoUrl) || undefined,
+
     role,
 
     customRoleLabel:
@@ -470,6 +480,33 @@ export async function PATCH(
         : normalizeStatus(
             body.status,
           ),
+
+    hrProfile:
+      body.hrProfile === undefined &&
+      body.jobTitle === undefined &&
+      body.employmentStartDate === undefined &&
+      body.familyStatus === undefined &&
+      body.bankAccountHolder === undefined &&
+      body.iban === undefined &&
+      body.emergencyContactName === undefined &&
+      body.emergencyContactPhone === undefined
+        ? current.hrProfile
+        : {
+            jobTitle: text(body.jobTitle) || current.hrProfile?.jobTitle,
+            employmentStartDate: text(body.employmentStartDate) || current.hrProfile?.employmentStartDate,
+            familyStatus: text(body.familyStatus) || current.hrProfile?.familyStatus,
+            bankAccountHolder: text(body.bankAccountHolder) || current.hrProfile?.bankAccountHolder,
+            iban: text(body.iban) || current.hrProfile?.iban,
+            emergencyContactName: text(body.emergencyContactName) || current.hrProfile?.emergencyContactName,
+            emergencyContactPhone: text(body.emergencyContactPhone) || current.hrProfile?.emergencyContactPhone,
+          },
+
+    assignments:
+      body.assignments === undefined
+        ? current.assignments
+        : Array.isArray(body.assignments)
+          ? body.assignments.filter((item: unknown) => typeof item === "string")
+          : [],
   };
 
   const updatedBranches =

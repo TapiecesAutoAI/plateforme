@@ -1,5 +1,7 @@
 "use client";
 
+import { useCounterWorkspace } from "../../../components/counter/CounterWorkspace";
+
 import {
   useState,
 } from "react";
@@ -109,6 +111,7 @@ const QUICK_ACTIONS: QuickAction[] = [
 ];
 
 export default function FluidsPage() {
+  const isCounter = useCounterWorkspace();
 
   const [
     input,
@@ -157,7 +160,7 @@ export default function FluidsPage() {
   ) {
 
     const stored =
-      readStoredShowroomTechnicalVehicle();
+      isCounter ? undefined : readStoredShowroomTechnicalVehicle();
 
     const parsed =
       parseVehicleFromText(
@@ -874,7 +877,13 @@ export default function FluidsPage() {
           </div>
 
           <Link
-            href="/showroom"
+            href={
+              isCounter
+                ? "/comptoir"
+                : typeof window !== "undefined"
+                  ? `/showroom${window.location.search}`
+                  : "/showroom"
+            }
             className="rounded-xl border border-slate-300 bg-white px-5 py-3 font-semibold shadow-sm"
           >
             Retour

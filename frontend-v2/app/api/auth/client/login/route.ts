@@ -1,3 +1,4 @@
+import { changeCounterPresence } from "../../../../../lib/counter/CounterTicketStore";
 import {
   createHmac,
 } from "crypto";
@@ -314,6 +315,12 @@ export async function POST(
       "Client TPA";
   }
 
+
+  // Authentication has succeeded. Re-enable this seller in the existing queue.
+  if (accountRole === "seller" && organizationId) {
+    try { await changeCounterPresence(organizationId, customerId, "available", "", true); }
+    catch { return NextResponse.json({ ok: false, error: "COUNTER_UNAVAILABLE" }, { status: 503 }); }
+  }
 
   const session =
     resolveAuthenticatedTpaSession({

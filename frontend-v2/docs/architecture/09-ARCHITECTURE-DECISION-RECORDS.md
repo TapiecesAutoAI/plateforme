@@ -1,4 +1,4 @@
-# TaPiecesAuto AI
+# TaPieceAuto AI
 
 # 09 — ARCHITECTURE DECISION RECORDS
 

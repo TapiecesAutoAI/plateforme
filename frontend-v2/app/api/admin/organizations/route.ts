@@ -333,6 +333,9 @@ export async function POST(
               branch.email,
             ).toLowerCase(),
 
+          photoUrl:
+            text(branch.photoUrl),
+
           status: "active",
 
           address: {

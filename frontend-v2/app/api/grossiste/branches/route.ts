@@ -13,6 +13,7 @@ import {
 
 import {
   assertPermission,
+  canAccessOrganization,
 } from "../../../../lib/auth/TpaAccessControl";
 
 import {
@@ -71,21 +72,15 @@ export async function GET(
     await getSessionFromRequest(
       request,
     );
+  if (!session || (session.accessRole !== "wholesaler_admin" && session.accessRole !== "super_admin")) {
+    return NextResponse.json({ ok: false }, { status: 403 });
+  }
 
-  if (
-    !session ||
-    session.accessRole !==
-      "wholesaler_admin" ||
-    !session.organizationId
-  ) {
-    return NextResponse.json(
-      {
-        ok: false,
-      },
-      {
-        status: 403,
-      },
-    );
+  const requestedOrganizationId = request.nextUrl.searchParams.get("organizationId") ?? undefined;
+  const targetOrganizationId = session.accessRole === "super_admin" ? requestedOrganizationId : session.organizationId;
+
+  if (!targetOrganizationId || !canAccessOrganization({ role: session.accessRole, organizationId: session.organizationId }, targetOrganizationId)) {
+    return NextResponse.json({ ok: false }, { status: 403 });
   }
 
   assertPermission(
@@ -95,7 +90,7 @@ export async function GET(
 
   const organization =
     await getOrganization(
-      session.organizationId,
+      targetOrganizationId,
     );
 
   if (!organization) {
@@ -121,6 +116,8 @@ export async function GET(
 
     organizationName:
       organization.name,
+    storePhotoUrl:
+      organization.storePhotoUrl ?? null,
     branches:
       organization.branches ?? [],
   });
@@ -133,21 +130,15 @@ export async function POST(
     await getSessionFromRequest(
       request,
     );
+  if (!session || (session.accessRole !== "wholesaler_admin" && session.accessRole !== "super_admin")) {
+    return NextResponse.json({ ok: false }, { status: 403 });
+  }
 
-  if (
-    !session ||
-    session.accessRole !==
-      "wholesaler_admin" ||
-    !session.organizationId
-  ) {
-    return NextResponse.json(
-      {
-        ok: false,
-      },
-      {
-        status: 403,
-      },
-    );
+  const requestedOrganizationId = request.nextUrl.searchParams.get("organizationId") ?? undefined;
+  const targetOrganizationId = session.accessRole === "super_admin" ? requestedOrganizationId : session.organizationId;
+
+  if (!targetOrganizationId || !canAccessOrganization({ role: session.accessRole, organizationId: session.organizationId }, targetOrganizationId)) {
+    return NextResponse.json({ ok: false }, { status: 403 });
   }
 
   assertPermission(
@@ -157,7 +148,7 @@ export async function POST(
 
   const organization =
     await getOrganization(
-      session.organizationId,
+      targetOrganizationId,
     );
 
   if (!organization) {
@@ -214,6 +205,10 @@ export async function POST(
       await allocateBranchCode(),
 
     name,
+
+    photoUrl:
+      text(body.photoUrl) ||
+      undefined,
 
     phone:
       text(body.phone) ||
@@ -286,21 +281,15 @@ export async function PATCH(
     await getSessionFromRequest(
       request,
     );
+  if (!session || (session.accessRole !== "wholesaler_admin" && session.accessRole !== "super_admin")) {
+    return NextResponse.json({ ok: false }, { status: 403 });
+  }
 
-  if (
-    !session ||
-    session.accessRole !==
-      "wholesaler_admin" ||
-    !session.organizationId
-  ) {
-    return NextResponse.json(
-      {
-        ok: false,
-      },
-      {
-        status: 403,
-      },
-    );
+  const requestedOrganizationId = request.nextUrl.searchParams.get("organizationId") ?? undefined;
+  const targetOrganizationId = session.accessRole === "super_admin" ? requestedOrganizationId : session.organizationId;
+
+  if (!targetOrganizationId || !canAccessOrganization({ role: session.accessRole, organizationId: session.organizationId }, targetOrganizationId)) {
+    return NextResponse.json({ ok: false }, { status: 403 });
   }
 
   assertPermission(
@@ -310,7 +299,7 @@ export async function PATCH(
 
   const organization =
     await getOrganization(
-      session.organizationId,
+      targetOrganizationId,
     );
 
   if (!organization) {
@@ -404,6 +393,12 @@ export async function PATCH(
     ...current,
 
     name,
+
+    photoUrl:
+      body.photoUrl === undefined
+        ? current.photoUrl
+        : text(body.photoUrl) ||
+          undefined,
 
     phone:
       body.phone === undefined

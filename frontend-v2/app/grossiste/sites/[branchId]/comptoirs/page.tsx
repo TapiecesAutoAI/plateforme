@@ -8,6 +8,7 @@ import {
 
 import {
   useParams,
+  useSearchParams,
 } from "next/navigation";
 
 type Counter = {
@@ -25,6 +26,9 @@ type Branch = {
 
 export default function GrossisteCountersPage() {
   const params = useParams();
+  const searchParams = useSearchParams();
+  const organizationId = searchParams.get("organizationId") ?? "";
+  const interventionQuery = organizationId ? `?organizationId=${encodeURIComponent(organizationId)}&mode=super-admin` : "";
 
   const branchId =
     typeof params.branchId === "string"
@@ -56,7 +60,7 @@ export default function GrossisteCountersPage() {
       try {
         const response =
           await fetch(
-            "/api/grossiste/branches",
+            organizationId ? `/api/grossiste/branches?organizationId=${encodeURIComponent(organizationId)}` : "/api/grossiste/branches",
             {
               cache: "no-store",
             },
@@ -115,7 +119,7 @@ export default function GrossisteCountersPage() {
     try {
       const response =
         await fetch(
-          "/api/grossiste/branches/counters",
+          organizationId ? `/api/grossiste/branches/counters?organizationId=${encodeURIComponent(organizationId)}` : "/api/grossiste/branches/counters",
           {
             method: "POST",
             headers: {
@@ -168,7 +172,7 @@ export default function GrossisteCountersPage() {
     try {
       const response =
         await fetch(
-          "/api/grossiste/branches/counters",
+          organizationId ? `/api/grossiste/branches/counters?organizationId=${encodeURIComponent(organizationId)}` : "/api/grossiste/branches/counters",
           {
             method: "PATCH",
             headers: {
@@ -248,7 +252,7 @@ export default function GrossisteCountersPage() {
 
         <div className="pr-40">
           <a
-            href={`/grossiste/sites/${branch.branchId}`}
+            href={`/grossiste/sites/${branch.branchId}${interventionQuery}`}
             className="inline-flex rounded-xl border border-blue-300/30 bg-white/5 px-4 py-2 font-bold text-blue-100 transition hover:bg-white/10"
           >
             ← Retour au site

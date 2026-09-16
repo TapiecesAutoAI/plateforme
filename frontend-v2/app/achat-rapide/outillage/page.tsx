@@ -1,5 +1,7 @@
 "use client";
 
+import { useCounterWorkspace } from "../../../components/counter/CounterWorkspace";
+
 import {
   FormEvent,
   useEffect,
@@ -328,6 +330,7 @@ function detectIntent(
 }
 
 export default function ToolsQuickPurchasePage() {
+  const isCounter = useCounterWorkspace();
 
   const [
     input,
@@ -383,6 +386,7 @@ export default function ToolsQuickPurchasePage() {
 
   useEffect(
     () => {
+      if (isCounter) { setHydrated(true); return; }
 
       try {
 
@@ -458,13 +462,13 @@ export default function ToolsQuickPurchasePage() {
       setHydrated(true);
 
     },
-    [],
+    [isCounter],
   );
 
   useEffect(
     () => {
 
-      if (!hydrated) {
+      if (isCounter || !hydrated) {
         return;
       }
 
@@ -488,6 +492,7 @@ export default function ToolsQuickPurchasePage() {
 
     },
     [
+      isCounter,
       hydrated,
       messages,
       conversation,
@@ -611,7 +616,7 @@ export default function ToolsQuickPurchasePage() {
   ) {
 
     const stored =
-      readStoredShowroomTechnicalVehicle();
+      isCounter ? undefined : readStoredShowroomTechnicalVehicle();
 
     const parsed =
       parseVehicleFromText(
@@ -665,7 +670,9 @@ export default function ToolsQuickPurchasePage() {
     if (!hasUsefulVehicleData) {
 
       assistant(
-        "Je n'ai pas encore assez d'informations sur le vehicule. Indiquez le VIN si vous l'avez. Sinon, precisez la marque, le modele et la motorisation, ou selectionnez le vehicule dans le showroom.",
+        isCounter
+          ? "Indiquez le VIN, ou la marque, le modele, l’annee et la motorisation du vehicule."
+          : "Je n'ai pas encore assez d'informations sur le vehicule. Indiquez le VIN si vous l'avez. Sinon, precisez la marque, le modele et la motorisation, ou selectionnez le vehicule dans le showroom.",
         [
           "Je vais preciser le vehicule",
           "Annuler",
@@ -738,7 +745,7 @@ export default function ToolsQuickPurchasePage() {
   ) {
 
     const vehicle =
-      readStoredShowroomTechnicalVehicle();
+      isCounter ? undefined : readStoredShowroomTechnicalVehicle();
 
     const result: TechnicalDataResult =
       await technicalDataProvider.resolveTools({
@@ -1463,7 +1470,9 @@ export default function ToolsQuickPurchasePage() {
         if (!hasUsefulVehicleData) {
 
           assistant(
-            "Cette operation demande un outillage specifique au vehicule. Si vous avez le VIN, indiquez-le directement. Sinon, precisez la marque, le modele et la motorisation, ou selectionnez le vehicule dans le showroom.",
+            isCounter
+                ? "Cette operation demande un outillage specifique au vehicule. Indiquez le VIN, ou la marque, le modele, l’annee et la motorisation."
+                : "Cette operation demande un outillage specifique au vehicule. Si vous avez le VIN, indiquez-le directement. Sinon, precisez la marque, le modele et la motorisation, ou selectionnez le vehicule dans le showroom.",
             [
               "Je vais preciser le vehicule",
               "Annuler",
@@ -1584,7 +1593,7 @@ export default function ToolsQuickPurchasePage() {
       "",
     );
 
-    window.localStorage.removeItem(
+    if (!isCounter) window.localStorage.removeItem(
       STORAGE_KEY,
     );
   }
@@ -1619,7 +1628,13 @@ export default function ToolsQuickPurchasePage() {
             </button>
 
             <Link
-              href="/showroom"
+              href={
+                isCounter
+                  ? "/comptoir"
+                  : typeof window !== "undefined"
+                    ? `/showroom${window.location.search}`
+                    : "/showroom"
+              }
               className="rounded-xl border border-slate-300 bg-white px-5 py-3 font-semibold shadow-sm"
             >
               Retour

@@ -2,6 +2,7 @@ import {
   NextRequest,
   NextResponse,
 } from "next/server";
+import { verifyTpaSessionToken } from "./lib/session/TpaSessionToken";
 
 
 export function proxy(
@@ -11,6 +12,15 @@ export function proxy(
 
   const pathname =
     request.nextUrl.pathname;
+
+  if (pathname === "/api/achat-rapide/interpret" || pathname === "/api/fluids/vehicle-finder") {
+    const secret = process.env.TPA_SESSION_SECRET;
+    const token = request.cookies.get("tpa_session")?.value;
+    const session = secret && token ? verifyTpaSessionToken(token, secret) : null;
+    if (session?.accessRole === "seller" && session.customerId && session.organizationId) {
+      return NextResponse.next();
+    }
+  }
 
 
   /*
@@ -24,6 +34,10 @@ export function proxy(
     pathname === "/login" ||
     pathname === "/access" ||
     pathname === "/showroom" ||
+    pathname === "/demo-comptoir" ||
+    pathname.startsWith("/demo-comptoir/") ||
+    pathname === "/demo-comptoir" ||
+    pathname.startsWith("/demo-comptoir/") ||
     pathname === "/client/login" ||
     pathname.startsWith(
       "/api/access",

@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { verifyTpaSessionToken } from "../../lib/session/TpaSessionToken";
+import { CounterWorkspace } from "../../components/counter/CounterWorkspace";
 
 export default async function ComptoirLayout({
   children,
@@ -43,5 +44,9 @@ export default async function ComptoirLayout({
       redirect("/login");
   }
 
-  return children;
+  return (
+    <CounterWorkspace>
+      {children}
+    </CounterWorkspace>
+  );
 }

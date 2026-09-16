@@ -44,7 +44,9 @@ export type CounterTicket = {
 
   storeId: string;
   branchId?: string;
+  branchCode?: string | null;
   terminalId: string;
+  terminalCode?: string | null;
 
   sellerId: string | null;
   sellerName: string | null;
@@ -135,12 +137,8 @@ export async function listCounterTickets():
   if (!ids.length) return [];
 
   const tickets =
-    await Promise.all(
-      ids.map((id) =>
-        redis.get<CounterTicket>(
-          ticketKey(id),
-        ),
-      ),
+    await redis.mget<(CounterTicket | null)[]>(
+      ...ids.map((id) => ticketKey(id)),
     );
 
   return tickets
@@ -154,4 +152,51 @@ export async function listCounterTickets():
           b.createdAt,
         ),
     );
+}
+
+export type CounterPresence = {
+  status: "available" | "pause" | "mission" | "offline";
+  since: string;
+  reason: string;
+};
+function presenceKey(organizationId: string, sellerId: string) {
+  return `tpa:counter-presence:${organizationId}:${sellerId}`;
+}
+export async function getCounterPresence(organizationId: string, sellerId: string): Promise<CounterPresence> {
+  return (await getRedis().get<CounterPresence>(presenceKey(organizationId, sellerId))) ?? { status: "available", since: "", reason: "" };
+}
+
+// Conditional writes fence out an expired lock holder. All seller state changes
+// use the same existing organization assignment lock, including logout.
+export async function saveCounterPresenceLocked(organizationId: string, sellerId: string, lockToken: string, presence: CounterPresence) {
+  const result = await getRedis().eval(
+    'if redis.call("GET",KEYS[1]) ~= ARGV[1] then return 0 end redis.call("SET",KEYS[2],ARGV[2]) return 1',
+    [`tpa:counter-assignment-lock:${organizationId}`, presenceKey(organizationId, sellerId)],
+    [lockToken, JSON.stringify(presence)],
+  );
+  if (result !== 1) throw new Error("COUNTER_LOCK_EXPIRED");
+}
+export async function saveCounterTicketLocked(organizationId: string, lockToken: string, ticket: CounterTicket) {
+  const result = await getRedis().eval(
+    'if redis.call("GET",KEYS[1]) ~= ARGV[1] then return 0 end redis.call("SET",KEYS[2],ARGV[2]) redis.call("SADD",KEYS[3],ARGV[3]) return 1',
+    [`tpa:counter-assignment-lock:${organizationId}`, ticketKey(ticket.id), ticketIndexKey()],
+    [lockToken, JSON.stringify(ticket), ticket.id],
+  );
+  if (result !== 1) throw new Error("COUNTER_LOCK_EXPIRED");
+}
+
+export async function changeCounterPresence(organizationId: string, sellerId: string, status: CounterPresence["status"], reason = "", login = false) {
+  const token = await acquireCounterAssignmentLock(organizationId);
+  if (!token) throw new Error("COUNTER_BUSY_RETRY");
+  try {
+    const tickets = await listCounterTickets();
+    if (status !== "available" && tickets.some(t => t.storeId === organizationId && t.sellerId === sellerId && (t.status === "called" || t.status === "in-service"))) {
+      throw new Error("ACTIVE_TICKET_BLOCKS_PRESENCE");
+    }
+    const current = await getCounterPresence(organizationId, sellerId);
+    if (current.status === "offline" && status !== "offline" && !login) throw new Error("LOGIN_REQUIRED");
+    const presence: CounterPresence = { status, reason: status === "mission" ? reason.trim().slice(0, 120) : "", since: current.status === status && current.since ? current.since : new Date().toISOString() };
+    await saveCounterPresenceLocked(organizationId, sellerId, token, presence);
+    return presence;
+  } finally { await releaseCounterAssignmentLock(organizationId, token); }
 }

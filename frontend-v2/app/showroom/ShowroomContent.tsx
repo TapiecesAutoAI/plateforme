@@ -200,21 +200,118 @@ export default function ShowroomContent() {
   const searchParams =
     useSearchParams();
 
-  const showroomOrganizationId =
+  const organizationIdFromUrl =
     searchParams
       .get("organizationId")
       ?.trim() ?? "";
 
-  const showroomBranchId =
+  const branchIdFromUrl =
     searchParams
       .get("branchId")
       ?.trim() ?? "";
 
-  const showroomTerminalCode =
+  const terminalCodeFromUrl =
     searchParams
       .get("terminalCode")
       ?.trim()
       .toUpperCase() ?? "";
+
+  const [
+    showroomOrganizationId,
+    setShowroomOrganizationId,
+  ] = useState(
+    organizationIdFromUrl,
+  );
+
+  const [
+    showroomBranchId,
+    setShowroomBranchId,
+  ] = useState(
+    branchIdFromUrl,
+  );
+
+  const [
+    showroomTerminalCode,
+    setShowroomTerminalCode,
+  ] = useState(
+    terminalCodeFromUrl,
+  );
+
+  useEffect(
+    () => {
+      const storedOrganizationId =
+        window.sessionStorage
+          .getItem(
+            "tpa-showroom-organization-id",
+          )
+          ?.trim() ?? "";
+
+      const storedBranchId =
+        window.sessionStorage
+          .getItem(
+            "tpa-showroom-branch-id",
+          )
+          ?.trim() ?? "";
+
+      const storedTerminalCode =
+        window.sessionStorage
+          .getItem(
+            "tpa-showroom-terminal-code",
+          )
+          ?.trim()
+          .toUpperCase() ?? "";
+
+      const organizationId =
+        organizationIdFromUrl ||
+        storedOrganizationId;
+
+      const branchId =
+        branchIdFromUrl ||
+        storedBranchId;
+
+      const terminalCode =
+        terminalCodeFromUrl ||
+        storedTerminalCode;
+
+      if (organizationIdFromUrl) {
+        window.sessionStorage.setItem(
+          "tpa-showroom-organization-id",
+          organizationIdFromUrl,
+        );
+      }
+
+      if (branchIdFromUrl) {
+        window.sessionStorage.setItem(
+          "tpa-showroom-branch-id",
+          branchIdFromUrl,
+        );
+      }
+
+      if (terminalCodeFromUrl) {
+        window.sessionStorage.setItem(
+          "tpa-showroom-terminal-code",
+          terminalCodeFromUrl,
+        );
+      }
+
+      setShowroomOrganizationId(
+        organizationId,
+      );
+
+      setShowroomBranchId(
+        branchId,
+      );
+
+      setShowroomTerminalCode(
+        terminalCode,
+      );
+    },
+    [
+      organizationIdFromUrl,
+      branchIdFromUrl,
+      terminalCodeFromUrl,
+    ],
+  );
 
   const tpaSession =
     createShowroomKioskSession({
@@ -244,6 +341,7 @@ export default function ShowroomContent() {
     );
 
   const [showroomBranchName, setShowroomBranchName] = useState<string>("");
+  const [showroomBranchCode, setShowroomBranchCode] = useState<string>("");
   const [showroomPrinterName, setShowroomPrinterName] = useState<string>("");
   const [showroomPrinterPath, setShowroomPrinterPath] = useState<string>("");
 
@@ -490,6 +588,17 @@ export default function ShowroomContent() {
     () => {
       let active = true;
 
+      const terminalValidationKey =
+        `tpa-showroom-terminal-valid:${showroomOrganizationId}:${showroomBranchId}:${showroomTerminalCode}`;
+
+      if (
+        window.sessionStorage.getItem(
+          terminalValidationKey,
+        ) === "1"
+      ) {
+        setTerminalAvailable(true);
+      }
+
       async function loadTerminal() {
         try {
           const response =
@@ -505,6 +614,17 @@ export default function ShowroomContent() {
           }
 
           if (!response.ok) {
+            if (response.status >= 500) {
+              setError(
+                "Connexion au serveur temporairement indisponible.",
+              );
+              return;
+            }
+
+            window.sessionStorage.removeItem(
+              terminalValidationKey,
+            );
+
             setShowroomTerminalId(
               null,
             );
@@ -522,13 +642,9 @@ export default function ShowroomContent() {
             !data.ok ||
             !data.terminal?.terminalId
           ) {
-            setShowroomTerminalId(
-              null,
+            setError(
+              "Impossible d'actualiser la borne pour le moment.",
             );
-            setTerminalAvailable(
-              false,
-            );
-            setScreen("attract");
             return;
           }
 
@@ -539,23 +655,29 @@ export default function ShowroomContent() {
           setShowroomBranchName(
             String(data.branch?.name ?? ""),
           );
+          setShowroomBranchCode(
+            String(data.branch?.branchCode ?? ""),
+          );
           setShowroomPrinterName(String(data.terminal?.printerName ?? ""));
           setShowroomPrinterPath(String(data.terminal?.printerPath ?? ""));
           setTerminalAvailable(
             true,
           );
+
+          window.sessionStorage.setItem(
+            terminalValidationKey,
+            "1",
+          );
+
+          setError(null);
         } catch {
           if (!active) {
             return;
           }
 
-          setShowroomTerminalId(
-            null,
+          setError(
+            "Connexion au serveur temporairement indisponible.",
           );
-          setTerminalAvailable(
-            false,
-          );
-          setScreen("attract");
         }
       }
 
@@ -566,7 +688,7 @@ export default function ShowroomContent() {
           () => {
             void loadTerminal();
           },
-          10000,
+          60000,
         );
 
       return () => {
@@ -2025,9 +2147,7 @@ export default function ShowroomContent() {
       );
     }
 
-    router.push(
-      "/showroom/particulier",
-    );
+    router.push(`/showroom/particulier?organizationId=${encodeURIComponent(showroomOrganizationId)}&branchId=${encodeURIComponent(showroomBranchId)}&terminalCode=${encodeURIComponent(showroomTerminalCode)}`);
   }
 
   function knownPart() {
@@ -2151,8 +2271,14 @@ export default function ShowroomContent() {
                 branchId:
                   showroomBranchId,
 
+                branchCode:
+                  showroomBranchCode,
+
                 terminalId:
                   showroomTerminalId,
+
+                terminalCode:
+                  showroomTerminalCode,
               }),
           },
         );
@@ -2241,8 +2367,14 @@ export default function ShowroomContent() {
                 branchId:
                   showroomBranchId,
 
+                branchCode:
+                  showroomBranchCode,
+
                 terminalId:
                   showroomTerminalId,
+
+                terminalCode:
+                  showroomTerminalCode,
 
                 reason:
                   "counter-request",
@@ -2733,7 +2865,7 @@ export default function ShowroomContent() {
                         onClick={
                           () =>
                             router.push(
-                              "/achat-rapide?from=showroom",
+                              `/achat-rapide?from=showroom&organizationId=${encodeURIComponent(showroomOrganizationId)}&branchId=${encodeURIComponent(showroomBranchId)}&terminalCode=${encodeURIComponent(showroomTerminalCode)}`,
                             )
                         }
                         className="group relative min-h-[185px] overflow-hidden rounded-3xl border-2 border-blue-200 bg-gradient-to-br from-blue-50 via-white to-blue-100 p-6 text-left shadow transition hover:-translate-y-1 hover:border-blue-400 hover:shadow-xl"
@@ -2771,7 +2903,7 @@ export default function ShowroomContent() {
                         onClick={
                           () =>
                             router.push(
-                              "/achat-rapide/fluides",
+                              `/achat-rapide/fluides?from=showroom&organizationId=${encodeURIComponent(showroomOrganizationId)}&branchId=${encodeURIComponent(showroomBranchId)}&terminalCode=${encodeURIComponent(showroomTerminalCode)}`,
                             )
                         }
                         className="group relative min-h-[185px] overflow-hidden rounded-3xl border-2 border-amber-200 bg-gradient-to-br from-amber-50 via-white to-orange-100 p-6 text-left shadow transition hover:-translate-y-1 hover:border-amber-400 hover:shadow-xl"
@@ -2809,7 +2941,7 @@ export default function ShowroomContent() {
                         onClick={
                           () =>
                             router.push(
-                              "/achat-rapide/outillage",
+                              `/achat-rapide/outillage?from=showroom&organizationId=${encodeURIComponent(showroomOrganizationId)}&branchId=${encodeURIComponent(showroomBranchId)}&terminalCode=${encodeURIComponent(showroomTerminalCode)}`,
                             )
                         }
                         className="group relative min-h-[185px] overflow-hidden rounded-3xl border-2 border-emerald-200 bg-gradient-to-br from-emerald-50 via-white to-emerald-100 p-6 text-left shadow transition hover:-translate-y-1 hover:border-emerald-400 hover:shadow-xl"

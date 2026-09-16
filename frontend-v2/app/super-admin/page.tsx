@@ -3,6 +3,11 @@ import { redirect } from "next/navigation";
 import { verifyTpaSessionToken } from "../../lib/session/TpaSessionToken";
 import { listOrganizations } from "../../lib/organization/OrganizationStore";
 import CreateOrganizationForm from "./CreateOrganizationForm";
+const SUPER_ADMIN_SITE_PHOTOS = [
+  "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=85",
+  "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=85",
+  "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1200&q=85",
+];
 
 export default async function SuperAdminPage() {
   const secret = process.env.TPA_SESSION_SECRET;
@@ -68,7 +73,7 @@ export default async function SuperAdminPage() {
           </div>
 
           <h1 className="mt-5 text-4xl font-black">
-            TaPieceAuto
+            Ta Piece Auto
           </h1>
 
           <p className="mt-2 text-red-200">
@@ -85,7 +90,7 @@ export default async function SuperAdminPage() {
             Accès Super Administrateur actif.
           </p>
 
-          <CreateOrganizationForm />
+
 
           <section className="mt-6">
             <div className="mb-4 flex items-center justify-between">
@@ -105,11 +110,22 @@ export default async function SuperAdminPage() {
               </div>
             ) : (
               <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-                {organizations.map((organization) => (
+                {organizations.map((organization, organizationIndex) => (
                   <article
                     key={organization.organizationId}
-                    className="rounded-2xl border border-white/10 bg-slate-950/40 p-5 shadow-lg"
+                    className="relative overflow-hidden rounded-2xl border border-white/10 shadow-lg"
                   >
+                    {organization.storePhotoUrl ? (
+                      <img
+                        src={organization.storePhotoUrl}
+                        alt={`Photo du magasin ${organization.name}`}
+                        className="absolute inset-0 h-full w-full object-cover"
+                      />
+                    ) : null}
+
+                    <div className="absolute inset-0 bg-slate-950/70" />
+
+                    <div className="relative z-10 p-5">
                     <div className="flex items-start justify-between gap-3">
                       <div>
                         <h4 className="text-lg font-black">
@@ -148,6 +164,7 @@ export default async function SuperAdminPage() {
                     >
                       GÉRER
                     </a>
+                    </div>
                   </article>
                 ))}
               </div>
@@ -165,10 +182,11 @@ export default async function SuperAdminPage() {
               <p className="mt-2 text-lg font-black">Accès global</p>
             </div>
           </div>
+          <CreateOrganizationForm />
         </div>
 
-        <div className="mt-6 rounded-3xl border border-white/10 bg-white/10 p-6 shadow-2xl backdrop-blur sm:p-8">
-          <div className="flex items-center justify-between">
+        <details className="group mt-6 rounded-3xl border border-white/10 bg-white/10 p-6 shadow-2xl backdrop-blur sm:p-8">
+          <summary className="flex cursor-pointer list-none items-center justify-between">
             <div>
               <h2 className="text-2xl font-black">
                 Feuille de route TPA
@@ -178,10 +196,8 @@ export default async function SuperAdminPage() {
               </p>
             </div>
 
-            <div className="rounded-full border border-red-400/30 bg-red-500/10 px-4 py-2 text-sm font-bold text-red-200">
-              EN COURS
-            </div>
-          </div>
+            <span className="rounded-full border border-red-400/30 bg-red-500/10 px-4 py-2 text-sm font-bold text-red-200">EN COURS</span>
+          </summary>
 
           <div className="mt-6 space-y-3">
 
@@ -243,9 +259,8 @@ export default async function SuperAdminPage() {
                 SÉCURITÉ IMPORTANTE
               </p>
             </div>
-
-          </div>
-        </div>
+            </div>
+        </details>
 
       </div>
     </main>

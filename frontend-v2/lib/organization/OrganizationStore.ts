@@ -30,6 +30,31 @@ export type OrganizationBranchStaffRole =
   | "driver"
   | "custom";
 
+
+
+export type OrganizationBranchStaffHrProfile = {
+  jobTitle?: string;
+  employmentStartDate?: string;
+  familyStatus?: string;
+  bankAccountHolder?: string;
+  iban?: string;
+  emergencyContactName?: string;
+  emergencyContactPhone?: string;
+};
+
+export type OrganizationBranchStaffAssignment =
+  | "manager"
+  | "deputy_manager"
+  | "secretary"
+  | "sales"
+  | "driver"
+  | "warehouse"
+  | "orders"
+  | "returns"
+  | "counter_management"
+  | "terminal_management"
+  | "other";
+
 export type OrganizationBranchStaff = {
   staffId: string;
   firstName: string;
@@ -40,12 +65,15 @@ export type OrganizationBranchStaff = {
   phone?: string;
   email?: string;
   status: OrganizationStatus;
+  hrProfile?: OrganizationBranchStaffHrProfile;
+  assignments?: OrganizationBranchStaffAssignment[];
 };
 
 export type OrganizationBranch = {
   branchId: string;
   branchCode?: string;
   name: string;
+  photoUrl?: string;
   address?: CustomerAddress;
   phone?: string;
   email?: string;
@@ -73,6 +101,7 @@ export type Organization = {
   email?: string;
   website?: string;
   logoUrl?: string;
+  storePhotoUrl?: string;
 
   // Implantation
   headOffice?: CustomerAddress;

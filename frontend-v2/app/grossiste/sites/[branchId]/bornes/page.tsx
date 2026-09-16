@@ -10,6 +10,7 @@ import {
 
 import {
   useParams,
+  useSearchParams,
 } from "next/navigation";
 
 type DetectedPrinter = {
@@ -42,6 +43,9 @@ type BranchesResponse = {
 };
 
 export default function BornesPage() {
+  const searchParams = useSearchParams();
+  const requestedOrganizationId = searchParams.get("organizationId") ?? "";
+  const interventionQuery = requestedOrganizationId ? `?organizationId=${encodeURIComponent(requestedOrganizationId)}&mode=super-admin` : "";
   const params = useParams<{
     branchId: string;
   }>();
@@ -133,7 +137,7 @@ export default function BornesPage() {
         try {
           const response =
             await fetch(
-              "/api/grossiste/branches",
+              requestedOrganizationId ? `/api/grossiste/branches?organizationId=${encodeURIComponent(requestedOrganizationId)}` : "/api/grossiste/branches",
               {
                 method: "GET",
                 cache: "no-store",
@@ -213,7 +217,7 @@ export default function BornesPage() {
     try {
       const response =
         await fetch(
-          "/api/grossiste/branches/terminals",
+          requestedOrganizationId ? `/api/grossiste/branches/terminals?organizationId=${encodeURIComponent(requestedOrganizationId)}` : "/api/grossiste/branches/terminals",
           {
             method: "POST",
             headers: {
@@ -269,7 +273,7 @@ export default function BornesPage() {
     try {
       const response =
         await fetch(
-          "/api/grossiste/branches/terminals",
+          requestedOrganizationId ? `/api/grossiste/branches/terminals?organizationId=${encodeURIComponent(requestedOrganizationId)}` : "/api/grossiste/branches/terminals",
           {
             method: "PATCH",
             headers: {
@@ -322,7 +326,7 @@ export default function BornesPage() {
     setMessage("");
     setError("");
     try {
-      const response = await fetch("/api/grossiste/branches/terminals", {
+      const response = await fetch(requestedOrganizationId ? `/api/grossiste/branches/terminals?organizationId=${encodeURIComponent(requestedOrganizationId)}` : "/api/grossiste/branches/terminals", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ branchId, terminalId: terminal.terminalId, printerName: draft.printerName, printerPath: draft.printerPath }),
@@ -480,7 +484,7 @@ export default function BornesPage() {
           <Link
             href={`/grossiste/sites/${encodeURIComponent(
               branchId,
-            )}`}
+            )}${interventionQuery}`}
             className="text-sm font-semibold text-violet-300 hover:text-violet-200"
           >
             ← Retour au site
